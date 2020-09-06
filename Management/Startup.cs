@@ -1,0 +1,233 @@
+using System;
+using System.Collections.Generic;
+using ApplicationCore.Interfaces.Logger;
+using ApplicationCore.Interfaces.Repositories;
+using Infrastructure.Data.Repositories;
+using Infrastructure.Logger;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using AutoMapper;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using ApplicationCore;
+using Presentation.Management.Automapping;
+using FluentValidation.AspNetCore;
+using Presentation.Validators;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Diagnostics;
+using Presentation.Management.Models;
+using Presentation.Hubs;
+
+namespace Management
+{
+    public class Startup
+    {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+
+        public void ConfigureProductionServices(IServiceCollection services)
+        {
+            // use real database
+            // Requires LocalDB which can be installed with SQL Server Express 2016
+            // https://www.microsoft.com/en-us/download/details.aspx?id=54284
+            //services.AddDbContext<AppDbContext>(c =>
+            //    c.UseMySQL(Configuration.GetConnectionString("AppDbConnection")));
+
+            ConfigureServices(services);
+        }
+
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
+        {
+            ConfigureCookieSettings(services);
+
+            services.AddScoped(typeof(IEfRepository<>), typeof(EfRepository<>));
+            services.AddScoped(typeof(ISqlQueryRepository<>), typeof(SqlQueryRepository<>));
+            services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
+            services.Configure<SmtpSettings>(Configuration.GetSection("SmtpSettings"));
+
+            services.AddRouting(options =>
+            {
+                // Replace the type and the name used to refer to it with your own
+                // IOutboundParameterTransformer implementation
+                options.ConstraintMap["slugify"] = typeof(SlugifyParameterTransformer);
+            });
+
+            services
+               .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+               .AddCookie()
+               .AddJwtBearer(cfg =>
+               {
+                   cfg.RequireHttpsMetadata = true;
+                   cfg.SaveToken = true;
+                   cfg.TokenValidationParameters = new TokenValidationParameters()
+                   {
+                       IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Constants.SYMMETRIC_SECURITY_KEY)),
+                       ValidateAudience = false,
+                       ValidateIssuer = false,
+                       ValidateLifetime = false,
+                       RequireExpirationTime = false,
+                       ClockSkew = TimeSpan.Zero,
+                       ValidateIssuerSigningKey = true
+                   };
+               });
+
+            services.AddAutoMapper(c => c.AddProfile<AutoMappingProfile>(), typeof(Startup));
+
+            services.AddCors(opt => opt.AddPolicy("ApiCorsPolicy", builder =>
+            {
+                builder
+                .WithOrigins(Configuration.GetValue<string>("AllowedHosts"))
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+                //.SetIsOriginAllowed((x) => true)
+                //.AllowCredentials();
+            }));
+
+            services.AddSignalR();
+
+            services.AddMvc(options =>
+            {
+                options.Conventions.Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer()));
+
+            }).AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginBindingModelValidator>());
+
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+            services.AddHttpContextAccessor();
+
+            services.AddSwaggerGen(c => {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "EDC Management API", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
+                      Enter 'Bearer' [space] and then your token in the text input below.
+                      \r\n\r\nExample: 'Bearer 12345abcdef'",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
+                    {
+                      new OpenApiSecurityScheme
+                      {
+                        Reference = new OpenApiReference
+                          {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                          },
+                          Scheme = "oauth2",
+                          Name = "Bearer",
+                          In = ParameterLocation.Header,
+
+                        },
+                        new List<string>()
+                      }
+                });
+            });
+
+            // To avoid MultiPartBodyLength error
+            services.Configure<FormOptions>(opt =>
+            {
+                opt.ValueLengthLimit = int.MaxValue;
+                opt.MultipartBodyLengthLimit = int.MaxValue;
+                opt.MemoryBufferThreshold = int.MaxValue;
+            });
+        }
+
+        private static void ConfigureCookieSettings(IServiceCollection services)
+        {
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromHours(1);
+                options.LoginPath = "/Account/Login";
+                options.LogoutPath = "/Account/Logout";
+                options.Cookie = new CookieBuilder
+                {
+                    IsEssential = true // required for auth to work without explicit user consent; adjust to suit your privacy policy
+                };
+            });
+        }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler(errorApp =>
+                {
+                    errorApp.Run(async context =>
+                    {
+                        context.Response.StatusCode = 500;
+                        context.Response.ContentType = "application/json";
+                        context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+
+                        var exceptionHandlerPathFeature =
+                            context.Features.Get<IExceptionHandlerPathFeature>();
+
+                        var responseText = JsonConvert.SerializeObject(new InternalServerErrorResponseModel(exceptionHandlerPathFeature.Error?.Message, exceptionHandlerPathFeature.Error?.StackTrace, exceptionHandlerPathFeature.Error?.Data));
+
+                        await context.Response.WriteAsync(responseText);
+
+                    });
+                });
+            }
+
+            app.UseStaticFiles();
+
+            app.UseHttpsRedirection();
+
+            app.UseRouting();
+
+            app.UseCors("ApiCorsPolicy");
+
+            // It's important that you place the Authentication and Authorization middleware between UseRouting and UseEndPoints .
+            app.UseAuthorization();
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+            // specifying the Swagger JSON endpoint.
+            var title = Configuration.GetValue<string>("currentConfig:title");
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{title} API V1");
+            });
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapRazorPages();
+                endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/chatHub");
+                endpoints.MapControllerRoute("default", "{controller:slugify=Home}/{action:slugify=Index}/{id?}/{slugifiedTitle?}");
+            });
+        }
+    }
+}
