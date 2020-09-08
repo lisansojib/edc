@@ -19,11 +19,18 @@ namespace Infrastructure.Data.Configurations
             builder.Property(x => x.ProviderKey).IsRequired().HasColumnType("varchar(128)");
 
             builder
-                .HasOne(x => x.User)
-                .WithMany(x => x.UserLogins)
+                .HasOne(x => x.Participant)
+                .WithMany(x => x.ExternalLogins)
                 .HasForeignKey(x => x.UserId)
                 .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK_UserLogins_User");
+                .HasConstraintName("FK_ExternalLogin_Participant");
+
+            builder
+                .HasOne(x => x.Management)
+                .WithMany(x => x.ExternalLogins)
+                .HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK_ExternalLogin_Management");
         }
     }
 }

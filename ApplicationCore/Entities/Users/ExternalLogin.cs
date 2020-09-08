@@ -20,6 +20,8 @@
         /// </summary>
         public int UserId { get; set; }
 
-        public virtual User User { get; set; }
+        public virtual Participant Participant { get; set; }
+
+        public virtual Management Management { get; set; }
     }
 }
