@@ -1,0 +1,16 @@
+2020-09-08 19:17:17.8028||INFO|Microsoft.Hosting.Lifetime|Application started. Press Ctrl+C to shut down. 
+2020-09-08 19:17:17.8437||INFO|Microsoft.Hosting.Lifetime|Hosting environment: Development 
+2020-09-08 19:17:17.8658||INFO|Microsoft.Hosting.Lifetime|Content root path: C:\Users\sojib.miya\source\repos\EDC\Admin 
+2020-09-08 19:17:21.3786||INFO|Admin.Controllers.HomeController|Hello, this is the index! 
+2020-09-08 19:30:23.0167||INFO|Microsoft.Hosting.Lifetime|Application started. Press Ctrl+C to shut down. 
+2020-09-08 19:30:23.0592||INFO|Microsoft.Hosting.Lifetime|Hosting environment: Development 
+2020-09-08 19:30:23.0684||INFO|Microsoft.Hosting.Lifetime|Content root path: C:\Users\sojib.miya\source\repos\EDC\Admin 
+2020-09-08 19:30:26.8780||INFO|Admin.Controllers.HomeController|Hello, this is the index! 
+2020-09-08 19:30:26.8780||INFO|managementLogger|Hello 
+2020-09-08 19:30:26.8780||INFO|adminLogger|Hello 
+2020-09-08 19:34:12.4227||INFO|Microsoft.Hosting.Lifetime|Application started. Press Ctrl+C to shut down. 
+2020-09-08 19:34:12.4683||INFO|Microsoft.Hosting.Lifetime|Hosting environment: Development 
+2020-09-08 19:34:12.4859||INFO|Microsoft.Hosting.Lifetime|Content root path: C:\Users\sojib.miya\source\repos\EDC\Admin 
+2020-09-08 19:34:15.6927||INFO|Admin.Controllers.HomeController|Hello, this is the index! 
+2020-09-08 19:34:15.6927||INFO|managementLogger|Hello 
+2020-09-08 19:34:15.7042||INFO|adminLogger|Hello 

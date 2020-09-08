@@ -12,10 +12,19 @@ namespace Admin.Controllers
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
+            _logger.LogDebug(1, "NLog injected into HomeController");
         }
 
         public IActionResult Index()
         {
+            _logger.LogInformation("Hello, this is the index!");
+
+            var mLog = NLog.LogManager.GetLogger("managementLogger");
+            mLog.Info("Hello");
+
+            var aLog = NLog.LogManager.GetLogger("adminLogger");
+            aLog.Info("Hello");
+
             return View();
         }
 
