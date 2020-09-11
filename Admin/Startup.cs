@@ -54,6 +54,8 @@ namespace Admin
         {
             ConfigureCookieSettings(services);
 
+            services.AddHttpContextAccessor();
+
             services.AddScoped(typeof(IEfRepository<>), typeof(EfRepository<>));
             services.AddScoped(typeof(ISqlQueryRepository<>), typeof(SqlQueryRepository<>));
             services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
