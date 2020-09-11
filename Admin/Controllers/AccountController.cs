@@ -56,6 +56,12 @@ namespace Presentation.Admin.Controllers
             return Ok();
         }
 
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Logout()

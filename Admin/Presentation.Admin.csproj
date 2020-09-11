@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="bundleconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.0.1" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="9.2.0" />
@@ -35,6 +39,24 @@
   <ItemGroup>
     <Folder Include="logs\admin\" />
     <Folder Include="logs\management\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bundleconfig.json" />
+    <None Include="Views\Account\Login.cshtml" />
+    <None Include="Views\Account\MyProfile.cshtml" />
+    <None Include="Views\Account\Register.cshtml" />
+    <None Include="Views\Errors\InternalServerError.cshtml" />
+    <None Include="Views\Errors\NotFound.cshtml" />
+    <None Include="Views\Shared\Error.cshtml" />
+    <None Include="Views\Shared\_Layout.cshtml" />
+    <None Include="Views\Shared\_LayoutAuth.cshtml" />
+    <None Include="Views\Shared\_LayoutPublic.cshtml" />
+    <None Include="Views\Shared\_LoginPartial.cshtml" />
+    <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
+    <None Include="wwwroot\js\account\login.js" />
+    <None Include="wwwroot\js\account\profile.js" />
+    <None Include="wwwroot\js\account\register.js" />
   </ItemGroup>
 
 </Project>

@@ -32,6 +32,7 @@ using MelaMandiUI.Interfaces;
 using MelaMandiUI.Services;
 using Presentation.Interfaces;
 using Presentation.Services;
+using Infrastructure;
 
 namespace Admin
 {
@@ -60,6 +61,7 @@ namespace Admin
         {
             ConfigureCookieSettings(services);
 
+            services.AddDbContext<AppDbContext>();
             services.AddScoped(typeof(IEfRepository<>), typeof(EfRepository<>));
             services.AddScoped(typeof(ISqlQueryRepository<>), typeof(SqlQueryRepository<>));
             services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
@@ -185,12 +187,12 @@ namespace Admin
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
+            //if (env.IsDevelopment())
+            //{
+            //    app.UseDeveloperExceptionPage();
+            //}
+            //else
+            //{
                 app.UseExceptionHandler(errorApp =>
                 {
                     errorApp.Run(async context =>
@@ -208,7 +210,7 @@ namespace Admin
 
                     });
                 });
-            }
+            //}
 
             app.UseStaticFiles();
 
@@ -237,7 +239,7 @@ namespace Admin
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
                 endpoints.MapHub<ChatHub>("/chatHub");
-                endpoints.MapControllerRoute("default", "{controller:slugify=Home}/{action:slugify=Index}/{id?}/{slugifiedTitle?}");
+                endpoints.MapControllerRoute("default", "{controller:slugify=Account}/{action:slugify=Login}/{id?}/{slugifiedTitle?}");
             });
         }
     }

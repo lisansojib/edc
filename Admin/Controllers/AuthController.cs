@@ -56,8 +56,7 @@ namespace Presentation.Admin.Controllers
 
             var (Verified, NeedsUpgrade) = _passwordHasher.Check(user.Password, model.Password);
 
-            if (!Verified)
-                return BadRequest(new BadRequestResponseModel(ErrorMessages.AuthenticatinError, "Password does not match."));
+            if (!Verified) return BadRequest(new BadRequestResponseModel(ErrorMessages.AuthenticatinError, "Password does not match."));
 
             return Ok(GetTokenResponse(user, model.RememberMe));
         }
@@ -114,6 +113,7 @@ namespace Presentation.Admin.Controllers
 
             user.Password = _passwordHasher.Hash(model.Password);
             user.Username = model.Email;
+            user.AdminLevelId = 2; // Manager
 
             // Later this fields will be enabled disabled by apis as required.
             user.Verified = true;

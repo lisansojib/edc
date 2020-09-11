@@ -43,10 +43,10 @@
 
     // Applying perfect-scrollbar 
     if ($('.sidebar .sidebar-body').length) {
-      const sidebarBodyScroll = new PerfectScrollbar('.sidebar-body');
+      var sidebarBodyScroll = new PerfectScrollbar('.sidebar-body');
     }
     if ($('.content-nav-wrapper').length) {
-      const contentNavWrapper = new PerfectScrollbar('.content-nav-wrapper');
+      var contentNavWrapper = new PerfectScrollbar('.content-nav-wrapper');
     }
 
     // Sidebar toggle to sidebar-folded
