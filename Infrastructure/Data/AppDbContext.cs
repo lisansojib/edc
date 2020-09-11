@@ -23,7 +23,7 @@ namespace Infrastructure
 
         #region User
         public DbSet<Participant> ParticipantSet { get; set; }
-        public DbSet<Management> ManagementUserSet { get; set; }
+        public DbSet<Admin> AdminSet { get; set; }
         public DbSet<ExternalLogin> ExternalLoginSet { get; set; }
         #endregion
 

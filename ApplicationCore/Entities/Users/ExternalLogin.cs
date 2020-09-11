@@ -22,6 +22,6 @@
 
         public virtual Participant Participant { get; set; }
 
-        public virtual Management Management { get; set; }
+        public virtual Admin Management { get; set; }
     }
 }

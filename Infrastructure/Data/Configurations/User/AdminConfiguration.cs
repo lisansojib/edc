@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Data.Config
 {
-    public class ManagementConfiguration : IEntityTypeConfiguration<Management>
+    public class AdminConfiguration : IEntityTypeConfiguration<Admin>
     {
-        public void Configure(EntityTypeBuilder<Management> builder)
+        public void Configure(EntityTypeBuilder<Admin> builder)
         {
-            builder.ToTable("Managements");
+            builder.ToTable("Admins");
 
             builder.HasKey(t => t.Id);
 
@@ -16,6 +16,8 @@ namespace Infrastructure.Data.Config
             builder.Property(t => t.Username).IsRequired().HasMaxLength(500);
             builder.Property(t => t.Email).IsRequired().HasMaxLength(500);
             builder.Property(t => t.Password).HasMaxLength(100);
+            builder.Property(t => t.FirstName).HasMaxLength(100);
+            builder.Property(t => t.LastName).HasMaxLength(100);
             builder.Property(t => t.Phone).HasMaxLength(20);
             builder.Property(t => t.Mobile).HasMaxLength(20);
             builder.Property(t => t.Title).HasMaxLength(100);

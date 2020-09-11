@@ -2,9 +2,9 @@
 
 namespace ApplicationCore.Entities
 {
-    public class Management : User
+    public class Admin : User
     {
-        public Management()
+        public Admin()
         {
             ExternalLogins = new List<ExternalLogin>();
         }

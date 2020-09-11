@@ -11,7 +11,7 @@ namespace ApplicationCore.Entities
         public ValueField()
         {
             Description = "";
-            Managements = new List<Management>();
+            Managements = new List<Admin>();
         }
 
         /// <summary>
@@ -31,6 +31,6 @@ namespace ApplicationCore.Entities
 
         public virtual ValueFieldType ValueFieldType { get; set; }
 
-        public virtual ICollection<Management> Managements { get; private set; }
+        public virtual ICollection<Admin> Managements { get; private set; }
     }
 }
