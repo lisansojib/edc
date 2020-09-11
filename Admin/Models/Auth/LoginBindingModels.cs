@@ -1,9 +1,11 @@
-﻿namespace Presentation.Admin.Models
+﻿using System;
+
+namespace Presentation.Admin.Models
 {
     public class TokenBindingModel
     {
-        public string Email { get; set; }
-        public string Password { get; set; }
+        public string AccessToken { get; set; }
+        public DateTimeOffset ExpiresAtUtc { get; set; }
     }
 
     public class LoginBindingModel

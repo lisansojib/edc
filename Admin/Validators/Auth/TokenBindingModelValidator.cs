@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Presentation.Admin.Models;
+using System;
 
 namespace Presentation.Validators
 {
@@ -7,8 +8,8 @@ namespace Presentation.Validators
     {
         public TokenBindingModelValidator()
         {
-            RuleFor(x => x.Email).EmailAddress();
-            RuleFor(x => x.Password).NotEmpty().MinimumLength(6).MaximumLength(20);
+            RuleFor(x => x.AccessToken).EmailAddress();
+            RuleFor(x => x.ExpiresAtUtc).NotEmpty().Must(x => x > DateTime.UtcNow);
         }
     }
 }

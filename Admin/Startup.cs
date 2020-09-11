@@ -26,6 +26,12 @@ using Presentation.Hubs;
 using Presentation.Admin;
 using Presentation.Admin.Automapping;
 using Presentation.Admin.Models;
+using ApplicationCore.Interfaces.Services;
+using Infrastructure.Services;
+using MelaMandiUI.Interfaces;
+using MelaMandiUI.Services;
+using Presentation.Interfaces;
+using Presentation.Services;
 
 namespace Admin
 {
@@ -54,12 +60,14 @@ namespace Admin
         {
             ConfigureCookieSettings(services);
 
-            services.AddHttpContextAccessor();
-
             services.AddScoped(typeof(IEfRepository<>), typeof(EfRepository<>));
             services.AddScoped(typeof(ISqlQueryRepository<>), typeof(SqlQueryRepository<>));
             services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
             services.Configure<SmtpSettings>(Configuration.GetSection("SmtpSettings"));
+            services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IDeSerializeJwtToken, DeSerializeJwtToken>();
+            services.AddScoped<IPasswordHasher, PasswordHasher>();
+            services.AddScoped<ITokenBuilder, TokenBuilder>();
 
             services.AddRouting(options =>
             {

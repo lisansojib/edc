@@ -2,7 +2,7 @@
 
 namespace ApplicationCore.Interfaces.Services
 {
-    public interface IEmailSenderService
+    public interface IEmailService
     {
         Task SendEmailAsync(string username, string toEmail, string subject, string message);
     }

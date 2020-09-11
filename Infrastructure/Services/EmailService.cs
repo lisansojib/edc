@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
-    public class EmailSenderService : IEmailSenderService
+    public class EmailService : IEmailService
     {
         private readonly SmtpSettings _smtpSettings;
-        private readonly IAppLogger<EmailSenderService> _logger;
+        private readonly IAppLogger<EmailService> _logger;
 
-        public EmailSenderService(
+        public EmailService(
             IOptions<SmtpSettings> currentConfigs
-            , IAppLogger<EmailSenderService> logger)
+            , IAppLogger<EmailService> logger)
         {
             _smtpSettings = currentConfigs.Value;
             _logger = logger;

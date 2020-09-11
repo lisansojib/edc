@@ -6,6 +6,6 @@ namespace Presentation.Interfaces
 {
     public interface ITokenBuilder
     {
-        string BuildToken(User user, DateTime expiresAtUtc, Claim[] claims);
+        string BuildToken(User user, DateTime expiresAtUtc, bool isPersistent);
     }
 }
