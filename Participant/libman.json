@@ -1,0 +1,60 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "provider": "filesystem",
+      "library": "wwwroot/lib/pubnub/",
+      "destination": "wwwroot/lib/pubnub/"
+    },
+    {
+      "library": "malihu-custom-scrollbar-plugin@3.1.5",
+      "destination": "wwwroot/lib/malihu-custom-scrollbar-plugin/"
+    },
+    {
+      "library": "bootbox.js@5.4.0",
+      "destination": "wwwroot/lib/bootbox.js/"
+    },
+    {
+      "library": "select2@4.0.12",
+      "destination": "wwwroot/lib/select2/",
+      "files": [
+        "js/select2.min.js",
+        "css/select2.css",
+        "css/select2.min.css",
+        "js/select2.full.js",
+        "js/select2.full.min.js",
+        "js/select2.js"
+      ]
+    },
+    {
+      "library": "validate.js@0.13.1",
+      "destination": "wwwroot/lib/validate.js/"
+    },
+    {
+      "library": "select2-bootstrap-theme@0.1.0-beta.10",
+      "destination": "wwwroot/lib/select2-bootstrap-theme/"
+    },
+    {
+      "library": "babel-polyfill@7.8.7",
+      "destination": "wwwroot/lib/babel-polyfill/"
+    },
+    {
+      "provider": "filesystem",
+      "library": "wwwroot/lib/jquery.idle/",
+      "destination": "wwwroot/lib/jquery.idle"
+    },
+    {
+      "library": "underscore.js@1.10.2",
+      "destination": "wwwroot/lib/underscore.js/"
+    },
+    {
+      "library": "moment.js@2.26.0",
+      "destination": "wwwroot/lib/moment.js/",
+      "files": [
+        "moment.min.js",
+        "moment.js"
+      ]
+    }
+  ]
+}

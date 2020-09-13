@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - </title>
+
+    <link href="~/App_Themes/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/App_Themes/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/App_Themes/lib/toastr.js/toastr.css" rel="stylesheet" />
+    <link href="~/App_Themes/lib/axios-progress-bar/dist/nprogress.min.css" rel="stylesheet" />
+    <link href="~/App_Themes/lib/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet" />
+    <link href="~/App_Themes/lib/select2/css/select2.min.css" rel="stylesheet" />
+    <link href="~/App_Themes/lib/select2-bootstrap-theme/select2-bootstrap.min.css" rel="stylesheet" />
+    <link href="~/App_Themes/css/site.css" rel="stylesheet" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" href="/"></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <partial name="_LoginPartial" />
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/Home/Privacy">Privacy</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - PubNubChat - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    @*<script src="~/App_Themes/lib/jquery/dist/jquery.min.js"></script>*@
+    <script src="~/App_Themes/lib/babel-polyfill/polyfill.min.js"></script>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/App_Themes/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/App_Themes/lib/toastr.js/toastr.min.js"></script>
+    <script src="~/App_Themes/lib/axios/axios.min.js"></script>
+    <script src="~/App_Themes/lib/axios-progress-bar/dist/index.min.js"></script>
+    <script src="~/App_Themes/lib/validate.js/validate.min.js"></script>
+    <script src="~/App_Themes/lib/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="~/App_Themes/lib/bootbox.js/bootbox.min.js"></script>
+    <script src="~/App_Themes/lib/select2/js/select2.min.js"></script>
+    <script src="~/App_Themes/lib/validate.js/validate.min.js"></script>
+    <script src="~/App_Themes/lib/jquery.idle/jquery.idle.min.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="~/App_Themes/lib/underscore.js/underscore.min.js"></script>
+    <script src="~/App_Themes/lib/moment.js/moment.min.js"></script>
+
+    <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+
+    <script src="~/App_Themes/js/utilities.js?version=@DateTime.Now.Ticks"></script>
+    <script src="~/App_Themes/js/site.js?version=@DateTime.Now.Ticks"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

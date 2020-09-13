@@ -1,0 +1,43 @@
+[
+  {
+    "outputFileName": "wwwroot/css/auth.min.css",
+    "inputFiles": [
+      "wwwroot/lib/bootstrap/dist/js/bootstrap.min.css",
+      "wwwroot/nobleui/assets/fonts/feather-font/css/iconfont.css",
+      "wwwroot/nobleui/assets/vendors/flag-icon-css/css/flag-icon.min.css",
+      "wwwroot/nobleui/assets/vendors/mdi/css/materialdesignicons.min.css",
+      "wwwroot/lib/select2/css/select2.min.css",
+      "wwwroot/nobleui/assets/css/demo_1/style.css",
+      "wwwroot/lib/toastr.js/toastr.min.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/auth.min.js",
+    "inputFiles": [
+      "wwwroot/lib/babel-polyfill/polyfill.min.js",
+      "wwwroot/lib/jquery/dist/jquery.min.js",
+      "wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js",
+      "wwwroot/nobleui/assets/vendors/feather-icons/feather.min.js",
+      "wwwroot/lib/axios/axios.min.js",
+      "wwwroot/lib/axios-progress-bar/dist/index.min.js",
+      "wwwroot/lib/validate.js/validate.min.js",
+      "wwwroot/lib/select2/js/select2.min.js",
+      "wwwroot/lib/toastr.js/toastr.min.js",
+      "wwwroot/nobleui/assets/js/template.js",
+      "wwwroot/js/utilfities.js",
+      "wwwroot/js/site.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/account/login.min.js",
+    "inputFiles": [
+      "wwwroot/js/account/login.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/account/register.min.js",
+    "inputFiles": [
+      "wwwroot/js/account/register.js"
+    ]
+  }
+]

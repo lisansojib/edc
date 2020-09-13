@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>@ViewData["Title"] - EDC Portal</title>
+
+    <link href="~/css/auth.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="main-wrapper">
+        <div class="page-wrapper full-page">
+            <div class="page-content d-flex align-items-center justify-content-center">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    <link href="~/lib/select2/css/select2.min.css" rel="stylesheet" />
+    <script src="~/lib/select2/js/select2.full.min.js"></script>
+    <script src="~/js/auth.min.js" asp-append-version="true"></script>
+    <script src="~/js/utilities.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

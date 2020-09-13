@@ -1,0 +1,52 @@
+﻿@{ 
+    Layout = "~/Views/Shared/_LayoutAuth.cshtml";
+    ViewData["Title"] = "Login to your account";
+}
+
+<div class="row w-100 mx-0 auth-page">
+    <div class="col-md-8 col-xl-6 mx-auto">
+        <div class="card">
+            <div class="row">
+                <div class="col-md-4 pr-md-0">
+                    <div class="auth-left-wrapper">
+
+                    </div>
+                </div>
+                <div class="col-md-8 pl-md-0">
+                    <div class="auth-form-wrapper px-4 py-5">
+                        <a href="#" class="noble-ui-logo d-block mb-2">EDC<span>&nbsp;Portal</span></a>
+                        <h5 class="text-muted font-weight-normal mb-4">Welcome back! Log in to your account.</h5>
+                        <form class="forms-sample" id="login-form">
+                            <div class="form-group">
+                                <label for="Email">Email address *</label>
+                                <input type="email" id="Email" name="Email" class="form-control" placeholder="Email">
+                            </div>
+                            <div class="form-group">
+                                <label for="Password">Password *</label>
+                                <input type="password" class="form-control" id="Password" name="Password" autocomplete="current-password" placeholder="Password">
+                            </div>
+                            <div class="form-check form-check-flat form-check-primary">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" id="RememberMe" name="RememberMe">
+                                    Remember me
+                                </label>
+                            </div>
+                            <div class="mt-3">
+                                <button id="btn-login" class="btn btn-primary mr-2 mb-2 mb-md-0 text-white">Login</button>
+                                <button type="button" id="login-google" class="btn btn-outline-primary btn-icon-text mb-2 mb-md-0">
+                                    <i class="btn-icon-prepend mdi mdi-google"></i>
+                                    Login with gmail
+                                </button>
+                            </div>
+                            <p class="pt-3 text-center">Not a user? <a href="/account/register">Sign up</a></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/js/account/login.js" asp-append-version="true"></script>
+}

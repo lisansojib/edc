@@ -1,0 +1,96 @@
+﻿
+@{
+    ViewBag.Title = "Profile";
+}
+
+<div id="view-profile">
+    <div class="card mb-5">
+        <div class="row no-gutters justify-content-end">
+            <button class="btn btn-primary" id="btn-edit-profile"><i class="fa fa-pencil"></i> Edit</button>
+        </div>
+        <div class="row no-gutters" id="profileNotSet" style="display:none">
+            <h3 class="text-center">Profile is not set yet.</h3>
+        </div>
+        <div class="row no-gutters" id="profileSet" style="display:none" >
+            <div class="col-md-4">
+                <img id="photo" src="https://via.placeholder.com/1200" style="max-height:300px;" class="card-img" alt="...">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title"></h5>
+                    <p class="card-text" id="bio"></p>
+                    <p class="card-text" id="company"></p>
+                    <p class="card-text"><b>Contact No </b><span id="phoneNumber"></span></p>
+                    <h6 class="card-subtitle">Additional Info</h6>
+                    <p class="card-text" id="bringsToGroup"></p>
+                    <p class="card-text" id="goalsForProgram"></p>
+                    <p class="card-text text-center">
+                        <img class="img-fluid" id="logo" src="https://via.placeholder.com/400" style="max-height:100px;" />
+                    </p>
+                    <h6 class="text-center">Logo</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="edit-profile" style="display:none">
+    <form id="profile-form">
+        <fieldset>
+            <legend>Please complete your profile below</legend>
+
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="Title">Title</label>
+                    <input type="text" class="form-control" id="Title" name="Title" maxlength="100" placeholder="Please enter your title" aria-describedby="TitleHelp">
+                    <small id="TitleHelp" class="form-text text-muted"></small>
+                </div>
+                <div class="form-group col">
+                    <label for="PhoneNumber">Phone Number</label>
+                    <input type="text" class="form-control" id="PhoneNumber" name="PhoneNumber" maxlength="20" placeholder="Please enter a valid phone number" aria-describedby="PhoneNumberHelp">
+                    <small id="PhoneNumberHelp" class="form-text text-muted"></small>
+                </div>
+                <div class="form-group col">
+                    <label for="Company">Company Name</label>
+                    <input type="text" class="form-control" id="Company" name="Company" maxlength="100" placeholder="Please enter your company name" aria-describedby="CompanyHelp">
+                    <small id="CompanyHelp" class="form-text text-muted"></small>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="Bio">Bio Info</label>
+                <textarea rows="2" class="form-control" id="Bio" name="Bio" maxlength="500" placeholder="Please enter your Bio" aria-describedby="BioHelp"></textarea>
+                <small id="BioHelp" class="form-text text-muted"></small>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="BringsToGroup">Brings To Group</label>
+                    <input type="text" class="form-control" id="BringsToGroup" name="BringsToGroup" maxlength="100" placeholder="Tell us who brings to group" aria-describedby="BringsToGroupHelp">
+                    <small id="BringsToGroupHelp" class="form-text text-muted"></small>
+                </div>
+                <div class="form-group col">
+                    <label for="GoalsForProgram">Goals For Program</label>
+                    <input type="text" class="form-control" id="GoalsForProgram" name="GoalsForProgram" maxlength="100" placeholder="Please enter your goal" aria-describedby="GoalsForProgramHelp">
+                    <small id="GoalsForProgramHelp" class="form-text text-muted"></small>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="ProfilePic">Choose Profile Picture</label>
+                <input type="file" class="form-control-file" id="ProfilePic" name="ProfilePic" accept="image/*">
+            </div>
+
+            <div class="form-group">
+                <label for="LogoImage">Choose Logo Image</label>
+                <input type="file" class="form-control-file" id="LogoImage" name="LogoImage" accept="image/*">
+            </div>
+        </fieldset>
+        <button type="button" id="btn-save-profile" class="btn btn-primary">Submit</button>
+        <button type="button" id="btn-cancel" class="btn btn-secondary">Cancel</button>
+    </form>
+</div>
+
+@section Scripts{
+    <script src="~/Scripts/account/profile.js?version=@Guid.NewGuid()"></script>
+}
