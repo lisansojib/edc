@@ -122,7 +122,7 @@ Add-Migration 001 -OutputDir "Data/Migrations"
 * Go to *Presentation* Project -> Controllers folder
   * If MVC view controller -  add it to to Controller folder directly. You must choos MVC controller in VS create controller template.
 ```c#
-namespace Presentation.Controllers
+namespace Presentation.Participant.Controllers
 {
   [ApiExplorerSettings(IgnoreApi = true)]
   [Route("[controller]/[action]")]
@@ -142,9 +142,9 @@ namespace Presentation.Controllers
   }
 }
 ```
-  * If Web API controller - Add the Controller to *Api* folder. However namespace should be *Presentation.Controllers*
+  * If Web API controller - Add the Controller to *Api* folder. However namespace should be *Presentation.Participant.Controllers*
 ```c#
-namespace Presentation.Controllers
+namespace Presentation.Participant.Controllers
 {
   [Route("api/[controller]")]
   [ApiController]
@@ -173,7 +173,7 @@ public async Task<IActionResult> Get(int offset = 0, int limit = 10, string filt
 ```
 * It is important to Add [ApiExplorerSettings(IgnoreApi = true)] in MVC controllers. This will prevent swagger documentation generation for Veiw Actions
 ```c#
-namespace Presentation.Controllers
+namespace Presentation.Participant.Controllers
 {
   [ApiExplorerSettings(IgnoreApi = true)]
   [Route("[controller]/[action]")]

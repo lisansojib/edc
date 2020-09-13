@@ -2,7 +2,7 @@
 using System;
 using System.Security.Claims;
 
-namespace Presentation.Interfaces
+namespace Presentation.Participant.Interfaces
 {
     public interface ITokenBuilder
     {

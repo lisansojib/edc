@@ -1,4 +1,4 @@
-﻿namespace Presentation.Interfaces
+﻿namespace Presentation.Participant.Interfaces
 {
     public interface IPasswordHasher
     {

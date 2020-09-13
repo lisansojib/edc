@@ -17,21 +17,21 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using ApplicationCore;
 using FluentValidation.AspNetCore;
-using Presentation.Validators;
+using Presentation.Participant.Validators;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Diagnostics;
-using Presentation.Hubs;
+using Presentation.Participant.Hubs;
 using Presentation;
-using Presentation.Automapping;
-using Presentation.Models;
+using Presentation.Participant.Automapping;
+using Presentation.Participant.Models;
 using ApplicationCore.Interfaces.Services;
 using Infrastructure.Services;
 using MelaMandiUI.Interfaces;
 using MelaMandiUI.Services;
-using Presentation.Interfaces;
-using Presentation.Services;
+using Presentation.Participant.Interfaces;
+using Presentation.Participant.Services;
 using Infrastructure;
 
 namespace Admin

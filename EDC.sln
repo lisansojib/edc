@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastru
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation.Admin", "Admin\Presentation.Admin.csproj", "{101FC613-BADC-4636-868B-2E8F1801EE6F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation", "Participant\Presentation.csproj", "{1FEA3F33-F272-4A12-92D7-42E387A1B191}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation.Participant", "Participant\Presentation.Participant.csproj", "{1FEA3F33-F272-4A12-92D7-42E387A1B191}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

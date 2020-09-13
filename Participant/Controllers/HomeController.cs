@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Presentation.Models;
+using Presentation.Participant.Models;
 
 namespace Admin.Controllers
 {

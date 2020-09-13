@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Options;
-using Presentation.Interfaces;
+using Presentation.Participant.Interfaces;
 using System;
 using System.Linq;
 using System.Security.Cryptography;
 
-namespace Presentation.Services
+namespace Presentation.Participant.Services
 {
     public sealed class PasswordHasher : IPasswordHasher
     {

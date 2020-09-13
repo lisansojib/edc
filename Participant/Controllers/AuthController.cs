@@ -11,16 +11,16 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
-using Presentation.Models;
-using Presentation.Interfaces;
+using Presentation.Participant.Models;
+using Presentation.Participant.Interfaces;
 
-namespace Presentation.Controllers
+namespace Presentation.Participant.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IEfRepository<Participant> _userRepository;
+        private readonly IEfRepository<ApplicationCore.Entities.Participant> _userRepository;
         private readonly IEfRepository<ExternalLogin> _externalLoginRepository;
         private readonly IEmailService _emailService;
         private readonly ITokenBuilder _tokenBuilder;
@@ -28,7 +28,7 @@ namespace Presentation.Controllers
         private readonly IMapper _mapper;
         private readonly Logger _logger;
 
-        public AuthController(IEfRepository<Participant> userRepository
+        public AuthController(IEfRepository<ApplicationCore.Entities.Participant> userRepository
             , IEfRepository<ExternalLogin> externalLoginRepository
             , IEmailService emailService
             , ITokenBuilder tokenBuilder
@@ -71,7 +71,7 @@ namespace Presentation.Controllers
 
             if (user == null)
             {
-                user = new Participant
+                user = new ApplicationCore.Entities.Participant
                 {
                     Email = model.Email,
                     Username = model.Email
@@ -108,7 +108,7 @@ namespace Presentation.Controllers
             var userExists = await _userRepository.ExistsAsync(x => x.Email == model.Email);
             if (userExists) return BadRequest(new BadRequestResponseModel(ErrorMessages.AuthenticatinError, "User already exists"));
 
-            var user = _mapper.Map<Participant>(model);
+            var user = _mapper.Map<ApplicationCore.Entities.Participant>(model);
 
             user.Password = _passwordHasher.Hash(model.Password);
             user.Username = model.Email;

@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
-using Presentation.Models;
+using Presentation.Participant.Models;
 using System;
 
-namespace Presentation.Validators
+namespace Presentation.Participant.Validators
 {
     public class TokenBindingModelValidator : AbstractValidator<TokenBindingModel>
     {

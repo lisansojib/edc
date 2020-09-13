@@ -1,13 +1,12 @@
-﻿using ApplicationCore.Entities;
-using Presentation.Models;
+﻿using Presentation.Participant.Models;
 
-namespace Presentation.Automapping
+namespace Presentation.Participant.Automapping
 {
     public class AutoMappingProfile : AutoMapper.Profile
     {
         public AutoMappingProfile()
         {
-            CreateMap<RegisterBindingModel, Participant>();
+            CreateMap<RegisterBindingModel, ApplicationCore.Entities.Participant>();
         }
     }
 }

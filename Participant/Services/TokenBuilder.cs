@@ -1,13 +1,13 @@
 ﻿using ApplicationCore;
 using ApplicationCore.Entities;
 using Microsoft.IdentityModel.Tokens;
-using Presentation.Interfaces;
+using Presentation.Participant.Interfaces;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System;
 
-namespace Presentation.Services
+namespace Presentation.Participant.Services
 {
     public class TokenBuilder : ITokenBuilder
     {

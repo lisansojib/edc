@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Presentation.Models
+namespace Presentation.Participant.Models
 {
     public class TokenBindingModel
     {

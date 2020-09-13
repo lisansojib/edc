@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using ApplicationCore.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
-using Presentation.Models;
+using Presentation.Participant.Models;
 
-namespace Presentation.Controllers
+namespace Presentation.Participant.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

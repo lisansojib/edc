@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using Presentation.Models;
+using Presentation.Participant.Models;
 
-namespace Presentation.Validators
+namespace Presentation.Participant.Validators
 {
     public class LoginBindingModelValidator : AbstractValidator<LoginBindingModel>
     {
