@@ -17,13 +17,13 @@ namespace Presentation.Admin.Controllers.Api
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
-    public class AnouncementsController : ApiBaseController
+    public class AnnouncementsController : ApiBaseController
     {
         private readonly IAnnouncementService _service;
         private readonly IEfRepository<Announcement> _repository;
         private readonly IMapper _mapper;
 
-        public AnouncementsController(IAnnouncementService service
+        public AnnouncementsController(IAnnouncementService service
             , IEfRepository<Announcement> repository
             , IMapper mapper)
         {

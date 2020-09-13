@@ -67,6 +67,9 @@ namespace Admin
             services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
             services.Configure<SmtpSettings>(Configuration.GetSection("SmtpSettings"));
             services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IAnnouncementService, AnnouncementService>();
+            services.AddScoped<IEventService, EventService>();
+
             services.AddScoped<IDeSerializeJwtToken, DeSerializeJwtToken>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
             services.AddScoped<ITokenBuilder, TokenBuilder>();

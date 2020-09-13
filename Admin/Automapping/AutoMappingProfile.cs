@@ -13,6 +13,10 @@ namespace Presentation.Admin.Automapping
             CreateMap<Announcement, AnnouncementDTO>();
 
             CreateMap<AnnouncementBindingModel, Announcement>();
+
+            CreateMap<Event, EventDTO>();
+
+            CreateMap<EventBindingModel, Event>();
         }
     }
 }
