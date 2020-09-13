@@ -4,6 +4,11 @@ namespace ApplicationCore.Entities
 {
     public class ParticipantTeam : BaseEntity, IAuditFields
     {
+        public ParticipantTeam()
+        {
+            CreatedAt = DateTime.Now;
+        }
+
         public int TeamMemberId { get; set; }
         public int TeamId { get; set; }
 

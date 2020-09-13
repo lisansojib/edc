@@ -8,7 +8,7 @@ namespace Infrastructure.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Company> builder)
         {
-            builder.ToTable("Companys");
+            builder.ToTable("Companies");
 
             builder.HasKey(t => t.Id);
 

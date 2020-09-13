@@ -7,6 +7,7 @@ namespace ApplicationCore.Entities
     {
         public Event()
         {
+            CreatedAt = DateTime.Now;
             Speakers = new List<Speaker>();
             Sponsors = new List<Sponsor>();
         }

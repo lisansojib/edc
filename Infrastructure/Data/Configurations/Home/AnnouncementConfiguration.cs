@@ -20,7 +20,7 @@ namespace Infrastructure.Data.Configurations
 
             builder.Property(t => t.CallAction).IsRequired().HasMaxLength(100);
 
-            builder.Property(t => t.LinkUrl).IsRequired().HasMaxLength(500);
+            builder.Property(t => t.LinkUrl).HasMaxLength(500);
 
             builder.Property(t => t.ImageUrl).IsRequired().HasMaxLength(250);
 

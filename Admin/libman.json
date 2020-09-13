@@ -28,10 +28,6 @@
       ]
     },
     {
-      "library": "validate.js@0.13.1",
-      "destination": "wwwroot/lib/validate.js/"
-    },
-    {
       "library": "select2-bootstrap-theme@0.1.0-beta.10",
       "destination": "wwwroot/lib/select2-bootstrap-theme/"
     },
@@ -137,6 +133,10 @@
         "themes/bootstrap-table/bootstrap-table.min.css",
         "themes/bootstrap-table/bootstrap-table.min.js"
       ]
+    },
+    {
+      "library": "validate.js@0.13.1",
+      "destination": "wwwroot/lib/validate.js/"
     }
   ]
 }

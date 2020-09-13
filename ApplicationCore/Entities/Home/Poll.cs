@@ -7,6 +7,7 @@ namespace ApplicationCore.Entities
     {
         public Poll()
         {
+            CreatedAt = DateTime.Now;
             DataPoints = new List<DataPoint>();
         }
 

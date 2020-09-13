@@ -1,4 +1,6 @@
-﻿using Presentation.Admin.Models;
+﻿using ApplicationCore.DTOs;
+using ApplicationCore.Entities;
+using Presentation.Admin.Models;
 
 namespace Presentation.Admin.Automapping
 {
@@ -7,6 +9,10 @@ namespace Presentation.Admin.Automapping
         public AutoMappingProfile()
         {
             CreateMap<RegisterBindingModel, ApplicationCore.Entities.Admin>();
+
+            CreateMap<Announcement, AnnouncementDTO>();
+
+            CreateMap<AnnouncementBindingModel, Announcement>();
         }
     }
 }

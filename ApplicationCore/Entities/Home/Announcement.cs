@@ -4,6 +4,11 @@ namespace ApplicationCore.Entities
 {
     public class Announcement : BaseEntity, IAuditFields
     {
+        public Announcement()
+        {
+            CreatedAt = DateTime.Now;
+        }
+
         public string Title { get; set; }
         public string Description { get; set; }
         public string CallAction { get; set; }
