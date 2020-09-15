@@ -2,31 +2,19 @@
     var $table, $formEl;
 
     var validationConstraints = {
-        name: {
+        title: {
             presence: true,
             length: {
                 maximum: 100
             }
         },
-        graphType: {
-            presence: true,
-            length: {
-                maximum: 100
-            }
+        speakers: {
+            presence: true
         },
-        panel: {
-            presence: true,
-            length: {
-                maximum: 200
-            }
+        sponsors: {
+            presence: true
         },
-        origin: {
-            presence: true,
-            length: {
-                maximum: 200
-            }
-        },
-        pollDate: {
+        eventDate: {
             presence: true,
         }
     };
@@ -34,7 +22,7 @@
     var tableParams = {
         offset: 0,
         limit: 10,
-        sort: 'name',
+        sort: 'title',
         order: '',
         filter: ''
     };
@@ -45,15 +33,11 @@
         initTbl();
         loadTableData();
 
-        $formEl = $("#poll-form");
+        $formEl = $("#event-form");
 
-        $("#add-new-poll").click(function () {
-            $("#poll-modal-label").text("Add new Poll");
-            $formEl.trigger("reset");
-            $("#poll-modal").modal("show");
-        })
+        $("#add-new-event").click(getNew);
 
-        $("#btn-save-poll").click(save);
+        $("#btn-save-event").click(save);
     });
 
     function initTbl() {
@@ -77,10 +61,10 @@
                     width: 125,
                     formatter: function (value, row, index, field) {
                         var template =
-                            `<a class="btn btn-primary btn-sm edit" href="/admin/email-funnel-edit?id=${row.id}" title="Edit Poll">
+                            `<a class="btn btn-primary btn-sm edit" href="/admin/email-funnel-edit?id=${row.id}" title="Edit Event">
                               <i class="fa fa-edit" aria-hidden="true"></i> 
                             </a>
-                            <a class="btn btn-danger btn-sm ml-2 remove" href="javascript:" title="Delete Poll">
+                            <a class="btn btn-danger btn-sm ml-2 remove" href="javascript:" title="Delete Event">
                               <i class="fa fa-trash" aria-hidden="true"></i>
                             </a>`;
                         return template;
@@ -92,9 +76,9 @@
                         },
                         'click .remove': function (e, value, row, index) {
                             e.preventDefault();
-                            showBootboxConfirm("Delete Poll", "Are you sure you want to delete this?", function (yes) {
+                            showBootboxConfirm("Delete Event", "Are you sure you want to delete this?", function (yes) {
                                 if (yes) {
-                                    axios.delete(`/api/polls/${row.id}`)
+                                    axios.delete(`/api/events/${row.id}`)
                                         .then(function () {
                                             toastr.success(appConstants.ITEM_DELETED_SUCCESSFULLY);
                                             $table.bootstrapTable('refresh');
@@ -110,36 +94,36 @@
                 {
                     sortable: true,
                     searchable: true,
-                    field: "name",
-                    title: "Name",
+                    field: "title",
+                    title: "Title",
                     width: 100
                 },
                 {
                     sortable: true,
                     searchable: true,
-                    field: "graphType",
-                    title: "Graph Type",
+                    field: "description",
+                    title: "Description",
                     width: 100
                 },
                 {
                     sortable: true,
                     searchable: true,
-                    field: "panel",
-                    title: "Panel",
+                    field: "speakers",
+                    title: "Speakers",
                     width: 100
                 },
                 {
                     sortable: true,
                     searchable: true,
-                    field: "origin",
-                    title: "Origin",
+                    field: "sponsors",
+                    title: "Sponsors",
                     width: 100
                 },
                 {
                     sortable: true,
                     searchable: true,
-                    field: "pollDate",
-                    title: "PollDate",
+                    field: "eventDate",
+                    title: "Event Date",
                     formatter: function (value, row, index, field) {
                         return formatDateToDDMMYYYY(value);
                     },
@@ -177,7 +161,7 @@
     function loadTableData() {
         $table.bootstrapTable('showLoading');
         var queryParams = $.param(tableParams);
-        var url = `/api/polls?${queryParams}`;
+        var url = `/api/events?${queryParams}`;
         axios.get(url)
             .then(function (response) {
                 $table.bootstrapTable('load', response.data);
@@ -196,12 +180,25 @@
         tableParams.order = '';
     }
 
-    function getDetails(id) {
-        axios.get(`/api/polls/${id}`)
+    function getNew() {
+        axios.get(`/api/events/new`)
             .then(function (response) {
-                setFormData($formEl, response.data);
-                $("#poll-modal-label").text("Edit Poll");
-                $("#poll-modal").modal("show");
+                setFormData($formEl, response.data, true);
+                $("#event-modal-label").text("Add new Event");
+                $formEl.trigger("reset");
+                $("#event-modal").modal("show");
+            })
+            .catch(function (err) {
+                toastr.error(err.response.data);
+            });
+    }
+
+    function getDetails(id) {
+        axios.get(`/api/events/${id}`)
+            .then(function (response) {
+                setFormData($formEl, response.data, true);
+                $("#event-modal-label").text("Edit Event");
+                $("#event-modal").modal("show");
             })
             .catch(function (err) {
                 toastr.error(err.response.data);
@@ -225,34 +222,45 @@
         }
         else hideValidationErrors($formEl);
 
+        debugger;
         var data = formDataToJson($formEl);
         data.id = parseInt(data.id);
+        if (isNaN(data.id)) data.id = 0; 
+
+        var speakers = $("#speakers").select2("data");
+        data.speakers = speakers.map(function (el) { return { id: el.id, text: el.text } });
+
+        var sponsors = $("#sponsors").select2("data");
+        data.sponsors = sponsors.map(function (el) { return { id: el.id, text: el.text } });
 
         if (data.id <= 0) {
-            axios.post('/api/polls', data)
+            axios.post('/api/events', data)
                 .then(function () {
-                    toastr.success("Poll created successfully!");
+                    debugger;
+                    resetLoadingButton(thisBtn, originalText);
+                    $("#event-modal").modal("hide");
+                    loadTableData();
+                    toastr.success("Event created successfully!");
                 })
                 .catch(function (err) {
-                    toastr.error(err.response.data);
-                })
-                .then(function () {
+                    debugger;
                     resetLoadingButton(thisBtn, originalText);
-                    $("#poll-modal").modal("hide");
+                    $("#event-modal").modal("hide");
                     loadTableData();
+                    toastr.error(JSON.stringify(err.response.data.errors));
                 });
         }
         else {
-            axios.put('/api/polls', data)
+            axios.put('/api/events', data)
                 .then(function () {
-                    toastr.success("Poll updated successfully!");
+                    toastr.success("Event updated successfully!");
                 })
                 .catch(function (err) {
                     toastr.error(err.response.data);
                 })
                 .then(function () {
                     resetLoadingButton(thisBtn, originalText);
-                    $("#poll-modal").modal("hide");
+                    $("#event-modal").modal("hide");
                     loadTableData();
                 });
         }

@@ -142,7 +142,7 @@ function formDataToJson($formEl) {
  * @param {any} $formEl - Form Element
  * @param {any} data - data object
  */
-function setFormData($formEl, data) {
+function setFormData($formEl, data, allowTagging = false) {
     if (!data && ! typeof data === 'object') {
         console.error("Your data is not valid.");
         return;
@@ -183,7 +183,7 @@ function setFormData($formEl, data) {
                 else if (this.tagName.toLowerCase() === "select") {
                     var optionListName = $input[0].multiple ? $input.attr('name').replace("Ids", '') : $input.attr('name').replace("Id", '');
                     optionListName += "List";
-                    initSelect2($input, data[optionListName]);
+                    initSelect2($input, data[optionListName], true, "Select Item", true, allowTagging);
                     $input.val(value).trigger("change");
                 }
             } catch (e) {
@@ -263,7 +263,7 @@ function isChecked(el) {
  * @param {String} Placeholder
  * @param {Boolean} Show Default Option
  */
-function initSelect2($el, data, allowClear = true, placeholder = "Select a Value", showDefaultOption = true) {
+function initSelect2($el, data, allowClear = true, placeholder = "Select a Value", showDefaultOption = true, allowTagging = false) {
     if (showDefaultOption)
         data.unshift({ id: '', text: '' });
 
@@ -271,7 +271,8 @@ function initSelect2($el, data, allowClear = true, placeholder = "Select a Value
         'data': data,
         'allowClear': allowClear,
         'placeholder': placeholder,
-        'theme': "bootstrap"
+        'theme': "bootstrap",
+        'tags': allowTagging
     });
 }
 

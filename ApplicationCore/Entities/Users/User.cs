@@ -21,7 +21,7 @@ namespace ApplicationCore.Entities
         public string Title { get; set; }
         public bool Active { get; set; }
         public string PhotoUrl { get; set; }
-        public DateTime DateSuspended { get; set; }
+        public DateTime? DateSuspended { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
     }

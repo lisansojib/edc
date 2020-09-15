@@ -13,7 +13,7 @@ namespace ApplicationCore.Entities
 
         public string GraphType { get; set; }
         public string Name { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime PollDate { get; set; }
         public string Panel { get; set; }
         public string Origin { get; set; }
         public int CreatedBy { get; set; }

@@ -75,7 +75,7 @@ namespace Presentation.Admin.Controllers.Api
 
             entity.GraphType = model.GraphType;
             entity.Name = model.Name;
-            entity.Date = model.Date;
+            entity.PollDate = model.PollDate;
             entity.Panel = model.Panel;
             entity.Origin = model.Origin;
             entity.UpdatedAt = DateTime.Now;

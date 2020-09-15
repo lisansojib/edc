@@ -34,4 +34,10 @@
         public const string ContactNo = "ContactNo";
         public const string PhotoUrl = "PhotoUrl";
     }
+
+    public static class ValueFieldTypes
+    {
+        public const int SPEAKERS = 1;
+        public const int SPONSORS = 2;
+    }
 }

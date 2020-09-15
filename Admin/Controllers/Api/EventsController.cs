@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using ApplicationCore;
 using ApplicationCore.DTOs;
@@ -10,7 +12,11 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Math.EC.Rfc7748;
+using Presentation.Admin.Interfaces;
 using Presentation.Admin.Models;
+using Presentation.Admin.Models.Home;
 
 namespace Presentation.Admin.Controllers.Api
 {
@@ -21,14 +27,17 @@ namespace Presentation.Admin.Controllers.Api
     {
         private readonly IEventService _service;
         private readonly IEfRepository<Event> _repository;
+        private readonly IEventValueFieldsService _eventValueFieldsService;
         private readonly IMapper _mapper;
 
         public EventsController(IEventService service
             , IEfRepository<Event> repository
+            , IEventValueFieldsService eventValueFieldsService
             , IMapper mapper)
         {
             _service = service;
             _repository = repository;
+            _eventValueFieldsService = eventValueFieldsService;
             _mapper = mapper;
         }
 
@@ -43,23 +52,44 @@ namespace Presentation.Admin.Controllers.Api
             return Ok(response);
         }
 
+        [HttpGet("new")]
+        public async Task<IActionResult> GetNew()
+        {
+            var data = new
+            {
+                SpeakersList = await _eventValueFieldsService.GetSpeakersAsync(),
+                SponsorsList = await _eventValueFieldsService.GetSponsorsAsync()
+            };
+
+            return Ok(data);
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var entity = await _repository.FindAsync(id);
+            var entity = await _repository.QueryableAll(x => x.Id == id).Include(x => x.Speakers).Include(x => x.Sponsors).FirstOrDefaultAsync();
 
             if (entity == null) return BadRequest(new BadRequestResponseModel(ErrorTypes.BadRequest, ErrorMessages.ItemNotFound));
 
-            var record = _mapper.Map<EventDTO>(entity);
+            var model = _mapper.Map<EventViewModel>(entity);
 
-            return Ok(record);
+            model.SpeakersList = await _eventValueFieldsService.GetSpeakersAsync();
+            model.SponsorsList = await _eventValueFieldsService.GetSponsorsAsync();
+
+            return Ok(model);
         }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] EventBindingModel model)
         {
+            var speakerIds = await _eventValueFieldsService.GetSpeakerIdsAsync(model.Speakers);
+            var sponsorIds = await _eventValueFieldsService.GetSponsorIdsAsync(model.Sponsors);
+
             var entity = _mapper.Map<Event>(model);
             entity.CreatedBy = UserId;
+
+            speakerIds.ForEach(x => entity.Speakers.Add(new Speaker { SpeakerId = x }));
+            sponsorIds.ForEach(x => entity.Sponsors.Add(new Sponsor { SponsorId = x }));
 
             await _repository.AddAsync(entity);
 
@@ -69,13 +99,38 @@ namespace Presentation.Admin.Controllers.Api
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] EventBindingModel model)
         {
-            var entity = await _repository.FindAsync(model.Id);
+            var entity = await _repository.QueryableAll(x => x.Id == model.Id).Include(x => x.Speakers).Include(x => x.Sponsors).FirstOrDefaultAsync();
 
             if (entity == null) return BadRequest(new BadRequestResponseModel(ErrorTypes.BadRequest, ErrorMessages.ItemNotFound));
 
+            var speakerIds = await _eventValueFieldsService.GetSpeakerIdsAsync(model.Speakers);
+            var sponsorIds = await _eventValueFieldsService.GetSponsorIdsAsync(model.Sponsors);
+
+            // Update Speakers
+            foreach(var item in speakerIds)
+            {
+                if (entity.Speakers.Any(x => x.SpeakerId == item)) continue;
+
+                entity.Speakers.Add(new Speaker { SpeakerId = item });
+            }
+
+            // Update sponsors
+            foreach (var item in sponsorIds)
+            {
+                if (entity.Sponsors.Any(x => x.SponsorId == item)) continue;
+
+                entity.Sponsors.Add(new Sponsor { SponsorId = item });
+            }
+
+            var deletedSpeakers = entity.Speakers.Where(x => !speakerIds.Contains(x.SpeakerId)).ToList();
+            deletedSpeakers.ForEach(x => entity.Speakers.Remove(x));
+
+            var deletedSponsors = entity.Sponsors.Where(x => !sponsorIds.Contains(x.SponsorId)).ToList();
+            deletedSponsors.ForEach(x => entity.Sponsors.Remove(x));
+
             entity.Title = model.Title;
             entity.Description = model.Description;
-            entity.Date = model.Date;
+            entity.EventDate = model.EventDate;
             entity.UpdatedAt = DateTime.Now;
             entity.UpdatedBy = UserId;
 

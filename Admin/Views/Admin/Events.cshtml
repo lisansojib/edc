@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewData["Title"] = "Polls";
+    ViewData["Title"] = "Events";
 }
 
 <div class="row">
@@ -8,7 +8,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-baseline mb-2">
-                    <h6 class="card-title mb-0">Polls</h6>
+                    <h6 class="card-title mb-0">Events</h6>
                     <div class="dropdown mb-2">
                         <button class="btn p-0" type="button" id="dropdownMenuButton7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal icon-lg text-muted pb-3px"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
@@ -24,7 +24,7 @@
                 </div>
                 <div class="table-responsive">
                     <div id="tblToolbar" class="mb-1">
-                        <button href="/admin/email-funnel-create" class="btn btn-primary" id="add-new-poll">
+                        <button href="/admin/email-funnel-create" class="btn btn-primary" id="add-new-event">
                             <i class="fa fa-plus"></i>&nbsp;Add New
                         </button>
                     </div>
@@ -36,49 +36,48 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" data-backdrop="false" id="poll-modal" tabindex="-1" aria-labelledby="poll-modal" aria-hidden="true">
+<div class="modal fade" data-backdrop="false" id="event-modal" tabindex="-1" aria-labelledby="event-modal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="poll-modal-label">Add new Poll</h5>
+                <h5 class="modal-title" id="event-modal-label">Add new Event</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form id="poll-form">
+                <form id="event-form">
                     <input type="hidden" name="id" id="id" value="0" />
                     <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" name="name">
+                        <label for="name">Title</label>
+                        <input type="text" class="form-control" id="title" name="title">
                     </div>
                     <div class="form-group">
-                        <label for="graphType">Graph Type</label>
-                        <input type="text" class="form-control" id="graphType" name="graphType">
+                        <label for="description">Description</label>
+                        <textarea class="form-control" rows="2" id="description" name="description"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="panel">Panel</label>
-                        <input type="text" class="form-control" id="panel" name="panel">
+                        <label for="panel">Speakers</label>
+                        <select id="speakers" name="speakers" class="form-control" style="width: 100%" multiple></select>
                     </div>
                     <div class="form-group">
-                        <label for="origin">Origin</label>
-                        <input type="text" class="form-control" id="origin" name="origin">
+                        <label for="origin">Sponsors</label>
+                        <select id="sponsors" name="sponsors" class="form-control" style="width: 100%" multiple></select>
                     </div>
                     <div class="form-group">
-                        <label for="date">Poll Date</label>
-                        <input type="date" class="form-control" id="pollDate" name="pollDate">
+                        <label for="date">Event Date</label>
+                        <input type="date" class="form-control" id="eventDate" name="eventDate">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="btn-save-poll">Save changes</button>
+                <button type="button" class="btn btn-primary" id="btn-save-event">Save changes</button>
             </div>
         </div>
     </div>
 </div>
 
-
 @section Scripts{
-    <script src="~/js/admin/polls.js" asp-append-version="true"></script>
+    <script src="~/js/admin/events.js" asp-append-version="true"></script>
 }

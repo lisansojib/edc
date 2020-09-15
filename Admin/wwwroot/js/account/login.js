@@ -100,14 +100,13 @@
 
         axios.post('/api/auth/token', data)
             .then(function (response) {
+                resetLoadingButton(thisBtn, thisBtnText);
                 localStorage.setItem("token", response.data.accessToken);
                 loginToApp(response.data);
             })
             .catch(function () {
-                toastr.error("Invalid username or password!");
-            })
-            .finally(function () {
                 resetLoadingButton(thisBtn, thisBtnText);
+                toastr.error(JSON.stringify(err.response.data.errors));
             });
     }
 
@@ -118,15 +117,13 @@
     function externalLogin(model) {
         axios.post('/api/auth/externallogin', model)
             .then(function (response) {
+                resetLoadingButton(thisBtn, thisBtnText);
                 localStorage.setItem("token", response.data);
                 loginToApp(response.data);
             })
             .catch(function (err) {
-                var errMsg = err.response.data;
-                toastr.error(errMsg);
-            })
-            .finally(function () {
                 resetLoadingButton(thisBtn, thisBtnText);
+                toastr.error(JSON.stringify(err.response.data.errors));
             });
     }
     // #endregion
@@ -138,11 +135,7 @@
                 window.location.href = appConstants.LOGIN_REDIRECT_PATH;
             })
             .catch(function (err) {
-                var errMsg = err.response.data;
-                toastr.error(errMsg);
-            })
-            .finally(function () {
-                resetLoadingButton(thisBtn, thisBtnText);
+                toastr.error(JSON.stringify(err.response.data.errors));
             });
     }
 })();

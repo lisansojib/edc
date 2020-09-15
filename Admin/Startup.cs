@@ -33,6 +33,9 @@ using MelaMandiUI.Services;
 using Presentation.Interfaces;
 using Presentation.Services;
 using Infrastructure;
+using Microsoft.EntityFrameworkCore;
+using Presentation.Admin.Interfaces;
+using Presentation.Admin.Services;
 
 namespace Admin
 {
@@ -45,13 +48,24 @@ namespace Admin
 
         public IConfiguration Configuration { get; }
 
+        public void ConfigureDevelopmentServices(IServiceCollection services)
+        {
+            // use real database
+            // Requires LocalDB which can be installed with SQL Server Express 2016
+            // https://www.microsoft.com/en-us/download/details.aspx?id=54284
+            services.AddDbContext<AppDbContext>(c =>
+                c.UseSqlServer(Configuration.GetConnectionString("AppDbConnection")));
+
+            ConfigureServices(services);
+        }
+
         public void ConfigureProductionServices(IServiceCollection services)
         {
             // use real database
             // Requires LocalDB which can be installed with SQL Server Express 2016
             // https://www.microsoft.com/en-us/download/details.aspx?id=54284
-            //services.AddDbContext<AppDbContext>(c =>
-            //    c.UseMySQL(Configuration.GetConnectionString("AppDbConnection")));
+            services.AddDbContext<AppDbContext>(c =>
+                c.UseSqlServer(Configuration.GetConnectionString("AppDbConnection")));
 
             ConfigureServices(services);
         }
@@ -74,6 +88,7 @@ namespace Admin
             services.AddScoped<IDeSerializeJwtToken, DeSerializeJwtToken>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
             services.AddScoped<ITokenBuilder, TokenBuilder>();
+            services.AddScoped<IEventValueFieldsService, EventValueFieldsService>();
 
             services.AddRouting(options =>
             {

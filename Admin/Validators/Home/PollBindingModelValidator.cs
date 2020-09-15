@@ -11,7 +11,7 @@ namespace Presentation.Admin.Validators
             RuleFor(x => x.Name).MaximumLength(100);
             RuleFor(x => x.Panel).NotEmpty().MaximumLength(200);
             RuleFor(x => x.Origin).MaximumLength(200);
-            RuleFor(x => x.Date).NotEmpty();
+            RuleFor(x => x.PollDate).NotEmpty();
         }
     }
 }

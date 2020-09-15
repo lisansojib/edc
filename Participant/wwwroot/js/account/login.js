@@ -100,7 +100,7 @@
 
         axios.post('/api/auth/token', data)
             .then(function (response) {
-                localStorage.setItem("token", response.data);
+                localStorage.setItem("token", response.data.accessToken);
                 loginToApp(response.data);
             })
             .catch(function () {
