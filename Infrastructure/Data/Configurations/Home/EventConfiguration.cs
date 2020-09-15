@@ -18,7 +18,7 @@ namespace Infrastructure.Data.Configurations
 
             builder.Property(t => t.Description).HasMaxLength(1000);
 
-            builder.Property(t => t.Date).HasColumnType("datetime");
+            builder.Property(t => t.EventDate).HasColumnType("datetime");
 
             builder.Property(t => t.CreatedAt).HasColumnType("datetime");
 

@@ -29,8 +29,8 @@ namespace Infrastructure.Data.Config
             builder.Property(t => t.PhoneCorp).HasMaxLength(20);
             builder.Property(t => t.LinkedinUrl).HasMaxLength(250);
 
-            builder.HasAlternateKey(t => t.Username).HasName("UniqueKey_Username");
-            builder.HasAlternateKey(t => t.Email).HasName("UniqueKey_Email");
+            builder.HasAlternateKey(t => t.Username).HasName("UniqueKey_Participant_Username");
+            builder.HasAlternateKey(t => t.Email).HasName("UniqueKey_Participant_Email");
 
             builder.HasOne(t => t.Company)
                 .WithMany(t => t.Participants)

@@ -10,15 +10,16 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200915021257_PollsChanged")]
-    partial class PollsChanged
+    [Migration("20200915150530_001")]
+    partial class _001
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.7")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("ProductVersion", "3.1.8")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("ApplicationCore.Entities.Admin", b =>
                 {
@@ -30,7 +31,7 @@ namespace Infrastructure.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ActivationCode")
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("nvarchar(128)")
                         .HasMaxLength(128);
 
                     b.Property<bool>("Active")
@@ -47,35 +48,35 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("varchar(500)")
+                        .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("varchar(100)")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<string>("LastName")
-                        .HasColumnType("varchar(100)")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<string>("Mobile")
-                        .HasColumnType("varchar(20)")
+                        .HasColumnType("nvarchar(20)")
                         .HasMaxLength(20);
 
                     b.Property<string>("Password")
-                        .HasColumnType("varchar(100)")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<string>("Phone")
-                        .HasColumnType("varchar(20)")
+                        .HasColumnType("nvarchar(20)")
                         .HasMaxLength(20);
 
                     b.Property<string>("PhotoUrl")
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("nvarchar(128)")
                         .HasMaxLength(128);
 
                     b.Property<string>("Title")
-                        .HasColumnType("varchar(100)")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -83,7 +84,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("varchar(500)")
+                        .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
                     b.Property<bool>("Verified")
@@ -92,10 +93,10 @@ namespace Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasAlternateKey("Email")
-                        .HasName("UniqueKey_Email");
+                        .HasName("UniqueKey_Admin_Email");
 
                     b.HasAlternateKey("Username")
-                        .HasName("UniqueKey_Username");
+                        .HasName("UniqueKey_Admin_Username");
 
                     b.HasIndex("AdminLevelId");
 
@@ -113,7 +114,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<string>("CallAction")
                         .IsRequired()
-                        .HasColumnType("varchar(100)")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<DateTime>("CreatedAt")
@@ -123,7 +124,7 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .HasColumnType("varchar(1000)")
+                        .HasColumnType("nvarchar(1000)")
                         .HasMaxLength(1000);
 
                     b.Property<DateTime>("Expiration")
@@ -131,16 +132,16 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()
-                        .HasColumnType("varchar(250)")
+                        .HasColumnType("nvarchar(250)")
                         .HasMaxLength(250);
 
                     b.Property<string>("LinkUrl")
-                        .HasColumnType("varchar(500)")
+                        .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("varchar(100)")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -164,7 +165,7 @@ namespace Infrastructure.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Address")
-                        .HasColumnType("varchar(500)")
+                        .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
                     b.Property<DateTime>("CreatedAt")
@@ -175,11 +176,11 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("varchar(100)")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<string>("Phone")
-                        .HasColumnType("varchar(20)")
+                        .HasColumnType("nvarchar(20)")
                         .HasMaxLength(20);
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -204,7 +205,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("varchar(100)")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<int>("PollId")
@@ -239,12 +240,12 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("datetime");
 
                     b.Property<string>("Description")
-                        .HasColumnType("varchar(1000)")
+                        .HasColumnType("nvarchar(1000)")
                         .HasMaxLength(1000);
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("varchar(100)")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -286,7 +287,7 @@ namespace Infrastructure.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ActivationCode")
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("nvarchar(128)")
                         .HasMaxLength(128);
 
                     b.Property<bool>("Active")
@@ -303,45 +304,45 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("varchar(500)")
+                        .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
                     b.Property<string>("EmailCorp")
-                        .HasColumnType("varchar(500)")
+                        .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LinkedinUrl")
-                        .HasColumnType("varchar(250)")
+                        .HasColumnType("nvarchar(250)")
                         .HasMaxLength(250);
 
                     b.Property<string>("Mobile")
-                        .HasColumnType("varchar(20)")
+                        .HasColumnType("nvarchar(20)")
                         .HasMaxLength(20);
 
                     b.Property<string>("Password")
-                        .HasColumnType("varchar(100)")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<string>("Phone")
-                        .HasColumnType("varchar(20)")
+                        .HasColumnType("nvarchar(20)")
                         .HasMaxLength(20);
 
                     b.Property<string>("PhoneCorp")
-                        .HasColumnType("varchar(20)")
+                        .HasColumnType("nvarchar(20)")
                         .HasMaxLength(20);
 
                     b.Property<string>("PhotoUrl")
-                        .HasColumnType("varchar(128)")
+                        .HasColumnType("nvarchar(128)")
                         .HasMaxLength(128);
 
                     b.Property<string>("Title")
-                        .HasColumnType("varchar(100)")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -349,7 +350,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("varchar(500)")
+                        .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
                     b.Property<bool>("Verified")
@@ -358,10 +359,10 @@ namespace Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasAlternateKey("Email")
-                        .HasName("UniqueKey_Email");
+                        .HasName("UniqueKey_Participant_Email");
 
                     b.HasAlternateKey("Username")
-                        .HasName("UniqueKey_Username");
+                        .HasName("UniqueKey_Participant_Username");
 
                     b.HasIndex("CompanyId");
 
@@ -424,22 +425,22 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<string>("GraphType")
                         .IsRequired()
-                        .HasColumnType("varchar(100)")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("varchar(100)")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<string>("Origin")
                         .IsRequired()
-                        .HasColumnType("varchar(200)")
+                        .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
                     b.Property<string>("Panel")
                         .IsRequired()
-                        .HasColumnType("varchar(200)")
+                        .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -467,7 +468,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("varchar(100)")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.HasKey("Id");
@@ -494,7 +495,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("varchar(100)")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.HasKey("Id");
@@ -524,7 +525,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("varchar(100)")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -551,11 +552,11 @@ namespace Infrastructure.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
-                        .HasColumnType("varchar(200)")
+                        .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
                     b.Property<string>("Name")
-                        .HasColumnType("varchar(100)")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<int>("TypeId")
@@ -578,12 +579,12 @@ namespace Infrastructure.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
-                        .HasColumnType("varchar(200)")
+                        .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("varchar(100)")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.HasKey("Id");

@@ -18,7 +18,7 @@ namespace Infrastructure.Data.Configurations
 
             builder.Property(t => t.Name).IsRequired().HasMaxLength(100);
 
-            builder.Property(t => t.Date).HasColumnType("datetime");
+            builder.Property(t => t.PollDate).HasColumnType("datetime");
 
             builder.Property(t => t.Panel).IsRequired().HasMaxLength(200);
 

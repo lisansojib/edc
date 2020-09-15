@@ -27,8 +27,8 @@ namespace Infrastructure.Data.Config
             builder.Property(t => t.UpdatedAt).HasColumnType("datetime");
             builder.Property(t => t.DateSuspended).HasColumnType("datetime");
 
-            builder.HasAlternateKey(t => t.Username).HasName("UniqueKey_Username");
-            builder.HasAlternateKey(t => t.Email).HasName("UniqueKey_Email");
+            builder.HasAlternateKey(t => t.Username).HasName("UniqueKey_Admin_Username");
+            builder.HasAlternateKey(t => t.Email).HasName("UniqueKey_Admin_Email");
 
             builder.HasOne(t => t.AdminLevel)
                 .WithMany(t => t.Managements)

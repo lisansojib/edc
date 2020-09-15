@@ -1,10 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using MySql.Data.EntityFrameworkCore.Metadata;
 
 namespace Infrastructure.Data.Migrations
 {
-    public partial class TablesAdded : Migration
+    public partial class _001 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,11 +12,11 @@ namespace Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(maxLength: 100, nullable: false),
                     Description = table.Column<string>(maxLength: 1000, nullable: true),
                     CallAction = table.Column<string>(maxLength: 100, nullable: false),
-                    LinkUrl = table.Column<string>(maxLength: 500, nullable: false),
+                    LinkUrl = table.Column<string>(maxLength: 500, nullable: true),
                     ImageUrl = table.Column<string>(maxLength: 250, nullable: false),
                     Expiration = table.Column<DateTime>(type: "datetime", nullable: false),
                     CreatedBy = table.Column<int>(nullable: false),
@@ -31,11 +30,11 @@ namespace Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Companys",
+                name: "Companies",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
                     Address = table.Column<string>(maxLength: 500, nullable: true),
                     Phone = table.Column<string>(maxLength: 20, nullable: true),
@@ -46,7 +45,7 @@ namespace Infrastructure.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Companys", x => x.Id);
+                    table.PrimaryKey("PK_Companies", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -54,7 +53,7 @@ namespace Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(maxLength: 100, nullable: false),
                     Description = table.Column<string>(maxLength: 1000, nullable: true),
                     Date = table.Column<DateTime>(type: "datetime", nullable: false),
@@ -73,9 +72,9 @@ namespace Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     GraphType = table.Column<string>(maxLength: 100, nullable: false),
-                    Name = table.Column<string>(maxLength: 100, nullable: true),
+                    Name = table.Column<string>(maxLength: 100, nullable: false),
                     Date = table.Column<DateTime>(type: "datetime", nullable: false),
                     Panel = table.Column<string>(maxLength: 200, nullable: false),
                     Origin = table.Column<string>(maxLength: 200, nullable: false),
@@ -94,7 +93,7 @@ namespace Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
                     CreatedBy = table.Column<int>(nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false),
@@ -112,7 +111,7 @@ namespace Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
                     Description = table.Column<string>(maxLength: 200, nullable: true)
                 },
@@ -127,8 +126,10 @@ namespace Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Username = table.Column<string>(maxLength: 500, nullable: false),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
                     Email = table.Column<string>(maxLength: 500, nullable: false),
                     Password = table.Column<string>(maxLength: 100, nullable: true),
                     Verified = table.Column<bool>(nullable: false),
@@ -149,12 +150,12 @@ namespace Infrastructure.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Participants", x => x.Id);
-                    table.UniqueConstraint("UniqueKey_Email", x => x.Email);
-                    table.UniqueConstraint("UniqueKey_Username", x => x.Username);
+                    table.UniqueConstraint("UniqueKey_Participant_Email", x => x.Email);
+                    table.UniqueConstraint("UniqueKey_Participant_Username", x => x.Username);
                     table.ForeignKey(
                         name: "FK_Paticipant_Company",
                         column: x => x.CompanyId,
-                        principalTable: "Companys",
+                        principalTable: "Companies",
                         principalColumn: "Id");
                 });
 
@@ -163,7 +164,7 @@ namespace Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     EventId = table.Column<int>(nullable: false),
                     Name = table.Column<string>(maxLength: 100, nullable: false)
                 },
@@ -184,7 +185,7 @@ namespace Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     EventId = table.Column<int>(nullable: false),
                     Name = table.Column<string>(maxLength: 100, nullable: false)
                 },
@@ -205,7 +206,7 @@ namespace Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     PollId = table.Column<int>(nullable: false),
                     Name = table.Column<string>(maxLength: 100, nullable: false)
                 },
@@ -226,7 +227,7 @@ namespace Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(maxLength: 100, nullable: true),
                     Description = table.Column<string>(maxLength: 200, nullable: true),
                     TypeId = table.Column<int>(nullable: false)
@@ -246,7 +247,7 @@ namespace Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     TeamMemberId = table.Column<int>(nullable: false),
                     TeamId = table.Column<int>(nullable: false),
                     CreatedBy = table.Column<int>(nullable: false),
@@ -270,12 +271,14 @@ namespace Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Managements",
+                name: "Admins",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Username = table.Column<string>(maxLength: 500, nullable: false),
+                    FirstName = table.Column<string>(maxLength: 100, nullable: true),
+                    LastName = table.Column<string>(maxLength: 100, nullable: true),
                     Email = table.Column<string>(maxLength: 500, nullable: false),
                     Password = table.Column<string>(maxLength: 100, nullable: true),
                     Verified = table.Column<bool>(nullable: false),
@@ -292,9 +295,9 @@ namespace Infrastructure.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Managements", x => x.Id);
-                    table.UniqueConstraint("UniqueKey_Email", x => x.Email);
-                    table.UniqueConstraint("UniqueKey_Username", x => x.Username);
+                    table.PrimaryKey("PK_Admins", x => x.Id);
+                    table.UniqueConstraint("UniqueKey_Admin_Email", x => x.Email);
+                    table.UniqueConstraint("UniqueKey_Admin_Username", x => x.Username);
                     table.ForeignKey(
                         name: "FK_Management_AdminLevel",
                         column: x => x.AdminLevelId,
@@ -302,15 +305,45 @@ namespace Infrastructure.Data.Migrations
                         principalColumn: "Id");
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ExternalLogins",
+                columns: table => new
+                {
+                    LoginProvider = table.Column<string>(type: "varchar(100)", nullable: false),
+                    ProviderKey = table.Column<string>(type: "varchar(128)", nullable: false),
+                    UserId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ExternalLogins", x => new { x.LoginProvider, x.ProviderKey, x.UserId });
+                    table.ForeignKey(
+                        name: "FK_ExternalLogin_Management",
+                        column: x => x.UserId,
+                        principalTable: "Admins",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ExternalLogin_Participant",
+                        column: x => x.UserId,
+                        principalTable: "Participants",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Admins_AdminLevelId",
+                table: "Admins",
+                column: "AdminLevelId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_DataPoints_PollId",
                 table: "DataPoints",
                 column: "PollId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Managements_AdminLevelId",
-                table: "Managements",
-                column: "AdminLevelId");
+                name: "IX_ExternalLogins_UserId",
+                table: "ExternalLogins",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Participants_CompanyId",
@@ -341,34 +374,10 @@ namespace Infrastructure.Data.Migrations
                 name: "IX_ValueFields_TypeId",
                 table: "ValueFields",
                 column: "TypeId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_ExternalLogin_Management",
-                table: "ExternalLogins",
-                column: "UserId",
-                principalTable: "Managements",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_ExternalLogin_Participant",
-                table: "ExternalLogins",
-                column: "UserId",
-                principalTable: "Participants",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_ExternalLogin_Management",
-                table: "ExternalLogins");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_ExternalLogin_Participant",
-                table: "ExternalLogins");
-
             migrationBuilder.DropTable(
                 name: "Announcements");
 
@@ -376,7 +385,7 @@ namespace Infrastructure.Data.Migrations
                 name: "DataPoints");
 
             migrationBuilder.DropTable(
-                name: "Managements");
+                name: "ExternalLogins");
 
             migrationBuilder.DropTable(
                 name: "ParticipantTeams");
@@ -391,7 +400,7 @@ namespace Infrastructure.Data.Migrations
                 name: "Polls");
 
             migrationBuilder.DropTable(
-                name: "ValueFields");
+                name: "Admins");
 
             migrationBuilder.DropTable(
                 name: "Teams");
@@ -403,42 +412,13 @@ namespace Infrastructure.Data.Migrations
                 name: "Events");
 
             migrationBuilder.DropTable(
-                name: "ValueFieldTypes");
+                name: "ValueFields");
 
             migrationBuilder.DropTable(
-                name: "Companys");
+                name: "Companies");
 
-            migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    ActivationCode = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    Active = table.Column<short>(type: "bit", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false),
-                    Email = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false),
-                    Password = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true),
-                    PhotoUrl = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true),
-                    Role = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: true),
-                    Username = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false),
-                    Verified = table.Column<short>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.Id);
-                    table.UniqueConstraint("UniqueKey_Email", x => x.Email);
-                    table.UniqueConstraint("UniqueKey_Username", x => x.Username);
-                });
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_UserLogins_User",
-                table: "ExternalLogins",
-                column: "UserId",
-                principalTable: "Users",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+            migrationBuilder.DropTable(
+                name: "ValueFieldTypes");
         }
     }
 }

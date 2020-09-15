@@ -6,9 +6,8 @@ namespace Infrastructure
 {
     public class AppDbContext : DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
-            optionsBuilder.UseMySQL("server=35.194.64.93;user=videostreamuser;password=streamingThatU$er9oodness;database=edcdb;"); //"server=localhost;user=root;password=Aa12345^;database=edcdb;"
         }
 
         #region Home

@@ -14,15 +14,18 @@ namespace Infrastructure.Data.Configurations
 
             builder.Property(t => t.Id).UseIdentityColumn();
 
-            builder.Property(t => t.Name).HasMaxLength(100);
-
-            builder.HasAlternateKey(t => t.Name).HasName("UniqueKey_SponsorName");
-
             builder
                 .HasOne(t => t.Event)
                 .WithMany(t => t.Sponsors)
                 .HasForeignKey(t => t.EventId)
                 .HasConstraintName("FK_Sponsor_Event")
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder
+                .HasOne(t => t.ValueField)
+                .WithMany(t => t.Sponsors)
+                .HasForeignKey(t => t.SponsorId)
+                .HasConstraintName("FK_Sponsor_ValueField")
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

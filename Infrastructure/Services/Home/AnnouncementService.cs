@@ -25,7 +25,7 @@ namespace Infrastructure.Services
                 filterBy = "";
 
             orderBy = string.IsNullOrEmpty(orderBy) ? "order by Title desc" : orderBy;
-            var pageBy = $@"limit {limit} offset {offset}";
+            var pageBy = $@"Offset {offset} Rows Fetch Next {limit} Rows Only";
 
             var query = $@"
                 select Id, Title, Description, CallAction, LinkUrl, ImageUrl, Expiration

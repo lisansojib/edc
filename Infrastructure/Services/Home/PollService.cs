@@ -20,18 +20,18 @@ namespace Infrastructure.Services
         {
             if (filterBy.NotNullOrEmpty())
                 filterBy = $@"where GraphType like '%{filterBy}%' or Name like '%{filterBy}%' or Panel like '%{filterBy}%'
-                            or Origin like '%{filterBy}%' or Date like '{filterBy}%'";
+                            or Origin like '%{filterBy}%' or PollDate like '{filterBy}%'";
             else
                 filterBy = "";
 
             orderBy = string.IsNullOrEmpty(orderBy) ? "order by Title desc" : orderBy;
-            var pageBy = $@"limit {limit} offset {offset}";
+            var pageBy = $@"Offset {offset} Rows Fetch Next {limit} Rows Only";
 
             var query = $@"
-                select Id, GraphType, Name, Panel, Origin, Date
+                select Id, GraphType, Name, Panel, Origin, PollDate
                 from Polls
                 {filterBy}
-                Group By Id, Id, GraphType, Name, Panel, Origin, Date
+                Group By Id, Id, GraphType, Name, Panel, Origin, PollDate
                 {orderBy}
                 {pageBy}";
 
