@@ -69,6 +69,7 @@ namespace Admin
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IAnnouncementService, AnnouncementService>();
             services.AddScoped<IEventService, EventService>();
+            services.AddScoped<IPollService, PollService>();
 
             services.AddScoped<IDeSerializeJwtToken, DeSerializeJwtToken>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();

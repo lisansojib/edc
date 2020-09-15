@@ -6,7 +6,12 @@ var appConstants = Object.freeze({
     RECOVER_REDIRECT_PATH: "/account/recovery-successful",
     RESET_REDIRECT_PATH: "/account/login",
     LOGOUT_REDIRECT_PATH: "/account/login",
-    SAVE_AD_REDIRECT_PATH: "/my-account/ticket-save-success"
+    SAVE_AD_REDIRECT_PATH: "/my-account/ticket-save-success",
+    ITEM_DELETED_SUCCESSFULLY: "Item deleted successfully!",
+    USER_PASSWORD_CHANGED_SUCCESSFULLY: "User password changed successfully!",
+    CREDENTIALS_EMAILED_SUCCESSFULLY: "User credentials sent via eamil.",
+    FORGOT_PASSWORD_SUCCESS: "An email is sent with reset password link. Please check your email.",
+    RESET_PASSWORD_SUCCESS: "Password reset successful. Please login."
 });
 
 var loginProviders = Object.freeze({
@@ -25,6 +30,11 @@ $(function () {
 
     if (localStorage.getItem("token")) {
         axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem("token");
+    }
+
+    // Extend Bootstrap-table clear search button icon
+    if ($.fn.bootstrapTable) {
+        $.extend($.fn.bootstrapTable.defaults.icons, { clearSearch: 'fa-refresh' });
     }
 
     loadProgressBar();

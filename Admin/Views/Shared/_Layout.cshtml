@@ -6,7 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@ViewData["Title"] | EDC Portal</title>
 
-    <link rel="stylesheet" href="~/css/admin.min.css"/>
+    <link rel="stylesheet" href="~/css/admin.min.css" />
+    <link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
 </head>
 <body>
     <div class="main-wrapper">
@@ -34,26 +35,26 @@
                     </li>
                     <li class="nav-item nav-category">Setup pages</li>
                     <li class="nav-item">
-                        <a href="" class="nav-link">
-                            <i class="link-icon" data-feather="bell"></i>
+                        <a href="/admin/events" class="nav-link">
+                            <i class="link-icon" data-feather="calendar"></i>
                             <span class="link-title">Upcoming Events</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="" class="nav-link">
+                        <a href="/admin/teams" class="nav-link">
                             <i class="link-icon" data-feather="users"></i>
                             <span class="link-title">Teams</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="" class="nav-link">
+                        <a href="/admin/polls" class="nav-link">
                             <i class="link-icon" data-feather="message-square"></i>
                             <span class="link-title">Polls</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="" class="nav-link">
-                            <i class="link-icon" data-feather="calendar"></i>
+                        <a href="/admin/announcements" class="nav-link">
+                            <i class="link-icon" data-feather="bell"></i>
                             <span class="link-title">Anouncements</span>
                         </a>
                     </li>
@@ -322,7 +323,7 @@
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="javascript:;" class="nav-link">
+                                            <a href="javascript:;" id="btnLogout" class="nav-link">
                                                 <i data-feather="log-out"></i>
                                                 <span>Log Out</span>
                                             </a>

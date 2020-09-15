@@ -8,7 +8,7 @@ namespace Infrastructure
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySQL("server=localhost;user=root;password=Aa12345^;database=edcdb;");
+            optionsBuilder.UseMySQL("server=35.194.64.93;user=videostreamuser;password=streamingThatU$er9oodness;database=edcdb;"); //"server=localhost;user=root;password=Aa12345^;database=edcdb;"
         }
 
         #region Home

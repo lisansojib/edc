@@ -17,6 +17,10 @@ namespace Presentation.Admin.Automapping
             CreateMap<Event, EventDTO>();
 
             CreateMap<EventBindingModel, Event>();
+
+            CreateMap<Poll, PollDTO>();
+
+            CreateMap<PollBindingModel, Poll>();
         }
     }
 }

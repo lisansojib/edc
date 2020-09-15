@@ -6,6 +6,8 @@
       "wwwroot/nobleui/assets/fonts/feather-font/css/iconfont.css",
       "wwwroot/nobleui/assets/vendors/flag-icon-css/css/flag-icon.min.css",
       "wwwroot/nobleui/assets/vendors/mdi/css/materialdesignicons.min.css",
+      "wwwroot/lib/bootstrap-table/bootstrap-table.min.css",
+      "wwwroot/lib/bootstrap-table/extensions/filter-control/bootstrap-table-filter-control.min.css",
       "wwwroot/nobleui/assets/css/demo_1/style.css",
       "wwwroot/lib/toastr.js/toastr.min.css"
     ]
@@ -16,6 +18,7 @@
       "wwwroot/nobleui/assets/vendors/core/core.css",
       "wwwroot/nobleui/assets/fonts/feather-font/css/iconfont.css",
       "wwwroot/nobleui/assets/vendors/flag-icon-css/css/flag-icon.min.css",
+
       "wwwroot/nobleui/assets/css/demo_1/style.css",
       "wwwroot/lib/toastr.js/toastr.min.css"
     ]
@@ -43,8 +46,12 @@
       "wwwroot/nobleui/assets/vendors/feather-icons/feather.min.js",
       "wwwroot/lib/axios/axios.min.js",
       "wwwroot/lib/axios-progress-bar/dist/index.min.js",
+      "wwwroot/lib/moment.js/moment.min.js",
+      "wwwroot/lib/bootbox.js/bootbox.min.js",
       "wwwroot/lib/validate.js/validate.min.js",
       "wwwroot/lib/toastr.js/toastr.min.js",
+      "wwwroot/lib/bootstrap-table/bootstrap-table.min.js",
+      "wwwroot/lib/bootstrap-table/extensions/filter-control/bootstrap-table-filter-control.min.js",
       "wwwroot/nobleui/assets/js/template.js",
       "wwwroot/js/utilities.js",
       "wwwroot/js/site.js"

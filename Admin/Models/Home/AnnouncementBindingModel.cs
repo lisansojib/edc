@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 
 namespace Presentation.Admin.Models
 {
@@ -10,5 +11,6 @@ namespace Presentation.Admin.Models
         public string LinkUrl { get; set; }
         public string ImageUrl { get; set; }
         public DateTime Expiration { get; set; }
+        public IFormFile Photo { get; set; }
     }
 }

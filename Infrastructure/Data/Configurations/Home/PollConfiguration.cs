@@ -16,7 +16,7 @@ namespace Infrastructure.Data.Configurations
 
             builder.Property(t => t.GraphType).IsRequired().HasMaxLength(100);
 
-            builder.Property(t => t.Name).HasMaxLength(100);
+            builder.Property(t => t.Name).IsRequired().HasMaxLength(100);
 
             builder.Property(t => t.Date).HasColumnType("datetime");
 

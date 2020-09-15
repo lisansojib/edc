@@ -17,14 +17,14 @@ namespace Presentation.Admin.Controllers.Api
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
-    public class AnnouncementsController : ApiBaseController
+    public class PollsController : ApiBaseController
     {
-        private readonly IAnnouncementService _service;
-        private readonly IEfRepository<Announcement> _repository;
+        private readonly IPollService _service;
+        private readonly IEfRepository<Poll> _repository;
         private readonly IMapper _mapper;
 
-        public AnnouncementsController(IAnnouncementService service
-            , IEfRepository<Announcement> repository
+        public PollsController(IPollService service
+            , IEfRepository<Poll> repository
             , IMapper mapper)
         {
             _service = service;
@@ -50,17 +50,16 @@ namespace Presentation.Admin.Controllers.Api
 
             if (entity == null) return BadRequest(new BadRequestResponseModel(ErrorTypes.BadRequest, ErrorMessages.ItemNotFound));
 
-            var record = _mapper.Map<AnnouncementDTO>(entity);
+            var record = _mapper.Map<PollDTO>(entity);
 
             return Ok(record);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] AnnouncementBindingModel model)
+        public async Task<IActionResult> Create([FromBody] PollBindingModel model)
         {
-            var entity = _mapper.Map<Announcement>(model);
+            var entity = _mapper.Map<Poll>(model);
             entity.CreatedBy = UserId;
-            entity.ImageUrl = "";
 
             await _repository.AddAsync(entity);
 
@@ -68,17 +67,17 @@ namespace Presentation.Admin.Controllers.Api
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] AnnouncementBindingModel model)
+        public async Task<IActionResult> Update([FromBody] PollBindingModel model)
         {
             var entity = await _repository.FindAsync(model.Id);
 
             if (entity == null) return BadRequest(new BadRequestResponseModel(ErrorTypes.BadRequest, ErrorMessages.ItemNotFound));
 
-            entity.Title = model.Title;
-            entity.Description = model.Description;
-            entity.CallAction = model.CallAction;
-            entity.LinkUrl = model.LinkUrl;
-            entity.Expiration = model.Expiration;
+            entity.GraphType = model.GraphType;
+            entity.Name = model.Name;
+            entity.Date = model.Date;
+            entity.Panel = model.Panel;
+            entity.Origin = model.Origin;
             entity.UpdatedAt = DateTime.Now;
             entity.UpdatedBy = UserId;
 
