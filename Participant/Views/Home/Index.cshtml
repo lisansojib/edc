@@ -2,7 +2,62 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row">
+    <div class="col-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                    <h6 class="card-title mb-0">Upcoming Events</h6>
+                </div>
+                <div class="table-responsive">
+                    <table id="tblEvents" class="table table-hover mb-0"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                    <h6 class="card-title mb-0">Your Teams</h6>
+                </div>
+                <div class="table-responsive">
+                    <table id="tblTeams" class="table table-hover mb-0"></table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<div class="row">
+    <div class="col-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                    <h6 class="card-title mb-0">Recent Polls</h6>
+                </div>
+                <div class="table-responsive">
+                    <table id="tblPolls" class="table table-hover mb-0"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                    <h6 class="card-title mb-0">Announcements</h6>
+                </div>
+                <div class="table-responsive">
+                    <table id="tblAnnouncements" class="table table-hover mb-0"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{ 
+    <script src="~/js/portal/home.js" asp-append-version="true"></script>
+}

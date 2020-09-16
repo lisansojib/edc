@@ -27,6 +27,11 @@ $(function () {
         axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem("token");
     }
 
+    // Extend Bootstrap-table clear search button icon
+    if ($.fn.bootstrapTable) {
+        $.extend($.fn.bootstrapTable.defaults.icons, { clearSearch: 'fa-refresh' });
+    }
+
     loadProgressBar();
 
     $("#btnLogout").click(logout);

@@ -1,76 +1,105 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - </title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>@ViewBag.Title | EDC Portal</title>
 
-    <link href="~/App_Themes/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/App_Themes/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
-    <link href="~/App_Themes/lib/toastr.js/toastr.css" rel="stylesheet" />
-    <link href="~/App_Themes/lib/axios-progress-bar/dist/nprogress.min.css" rel="stylesheet" />
-    <link href="~/App_Themes/lib/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet" />
-    <link href="~/App_Themes/lib/select2/css/select2.min.css" rel="stylesheet" />
-    <link href="~/App_Themes/lib/select2-bootstrap-theme/select2-bootstrap.min.css" rel="stylesheet" />
-    <link href="~/App_Themes/css/site.css" rel="stylesheet" />
+    <link href="~/css/portal.min.css" rel="stylesheet" />
+    <link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+
+    @RenderSection("Styles", false)
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" href="/"></a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <partial name="_LoginPartial" />
-                    <ul class="navbar-nav flex-grow-1">
+    <div class="main-wrapper">
+        <div class="horizontal-menu">
+            <nav class="navbar top-navbar">
+                <div class="container">
+                    <div class="navbar-content">
+                        <a href="#" class="navbar-brand">
+                            EDC<span>&nbsp;Portal</span>
+                        </a>
+                        <ul class="navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="flag-icon flag-icon-us mt-1" title="us"></i> <span class="font-weight-medium ml-1 mr-1 d-none d-md-inline-block">English</span>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="languageDropdown">
+                                    <a href="javascript:;" class="dropdown-item py-2"><i class="flag-icon flag-icon-us" title="us" id="us"></i> <span class="ml-1"> English </span></a>
+                                    <a href="javascript:;" class="dropdown-item py-2"><i class="flag-icon flag-icon-fr" title="fr" id="fr"></i> <span class="ml-1"> French </span></a>
+                                    <a href="javascript:;" class="dropdown-item py-2"><i class="flag-icon flag-icon-de" title="de" id="de"></i> <span class="ml-1"> German </span></a>
+                                    <a href="javascript:;" class="dropdown-item py-2"><i class="flag-icon flag-icon-pt" title="pt" id="pt"></i> <span class="ml-1"> Portuguese </span></a>
+                                    <a href="javascript:;" class="dropdown-item py-2"><i class="flag-icon flag-icon-es" title="es" id="es"></i> <span class="ml-1"> Spanish </span></a>
+                                </div>
+                            </li>
+                            <partial name="_LoginPartial"/>
+                        </ul>
+                        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="horizontal-menu-toggle">
+                            <i data-feather="menu"></i>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+            <nav class="bottom-navbar">
+                <div class="container">
+                    <ul class="nav page-navigation">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" href="/">Home</a>
+                            <a class="nav-link" href="/">
+                                <i class="link-icon" data-feather="home"></i>
+                                <span class="menu-title">Home</span>
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" href="/Home/Privacy">Privacy</a>
+                            <a href="#" class="nav-link">
+                                <i class="link-icon" data-feather="box"></i>
+                                <span class="menu-title">Apps</span>
+                                <i class="link-arrow"></i>
+                            </a>
+                            <div class="submenu">
+                                <ul class="submenu-item">
+                                    <li class="nav-item"><a class="nav-link" href="#">Chat</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#">Calendar</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/home/faq" class="nav-link">
+                                <i class="link-icon" data-feather="book"></i>
+                                <span class="menu-title">Faq</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/home/faq" class="nav-link">
+                                <i class="link-icon" data-feather="book"></i>
+                                <span class="menu-title">Privacy</span>
+                            </a>
                         </li>
                     </ul>
                 </div>
-            </div>
-        </nav>
-    </header>
+            </nav>
+        </div>
+        <!-- partial -->
 
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+        <div class="page-wrapper">
+
+            <div class="page-content">
+                @RenderBody()
+            </div>
+
+            <!-- partial:../../partials/_footer.html -->
+            <footer class="footer d-flex flex-column flex-md-row align-items-center justify-content-between">
+                <p class="text-muted text-center text-md-left">Copyright © 2020 <a href="/" target="_blank">EDC Portal</a>. All rights reserved</p>
+                <p class="text-muted text-center text-md-left mb-0 d-none d-md-block">Handcrafted With <i class="mb-1 text-primary ml-1 icon-small" data-feather="heart"></i></p>
+            </footer>
+            <!-- partial -->
+
+        </div>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2020 - PubNubChat - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+    <script src="~/nobleui/assets/vendors/core/core.js"></script>
+    <script src="~/js/portal.min.js"></script>
 
-    @*<script src="~/App_Themes/lib/jquery/dist/jquery.min.js"></script>*@
-    <script src="~/App_Themes/lib/babel-polyfill/polyfill.min.js"></script>
-    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
-    <script src="~/App_Themes/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/App_Themes/lib/toastr.js/toastr.min.js"></script>
-    <script src="~/App_Themes/lib/axios/axios.min.js"></script>
-    <script src="~/App_Themes/lib/axios-progress-bar/dist/index.min.js"></script>
-    <script src="~/App_Themes/lib/validate.js/validate.min.js"></script>
-    <script src="~/App_Themes/lib/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
-    <script src="~/App_Themes/lib/bootbox.js/bootbox.min.js"></script>
-    <script src="~/App_Themes/lib/select2/js/select2.min.js"></script>
-    <script src="~/App_Themes/lib/validate.js/validate.min.js"></script>
-    <script src="~/App_Themes/lib/jquery.idle/jquery.idle.min.js"></script>
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <script src="~/App_Themes/lib/underscore.js/underscore.min.js"></script>
-    <script src="~/App_Themes/lib/moment.js/moment.min.js"></script>
-
-    <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
-    <script src="~/signalr/hubs"></script>
-
-    <script src="~/App_Themes/js/utilities.js?version=@DateTime.Now.Ticks"></script>
-    <script src="~/App_Themes/js/site.js?version=@DateTime.Now.Ticks"></script>
-    @RenderSection("scripts", required: false)
+    @RenderSection("scripts", false)
 </body>
 </html>

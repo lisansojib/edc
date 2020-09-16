@@ -142,43 +142,49 @@ function formDataToJson($formEl) {
  * @param {any} $formEl - Form Element
  * @param {any} data - data object
  */
-function setFormData($formEl, data) {
+function setFormData($formEl, data, allowTagging = false) {
     if (!data && ! typeof data === 'object') {
         console.error("Your data is not valid.");
         return;
     }
 
     try {
-        $formEl.find("input, select").each(function () {
+        $formEl.find("input, select, textarea").each(function () {
             try {
                 var $input = $(this);
                 var value = data[$input.attr('name')];
-                if (!value) return;
+                //if (!value) return;
 
-                switch ($input.attr('type')) {
-                    case "checkbox":
-                        $input.prop("checked", value);
-                        break;
-                    case "radio":
-                        $input.each(function (i) {
-                            if ($(this).val() == value) $(this).attr({
-                                checked: true
-                            })
-                        });
-                        break;
-                    case undefined:
-                        if ($input.hasClass("select2-hidden-accessible")) {
-                            var optionListName = $input[0].multiple ? $input.attr('name').replace("Ids", '') : $input.attr('name').replace("Id", '');
-                            optionListName += "List";
-                            initSelect2($input, data[optionListName]);
-                            $input.val(value).trigger("change");
-                        }
-                        break;
-                    case "file":
-                        break;
-                    default:
-                        $input.val(value);
-                        break;
+                if (this.tagName.toLowerCase() === "textarea") {
+                    $input.val(value);
+                }
+                else if (this.tagName.toLowerCase() === "input") {
+                    switch ($input.attr('type')) {
+                        case "checkbox":
+                            $input.prop("checked", value);
+                            break;
+                        case "radio":
+                            $input.each(function (i) {
+                                if ($(this).val() == value) $(this).attr({
+                                    checked: true
+                                })
+                            });
+                            break;
+                        case "date":
+                            $input.val(formatDate(value));
+                            break;
+                        case "file":
+                            break;
+                        default:
+                            $input.val(value);
+                            break;
+                    }
+                }
+                else if (this.tagName.toLowerCase() === "select") {
+                    var optionListName = $input[0].multiple ? $input.attr('name').replace("Ids", '') : $input.attr('name').replace("Id", '');
+                    optionListName += "List";
+                    initSelect2($input, data[optionListName], true, "Select Item", true, allowTagging);
+                    $input.val(value).trigger("change");
                 }
             } catch (e) {
                 console.error(e);
@@ -257,8 +263,7 @@ function isChecked(el) {
  * @param {String} Placeholder
  * @param {Boolean} Show Default Option
  */
-function initSelect2($el, data, allowClear = true, placeholder = "Select a Value", showDefaultOption = true) {
-    debugger;
+function initSelect2($el, data, allowClear = true, placeholder = "Select a Value", showDefaultOption = true, allowTagging = false) {
     if (showDefaultOption)
         data.unshift({ id: '', text: '' });
 
@@ -266,7 +271,8 @@ function initSelect2($el, data, allowClear = true, placeholder = "Select a Value
         'data': data,
         'allowClear': allowClear,
         'placeholder': placeholder,
-        'theme': "bootstrap"
+        'theme': "bootstrap",
+        'tags': allowTagging
     });
 }
 
@@ -304,20 +310,124 @@ function resetLoadingButton($buttonEl, originalText) {
     $buttonEl.prop("disabled", false);
 }
 
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
+/**
+ * Get Day, Month, Year
+ * @param {any} date - Date object
+ */
+function getDayMonthYear(date) {
+    var formattedDate = formatDateToDDMMMMYYYY(date);
+    var dArray = formattedDate.split(' ');
+    return { day: dArray[0], month: dArray[1], year: dArray[2] };
+}
+
+/**
+ * Format Date like (Jan 17, 2021)
+ * @param {any} date - Date Object
+ */
+function formatDateToMMMDDYYYY(date) {
+    if (!date) return "";
+    return moment(date).format("MMM DD, YYYY");
+}
+
+/**
+ * Format Date like (26 August 2021)
+ * @param {any} date - Date Object
+ */
+function formatDateToDDMMMMYYYY(date) {
+    if (!date) return "";
+    return moment(date).format("DD MMMM YYYY");
+}
+
+/**
+ * Format Date like (1st January 2020)
+ * @param {any} date - Date Object
+ */
+function formatDateToDoMMMMYYYY(date) {
+    if (!date) return "";
+    return moment(date).format("Do MMMM YYYY");
+}
+
+/**
+ * Format date like (1 Jan 2020)
+ * @param {any} date
+ */
+function formatDateToDMMMYYYY(date) {
+    if (!date) return "";
+    return moment(date).format("D MMM YYYY");
+}
+
+function formatDateToMMMMDoYYYY(date) {
+    if (!date) return "";
+    return moment(date).format("MMMM, Do, YYYY");
+}
+
+/**
+ * Format date like (9:00 AM 1 Jan 2020)
+ * @param {any} date
+ */
+function formatDateToHHMMADMMMYYYY(date) {
+    if (!date) return "";
+    return moment(date).format("hh:mm A D MMM YYYY");
+}
+
 /**
  * Format date like (7:00 AM)
  * @param {any} date
  */
 function formatDateTohhmmA(date) {
+    if (!date) return "";
     return moment(date).format("hh:mm A");
 }
 
+/**
+ * Format date like (01/01/2020)
+ * @param {any} date
+ */
+function formatDateToDDMMYYYY(date) {
+    if (!date) return "";
+    return moment(date).format("DD/MM/YYYY");
+}
+
+/**
+ * Format date like (19:20)
+ * @param {any} date - Date Object
+ */
+function formatDateToHHmm(date) {
+    if (!date) return "";
+    return moment(date).format("HH:mm")
+}
+
+/**
+ * Get day of week like Monday, Sunday from date
+ * @param {any} data
+ */
+function getDayofWeek(date) {
+    if (!date) return "";
+    return moment(date).format("dddd");
+}
+
 function getChatDate(date) {
+    if (!date) return "";
     return moment(date).format("MMM DD");
 }
 
 function getChatTime(date) {
-    if (!date) date = new moment();
+    if (!date) return "";
+
     var today = new moment();
     var diff = today.diff(date, "days");
 
@@ -333,7 +443,6 @@ function getChatTime(date) {
 
     return `${timePart} | ${datePart}`;
 }
-
 
 function showValidationToast(errorObj) {
     var messages = "";

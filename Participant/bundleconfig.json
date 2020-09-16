@@ -2,7 +2,7 @@
   {
     "outputFileName": "wwwroot/css/auth.min.css",
     "inputFiles": [
-      "wwwroot/lib/bootstrap/dist/js/bootstrap.min.css",
+      "wwwroot/nobleui/assets/vendors/core/core.css",
       "wwwroot/nobleui/assets/fonts/feather-font/css/iconfont.css",
       "wwwroot/nobleui/assets/vendors/flag-icon-css/css/flag-icon.min.css",
       "wwwroot/nobleui/assets/vendors/mdi/css/materialdesignicons.min.css",
@@ -16,14 +16,42 @@
     "outputFileName": "wwwroot/js/auth.min.js",
     "inputFiles": [
       "wwwroot/lib/babel-polyfill/polyfill.min.js",
-      "wwwroot/lib/jquery/dist/jquery.min.js",
-      "wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js",
       "wwwroot/nobleui/assets/vendors/feather-icons/feather.min.js",
       "wwwroot/lib/axios/axios.min.js",
       "wwwroot/lib/axios-progress-bar/dist/index.min.js",
       "wwwroot/lib/validate.js/validate.min.js",
       "wwwroot/lib/select2/js/select2.min.js",
       "wwwroot/lib/toastr.js/toastr.min.js",
+      "wwwroot/nobleui/assets/js/template.js",
+      "wwwroot/js/utilities.js",
+      "wwwroot/js/site.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/portal.min.css",
+    "inputFiles": [
+      "wwwroot/nobleui/assets/vendors/core/core.css",
+      "wwwroot/nobleui/assets/fonts/feather-font/css/iconfont.css",
+      "wwwroot/nobleui/assets/vendors/flag-icon-css/css/flag-icon.min.css",
+      "wwwroot/lib/bootstrap-table/bootstrap-table.min.css",
+      "wwwroot/lib/toastr.js/toastr.min.css",
+      "wwwroot/lib/axios-progress-bar/dist/nprogress.min.css",
+      "wwwroot/nobleui/assets/css/demo_5/style.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/portal.min.js",
+    "inputFiles": [
+      "wwwroot/lib/babel-polyfill/polyfill.min.js",
+      "wwwroot/nobleui/assets/vendors/feather-icons/feather.min.js",
+      "wwwroot/lib/axios/axios.min.js",
+      "wwwroot/lib/axios-progress-bar/dist/index.min.js",
+      "wwwroot/lib/moment.js/moment.min.js",
+      "wwwroot/lib/bootbox.js/bootbox.min.js",
+      "wwwroot/lib/validate.js/validate.min.js",
+      "wwwroot/lib/toastr.js/toastr.min.js",
+      "wwwroot/lib/bootstrap-table/bootstrap-table.min.js",
+      "wwwroot/lib/bootstrap-table/extensions/filter-control/bootstrap-table-filter-control.min.js",
       "wwwroot/nobleui/assets/js/template.js",
       "wwwroot/js/utilities.js",
       "wwwroot/js/site.js"
