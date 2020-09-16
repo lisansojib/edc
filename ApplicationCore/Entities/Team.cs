@@ -8,9 +8,11 @@ namespace ApplicationCore.Entities
         public Team()
         {
             ParticipantTeams = new List<ParticipantTeam>();
+            CreatedAt = DateTime.Now;
         }
 
         public string Name { get; set; }
+        public string Description { get; set; }
         public int CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
         public int? UpdatedBy { get; set; }

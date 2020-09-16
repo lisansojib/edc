@@ -89,6 +89,7 @@ namespace Admin
             services.AddScoped<IPasswordHasher, PasswordHasher>();
             services.AddScoped<ITokenBuilder, TokenBuilder>();
             services.AddScoped<IEventValueFieldsService, EventValueFieldsService>();
+            services.AddScoped<ITeamService, TeamService>();
 
             services.AddRouting(options =>
             {

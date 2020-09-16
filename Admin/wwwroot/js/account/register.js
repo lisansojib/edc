@@ -25,9 +25,9 @@
 
         axios.post('/api/auth/register', data)
             .then(function () {
+                resetLoadingButton(thisBtn, originalText);
                 localStorage.setItem("token", response.data.accessToken);
                 loginToApp(response.data);
-                resetLoadingButton(thisBtn, originalText);
             })
             .catch(function (err) {
                 resetLoadingButton(thisBtn, originalText);
@@ -85,12 +85,10 @@
     function externalLogin(model) {
         axios.post('/api/auth/externallogin', model)
             .then(function (response) {
-                resetLoadingButton(thisBtn, thisBtnText);
                 localStorage.setItem("token", response.data.accessToken);
                 loginToApp(response.data);
             })
             .catch(function (err) {
-                resetLoadingButton(thisBtn, thisBtnText);
                 toastr.error(JSON.stringify(err.response.data.errors));
             });
     }

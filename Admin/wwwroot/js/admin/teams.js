@@ -2,27 +2,21 @@
     var $table, $formEl;
 
     var validationConstraints = {
-        title: {
+        name: {
             presence: true,
             length: {
                 maximum: 100
             }
         },
-        speakers: {
+        participants: {
             presence: true
-        },
-        sponsors: {
-            presence: true
-        },
-        eventDate: {
-            presence: true,
         }
     };
 
     var tableParams = {
         offset: 0,
         limit: 10,
-        sort: 'title',
+        sort: 'name',
         order: '',
         filter: ''
     };
@@ -33,11 +27,11 @@
         initTbl();
         loadTableData();
 
-        $formEl = $("#event-form");
+        $formEl = $("#team-form");
 
-        $("#add-new-event").click(getNew);
+        $("#add-new-team").click(getNew);
 
-        $("#btn-save-event").click(save);
+        $("#btn-save-team").click(save);
     });
 
     function initTbl() {
@@ -61,10 +55,10 @@
                     width: 125,
                     formatter: function (value, row, index, field) {
                         var template =
-                            `<a class="btn btn-primary btn-sm edit" href="/admin/email-funnel-edit?id=${row.id}" title="Edit Event">
+                            `<a class="btn btn-primary btn-sm edit" href="/admin/email-funnel-edit?id=${row.id}" title="Edit Team">
                               <i class="fa fa-edit" aria-hidden="true"></i> 
                             </a>
-                            <a class="btn btn-danger btn-sm ml-2 remove" href="javascript:" title="Delete Event">
+                            <a class="btn btn-danger btn-sm ml-2 remove" href="javascript:" title="Delete Team">
                               <i class="fa fa-trash" aria-hidden="true"></i>
                             </a>`;
                         return template;
@@ -76,9 +70,9 @@
                         },
                         'click .remove': function (e, value, row, index) {
                             e.preventDefault();
-                            showBootboxConfirm("Delete Event", "Are you sure you want to delete this?", function (yes) {
+                            showBootboxConfirm("Delete Team", "Are you sure you want to delete this?", function (yes) {
                                 if (yes) {
-                                    axios.delete(`/api/events/${row.id}`)
+                                    axios.delete(`/api/teams/${row.id}`)
                                         .then(function () {
                                             toastr.success(appConstants.ITEM_DELETED_SUCCESSFULLY);
                                             $table.bootstrapTable('refresh');
@@ -94,8 +88,8 @@
                 {
                     sortable: true,
                     searchable: true,
-                    field: "title",
-                    title: "Title",
+                    field: "name",
+                    title: "Name",
                     width: 100
                 },
                 {
@@ -108,25 +102,8 @@
                 {
                     sortable: true,
                     searchable: true,
-                    field: "speakers",
-                    title: "Speakers",
-                    width: 100
-                },
-                {
-                    sortable: true,
-                    searchable: true,
-                    field: "sponsors",
-                    title: "Sponsors",
-                    width: 100
-                },
-                {
-                    sortable: true,
-                    searchable: true,
-                    field: "eventDate",
-                    title: "Event Date",
-                    formatter: function (value, row, index, field) {
-                        return formatDateToDDMMYYYY(value);
-                    },
+                    field: "participants",
+                    title: "Participants",
                     width: 100
                 }],
             onPageChange: function (number, size) {
@@ -161,7 +138,7 @@
     function loadTableData() {
         $table.bootstrapTable('showLoading');
         var queryParams = $.param(tableParams);
-        var url = `/api/events?${queryParams}`;
+        var url = `/api/teams?${queryParams}`;
         axios.get(url)
             .then(function (response) {
                 $table.bootstrapTable('load', response.data);
@@ -181,12 +158,12 @@
     }
 
     function getNew() {
-        axios.get(`/api/events/new`)
+        axios.get(`/api/select-options/participants`)
             .then(function (response) {
-                setFormData($formEl, response.data, true);
-                $("#event-modal-label").text("Add new Event");
+                initSelect2($("#participants"), response.data);
+                $("#team-modal-label").text("Add new Team");
                 $formEl.trigger("reset");
-                $("#event-modal").modal("show");
+                $("#team-modal").modal("show");
             })
             .catch(function (err) {
                 toastr.error(err.response.data);
@@ -194,11 +171,11 @@
     }
 
     function getDetails(id) {
-        axios.get(`/api/events/${id}`)
+        axios.get(`/api/teams/${id}`)
             .then(function (response) {
                 setFormData($formEl, response.data, true);
-                $("#event-modal-label").text("Edit Event");
-                $("#event-modal").modal("show");
+                $("#team-modal-label").text("Edit Team");
+                $("#team-modal").modal("show");
             })
             .catch(function (err) {
                 toastr.error(err.response.data);
@@ -227,37 +204,34 @@
         data.id = parseInt(data.id);
         if (isNaN(data.id)) data.id = 0; 
 
-        var speakers = $("#speakers").select2("data");
-        data.speakers = speakers.map(function (el) { return { id: el.id, text: el.text } });
-
-        var sponsors = $("#sponsors").select2("data");
-        data.sponsors = sponsors.map(function (el) { return { id: el.id, text: el.text } });
+        var participants = $("#participants").val();
+        data.participants = participants.map(function (el) { return parseInt(el) });
 
         if (data.id <= 0) {
-            axios.post('/api/events', data)
+            axios.post('/api/teams', data)
                 .then(function () {
                     resetLoadingButton(thisBtn, originalText);
-                    $("#event-modal").modal("hide");
+                    $("#team-modal").modal("hide");
                     loadTableData();
-                    toastr.success("Event created successfully!");
+                    toastr.success("Team created successfully!");
                 })
                 .catch(function (err) {
                     resetLoadingButton(thisBtn, originalText);
-                    $("#event-modal").modal("hide");
+                    $("#team-modal").modal("hide");
                     toastr.error(JSON.stringify(err.response.data.errors));
                 });
         }
         else {
-            axios.put('/api/events', data)
+            axios.put('/api/teams', data)
                 .then(function () {
                     resetLoadingButton(thisBtn, originalText);
-                    $("#event-modal").modal("hide");
+                    $("#team-modal").modal("hide");
                     loadTableData();
-                    toastr.success("Event updated successfully!");
+                    toastr.success("Team updated successfully!");
                 })
                 .catch(function (err) {
                     resetLoadingButton(thisBtn, originalText);
-                    $("#event-modal").modal("hide");
+                    $("#team-modal").modal("hide");
                     toastr.error(JSON.stringify(err.response.data.errors));
                 });
         }

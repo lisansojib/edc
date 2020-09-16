@@ -14,7 +14,9 @@ namespace Infrastructure.Data.Configurations
 
             builder.Property(t => t.Id).UseIdentityColumn();
 
-            builder.Property(t => t.Name).HasMaxLength(100);
+            builder.Property(t => t.Name).IsRequired().HasMaxLength(100);
+
+            builder.Property(t => t.Description).HasMaxLength(1000);
 
             builder.Property(t => t.CreatedAt).HasColumnType("datetime");
 

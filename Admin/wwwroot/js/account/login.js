@@ -117,12 +117,10 @@
     function externalLogin(model) {
         axios.post('/api/auth/externallogin', model)
             .then(function (response) {
-                resetLoadingButton(thisBtn, thisBtnText);
                 localStorage.setItem("token", response.data);
                 loginToApp(response.data);
             })
             .catch(function (err) {
-                resetLoadingButton(thisBtn, thisBtnText);
                 toastr.error(JSON.stringify(err.response.data.errors));
             });
     }

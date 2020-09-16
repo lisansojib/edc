@@ -2,7 +2,8 @@
 {
     public class ParticipantTeamDTO : BaseDTO
     {
-        public string TeamMember { get; set; }
-        public string Team { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Participants { get; set; }
     }
 }
