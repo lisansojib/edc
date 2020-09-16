@@ -9,7 +9,7 @@
         axios.get("/api/select-options/companies")
             .then(function (response) {
                 debugger;
-                initSelect2($("#CompanyId"), response.data);
+                initSelect2($("#companyId"), response.data);
             })
             .catch(function (err) {
                 toastr.error(err.response.data);
@@ -33,19 +33,19 @@
             return;
         }
 
+        debugger;
         var data = formDataToJson($formEl);
         data.companyId = parseInt(data.companyId);
 
         axios.post('/api/auth/register', data)
-            .then(function () {
-                localStorage.setItem("token", response.data);
+            .then(function (response) {
+                resetLoadingButton(thisBtn, originalText);
+                localStorage.setItem("token", response.data.accessToken);
                 loginToApp(response.data);
             })
             .catch(function (err) {
-                toastr.error(err.response.data);
-            })
-            .then(function () {
                 resetLoadingButton(thisBtn, originalText);
+                toastr.error(JSON.stringify(err.response.data.errors));
             });
     }
 
@@ -99,15 +99,11 @@
     function externalLogin(model) {
         axios.post('/api/auth/externallogin', model)
             .then(function (response) {
-                localStorage.setItem("token", response.data);
+                localStorage.setItem("token", response.data.accessToken);
                 loginToApp(response.data);
             })
             .catch(function (err) {
-                var errMsg = err.response.data;
-                toastr.error(errMsg);
-            })
-            .finally(function () {
-                resetLoadingButton(thisBtn, thisBtnText);
+                toastr.error(JSON.stringify(err.response.data.errors));
             });
     }
     // #endregion
@@ -119,31 +115,30 @@
                 window.location.href = appConstants.LOGIN_REDIRECT_PATH;
             })
             .catch(function (err) {
-                var errMsg = err.response.data;
-                toastr.error(errMsg);
-            })
-            .finally(function () {
-                resetLoadingButton(thisBtn, thisBtnText);
+                toastr.error(JSON.stringify(err.response.data.errors));
             });
     }
 
     var validationConstraints = {
-        Email: {
+        email: {
             presence: true,
             email: true
         },
-        FirstName: {
+        firstName: {
             presence: true
         },
-        LastName: {
+        lastName: {
             presence: true
         },
-        Password: {
+        password: {
             presence: true,
             length: {
                 minimum: 6,
                 maximum: 20
             }
+        },
+        companyId: {
+            presence: true
         }
     };
 })();
