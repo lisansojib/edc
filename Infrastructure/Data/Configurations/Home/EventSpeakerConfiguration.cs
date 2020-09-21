@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Data.Configurations
 {
-    public class SpeakerConfiguration : IEntityTypeConfiguration<Speaker>
+    public class EventSpeakerConfiguration : IEntityTypeConfiguration<EventSpeaker>
     {
-        public void Configure(EntityTypeBuilder<Speaker> builder)
+        public void Configure(EntityTypeBuilder<EventSpeaker> builder)
         {
-            builder.ToTable("Speakers");
+            builder.ToTable("EventSpeakers");
 
             builder.HasKey(t => t.Id);
 
@@ -16,16 +16,16 @@ namespace Infrastructure.Data.Configurations
 
             builder
                 .HasOne(t => t.Event)
-                .WithMany(t => t.Speakers)
+                .WithMany(t => t.EventSpeakers)
                 .HasForeignKey(t => t.EventId)
-                .HasConstraintName("FK_Speaker_Event")
+                .HasConstraintName("FK_EventSpeaker_Event")
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder
-                .HasOne(t => t.ValueField)
-                .WithMany(t => t.Speakers)
+                .HasOne(t => t.Speaker)
+                .WithMany(t => t.EventSpeakers)
                 .HasForeignKey(t => t.SpeakerId)
-                .HasConstraintName("FK_Speaker_ValueField")
+                .HasConstraintName("FK_EventSpeaker_ValueField")
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

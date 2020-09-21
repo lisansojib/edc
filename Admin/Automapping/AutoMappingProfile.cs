@@ -20,8 +20,8 @@ namespace Presentation.Admin.Automapping
             CreateMap<Event, EventDTO>();
 
             CreateMap<EventBindingModel, Event>()
-                .ForMember(dest => dest.Speakers, opt => opt.Ignore())
-                .ForMember(dest => dest.Sponsors, opt => opt.Ignore());
+                .ForMember(dest => dest.EventSpeakers, opt => opt.Ignore())
+                .ForMember(dest => dest.EventSponsors, opt => opt.Ignore());
 
             CreateMap<Poll, PollDTO>();
 
@@ -33,8 +33,8 @@ namespace Presentation.Admin.Automapping
                 .ForMember(dest => dest.Desc, opt => opt.MapFrom(src => src.Description));
 
             CreateMap<Event, EventViewModel>()
-                .ForMember(dest => dest.Speakers, opt => opt.MapFrom(src => src.Speakers.Select(x => x.SpeakerId.ToString())))
-                .ForMember(dest => dest.Sponsors, opt => opt.MapFrom(src => src.Sponsors.Select(x => x.SponsorId.ToString())));
+                .ForMember(dest => dest.Speakers, opt => opt.MapFrom(src => src.EventSpeakers.Select(x => x.SpeakerId.ToString())))
+                .ForMember(dest => dest.Sponsors, opt => opt.MapFrom(src => src.EventSponsors.Select(x => x.SponsorId.ToString())));
 
             CreateMap<Team, TeamViewModel>()
                 .ForMember(dest => dest.Participants, opt => opt.MapFrom(src => src.ParticipantTeams.Select(x => x.TeamMemberId.ToString())));

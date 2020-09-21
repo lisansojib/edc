@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Data.Configurations
 {
-    public class SponsorConfiguration : IEntityTypeConfiguration<Sponsor>
+    public class EventSponsorConfiguration : IEntityTypeConfiguration<EventSponsor>
     {
-        public void Configure(EntityTypeBuilder<Sponsor> builder)
+        public void Configure(EntityTypeBuilder<EventSponsor> builder)
         {
-            builder.ToTable("Sponsors");
+            builder.ToTable("EventSponsors");
 
             builder.HasKey(t => t.Id);
 
@@ -16,16 +16,16 @@ namespace Infrastructure.Data.Configurations
 
             builder
                 .HasOne(t => t.Event)
-                .WithMany(t => t.Sponsors)
+                .WithMany(t => t.EventSponsors)
                 .HasForeignKey(t => t.EventId)
-                .HasConstraintName("FK_Sponsor_Event")
+                .HasConstraintName("FK_EventSponsor_Event")
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder
-                .HasOne(t => t.ValueField)
-                .WithMany(t => t.Sponsors)
+                .HasOne(t => t.Sponsor)
+                .WithMany(t => t.EventSponsors)
                 .HasForeignKey(t => t.SponsorId)
-                .HasConstraintName("FK_Sponsor_ValueField")
+                .HasConstraintName("FK_EventSponsor_Sponsor")
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

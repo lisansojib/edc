@@ -6,6 +6,7 @@ using Presentation.Admin.Models;
 namespace Admin.Controllers
 {
     [ApiExplorerSettings(IgnoreApi = true)]
+    [Authorize]
     public class HomeController : Controller
     {
         public HomeController()

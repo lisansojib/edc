@@ -12,8 +12,6 @@ namespace ApplicationCore.Entities
         {
             Description = "";
             Managements = new List<Admin>();
-            Speakers = new List<Speaker>();
-            Sponsors = new List<Sponsor>();
         }
 
         /// <summary>
@@ -34,8 +32,5 @@ namespace ApplicationCore.Entities
         public virtual ValueFieldType ValueFieldType { get; set; }
 
         public virtual ICollection<Admin> Managements { get; private set; }
-
-        public virtual ICollection<Speaker> Speakers { get; private set; }
-        public virtual ICollection<Sponsor> Sponsors { get; private set; }
     }
 }

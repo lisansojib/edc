@@ -8,11 +8,14 @@ namespace ApplicationCore.Entities
         public Company()
         {
             Participants = new List<Participant>();
+            CreatedAt = DateTime.Now;
         }
 
         public string Name { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
+        public string LogoUrl { get; set; }
+        public string Website { get; set; }
         public int CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
         public int? UpdatedBy { get; set; }

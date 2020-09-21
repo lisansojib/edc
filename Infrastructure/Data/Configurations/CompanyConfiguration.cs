@@ -20,6 +20,10 @@ namespace Infrastructure.Data.Configurations
 
             builder.Property(t => t.Phone).HasMaxLength(20);
 
+            builder.Property(t => t.LogoUrl).HasColumnType("varchar(250)");
+
+            builder.Property(t => t.Website).HasColumnType("varchar(250)");
+
             builder.Property(t => t.CreatedAt).HasColumnType("datetime");
 
             builder.Property(t => t.UpdatedAt).HasColumnType("datetime");
