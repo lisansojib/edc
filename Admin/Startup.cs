@@ -241,6 +241,7 @@ namespace Admin
             app.UseCors("ApiCorsPolicy");
 
             // It's important that you place the Authentication and Authorization middleware between UseRouting and UseEndPoints .
+            app.UseAuthentication();
             app.UseAuthorization();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
