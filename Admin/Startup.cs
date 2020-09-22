@@ -90,6 +90,7 @@ namespace Admin
             services.AddScoped<ITokenBuilder, TokenBuilder>();
             services.AddScoped<IEventValueFieldsService, EventValueFieldsService>();
             services.AddScoped<ITeamService, TeamService>();
+            services.AddScoped<ICompanyService, CompanyService>();
 
             services.AddRouting(options =>
             {

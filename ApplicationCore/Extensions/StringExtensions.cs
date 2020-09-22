@@ -16,13 +16,18 @@ namespace System
             return value != null && value > 0;
         }
 
-        public static string GetUniqueFileName(this string fileName)
+        public static string ToUniqueFileName(this string fileName)
         {
             fileName = string.Join("-", fileName.Split(Path.GetInvalidFileNameChars(), StringSplitOptions.RemoveEmptyEntries));
             return Path.GetFileNameWithoutExtension(fileName)
                       + "-"
                       + Guid.NewGuid().ToString().Substring(0, 4)
                       + Path.GetExtension(fileName);
+        }
+
+        public static string ToWebFilePath(this string[] pathSegments)
+        {
+            return $"/{string.Join("/", pathSegments)}";
         }
 
         public static string GetUnitName(this string value)

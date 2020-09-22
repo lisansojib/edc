@@ -138,6 +138,23 @@ function formDataToJson($formEl) {
 }
 
 /**
+ * Set
+ * @param {any} $formEl
+ * @returns FormData
+ */
+function getFormData($formEl) {
+    setAllFormCheckBoxValue($formEl);
+    var data = $formEl.serializeArray();
+
+    var formData = new FormData();
+    $.each(data, function (i, v) {
+        formData.append(v.name, v.value);
+    });
+
+    return formData;
+}
+
+/**
  * Set Form Data
  * @param {any} $formEl - Form Element
  * @param {any} data - data object
@@ -461,6 +478,19 @@ function showValidationToast(errorObj) {
         "closeButton": true,
         "escapeHtml": false
     });
+}
+
+function showResponseError(error) {
+    var errors = error.response.data.errors;
+    if (typeof errors === 'object' && errors !== null) {
+        var messages = "";
+        for (var property in errors) {
+            messages += errors[property].join('<br>');
+        }
+
+        toastr.error(messages);
+    }
+    else toastr.error(errors);
 }
 
 // #region Validation

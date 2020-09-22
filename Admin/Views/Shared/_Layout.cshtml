@@ -6,8 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@ViewData["Title"] | EDC Portal</title>
 
-    <link rel="stylesheet" href="~/css/admin.min.css" />
     <link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/admin.min.css" />
+    @RenderSection("styles", false)
+
 </head>
 <body>
     <div class="main-wrapper">
@@ -16,7 +18,7 @@
         <nav class="sidebar">
             <div class="sidebar-header">
                 <a href="#" class="sidebar-brand">
-                    EDC<span>Portal</span>
+                    EDC<span>&nbsp;Admin</span>
                 </a>
                 <div class="sidebar-toggler not-active">
                     <span></span>
@@ -56,6 +58,12 @@
                         <a href="/admin/announcements" class="nav-link">
                             <i class="link-icon" data-feather="bell"></i>
                             <span class="link-title">Anouncements</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/companies" class="nav-link">
+                            <i class="link-icon" data-feather="home"></i>
+                            <span class="link-title">Companies</span>
                         </a>
                     </li>
                 </ul>

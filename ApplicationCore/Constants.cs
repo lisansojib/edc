@@ -40,4 +40,11 @@
         public const int SPEAKERS = 1;
         public const int SPONSORS = 2;
     }
+
+    public static class UploadFolders
+    {
+        public const string UPLOAD_PATH = "uploads";
+        public const string COMPANIES = "companies";
+        public const string ANNOUNCEMENTS = "announcements";
+    }
 }

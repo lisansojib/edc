@@ -3,7 +3,6 @@ using ApplicationCore.Entities;
 using Presentation.Admin.Models;
 using Presentation.Admin.Models.Home;
 using System.Linq;
-using System.Security.Cryptography;
 
 namespace Presentation.Admin.Automapping
 {
@@ -47,6 +46,10 @@ namespace Presentation.Admin.Automapping
             CreateMap<Participant, Select2Option>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
                 .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Email));
+
+            CreateMap<Company, CompanyDTO>();
+
+            CreateMap<CompanyBindingModel, Company>();
         }
     }
 }

@@ -38,6 +38,7 @@
   <ItemGroup>
     <Folder Include="logs\admin\" />
     <Folder Include="logs\management\" />
+    <Folder Include="wwwroot\uploads\companies\" />
   </ItemGroup>
 
   <ItemGroup>
