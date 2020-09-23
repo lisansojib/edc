@@ -207,18 +207,20 @@
         else hideValidationErrors($formEl);
 
         var data = getFormData($formEl);
-        data.id = parseInt(data.id);
         var files = $("#logo")[0].files;
         if (files.length > 0) data.append("logo", files[0]);
 
-        if (data.id <= 0) {
+        var id = parseInt($formEl.find("id"));
+        if (isNaN(id) || id <= 0) {
             axios.post('/api/companies', data)
                 .then(function () {
                     toastr.success("Company updated successfully!");
+                    resetLoadingButton(thisBtn, originalText);
                     $("#company-modal").modal("hide");
                     loadTableData();
                 })
                 .catch(function (err) {
+                    resetLoadingButton(thisBtn, originalText);
                     resetLoadingButton(thisBtn, originalText);
                     showResponseError(err);
                 });

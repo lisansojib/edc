@@ -28,7 +28,7 @@ namespace Infrastructure.Services
             var pageBy = $@"Offset {offset} Rows Fetch Next {limit} Rows Only";
 
             var query = $@"
-                select Id, GraphType, Name, Panel, Origin, PollDate
+                select Id, GraphType, Name, Panel, Origin, PollDate, COUNT(*) OVER () as Total
                 from Polls
                 {filterBy}
                 Group By Id, Id, GraphType, Name, Panel, Origin, PollDate

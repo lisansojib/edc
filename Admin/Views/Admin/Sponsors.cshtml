@@ -1,0 +1,89 @@
+﻿
+@{
+    ViewData["Title"] = "Sponsors";
+}
+
+@section styles{
+    <link href="~/lib/bootstrap-fileinput/css/fileinput.min.css" rel="stylesheet" />
+}
+
+<div class="row">
+    <div class="col stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                    <h6 class="card-title mb-0">Sponsors</h6>
+                </div>
+                <div class="table-responsive">
+                    <div id="tblToolbar" class="mb-1">
+                        <button class="btn btn-primary" id="add-new-sponsor">
+                            <i class="fa fa-plus"></i>&nbsp;Add New
+                        </button>
+                    </div>
+                    <table id="tblList" class="table table-hover mb-0"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" data-backdrop="static" data-keyboard="false" id="sponsor-modal" tabindex="-1" aria-labelledby="sponsor-modal" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="sponsor-modal-label">Add new sponsor</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="sponsor-form">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col">
+                                <input type="hidden" name="id" id="id" value="0" />
+                                <div class="form-group">
+                                    <label for="companyName">Company Name</label>
+                                    <input type="text" class="form-control" id="companyName" name="companyName">
+                                </div>
+                                <div class="form-group">
+                                    <label for="contactPerson">Contact Person</label>
+                                    <input type="text" class="form-control" id="contactPerson" name="contactPerson">
+                                </div>
+                                <div class="form-group">
+                                    <label for="contactPersonEmail">Contact Person Email</label>
+                                    <input type="email" class="form-control" id="contactPersonEmail" name="contactPersonEmail">
+                                </div>
+                                <div class="form-group">
+                                    <label for="contactPersonPhone">Contact Person Phone</label>
+                                    <input type="email" class="form-control" id="contactPersonPhone" name="contactPersonPhone">
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Description</label>
+                                    <textarea class="form-control" rows="2" id="description" name="description"></textarea>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="logo">Upload Logo</label>
+                                    <input type="file" accept="image/jpeg, image/png" class="form-control-file" id="logo" name="logo">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btn-save-sponsor">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/lib/bootstrap-fileinput/js/fileinput.min.js"></script>
+    <script src="~/lib/bootstrap-fileinput/themes/fa/theme.min.js"></script>
+    <script src="~/js/admin/sponsor.js" asp-append-version="true"></script>
+}

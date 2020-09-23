@@ -39,7 +39,7 @@ namespace Infrastructure.Services
                 )
 
                 Select Id, Username, FirstName,	LastName, Email, Verified, Phone, Mobile, Title, Active, PhotoUrl
-	                ,DateSuspended,	EmailCorp, PhoneCorp, LinkedinUrl, CompanyName 
+	                ,DateSuspended,	EmailCorp, PhoneCorp, LinkedinUrl, CompanyName, COUNT(*) OVER () as Total 
                 From P
                 {filterBy}
                 Group By Id, Username, FirstName,	LastName, Email, Verified, Phone, Mobile, Title, Active, PhotoUrl

@@ -40,6 +40,8 @@
     <Folder Include="logs\management\" />
     <Folder Include="wwwroot\uploads\companies\" />
     <Folder Include="wwwroot\uploads\announcements\" />
+    <Folder Include="wwwroot\uploads\speakers\" />
+    <Folder Include="wwwroot\uploads\sponsors\" />
     <Folder Include="wwwroot\uploads\participants\" />
   </ItemGroup>
 

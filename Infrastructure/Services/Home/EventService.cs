@@ -54,7 +54,10 @@ namespace Infrastructure.Services
         public async Task<EventDTO> GetByIdAsync(int id)
         {
             var query = $@"
-                Select E.Id, E.Title, E.Description, E.EventDate, STRING_AGG(SV.Name, ', ') [Speakers], STRING_AGG(SPV.Name, ', ') [Sponsors]
+                Select E.Id, E.Title, E.Description, E.EventDate
+                    , STRING_AGG(SV.Name, ', ') [Speakers]
+                    , STRING_AGG(SPV.Name, ', ') [Sponsors]
+                    , COUNT(*) OVER () as Total
 	            From Events E
 	            Left Join Speakers S On E.Id = S.EventId
 	            Left Join Sponsors SP On E.Id = SP.EventId

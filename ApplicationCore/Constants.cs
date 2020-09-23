@@ -47,5 +47,7 @@
         public const string COMPANIES = "companies";
         public const string ANNOUNCEMENTS = "announcements";
         public const string PARTICIPANTS = "participants";
+        public const string SPONSORS = "sponsors";
+        public const string SPEAKERS = "speakers";
     }
 }

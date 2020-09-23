@@ -160,6 +160,8 @@ function getFormData($formEl) {
  * @param {any} data - data object
  */
 function setFormData($formEl, data, allowTagging = false) {
+    $formEl.trigger("reset");
+
     if (!data && ! typeof data === 'object') {
         console.error("Your data is not valid.");
         return;

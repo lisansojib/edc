@@ -2,67 +2,39 @@
     var $table, $formEl;
 
     var validationConstraints = {
-        username: {
+        companyName: {
             presence: true,
             length: {
-                maximum: 50
-            }
-        },
-        password: {
-            //presence: true,
-            length: {
-                maximum: 20
-            }
-        },
-        firstName: {
-            length: {
                 maximum: 100
             }
         },
-        lastName: {
+        description: {
             length: {
-                maximum: 100
+                maximum: 1000
             }
         },
-        email: {
+        contactPerson: {
             presence: true,
-            email: true,
-            length: {
-                maximum: 500
-            }
-        },
-        phone: {
-            length: {
-                maximum: 20
-            }
-        },
-        mobile: {
-            length: {
-                maximum: 20
-            }
-        },
-        title: {
             length: {
                 maximum: 100
             }
         },
-        emailCorp: {
+        contactPersonPhone: {
+            presence: true,
+            length: {
+                maximum: 20
+            }
+        },
+        contactPersonEmail: {
+            presence: true,
             email: true
-        },
-        linkedinUrl: {
-            length: {
-                maximum: 250
-            }
-        },
-        companyId: {
-            presence: true
         }
     };
 
     var tableParams = {
         offset: 0,
         limit: 10,
-        sort: 'username',
+        sort: 'companyName',
         order: '',
         filter: ''
     };
@@ -73,18 +45,16 @@
         initTbl();
         loadTableData();
 
-        $formEl = $("#participant-form");
+        $formEl = $("#sponsor-form");
 
-        getCompanies();
-
-        $("#add-new-participant").click(function () {
-            $("#participant-modal-label").text("Add new Participant");
+        $("#add-new-sponsor").click(function () {
+            $("#sponsor-modal-label").text("Add new Sponsor");
             $formEl.trigger("reset");
-            initNewFileInput($("#photo"));
-            $("#participant-modal").modal("show");
+            initNewFileInput($("#logo"));
+            $("#sponsor-modal").modal("show");
         });
 
-        $("#btn-save-participant").click(save);
+        $("#btn-save-sponsor").click(save);
     });
 
     function initTbl() {
@@ -108,10 +78,10 @@
                     width: 125,
                     formatter: function (value, row, index, field) {
                         var template =
-                            `<a class="btn btn-primary btn-sm edit" title="Edit Participant">
+                            `<a class="btn btn-primary btn-sm edit"  title="Edit Sponsor">
                               <i class="fa fa-edit" aria-hidden="true"></i> 
                             </a>
-                            <a class="btn btn-danger btn-sm ml-2 remove" href="javascript:" title="Delete Participant">
+                            <a class="btn btn-danger btn-sm ml-2 remove" href="javascript:" title="Delete Sponsor">
                               <i class="fa fa-trash" aria-hidden="true"></i>
                             </a>`;
                         return template;
@@ -123,9 +93,9 @@
                         },
                         'click .remove': function (e, value, row, index) {
                             e.preventDefault();
-                            showBootboxConfirm("Delete Participant", "Are you sure you want to delete this?", function (yes) {
+                            showBootboxConfirm("Delete Sponsor", "Are you sure you want to delete this?", function (yes) {
                                 if (yes) {
-                                    axios.delete(`/api/participants/${row.id}`)
+                                    axios.delete(`/api/sponsors/${row.id}`)
                                         .then(function () {
                                             toastr.success(appConstants.ITEM_DELETED_SUCCESSFULLY);
                                             $table.bootstrapTable('refresh');
@@ -139,78 +109,36 @@
                 {
                     sortable: true,
                     searchable: true,
-                    field: "username",
-                    title: "Username",
-                    width: 100
-                },
-                {
-                    sortable: true,
-                    searchable: true,
-                    field: "email",
-                    title: "Email",
-                    width: 100
-                },
-                {
-                    sortable: true,
-                    searchable: true,
-                    field: "firstName",
-                    title: "FirstName",
-                    width: 100
-                },
-                {
-                    sortable: true,
-                    searchable: true,
-                    field: "lastName",
-                    title: "LastName",
-                    width: 100
-                },
-                {
-                    sortable: true,
-                    searchable: true,
-                    field: "title",
-                    title: "Title",
-                    width: 100
-                },
-                {
-                    sortable: true,
-                    searchable: true,
-                    field: "emailCorp",
-                    title: "Email Corp",
-                    width: 100
-                },
-                {
-                    sortable: true,
-                    searchable: true,
-                    field: "phoneCorp",
-                    title: "Phone Corp",
-                    width: 100
-                },
-                {
-                    sortable: true,
-                    searchable: true,
                     field: "companyName",
                     title: "Company Name",
                     width: 100
                 },
                 {
                     sortable: true,
-                    searchable: false,
-                    field: "active",
-                    title: "Active",
-                    width: 100,
-                    formatter: function (value, row, index, field) {
-                        return value ? "Yes" : "No";
-                    }
+                    searchable: true,
+                    field: "contactPerson",
+                    title: "Contact Person",
+                    width: 100
                 },
                 {
                     sortable: true,
-                    searchable: false,
-                    field: "verified",
-                    title: "Verified",
-                    width: 100,
-                    formatter: function (value, row, index, field) {
-                        return value ? "Yes" : "No";
-                    }
+                    searchable: true,
+                    field: "contactPersonEmail",
+                    title: "Contact Person Email",
+                    width: 100
+                },
+                {
+                    sortable: true,
+                    searchable: true,
+                    field: "contactPersonPhone",
+                    title: "Contact Person Phone",
+                    width: 100
+                },
+                {
+                    sortable: true,
+                    field: "description",
+                    title: "Description",
+                    width: 300
                 }
             ],
             onPageChange: function (number, size) {
@@ -245,7 +173,7 @@
     function loadTableData() {
         $table.bootstrapTable('showLoading');
         var queryParams = $.param(tableParams);
-        var url = `/api/participants?${queryParams}`;
+        var url = `/api/sponsors?${queryParams}`;
         axios.get(url)
             .then(function (response) {
                 $table.bootstrapTable('load', response.data);
@@ -258,17 +186,17 @@
         tableParams.offset = 0;
         tableParams.limit = 10;
         tableParams.filter = '';
-        tableParams.sort = 'name';
+        tableParams.sort = 'companyName';
         tableParams.order = '';
     }
 
     function getDetails(id) {
-        axios.get(`/api/participants/${id}`)
+        axios.get(`/api/sponsors/${id}`)
             .then(function (response) {
                 setFormData($formEl, response.data);
-                previewFileInput(response.data.id, response.data.photoUrl, $("#photo"));
-                $("#participant-modal-label").text("Edit Participant");
-                $("#participant-modal").modal("show");
+                previewFileInput(response.data.id, response.data.logoUrl, $("#logo"));
+                $("#sponsor-modal-label").text("Edit Sponsor");
+                $("#sponsor-modal").modal("show");
             })
             .catch(showResponseError);
     }
@@ -290,32 +218,30 @@
         }
         else hideValidationErrors($formEl);
 
-        var data = getFormData($formEl);
-        data.id = parseInt(data.id);
-        data.companyId = parseInt(data.companyId);
-        var files = $("#photo")[0].files;
-        if (files.length > 0) data.append("photo", files[0]);
+        var data = getFormData($formEl);        
+        var files = $("#logo")[0].files;
+        if (files.length > 0) data.append("logo", files[0]);
 
         var id = parseInt($formEl.find("id"));
         if (isNaN(id) || id <= 0) {
-            axios.post('/api/participants', data)
+            axios.post('/api/sponsors', data)
                 .then(function () {
-                    toastr.success("Participant updated successfully!");
+                    toastr.success("Sponsor updated successfully!");
                     resetLoadingButton(thisBtn, originalText);
-                    $("#participant-modal").modal("hide");
+                    $("#sponsor-modal").modal("hide");
                     loadTableData();
                 })
                 .catch(function (err) {
+                    resetLoadingButton(thisBtn, originalText);
                     resetLoadingButton(thisBtn, originalText);
                     showResponseError(err);
                 });
         }
         else {
-            axios.put('/api/participants', data)
+            axios.put('/api/sponsors', data)
                 .then(function () {
-                    toastr.success("Participant updated successfully!");
-                    resetLoadingButton(thisBtn, originalText);
-                    $("#participant-modal").modal("hide");
+                    toastr.success("Sponsor updated successfully!");
+                    $("#sponsor-modal").modal("hide");
                     loadTableData();
                 })
                 .catch(function (err) {
@@ -323,16 +249,6 @@
                     showResponseError(err);
                 });
         }
-    }
-
-    function getCompanies() {
-        axios.get("/api/select-options/companies")
-            .then(function (response) {
-                initSelect2($("#companyId"), response.data);
-            })
-            .catch(function (err) {
-                toastr.error(err.response.data);
-            });
-    }
+    }    
 })();
 

@@ -93,6 +93,7 @@ namespace Admin
             services.AddScoped<ITeamService, TeamService>();
             services.AddScoped<ICompanyService, CompanyService>();
             services.AddScoped<IParticipantService, ParticipantService>();
+            services.AddScoped<ISponsorService, SponsorService>();
 
             services.AddRouting(options =>
             {

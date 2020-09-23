@@ -33,5 +33,10 @@ namespace Presentation.Admin.Controllers
         {
             return View();
         }
+
+        public IActionResult Sponsors()
+        {
+            return View();
+        }
     }
 }

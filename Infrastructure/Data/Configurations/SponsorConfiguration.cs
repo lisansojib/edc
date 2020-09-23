@@ -20,7 +20,7 @@ namespace Infrastructure.Data.Configurations
 
             builder.Property(t => t.ContactPerson).IsRequired().HasColumnType("varchar(100)");
 
-            builder.Property(t => t.ContactPersonEmail).IsRequired().HasColumnType("varchar(250)");
+            builder.Property(t => t.ContactPersonEmail).IsRequired().HasColumnType("varchar(500)");
 
             builder.Property(t => t.ContactPersonPhone).IsRequired().HasColumnType("varchar(20)");
 

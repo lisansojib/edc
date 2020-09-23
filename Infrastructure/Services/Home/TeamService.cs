@@ -29,7 +29,7 @@ namespace Infrastructure.Services
             var query = $@"
                 ;With 
                 PT As (
-	                Select T.Id, T.Name, T.Description, STRING_AGG(P.Email, ',') [Participants] 
+	                Select T.Id, T.Name, T.Description, STRING_AGG(P.Email, ',') [Participants], COUNT(*) OVER () as Total 
 	                From Teams T
 	                Left Join ParticipantTeams PT On T.Id = PT.TeamId
 	                Left Join Participants P On P.Id = PT.TeamMemberId

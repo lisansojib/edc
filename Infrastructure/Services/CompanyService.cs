@@ -27,7 +27,7 @@ namespace Infrastructure.Services
             var pageBy = $@"Offset {offset} Rows Fetch Next {limit} Rows Only";
 
             var query = $@"
-                Select Id, Name, Address, Phone, LogoUrl, Website 
+                Select Id, Name, Address, Phone, LogoUrl, Website, COUNT(*) OVER () as Total 
                 From Companies
                 {filterBy}
                 Group By Id, Name, Address, Phone, LogoUrl, Website
