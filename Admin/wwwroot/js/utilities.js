@@ -493,6 +493,43 @@ function showResponseError(error) {
     else toastr.error(errors);
 }
 
+function previewFileInput(id, url, $el) {
+    if (!url) {
+        initNewFileInput($el);
+        return;
+    }
+
+    var photoUrls = [url];
+
+    var initialPreviewConfig = [{ key: id, url: `/api/companies/delete-photo/${id}` }];
+
+    $el.fileinput('destroy');
+    $el.fileinput({
+        autoOrientImage: false,
+        showUpload: false,
+        initialPreview: photoUrls,
+        initialPreviewConfig: initialPreviewConfig,
+        initialPreviewAsData: true,
+        overwriteInitial: false,
+        theme: "fa"
+    }).on('filebeforedelete', function () {
+        var aborted = !window.confirm('Are you sure you want to delete? Once deleted, you can not revert.');
+        if (aborted) {
+            window.alert('File deletion was aborted!');
+        };
+        return aborted;
+    });
+}
+
+function initNewFileInput($el) {
+    $el.fileinput('destroy');
+    $el.fileinput({
+        autoOrientImage: false,
+        showUpload: false,
+        theme: "fa"
+    });
+}
+
 // #region Validation
 /**
  * Initialize validation on the container

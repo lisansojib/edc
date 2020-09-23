@@ -28,5 +28,10 @@ namespace Presentation.Admin.Controllers
         {
             return View();
         }
+
+        public IActionResult Participants()
+        {
+            return View();
+        }
     }
 }

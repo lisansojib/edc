@@ -73,7 +73,7 @@
                     width: 125,
                     formatter: function (value, row, index, field) {
                         var template =
-                            `<a class="btn btn-primary btn-sm edit" href="/admin/email-funnel-edit?id=${row.id}" title="Edit Company">
+                            `<a class="btn btn-primary btn-sm edit"  title="Edit Company">
                               <i class="fa fa-edit" aria-hidden="true"></i> 
                             </a>
                             <a class="btn btn-danger btn-sm ml-2 remove" href="javascript:" title="Delete Company">
@@ -124,7 +124,6 @@
                 },
                 {
                     sortable: true,
-                    searchable: true,
                     field: "address",
                     title: "Address",
                     width: 300
@@ -183,7 +182,7 @@
         axios.get(`/api/companies/${id}`)
             .then(function (response) {
                 setFormData($formEl, response.data);
-                previewImage(response.data.id, response.data.logoUrl, $("#logo"));
+                previewFileInput(response.data.id, response.data.logoUrl, $("#logo"));
                 $("#company-modal-label").text("Edit Company");
                 $("#company-modal").modal("show");
             })
@@ -236,44 +235,6 @@
                     showResponseError(err);
                 });
         }
-    }
-
-    function previewImage(id, url, $el) {
-        debugger;
-        if (!url) {
-            initNewFileInput($el);
-            return;
-        }
-
-        var photoUrls = [url];
-
-        var initialPreviewConfig = [{ key: id, url: `/api/companies/delete-photo/${id}` }];
-
-        $el.fileinput('destroy');
-        $el.fileinput({
-            autoOrientImage: false,
-            showUpload: false,
-            initialPreview: photoUrls,
-            initialPreviewConfig: initialPreviewConfig,
-            initialPreviewAsData: true,
-            overwriteInitial: false,
-            theme: "fa"
-        }).on('filebeforedelete', function () {
-            var aborted = !window.confirm('Are you sure you want to delete? Once deleted, you can not revert.');
-            if (aborted) {
-                window.alert('File deletion was aborted!');
-            };
-            return aborted;
-        });
-    }
-
-    function initNewFileInput($el) {
-        $el.fileinput('destroy');
-        $el.fileinput({
-            autoOrientImage: false,
-            showUpload: false,
-            theme: "fa"
-        });
-    }
+    }    
 })();
 

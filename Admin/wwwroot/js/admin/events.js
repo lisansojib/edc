@@ -61,7 +61,7 @@
                     width: 125,
                     formatter: function (value, row, index, field) {
                         var template =
-                            `<a class="btn btn-primary btn-sm edit" href="/admin/email-funnel-edit?id=${row.id}" title="Edit Event">
+                            `<a class="btn btn-primary btn-sm edit"  title="Edit Event">
                               <i class="fa fa-edit" aria-hidden="true"></i> 
                             </a>
                             <a class="btn btn-danger btn-sm ml-2 remove" href="javascript:" title="Delete Event">

@@ -1,0 +1,125 @@
+﻿
+@{
+    ViewData["Title"] = "Participants";
+}
+
+@section styles{
+    <link href="~/lib/bootstrap-fileinput/css/fileinput.min.css" rel="stylesheet" />
+}
+
+<div class="row">
+    <div class="col stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                    <h6 class="card-title mb-0">Participants</h6>
+                </div>
+                <div class="table-responsive">
+                    <div id="tblToolbar" class="mb-1">
+                        <button class="btn btn-primary" id="add-new-participant">
+                            <i class="fa fa-plus"></i>&nbsp;Add New
+                        </button>
+                    </div>
+                    <table id="tblList" class="table table-hover mb-0"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" data-backdrop="static" data-keyboard="false" id="participant-modal" tabindex="-1" aria-labelledby="participant-modal" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="participant-modal-label">Add new participant</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="participant-form">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col">
+                                <input type="hidden" name="id" id="id" value="0" />
+                                <div class="form-group">
+                                    <label for="username">Username</label>
+                                    <input type="text" class="form-control" id="username" name="username">
+                                </div>
+                                <div class="form-group">
+                                    <label for="username">Password</label>
+                                    <input type="password" class="form-control" id="password" name="password">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email">
+                                </div>
+                                <div class="form-group">
+                                    <label for="firstName">FirstName</label>
+                                    <input class="form-control" rows="2" id="firstName" name="firstName" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName">LastName</label>
+                                    <input type="text" class="form-control" id="lastName" name="lastName">
+                                </div>
+                                <div class="form-group">
+                                    <label for="title">Title</label>
+                                    <input type="text" class="form-control" id="title" name="title">
+                                </div>
+                                <div class="form-group">
+                                    <label for="logo">Upload Photo</label>
+                                    <input type="file" accept="image/jpeg, image/png" class="form-control-file" id="photo" name="photo">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="Password">Company</label>
+                                    <select class="form-control" id="companyId" name="companyId" style="width: 100%"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Phone</label>
+                                    <input type="text" class="form-control" id="phone" name="phone">
+                                </div>
+                                <div class="form-group">
+                                    <label for="mobile">Mobile</label>
+                                    <input type="text" class="form-control" rows="2" id="mobile" name="mobile" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="emailCorp">Email Corp</label>
+                                    <input type="email" class="form-control" id="emailCorp" name="emailCorp">
+                                </div>
+                                <div class="form-group">
+                                    <label for="phoneCorp">Phone Corp</label>
+                                    <input type="text" class="form-control" id="phoneCorp" name="phoneCorp">
+                                </div>
+                                <div class="form-group">
+                                    <label for="linkedinUrl">Linkedin Url</label>
+                                    <input type="url" class="form-control" rows="2" id="linkedinUrl" name="linkedinUrl" />
+                                </div>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="active" name="active">
+                                    <label class="custom-control-label" for="verified">Active</label>
+                                </div>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="verified" name="verified">
+                                    <label class="custom-control-label" for="verified">Verified</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btn-save-participant">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/lib/bootstrap-fileinput/js/fileinput.min.js"></script>
+    <script src="~/lib/bootstrap-fileinput/themes/fa/theme.min.js"></script>
+    <script src="~/js/admin/participants.js" asp-append-version="true"></script>
+}

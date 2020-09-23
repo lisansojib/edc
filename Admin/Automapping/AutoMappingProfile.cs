@@ -50,6 +50,10 @@ namespace Presentation.Admin.Automapping
             CreateMap<Company, CompanyDTO>();
 
             CreateMap<CompanyBindingModel, Company>();
+
+            CreateMap<Participant, ParticipantDTO>();
+
+            CreateMap<ParticipantBindingModel, Participant>();
         }
     }
 }

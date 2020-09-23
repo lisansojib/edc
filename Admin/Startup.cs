@@ -88,9 +88,11 @@ namespace Admin
             services.AddScoped<IDeSerializeJwtToken, DeSerializeJwtToken>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
             services.AddScoped<ITokenBuilder, TokenBuilder>();
+            services.AddScoped<ISelectOptionService, SelectOptionService>();
             services.AddScoped<IEventValueFieldsService, EventValueFieldsService>();
             services.AddScoped<ITeamService, TeamService>();
             services.AddScoped<ICompanyService, CompanyService>();
+            services.AddScoped<IParticipantService, ParticipantService>();
 
             services.AddRouting(options =>
             {

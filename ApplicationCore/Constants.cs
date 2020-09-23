@@ -46,5 +46,6 @@
         public const string UPLOAD_PATH = "uploads";
         public const string COMPANIES = "companies";
         public const string ANNOUNCEMENTS = "announcements";
+        public const string PARTICIPANTS = "participants";
     }
 }

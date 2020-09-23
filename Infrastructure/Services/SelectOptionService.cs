@@ -21,10 +21,10 @@ namespace Infrastructure.Services
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<Select2Option>> GetCompaniesAsync()
+        public async Task<List<Select2Option>> GetCompaniesAsync()
         {
             var _dbSet = await _dbContext.Set<Company>().ToListAsync();
-            return _dbSet.Select(x => new Select2Option { Id = x.Id.ToString(), Text = x.Name });
+            return _dbSet.Select(x => new Select2Option { Id = x.Id.ToString(), Text = x.Name }).ToList();
         }
     }
 }

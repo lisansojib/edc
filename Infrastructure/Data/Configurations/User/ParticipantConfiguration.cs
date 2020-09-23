@@ -13,13 +13,15 @@ namespace Infrastructure.Data.Config
             builder.HasKey(t => t.Id);
 
             builder.Property(t => t.Id).UseIdentityColumn();
-            builder.Property(t => t.Username).IsRequired().HasMaxLength(500);
-            builder.Property(t => t.Email).IsRequired().HasMaxLength(500);
+            builder.Property(t => t.Username).IsRequired().HasMaxLength(50).HasColumnType("varchar");
+            builder.Property(t => t.FirstName).HasMaxLength(100).HasColumnType("varchar");
+            builder.Property(t => t.LastName).HasMaxLength(100).HasColumnType("varchar");
+            builder.Property(t => t.Email).IsRequired().HasMaxLength(500).HasColumnType("varchar");
             builder.Property(t => t.Password).HasMaxLength(100);
-            builder.Property(t => t.Phone).HasMaxLength(20);
-            builder.Property(t => t.Mobile).HasMaxLength(20);
-            builder.Property(t => t.Title).HasMaxLength(100);
-            builder.Property(t => t.PhotoUrl).HasMaxLength(128);
+            builder.Property(t => t.Phone).HasMaxLength(20).HasColumnType("varchar");
+            builder.Property(t => t.Mobile).HasMaxLength(20).HasColumnType("varchar");
+            builder.Property(t => t.Title).HasMaxLength(100).HasColumnType("varchar");
+            builder.Property(t => t.PhotoUrl).HasMaxLength(250);
             builder.Property(t => t.ActivationCode).HasMaxLength(128);
             builder.Property(t => t.CreatedAt).HasColumnType("datetime");
             builder.Property(t => t.UpdatedAt).HasColumnType("datetime");

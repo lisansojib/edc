@@ -6,6 +6,6 @@ namespace ApplicationCore.Interfaces.Services
 {
     public interface ISelectOptionService
     {
-        Task<IEnumerable<Select2Option>> GetCompaniesAsync();
+        Task<List<Select2Option>> GetCompaniesAsync();
     }
 }
