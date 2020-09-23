@@ -38,5 +38,10 @@ namespace Presentation.Admin.Controllers
         {
             return View();
         }
+
+        public IActionResult Speakers()
+        {
+            return View();
+        }
     }
 }

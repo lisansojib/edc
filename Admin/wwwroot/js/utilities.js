@@ -483,9 +483,10 @@ function showValidationToast(errorObj) {
 }
 
 function showResponseError(error) {
-    var errors = error.response.data.errors;
+    var messages = error.response.data.title || error.response.data.Title;
+    var errors = error.response.data.errors || error.response.data.Errors;
     if (typeof errors === 'object' && errors !== null) {
-        var messages = "";
+        
         for (var property in errors) {
             messages += errors[property].join('<br>');
         }

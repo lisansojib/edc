@@ -94,6 +94,7 @@ namespace Admin
             services.AddScoped<ICompanyService, CompanyService>();
             services.AddScoped<IParticipantService, ParticipantService>();
             services.AddScoped<ISponsorService, SponsorService>();
+            services.AddScoped<ISpeakerService, SpeakerService>();
 
             services.AddRouting(options =>
             {

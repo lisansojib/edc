@@ -2,56 +2,22 @@
     var $table, $formEl;
 
     var validationConstraints = {
-        username: {
-            presence: true,
-            length: {
-                maximum: 50
-            }
-        },
-        password: {
-            //presence: true,
-            length: {
-                maximum: 20
-            }
-        },
         firstName: {
+            presence: true,
             length: {
                 maximum: 100
             }
         },
         lastName: {
+            presence: true,
             length: {
                 maximum: 100
-            }
-        },
-        email: {
-            presence: true,
-            email: true,
-            length: {
-                maximum: 500
-            }
-        },
-        phone: {
-            length: {
-                maximum: 20
-            }
-        },
-        mobile: {
-            length: {
-                maximum: 20
             }
         },
         title: {
+            presence: true,
             length: {
                 maximum: 100
-            }
-        },
-        emailCorp: {
-            email: true
-        },
-        linkedinUrl: {
-            length: {
-                maximum: 250
             }
         },
         companyId: {
@@ -62,7 +28,7 @@
     var tableParams = {
         offset: 0,
         limit: 10,
-        sort: 'username',
+        sort: 'firstName',
         order: '',
         filter: ''
     };
@@ -73,18 +39,17 @@
         initTbl();
         loadTableData();
 
-        $formEl = $("#participant-form");
+        $formEl = $("#speaker-form");
 
         getCompanies();
 
-        $("#add-new-participant").click(function () {
-            $("#participant-modal-label").text("Add new Participant");
+        $("#add-new-speaker").click(function () {
+            $("#speaker-modal-label").text("Add new Speaker");
             $formEl.trigger("reset");
-            initNewFileInput($("#photo"));
-            $("#participant-modal").modal("show");
+            $("#speaker-modal").modal("show");
         });
 
-        $("#btn-save-participant").click(save);
+        $("#btn-save-speaker").click(save);
     });
 
     function initTbl() {
@@ -108,10 +73,10 @@
                     width: 125,
                     formatter: function (value, row, index, field) {
                         var template =
-                            `<a class="btn btn-primary btn-sm edit" title="Edit Participant">
+                            `<a class="btn btn-primary btn-sm edit" title="Edit Speaker">
                               <i class="fa fa-edit" aria-hidden="true"></i> 
                             </a>
-                            <a class="btn btn-danger btn-sm ml-2 remove" href="javascript:" title="Delete Participant">
+                            <a class="btn btn-danger btn-sm ml-2 remove" href="javascript:" title="Delete Speaker">
                               <i class="fa fa-trash" aria-hidden="true"></i>
                             </a>`;
                         return template;
@@ -123,9 +88,9 @@
                         },
                         'click .remove': function (e, value, row, index) {
                             e.preventDefault();
-                            showBootboxConfirm("Delete Participant", "Are you sure you want to delete this?", function (yes) {
+                            showBootboxConfirm("Delete Speaker", "Are you sure you want to delete this?", function (yes) {
                                 if (yes) {
-                                    axios.delete(`/api/participants/${row.id}`)
+                                    axios.delete(`/api/speakers/${row.id}`)
                                         .then(function () {
                                             toastr.success(appConstants.ITEM_DELETED_SUCCESSFULLY);
                                             $table.bootstrapTable('refresh');
@@ -135,20 +100,6 @@
                             })
                         }
                     }
-                },
-                {
-                    sortable: true,
-                    searchable: true,
-                    field: "username",
-                    title: "Username",
-                    width: 100
-                },
-                {
-                    sortable: true,
-                    searchable: true,
-                    field: "email",
-                    title: "Email",
-                    width: 100
                 },
                 {
                     sortable: true,
@@ -174,43 +125,9 @@
                 {
                     sortable: true,
                     searchable: true,
-                    field: "emailCorp",
-                    title: "Email Corp",
-                    width: 100
-                },
-                {
-                    sortable: true,
-                    searchable: true,
-                    field: "phoneCorp",
-                    title: "Phone Corp",
-                    width: 100
-                },
-                {
-                    sortable: true,
-                    searchable: true,
                     field: "companyName",
                     title: "Company Name",
                     width: 100
-                },
-                {
-                    sortable: true,
-                    searchable: false,
-                    field: "active",
-                    title: "Active",
-                    width: 100,
-                    formatter: function (value, row, index, field) {
-                        return value ? "Yes" : "No";
-                    }
-                },
-                {
-                    sortable: true,
-                    searchable: false,
-                    field: "verified",
-                    title: "Verified",
-                    width: 100,
-                    formatter: function (value, row, index, field) {
-                        return value ? "Yes" : "No";
-                    }
                 }
             ],
             onPageChange: function (number, size) {
@@ -245,7 +162,7 @@
     function loadTableData() {
         $table.bootstrapTable('showLoading');
         var queryParams = $.param(tableParams);
-        var url = `/api/participants?${queryParams}`;
+        var url = `/api/speakers?${queryParams}`;
         axios.get(url)
             .then(function (response) {
                 $table.bootstrapTable('load', response.data);
@@ -258,17 +175,16 @@
         tableParams.offset = 0;
         tableParams.limit = 10;
         tableParams.filter = '';
-        tableParams.sort = 'name';
+        tableParams.sort = 'firstName';
         tableParams.order = '';
     }
 
     function getDetails(id) {
-        axios.get(`/api/participants/${id}`)
+        axios.get(`/api/speakers/${id}`)
             .then(function (response) {
                 setFormData($formEl, response.data);
-                previewFileInput(response.data.id, response.data.photoUrl, $("#photo"));
-                $("#participant-modal-label").text("Edit Participant");
-                $("#participant-modal").modal("show");
+                $("#speaker-modal-label").text("Edit Speaker");
+                $("#speaker-modal").modal("show");
             })
             .catch(showResponseError);
     }
@@ -290,18 +206,17 @@
         }
         else hideValidationErrors($formEl);
 
-        var data = getFormData($formEl);
+        debugger;
+        var data = formDataToJson($formEl);
+        data.id = parseInt(data.id);
         data.companyId = parseInt(data.companyId);
-        var files = $("#photo")[0].files;
-        if (files.length > 0) data.append("photo", files[0]);
 
-        var id = parseInt($formEl.find("id"));
-        if (isNaN(id) || id <= 0) {
-            axios.post('/api/participants', data)
+        if (isNaN(data.id) || data.id <= 0) {
+            axios.post('/api/speakers', data)
                 .then(function () {
-                    toastr.success("Participant updated successfully!");
+                    toastr.success("Speaker updated successfully!");
                     resetLoadingButton(thisBtn, originalText);
-                    $("#participant-modal").modal("hide");
+                    $("#speaker-modal").modal("hide");
                     loadTableData();
                 })
                 .catch(function (err) {
@@ -310,11 +225,11 @@
                 });
         }
         else {
-            axios.put('/api/participants', data)
+            axios.put('/api/speakers', data)
                 .then(function () {
-                    toastr.success("Participant updated successfully!");
+                    toastr.success("Speaker updated successfully!");
                     resetLoadingButton(thisBtn, originalText);
-                    $("#participant-modal").modal("hide");
+                    $("#speaker-modal").modal("hide");
                     loadTableData();
                 })
                 .catch(function (err) {

@@ -58,6 +58,10 @@ namespace Presentation.Admin.Automapping
             CreateMap<Sponsor, SponsorDTO>();
 
             CreateMap<SponsorBindingModel, Sponsor>();
+
+            CreateMap<Speaker, SpeakerDTO>();
+
+            CreateMap<SpeakerBindingModel, Speaker>();
         }
     }
 }
