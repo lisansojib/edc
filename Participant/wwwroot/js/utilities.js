@@ -1,4 +1,5 @@
 ﻿'use strict'
+
 function makeArray(stringData) {
     return $.parseJSON(stringData);
 }
@@ -160,6 +161,8 @@ function getFormData($formEl) {
  * @param {any} data - data object
  */
 function setFormData($formEl, data, allowTagging = false) {
+    $formEl.trigger("reset");
+
     if (!data && ! typeof data === 'object') {
         console.error("Your data is not valid.");
         return;
@@ -188,7 +191,7 @@ function setFormData($formEl, data, allowTagging = false) {
                             });
                             break;
                         case "date":
-                            $input.val(formatDate(value));
+                            $input.val(formatDateToYYYYDDMM(value));
                             break;
                         case "file":
                             break;
@@ -419,6 +422,16 @@ function formatDateToDDMMYYYY(date) {
     return moment(date).format("DD/MM/YYYY");
 }
 
+function formatDateToMMDDYYYY(date) {
+    if (!date) return "";
+    return moment(date).format("MM/DD/YYYY");
+}
+
+function formatDateToYYYYDDMM(date) {
+    if (!date) return "";
+    return moment(date).format("YYYY-DD-MM");
+}
+
 /**
  * Format date like (19:20)
  * @param {any} date - Date Object
@@ -481,9 +494,10 @@ function showValidationToast(errorObj) {
 }
 
 function showResponseError(error) {
-    var errors = error.response.data.errors;
+    var messages = error.response.data.title || error.response.data.Title;
+    var errors = error.response.data.errors || error.response.data.Errors;
     if (typeof errors === 'object' && errors !== null) {
-        var messages = "";
+
         for (var property in errors) {
             messages += errors[property].join('<br>');
         }

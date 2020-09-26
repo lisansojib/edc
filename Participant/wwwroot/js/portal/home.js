@@ -49,13 +49,6 @@
                 {
                     sortable: true,
                     searchable: true,
-                    field: "description",
-                    title: "Description",
-                    width: 100
-                },
-                {
-                    sortable: true,
-                    searchable: true,
                     field: "speakers",
                     title: "Speakers",
                     width: 100
@@ -76,7 +69,15 @@
                         return formatDateToDDMMYYYY(value);
                     },
                     width: 100
-                }],
+                },
+                {
+                    sortable: true,
+                    searchable: true,
+                    field: "description",
+                    title: "Description",
+                    width: 100
+                }
+            ],
             onPageChange: function (number, size) {
                 var newOffset = (number - 1) * size;
                 var newLimit = size;
@@ -160,17 +161,18 @@
                 {
                     sortable: true,
                     searchable: true,
-                    field: "description",
-                    title: "Description",
+                    field: "participants",
+                    title: "Participants",
                     width: 100
                 },
                 {
                     sortable: true,
                     searchable: true,
-                    field: "participants",
-                    title: "Participants",
+                    field: "description",
+                    title: "Description",
                     width: 100
-                }],
+                }
+            ],
             onPageChange: function (number, size) {
                 var newOffset = (number - 1) * size;
                 var newLimit = size;
