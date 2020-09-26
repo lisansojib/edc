@@ -51,13 +51,7 @@ namespace Presentation.Admin.Controllers.Api
         [HttpGet("new")]
         public async Task<IActionResult> GetNew()
         {
-            var data = new
-            {
-                SpeakersList = await _eventValueFieldsService.GetSpeakersAsync(),
-                SponsorsList = await _eventValueFieldsService.GetSponsorsAsync()
-            };
-
-            return Ok(data);
+            return Ok(await _service.GetNewAsync());
         }
 
         [HttpGet("{id}")]
@@ -69,8 +63,9 @@ namespace Presentation.Admin.Controllers.Api
 
             var model = _mapper.Map<EventViewModel>(entity);
 
-            model.SpeakersList = await _eventValueFieldsService.GetSpeakersAsync();
-            model.SponsorsList = await _eventValueFieldsService.GetSponsorsAsync();
+            var evtData = await _service.GetNewAsync();
+            model.SpeakersList = evtData.SpeakersList;
+            model.SponsorsList = evtData.SponsorsList;
 
             return Ok(model);
         }

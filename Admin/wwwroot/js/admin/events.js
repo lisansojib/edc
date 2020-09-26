@@ -101,13 +101,6 @@
                 {
                     sortable: true,
                     searchable: true,
-                    field: "description",
-                    title: "Description",
-                    width: 100
-                },
-                {
-                    sortable: true,
-                    searchable: true,
                     field: "speakers",
                     title: "Speakers",
                     width: 100
@@ -125,10 +118,18 @@
                     field: "eventDate",
                     title: "Event Date",
                     formatter: function (value, row, index, field) {
-                        return formatDateToDDMMYYYY(value);
+                        return formatDateToMMDDYYYY(value);
                     },
                     width: 100
-                }],
+                },
+                {
+                    sortable: true,
+                    searchable: true,
+                    field: "description",
+                    title: "Description",
+                    width: 100
+                }
+            ],
             onPageChange: function (number, size) {
                 var newOffset = (number - 1) * size;
                 var newLimit = size;
@@ -183,7 +184,7 @@
     function getNew() {
         axios.get(`/api/events/new`)
             .then(function (response) {
-                setFormData($formEl, response.data, true);
+                setFormData($formEl, response.data);
                 $("#event-modal-label").text("Add new Event");
                 $formEl.trigger("reset");
                 $("#event-modal").modal("show");

@@ -1,4 +1,5 @@
 ﻿'use strict'
+
 function makeArray(stringData) {
     return $.parseJSON(stringData);
 }
@@ -190,7 +191,8 @@ function setFormData($formEl, data, allowTagging = false) {
                             });
                             break;
                         case "date":
-                            $input.val(formatDate(value));
+                            debugger;
+                            $input.val(formatDateToYYYYDDMM(value));
                             break;
                         case "file":
                             break;
@@ -419,6 +421,16 @@ function formatDateTohhmmA(date) {
 function formatDateToDDMMYYYY(date) {
     if (!date) return "";
     return moment(date).format("DD/MM/YYYY");
+}
+
+function formatDateToMMDDYYYY(date) {
+    if (!date) return "";
+    return moment(date).format("MM/DD/YYYY");
+}
+
+function formatDateToYYYYDDMM(date) {
+    if (!date) return "";
+    return moment(date).format("YYYY-DD-MM");
 }
 
 /**
