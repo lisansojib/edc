@@ -159,6 +159,15 @@
         "themes/fa/theme.js",
         "themes/fa/theme.min.js"
       ]
+    },
+    {
+      "provider": "unpkg",
+      "library": "tableexport.jquery.plugin@1.10.20",
+      "destination": "wwwroot/lib/tableexport.jquery.plugin/",
+      "files": [
+        "tableExport.js",
+        "tableExport.min.js"
+      ]
     }
   ]
 }

@@ -48,8 +48,10 @@
       "wwwroot/lib/validate.js/validate.min.js",
       "wwwroot/lib/toastr.js/toastr.min.js",
       "wwwroot/lib/select2/js/select2.min.js",
+      "wwwroot/lib/tableexport.jquery.plugin/tableExport.min.js",
       "wwwroot/lib/bootstrap-table/bootstrap-table.min.js",
       "wwwroot/lib/bootstrap-table/extensions/filter-control/bootstrap-table-filter-control.min.js",
+      "wwwroot/lib/bootstrap-table/extensions/export/bootstrap-table-export.min.js",
       "wwwroot/nobleui/assets/js/template.js",
       "wwwroot/js/utilities.js",
       "wwwroot/js/site.js"
