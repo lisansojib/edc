@@ -37,7 +37,7 @@
 
 <!-- Modal -->
 <div class="modal fade" data-backdrop="static" data-keyboard="false" id="event-modal" tabindex="-1" aria-labelledby="event-modal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="event-modal-label">Add new Event</h5>
@@ -48,26 +48,49 @@
             <div class="modal-body">
                 <form id="event-form">
                     <input type="hidden" name="id" id="id" value="0" />
-                    <div class="form-group">
-                        <label for="name">Title</label>
-                        <input type="text" class="form-control" id="title" name="title">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="title">Title</label>
+                                    <input type="text" class="form-control" id="title" name="title">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="eventDate">Event Date</label>
+                                    <input type="datetime-local" class="form-control" id="eventDate" name="eventDate">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="eventTypeId">Event Type</label>
+                                    <select id="eventTypeId" name="eventTypeId" class="form-control" style="width: 100%"></select>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="cohort">Cohort</label>
+                                    <input type="text" class="form-control" id="cohort" name="cohort">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="description">Description</label>
+                                    <textarea class="form-control" rows="5" id="description" name="description"></textarea>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="description">Description</label>
-                        <textarea class="form-control" rows="2" id="description" name="description"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="panel">Speakers</label>
-                        <select id="speakers" name="speakers" class="form-control" style="width: 100%" multiple></select>
-                    </div>
-                    <div class="form-group">
-                        <label for="origin">Sponsors</label>
-                        <select id="sponsors" name="sponsors" class="form-control" style="width: 100%" multiple></select>
-                    </div>
-                    <div class="form-group">
-                        <label for="date">Event Date</label>
-                        <input type="datetime-local" class="form-control" id="eventDate" name="eventDate">
-                    </div>
+                        
+                        
+                        @*<div class="form-group">
+                            <label for="panel">SpeakerIds</label>
+                            <select id="speakers" name="speakers" class="form-control" style="width: 100%" multiple></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="origin">SponsorIds</label>
+                            <select id="sponsors" name="sponsors" class="form-control" style="width: 100%" multiple></select>
+                        </div>*@
+                        
                 </form>
             </div>
             <div class="modal-footer">

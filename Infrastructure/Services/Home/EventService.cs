@@ -80,10 +80,17 @@ namespace Infrastructure.Services
         {
             var query = @"
                 Select Cast(Id As varchar) Id, FirstName + ' ' + LastName + ' (' + Title + ')' [Text]
-                From Speakers
+                From Speakers;
 
                 Select Cast(Id As varchar) Id, CompanyName [Text], ContactPerson + ' (' + ContactPersonEmail + ')' [Desc] 
-                From Sponsors";
+                From Sponsors;
+
+                Select CAST(Id As varchar) [id], Name [text] 
+                From ValueFields
+                Where TypeId = 4;
+
+                Select CAST(Id As varchar) [id], FirstName + ' ' + LastName + '(' + Email + ')' [text] 
+                From Participants;";
 
             var connection = _dbContext.Database.GetDbConnection();
 
@@ -93,8 +100,11 @@ namespace Infrastructure.Services
                 await connection.OpenAsync();
                 var records = await connection.QueryMultipleAsync(query);
 
-                data.SpeakersList = records.Read<Select2Option>().ToList();
-                data.SponsorsList = records.Read<Select2Option>().ToList();
+                data.SpeakersList = await records.ReadAsync<Select2Option>();
+                data.SponsorsList = await records.ReadAsync<Select2Option>();
+                data.EventTypeList = await records.ReadAsync<Select2Option>();
+                data.CTOList = await records.ReadAsync<Select2Option>();
+                data.PresenterList = data.CTOList;
 
                 return data;
             }

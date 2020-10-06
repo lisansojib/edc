@@ -8,8 +8,6 @@ namespace ApplicationCore.DTOs
         public EventDTO()
         {
             EventDate = DateTime.Now;
-            SpeakersList = new List<Select2Option>();
-            SponsorsList = new List<Select2Option>();
         }
 
         public string Title { get; set; }
@@ -17,7 +15,10 @@ namespace ApplicationCore.DTOs
         public DateTime EventDate { get; set; }
         public string Speakers { get; set; }
         public string Sponsors { get; set; }
-        public List<Select2Option> SpeakersList { get; set; }
-        public List<Select2Option> SponsorsList { get; set; }
+        public IEnumerable<Select2Option> SpeakersList { get; set; }
+        public IEnumerable<Select2Option> SponsorsList { get; set; }
+        public IEnumerable<Select2Option> EventTypeList { get; set; }
+        public IEnumerable<Select2Option> PresenterList { get; set; }
+        public IEnumerable<Select2Option> CTOList { get; set; }
     }
 }

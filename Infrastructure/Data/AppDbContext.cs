@@ -18,6 +18,7 @@ namespace Infrastructure
         public DbSet<Poll> PollSet { get; set; }
         public DbSet<Speaker> SpeakerSet { get; set; }
         public DbSet<Sponsor> SponsorSet { get; set; }
+        public DbSet<EventResource> EventResourceSet { get; set; }
         #endregion
 
         #region User

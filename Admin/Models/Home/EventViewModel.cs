@@ -9,9 +9,12 @@ namespace Presentation.Admin.Models.Home
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime EventDate { get; set; }
-        public IEnumerable<string> Speakers { get; set; }
-        public IEnumerable<string> Sponsors { get; set; }
+        public IEnumerable<string> SpeakerIds { get; set; }
+        public IEnumerable<string> SponsorIds { get; set; }
         public IEnumerable<Select2Option> SpeakersList { get; set; }
         public IEnumerable<Select2Option> SponsorsList { get; set; }
+        public IEnumerable<Select2Option> EventTypeList { get; set; }
+        public IEnumerable<Select2Option> PresenterList { get; set; }
+        public IEnumerable<Select2Option> CTOList { get; set; }
     }
 }

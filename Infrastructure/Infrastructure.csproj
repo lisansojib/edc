@@ -9,6 +9,8 @@
     <Compile Remove="Data\Migrations\20200908070153_TablesAdded.Designer.cs" />
     <Compile Remove="Data\Migrations\20200921153636_DbChanges.cs" />
     <Compile Remove="Data\Migrations\20200921153636_DbChanges.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201006164154_EventChanges3.cs" />
+    <Compile Remove="Data\Migrations\20201006164154_EventChanges3.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

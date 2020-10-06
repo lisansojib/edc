@@ -16,6 +16,12 @@ namespace Infrastructure.Data.Configurations
 
             builder.Property(t => t.Title).IsRequired().HasMaxLength(100);
 
+            builder.Property(t => t.Cohort).HasMaxLength(100).HasDefaultValue("");
+
+            builder.Property(t => t.ImagePath).HasMaxLength(250).HasDefaultValue("");
+
+            builder.Property(t => t.SessionId).HasMaxLength(100);
+
             builder.Property(t => t.Description).HasMaxLength(1000);
 
             builder.Property(t => t.EventDate).HasColumnType("datetime");

@@ -4,14 +4,16 @@ using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201006121755_EventChanges")]
+    partial class EventChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -234,14 +236,11 @@ namespace Infrastructure.Data.Migrations
                         .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CTOId")
+                    b.Property<int>("CTO")
                         .HasColumnType("int");
 
                     b.Property<string>("Cohort")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100)
-                        .HasDefaultValue("");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime");
@@ -256,21 +255,14 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("EventDate")
                         .HasColumnType("datetime");
 
-                    b.Property<int>("EventTypeId")
+                    b.Property<int>("EventType")
                         .HasColumnType("int");
 
                     b.Property<string>("ImagePath")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(250)")
-                        .HasMaxLength(250)
-                        .HasDefaultValue("");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PresenterId")
+                    b.Property<int>("Presenter")
                         .HasColumnType("int");
-
-                    b.Property<string>("SessionId")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -286,40 +278,6 @@ namespace Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Events");
-                });
-
-            modelBuilder.Entity("ApplicationCore.Entities.EventResource", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<int>("EventId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("FilePath")
-                        .IsRequired()
-                        .HasColumnType("varchar(250)");
-
-                    b.Property<string>("PreviewType")
-                        .IsRequired()
-                        .HasColumnType("varchar(20)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EventId");
-
-                    b.ToTable("EventResources");
                 });
 
             modelBuilder.Entity("ApplicationCore.Entities.EventSpeaker", b =>
@@ -779,16 +737,6 @@ namespace Infrastructure.Data.Migrations
                         .WithMany("DataPoints")
                         .HasForeignKey("PollId")
                         .HasConstraintName("FK_DataPoint_Poll")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ApplicationCore.Entities.EventResource", b =>
-                {
-                    b.HasOne("ApplicationCore.Entities.Event", "Event")
-                        .WithMany("EventResources")
-                        .HasForeignKey("EventId")
-                        .HasConstraintName("FK_EventResource_Event")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

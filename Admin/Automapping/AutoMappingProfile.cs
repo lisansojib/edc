@@ -32,8 +32,8 @@ namespace Presentation.Admin.Automapping
                 .ForMember(dest => dest.Desc, opt => opt.MapFrom(src => src.Description));
 
             CreateMap<Event, EventViewModel>()
-                .ForMember(dest => dest.Speakers, opt => opt.MapFrom(src => src.EventSpeakers.Select(x => x.SpeakerId.ToString())))
-                .ForMember(dest => dest.Sponsors, opt => opt.MapFrom(src => src.EventSponsors.Select(x => x.SponsorId.ToString())));
+                .ForMember(dest => dest.SpeakerIds, opt => opt.MapFrom(src => src.EventSpeakers.Select(x => x.SpeakerId.ToString())))
+                .ForMember(dest => dest.SponsorIds, opt => opt.MapFrom(src => src.EventSponsors.Select(x => x.SponsorId.ToString())));
 
             CreateMap<Team, TeamViewModel>()
                 .ForMember(dest => dest.Participants, opt => opt.MapFrom(src => src.ParticipantTeams.Select(x => x.TeamMemberId.ToString())));

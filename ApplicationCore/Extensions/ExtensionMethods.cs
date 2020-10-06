@@ -101,5 +101,15 @@ namespace System
             byte[] bytes = Text.Encoding.GetEncoding("Cyrillic").GetBytes(txt);
             return Text.Encoding.ASCII.GetString(bytes);
         }
+
+        public static DateTime ToESTTime(this DateTime value)
+        {
+            return TimeZoneInfo.ConvertTimeFromUtc(value, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"));
+        }
+
+        public static DateTime ToESTTime(this DateTimeOffset value)
+        {
+            return TimeZoneInfo.ConvertTimeFromUtc(value.UtcDateTime, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"));
+        }
     }
 }

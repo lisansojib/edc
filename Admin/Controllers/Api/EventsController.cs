@@ -120,6 +120,10 @@ namespace Presentation.Admin.Controllers.Api
             deletedSponsors.ForEach(x => entity.EventSponsors.Remove(x));
 
             entity.Title = model.Title;
+            entity.Cohort = model.Cohort;
+            entity.EventTypeId = model.EventTypeId;
+            entity.PresenterId = model.PresenterId;
+            entity.CTOId = model.CTOId;
             entity.Description = model.Description;
             entity.EventDate = model.EventDate;
             entity.UpdatedAt = DateTime.Now;
