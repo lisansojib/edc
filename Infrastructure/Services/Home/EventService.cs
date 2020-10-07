@@ -100,8 +100,8 @@ namespace Infrastructure.Services
                 await connection.OpenAsync();
                 var records = await connection.QueryMultipleAsync(query);
 
-                data.SpeakersList = await records.ReadAsync<Select2Option>();
-                data.SponsorsList = await records.ReadAsync<Select2Option>();
+                data.SpeakerList = await records.ReadAsync<Select2Option>();
+                data.SponsorList = await records.ReadAsync<Select2Option>();
                 data.EventTypeList = await records.ReadAsync<Select2Option>();
                 data.CTOList = await records.ReadAsync<Select2Option>();
                 data.PresenterList = data.CTOList;

@@ -1,6 +1,9 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
-.help-block {
+label sup{
+    color: red;
+}
+/*.help-block {
     color: #a94442 !important
 }
 
@@ -8,10 +11,10 @@ a.navbar-brand {
     white-space: normal;
     text-align: center;
     word-break: break-all;
-}
+}*/
 
 /* Provide sufficient contrast against white background */
-a {
+/*a {
     color: #0366d6;
 }
 
@@ -25,11 +28,11 @@ a {
     color: #fff;
     background-color: #1b6ec2;
     border-color: #1861ac;
-}
+}*/
 
 /* Sticky footer styles
 -------------------------------------------------- */
-html {
+/*html {
     font-size: 14px;
 }
 
@@ -54,18 +57,18 @@ html {
 button.accept-policy {
     font-size: 1rem;
     line-height: inherit;
-}
+}*/
 
 /* Sticky footer styles
 -------------------------------------------------- */
-html {
+/*html {
     position: relative;
     min-height: 100%;
 }
 
-body {
+body {*/
     /* Margin bottom by footer height */
-    margin-bottom: 60px;
+    /*margin-bottom: 60px;
 }
 
 .footer {
@@ -73,8 +76,8 @@ body {
     bottom: 0;
     width: 100%;
     white-space: nowrap;
-    line-height: 60px; /* Vertically center the text there */
-}
+    line-height: 60px;*/ /* Vertically center the text there */
+/*}*/
 
 
 /*************** 1.Variables ***************/
@@ -92,7 +95,7 @@ body {
 	************************************************
 ************************************************/
 
-.chat-search-box {
+/*.chat-search-box {
     -webkit-border-radius: 3px 0 0 0;
     -moz-border-radius: 3px 0 0 0;
     border-radius: 3px 0 0 0;
@@ -127,7 +130,7 @@ body {
     .chat-search-box {
         display: none;
     }
-}
+}*/
 
 
 /************************************************
@@ -136,7 +139,7 @@ body {
 	************************************************
 ************************************************/
 
-.users-container {
+/*.users-container {
     position: relative;
     padding: 1rem 0;
     border-right: 1px solid #e6ecf3;
@@ -145,7 +148,7 @@ body {
     display: flex;
     -ms-flex-direction: column;
     flex-direction: column;
-}
+}*/
 
 
 /************************************************
@@ -154,7 +157,7 @@ body {
 	************************************************
 ************************************************/
 
-.users {
+/*.users {
     padding: 0;
 }
 
@@ -167,35 +170,35 @@ body {
     }
 
         .users .person:hover {
-            background-color: #ffffff;
+            background-color: #ffffff;*/
             /* Fallback Color */
-            background-image: -webkit-gradient(linear, left top, left bottom, from(#e9eff5), to(#ffffff));
+            /*background-image: -webkit-gradient(linear, left top, left bottom, from(#e9eff5), to(#ffffff));*/
             /* Saf4+, Chrome */
-            background-image: -webkit-linear-gradient(right, #e9eff5, #ffffff);
+            /*background-image: -webkit-linear-gradient(right, #e9eff5, #ffffff);*/
             /* Chrome 10+, Saf5.1+, iOS 5+ */
-            background-image: -moz-linear-gradient(right, #e9eff5, #ffffff);
+            /*background-image: -moz-linear-gradient(right, #e9eff5, #ffffff);*/
             /* FF3.6 */
-            background-image: -ms-linear-gradient(right, #e9eff5, #ffffff);
+            /*background-image: -ms-linear-gradient(right, #e9eff5, #ffffff);*/
             /* IE10 */
-            background-image: -o-linear-gradient(right, #e9eff5, #ffffff);
+            /*background-image: -o-linear-gradient(right, #e9eff5, #ffffff);*/
             /* Opera 11.10+ */
-            background-image: linear-gradient(right, #e9eff5, #ffffff);
+            /*background-image: linear-gradient(right, #e9eff5, #ffffff);
         }
 
         .users .person.active-user {
-            background-color: #ffffff;
+            background-color: #ffffff;*/
             /* Fallback Color */
-            background-image: -webkit-gradient(linear, left top, left bottom, from(#f7f9fb), to(#ffffff));
+            /*background-image: -webkit-gradient(linear, left top, left bottom, from(#f7f9fb), to(#ffffff));*/
             /* Saf4+, Chrome */
-            background-image: -webkit-linear-gradient(right, #f7f9fb, #ffffff);
+            /*background-image: -webkit-linear-gradient(right, #f7f9fb, #ffffff);*/
             /* Chrome 10+, Saf5.1+, iOS 5+ */
-            background-image: -moz-linear-gradient(right, #f7f9fb, #ffffff);
+            /*background-image: -moz-linear-gradient(right, #f7f9fb, #ffffff);*/
             /* FF3.6 */
-            background-image: -ms-linear-gradient(right, #f7f9fb, #ffffff);
+            /*background-image: -ms-linear-gradient(right, #f7f9fb, #ffffff);*/
             /* IE10 */
-            background-image: -o-linear-gradient(right, #f7f9fb, #ffffff);
+            /*background-image: -o-linear-gradient(right, #f7f9fb, #ffffff);*/
             /* Opera 11.10+ */
-            background-image: linear-gradient(right, #f7f9fb, #ffffff);
+            /*background-image: linear-gradient(right, #f7f9fb, #ffffff);
         }
 
         .users .person:last-child {
@@ -270,7 +273,7 @@ body {
         .users .person p.name-time .time {
             display: none;
         }
-}
+}*/
 
 
 /************************************************
@@ -279,7 +282,7 @@ body {
 	************************************************
 ************************************************/
 
-.selected-user {
+/*.selected-user {
     width: 100%;
     padding: 0 15px;
     min-height: 64px;
@@ -520,4 +523,4 @@ ul {
 
     .chat-footer .upload-file:hover {
         opacity: 1;
-    }
+    }*/

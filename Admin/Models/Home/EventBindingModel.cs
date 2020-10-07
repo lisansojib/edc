@@ -13,6 +13,7 @@ namespace Presentation.Admin.Models
         public int EventTypeId { get; set; }
         public int PresenterId { get; set; }
         public int CTOId { get; set; }
+        public string SessionId { get; set; }
         public IEnumerable<Select2Option> Speakers { get; set; }
         public IEnumerable<Select2Option> Sponsors { get; set; }
     }

@@ -64,8 +64,8 @@ namespace Presentation.Admin.Controllers.Api
             var model = _mapper.Map<EventViewModel>(entity);
 
             var evtData = await _service.GetNewAsync();
-            model.SpeakersList = evtData.SpeakersList;
-            model.SponsorsList = evtData.SponsorsList;
+            model.SpeakersList = evtData.SpeakerList;
+            model.SponsorsList = evtData.SponsorList;
 
             return Ok(model);
         }
@@ -81,6 +81,8 @@ namespace Presentation.Admin.Controllers.Api
 
             speakerIds.ForEach(x => entity.EventSpeakers.Add(new EventSpeaker { SpeakerId = x }));
             sponsorIds.ForEach(x => entity.EventSponsors.Add(new EventSponsor { SponsorId = x }));
+
+            if (model.SessionId.NullOrEmpty()) entity.SessionId = Guid.NewGuid().ToString();
 
             await _repository.AddAsync(entity);
 
@@ -123,6 +125,7 @@ namespace Presentation.Admin.Controllers.Api
             entity.Cohort = model.Cohort;
             entity.EventTypeId = model.EventTypeId;
             entity.PresenterId = model.PresenterId;
+            entity.SessionId = model.SessionId;
             entity.CTOId = model.CTOId;
             entity.Description = model.Description;
             entity.EventDate = model.EventDate;

@@ -285,6 +285,8 @@ function isChecked(el) {
  * @param {Boolean} Show Default Option
  */
 function initSelect2($el, data, allowClear = true, placeholder = "Select a Value", showDefaultOption = true, allowTagging = false) {
+    if (!data) data = [];
+
     if (showDefaultOption)
         data.unshift({ id: '', text: '' });
 

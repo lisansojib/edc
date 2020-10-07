@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using ApplicationCore.DTOs;
 using ApplicationCore.Entities;
@@ -15,14 +17,17 @@ namespace Presentation.Admin.Controllers.Api
     {
         private readonly IEfRepository<Participant> _repository;
         private readonly ISelectOptionService _selectOptionService;
+        private readonly IEfRepository<Event> _eventRepository;
         private readonly IMapper _mapper;
 
         public SelectOptionsController(IEfRepository<Participant> repository
             , ISelectOptionService selectOptionService
+            , IEfRepository<Event> eventRepository
             , IMapper mapper)
         {
             _repository = repository;
             _selectOptionService = selectOptionService;
+            _eventRepository = eventRepository;
             _mapper = mapper;
         }
 
@@ -38,6 +43,14 @@ namespace Presentation.Admin.Controllers.Api
         public async Task<IActionResult> GetCompanies()
         {
             return Ok(await _selectOptionService.GetCompaniesAsync());
+        }
+
+        [HttpGet("related-events")]
+        public async Task<IActionResult> GetRelatedEvents(DateTime date)
+        {
+            var records = await _eventRepository.ListAllAsync(x => x.EventDate.Date == date.Date);
+            var response = records.Select(x => new Select2Option { Id = x.SessionId, Text = x.Title });
+            return Ok(response);
         }
     }
 }

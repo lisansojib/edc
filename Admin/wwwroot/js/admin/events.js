@@ -1,5 +1,6 @@
 ﻿(function () {
     var $table, $formEl;
+    var resources = 1;
 
     var validationConstraints = {
         title: {
@@ -36,6 +37,12 @@
         $formEl = $("#event-form");
 
         $("#add-new-event").click(getNew);
+
+        $("#eventTypeId").on("select2:select select2:unselecting", handleEventTypeSelection);
+
+        $("#eventDate").on("change", handleEventDateChange);
+
+        $("#addMoreResource").click(addMoreResource);
 
         $("#btn-save-event").click(save);
     });
@@ -190,6 +197,12 @@
                 setFormData($formEl, response.data);
                 $("#event-modal-label").text("Add new Event");
                 $formEl.trigger("reset");
+                $("#fg-session").addClass("d-none");
+                $("#fg-speaker").addClass("d-none");
+                $("#fg-sponsor").addClass("d-none");
+                $("#fg-presenter").addClass("d-none");
+                $("#fg-cto").addClass("d-none");
+                removeResources();
                 $("#event-modal").modal("show");
             })
             .catch(function (err) {
@@ -209,6 +222,88 @@
             });
     }
 
+    function handleEventTypeSelection(e) {
+        if (e.params.name === "unselect") return;
+        
+        if (e.params.data.text == eventTypeConstants.EDC_PANEL) {
+            $("#fg-speaker").removeClass("d-none");
+            $("#fg-sponsor").addClass("d-none");
+            $("#fg-presenter").addClass("d-none");
+            $("#fg-cto").addClass("d-none");
+            addResource();
+            $("#resourceDiv").removeClass("d-none");
+        }
+        else if (e.params.data.text == eventTypeConstants.EDC_TEAM_SESSION) {
+            $("#fg-speaker").addClass("d-none");
+            $("#fg-sponsor").addClass("d-none");
+            $("#fg-presenter").removeClass("d-none");
+            $("#fg-cto").removeClass("d-none");
+            addResource();
+            $("#resourceDiv").removeClass("d-none");
+        }
+        else if (e.params.data.text == eventTypeConstants.EDC_NETWORKING) {
+            $("#fg-speaker").addClass("d-none");
+            $("#fg-sponsor").addClass("d-none");
+            $("#fg-presenter").addClass("d-none");
+            $("#fg-cto").addClass("d-none");
+            removeResources();           
+        }
+        else { // EDC Post-Panel
+            $("#fg-speaker").addClass("d-none");
+            $("#fg-sponsor").removeClass("d-none");
+            $("#fg-presenter").addClass("d-none");
+            $("#fg-cto").addClass("d-none");
+            addResource();
+            $("#resourceDiv").removeClass("d-none");
+        }
+    }
+
+    function handleEventDateChange(e) {
+        axios.get(`/api/select-options/related-events?date=${e.currentTarget.value}`)
+            .then(function (response) {
+                initSelect2($("#sessionId"), response.data);
+                $("#fg-session").removeClass("d-none");
+            })
+            .catch(showResponseError);
+    }
+
+    function addResource() {
+        if (resources.length === 10) return toastr.warning("You can only add up to 10 files.");
+        resources++;
+        var template =
+            `<h6>Resource ${resources}</h6>
+            <div class="form-group row">
+                <div class="col">
+                    <input type="text" id="resourceTitle-${resources}" name="resourceTitle-${resources}" class="form-control" placeholder="Resource Title">
+                </div>
+                <div class="col">
+                    <input type="text" id="resourceDescription-${resources}" name="resourceDescription-${resources}" class="form-control" placeholder="Resource Description">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col">
+                    <input type="file" id="resourceFile-${resources}" name="resourceFile-${resources}" class="form-control file">
+                </div>
+            </div>`;
+
+        $("#resource-container").append(template);
+        $(".file").fileinput({
+            showPreview: false,
+            theme: "fa"
+        });
+    }
+
+    function addMoreResource(e) {
+        if (e) e.preventDefault();
+        addResource();
+    }
+
+    function removeResources() {
+        resources = 0;
+        $("#resource-container").empty();
+        $("#resourceDiv").addClass("d-none");
+    }
+
     function save(e) {
         e.preventDefault();
 
@@ -226,7 +321,6 @@
         }
         else hideValidationErrors($formEl);
 
-        debugger;
         var data = formDataToJson($formEl);
         data.id = parseInt(data.id);
         if (isNaN(data.id)) data.id = 0; 

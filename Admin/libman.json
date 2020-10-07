@@ -139,34 +139,28 @@
       "destination": "wwwroot/lib/validate.js/"
     },
     {
-      "library": "bootstrap-fileinput@5.1.2",
-      "destination": "wwwroot/lib/bootstrap-fileinput/",
-      "files": [
-        "js/fileinput.min.js",
-        "css/fileinput.css",
-        "css/fileinput.min.css",
-        "img/loading-sm.gif",
-        "img/loading.gif",
-        "js/plugins/piexif.js",
-        "js/plugins/piexif.min.js",
-        "js/plugins/purify.js",
-        "js/plugins/purify.min.js",
-        "js/plugins/sortable.js",
-        "js/plugins/sortable.min.js",
-        "js/fileinput.js",
-        "themes/fas/theme.js",
-        "themes/fas/theme.min.js",
-        "themes/fa/theme.js",
-        "themes/fa/theme.min.js"
-      ]
-    },
-    {
       "provider": "unpkg",
       "library": "tableexport.jquery.plugin@1.10.20",
       "destination": "wwwroot/lib/tableexport.jquery.plugin/",
       "files": [
         "tableExport.js",
         "tableExport.min.js"
+      ]
+    },
+    {
+      "library": "bootstrap-fileinput@5.1.2",
+      "destination": "wwwroot/lib/bootstrap-fileinput/",
+      "files": [
+        "js/fileinput.min.js",
+        "js/fileinput.js",
+        "themes/fas/theme.js",
+        "themes/fas/theme.min.js",
+        "themes/fa/theme.js",
+        "themes/fa/theme.min.js",
+        "css/fileinput.min.css",
+        "css/fileinput.css",
+        "img/loading-sm.gif",
+        "img/loading.gif"
       ]
     }
   ]

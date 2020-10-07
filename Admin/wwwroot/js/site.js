@@ -14,6 +14,13 @@ var appConstants = Object.freeze({
     RESET_PASSWORD_SUCCESS: "Password reset successful. Please login."
 });
 
+var eventTypeConstants = Object.freeze({
+    EDC_PANEL: "EDC Panel",
+    EDC_TEAM_SESSION: "EDC Team Session",
+    EDC_NETWORKING: "EDC Networking",
+    EDC_POST_PANEL: "EDC Post-Panel"
+})
+
 var loginProviders = Object.freeze({
     FACEBOOK: "Facebook",
     GOOGLE: "Google"
