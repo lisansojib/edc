@@ -113,7 +113,7 @@ namespace Presentation.Admin.Controllers
 
             user.Password = _passwordHasher.Hash(model.Password);
             user.Username = model.Email;
-            user.AdminLevelId = 2; // Manager
+            user.AdminLevelId = 3; // Manager
 
             // Later this fields will be enabled disabled by apis as required.
             user.Verified = true;

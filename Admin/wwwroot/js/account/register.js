@@ -31,7 +31,7 @@
             })
             .catch(function (err) {
                 resetLoadingButton(thisBtn, originalText);
-                toastr.error(JSON.stringify(err.response.data.errors));
+                showResponseError(err);
             });
     }
 
