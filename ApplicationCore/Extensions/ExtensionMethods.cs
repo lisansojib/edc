@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using ApplicationCore;
+using System.IO;
 using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 
@@ -29,6 +30,11 @@ namespace System
         public static string ToWebFilePath(this string[] pathSegments)
         {
             return $"/{string.Join("/", pathSegments)}";
+        }
+
+        public static string ToThumbnailImagePath(this string filename)
+        {
+            return $"{Path.GetFileNameWithoutExtension(filename)}_{Constants.THUMBNAIL_IMAGE}{Path.GetExtension(filename)}";
         }
 
         public static string GetUnitName(this string value)

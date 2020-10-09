@@ -75,26 +75,24 @@ namespace Admin
         {
             ConfigureCookieSettings(services);
 
-            services.AddDbContext<AppDbContext>();
             services.AddScoped(typeof(IEfRepository<>), typeof(EfRepository<>));
             services.AddScoped(typeof(ISqlQueryRepository<>), typeof(SqlQueryRepository<>));
-            services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
             services.Configure<SmtpSettings>(Configuration.GetSection("SmtpSettings"));
-            services.AddScoped<IEmailService, EmailService>();
-            services.AddScoped<IAnnouncementService, AnnouncementService>();
-            services.AddScoped<IEventService, EventService>();
-            services.AddScoped<IPollService, PollService>();
-
-            services.AddScoped<IDeSerializeJwtToken, DeSerializeJwtToken>();
-            services.AddScoped<IPasswordHasher, PasswordHasher>();
-            services.AddScoped<ITokenBuilder, TokenBuilder>();
-            services.AddScoped<ISelectOptionService, SelectOptionService>();
-            services.AddScoped<IEventValueFieldsService, EventValueFieldsService>();
-            services.AddScoped<ITeamService, TeamService>();
-            services.AddScoped<ICompanyService, CompanyService>();
-            services.AddScoped<IParticipantService, ParticipantService>();
-            services.AddScoped<ISponsorService, SponsorService>();
-            services.AddScoped<ISpeakerService, SpeakerService>();
+            services.AddTransient<IEmailService, EmailService>();
+            services.AddTransient<IAnnouncementService, AnnouncementService>();
+            services.AddTransient<IEventService, EventService>();
+            services.AddTransient<IPollService, PollService>();
+            services.AddTransient<IDeSerializeJwtToken, DeSerializeJwtToken>();
+            services.AddTransient<IPasswordHasher, PasswordHasher>();
+            services.AddTransient<ITokenBuilder, TokenBuilder>();
+            services.AddTransient<ISelectOptionService, SelectOptionService>();
+            services.AddTransient<IEventValueFieldsService, EventValueFieldsService>();
+            services.AddTransient<ITeamService, TeamService>();
+            services.AddTransient<ICompanyService, CompanyService>();
+            services.AddTransient<IParticipantService, ParticipantService>();
+            services.AddTransient<ISponsorService, SponsorService>();
+            services.AddTransient<ISpeakerService, SpeakerService>();
+            services.AddTransient<IImageHelper, ImageHelper>();
 
             services.AddRouting(options =>
             {

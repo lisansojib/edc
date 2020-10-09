@@ -3,6 +3,7 @@
     public class Constants
     {
         public const string SYMMETRIC_SECURITY_KEY = "8b327b47-2e48-4116-9134-dcbcd5aff40b";
+        public const string THUMBNAIL_IMAGE = "100x100";
     }
 
     public static class UserRoles
