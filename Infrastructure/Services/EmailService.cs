@@ -12,14 +12,11 @@ namespace Infrastructure.Services
     public class EmailService : IEmailService
     {
         private readonly SmtpSettings _smtpSettings;
-        private readonly IAppLogger<EmailService> _logger;
 
         public EmailService(
-            IOptions<SmtpSettings> currentConfigs
-            , IAppLogger<EmailService> logger)
+            IOptions<SmtpSettings> currentConfigs)
         {
             _smtpSettings = currentConfigs.Value;
-            _logger = logger;
         }
 
         public async Task SendEmailAsync(string username, string toEmail, string subject, string messageBody)
@@ -52,7 +49,6 @@ namespace Infrastructure.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
                 throw (ex);
             }
         }

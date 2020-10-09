@@ -213,7 +213,7 @@
         var files = $("#logo")[0].files;
         if (files.length > 0) data.append("logo", files[0]);
 
-        var id = parseInt($formEl.find("id"));
+        var id = parseInt($formEl.find("#id"));
         if (isNaN(id) || id <= 0) {
             axios.post('/api/companies', data)
                 .then(function () {

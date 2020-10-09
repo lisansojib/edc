@@ -162,6 +162,15 @@
         "img/loading-sm.gif",
         "img/loading.gif"
       ]
+    },
+    {
+      "provider": "unpkg",
+      "library": "holdon.js@1.0.1",
+      "destination": "wwwroot/lib/holdon.js/",
+      "files": [
+        "src/download/HoldOn.min.css",
+        "src/download/HoldOn.min.js"
+      ]
     }
   ]
 }

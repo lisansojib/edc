@@ -298,7 +298,7 @@
         var files = $("#photo")[0].files;
         if (files.length > 0) data.append("photo", files[0]);
 
-        var id = parseInt($formEl.find("id"));
+        var id = parseInt($formEl.find("#id"));
         if (isNaN(id) || id <= 0) {
             axios.post('/api/participants', data)
                 .then(function () {

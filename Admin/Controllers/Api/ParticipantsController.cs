@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.Admin.Interfaces;
 using Presentation.Admin.Models;
 using Presentation.Interfaces;
 
@@ -27,6 +28,7 @@ namespace Presentation.Admin.Controllers.Api
         private readonly ISelectOptionService _selectOptionService;
         private readonly IPasswordHasher _passwordHasher;
         private readonly IWebHostEnvironment _hostEnvironment;
+        private readonly IImageHelper _imageHelper;
         private readonly IMapper _mapper;
 
         public ParticipantsController(IParticipantService service
@@ -34,6 +36,7 @@ namespace Presentation.Admin.Controllers.Api
             , ISelectOptionService selectOptionService
             , IPasswordHasher passwordHasher
             , IWebHostEnvironment hostEnvironment
+            , IImageHelper imageHelper
             , IMapper mapper)
         {
             _service = service;
@@ -41,6 +44,7 @@ namespace Presentation.Admin.Controllers.Api
             _selectOptionService = selectOptionService;
             _passwordHasher = passwordHasher;
             _hostEnvironment = hostEnvironment;
+            _imageHelper = imageHelper;
             _mapper = mapper;
         }
 
@@ -81,6 +85,13 @@ namespace Presentation.Admin.Controllers.Api
                 await model.Photo.CopyToAsync(new FileStream(savePath, FileMode.Create));
 
                 entity.PhotoUrl = (new string[] { UploadFolders.UPLOAD_PATH, UploadFolders.PARTICIPANTS, fileName }).ToWebFilePath();
+
+                // Create Thumbnail Image
+                var thumbnailImagePath = fileName.ToThumbnailImagePath();
+                savePath = Path.Combine(_hostEnvironment.WebRootPath, UploadFolders.UPLOAD_PATH, UploadFolders.PARTICIPANTS, thumbnailImagePath);
+                var thumbnailImage = _imageHelper.ResizeImage(model.Photo, 100, 100, false);
+                using var fileStream = new FileStream(savePath, FileMode.Create);
+                await thumbnailImage.CopyToAsync(fileStream);
             }
 
             if(entity.Password.NotNullOrEmpty()) entity.Password = _passwordHasher.Hash(model.Password);
@@ -118,6 +129,13 @@ namespace Presentation.Admin.Controllers.Api
                 await model.Photo.CopyToAsync(new FileStream(savePath, FileMode.Create));
 
                 entity.PhotoUrl = (new string[] { UploadFolders.UPLOAD_PATH, UploadFolders.PARTICIPANTS, fileName }).ToWebFilePath();
+
+                // Create Thumbnail Image
+                var thumbnailImagePath = fileName.ToThumbnailImagePath();
+                savePath = Path.Combine(_hostEnvironment.WebRootPath, UploadFolders.UPLOAD_PATH, UploadFolders.PARTICIPANTS, thumbnailImagePath);
+                var thumbnailImage = _imageHelper.ResizeImage(model.Photo, 100, 100, false);
+                using var fileStream = new FileStream(savePath, FileMode.Create);
+                await thumbnailImage.CopyToAsync(fileStream);
             }
 
             if (entity.Password.NotNullOrEmpty()) entity.Password = _passwordHasher.Hash(model.Password);
