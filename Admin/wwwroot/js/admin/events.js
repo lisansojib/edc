@@ -1,6 +1,6 @@
 ﻿(function () {
     var $table, $formEl;
-    var resources = 1;
+    var resoureCount = 0;
 
     var validationConstraints = {
         title: {
@@ -9,11 +9,11 @@
                 maximum: 100
             }
         },
-        speakers: {
-            presence: true
-        },
-        sponsors: {
-            presence: true
+        cohort: {
+            presence: true,
+            length: {
+                maximum: 100
+            }
         },
         eventDate: {
             presence: true,
@@ -230,6 +230,7 @@
             $("#fg-sponsor").addClass("d-none");
             $("#fg-presenter").addClass("d-none");
             $("#fg-cto").addClass("d-none");
+            resoureCount = 0;
             addResource();
             $("#resourceDiv").removeClass("d-none");
         }
@@ -238,6 +239,7 @@
             $("#fg-sponsor").addClass("d-none");
             $("#fg-presenter").removeClass("d-none");
             $("#fg-cto").removeClass("d-none");
+            resoureCount = 0;
             addResource();
             $("#resourceDiv").removeClass("d-none");
         }
@@ -246,6 +248,7 @@
             $("#fg-sponsor").addClass("d-none");
             $("#fg-presenter").addClass("d-none");
             $("#fg-cto").addClass("d-none");
+            resoureCount = 0;
             removeResources();           
         }
         else { // EDC Post-Panel
@@ -253,6 +256,7 @@
             $("#fg-sponsor").removeClass("d-none");
             $("#fg-presenter").addClass("d-none");
             $("#fg-cto").addClass("d-none");
+            resoureCount = 0;
             addResource();
             $("#resourceDiv").removeClass("d-none");
         }
@@ -268,27 +272,28 @@
     }
 
     function addResource() {
-        if (resources.length === 10) return toastr.warning("You can only add up to 10 files.");
-        resources++;
+        if (resoureCount.length === 10) return toastr.warning("You can only add up to 10 files.");
+        resoureCount++;
         var template =
-            `<h6>Resource ${resources}</h6>
+            `<h6>Resource ${resoureCount}</h6>
             <div class="form-group row">
                 <div class="col">
-                    <input type="text" id="resourceTitle-${resources}" name="resourceTitle-${resources}" class="form-control" placeholder="Resource Title">
+                    <input type="text" id="resourceTitle-${resoureCount}" name="resourceTitle-${resoureCount}" class="form-control" placeholder="Resource Title">
                 </div>
                 <div class="col">
-                    <input type="text" id="resourceDescription-${resources}" name="resourceDescription-${resources}" class="form-control" placeholder="Resource Description">
+                    <input type="text" id="resourceDescription-${resoureCount}" name="resourceDescription-${resoureCount}" class="form-control" placeholder="Resource Description">
                 </div>
             </div>
             <div class="form-group row">
                 <div class="col">
-                    <input type="file" id="resourceFile-${resources}" name="resourceFile-${resources}" class="form-control file">
+                    <input type="file" id="resourceFile-${resoureCount}" name="resourceFile-${resoureCount}" class="form-control file">
                 </div>
             </div>`;
 
         $("#resource-container").append(template);
         $(".file").fileinput({
             showPreview: false,
+            showUpload: false,
             theme: "fa"
         });
     }
@@ -299,7 +304,7 @@
     }
 
     function removeResources() {
-        resources = 0;
+        resoureCount = 0;
         $("#resource-container").empty();
         $("#resourceDiv").addClass("d-none");
     }
@@ -323,16 +328,68 @@
 
         var data = formDataToJson($formEl);
         data.id = parseInt(data.id);
-        if (isNaN(data.id)) data.id = 0; 
+        if (isNaN(data.id)) data.id = 0;
+        data.eventTypeId = parseInt(data.eventTypeId);
+
+        var presenterId = parseInt(data.presenterId);
+        if (isNaN(presenterId)) data.presenterId = 0;
+
+        var ctoId = parseInt(data.ctoId);
+        if (isNaN(ctoId)) data.ctoId = 0;
 
         var speakers = $("#speakers").select2("data");
-        data.speakers = speakers.map(function (el) { return { id: el.id, text: el.text } });
+        if (speakers) data.speakers = speakers.map(function (el) { return { id: el.id, text: el.text } });
 
         var sponsors = $("#sponsors").select2("data");
-        data.sponsors = sponsors.map(function (el) { return { id: el.id, text: el.text } });
+        if (sponsors) data.sponsors = sponsors.map(function (el) { return { id: el.id, text: el.text } });
+
+        data.resources = [];
+        for (var i = 1; i <= resoureCount; i++) {
+            var isValid = true;
+            var errors = '';
+            var title = $(`#resourceTitle-${i}`).val();
+            if (!title || !title.trim()) {
+                errors += `Title can't be empty for resource ${i}<br>`;
+                isValid = false;
+            }
+
+            var description = $(`#resourceDescription-${i}`).val();
+            //if (!description || !description.trim()) {
+            //    errors += `Description can't be empty for resource ${i}<br>`;
+            //    false;
+            //}
+
+            var file = $(`#resourceFile-${i}`)[0].files[0];
+            if (!file) {
+                errors += `You must upload a file for resource ${i}`;
+                isValid = false;
+            }
+            if (!isValid) {
+                toastr.error(errors);
+                continue;
+            }
+
+            var newResource = {
+                title: title,
+                description: description,
+                file: file
+            }
+
+            data.resources.push(newResource);
+        }
+
+        var formData = new FormData();
+        buildFormData(formData, data);
+
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': "Bearer " + localStorage.getItem("token")
+            }
+        }
 
         if (data.id <= 0) {
-            axios.post('/api/events', data)
+            axios.post('/api/events', formData, config)
                 .then(function () {
                     resetLoadingButton(thisBtn, originalText);
                     $("#event-modal").modal("hide");
@@ -341,12 +398,11 @@
                 })
                 .catch(function (err) {
                     resetLoadingButton(thisBtn, originalText);
-                    $("#event-modal").modal("hide");
                     toastr.error(JSON.stringify(err.response.data.errors));
                 });
         }
         else {
-            axios.put('/api/events', data)
+            axios.put('/api/events', formData, config)
                 .then(function () {
                     resetLoadingButton(thisBtn, originalText);
                     $("#event-modal").modal("hide");
@@ -355,10 +411,23 @@
                 })
                 .catch(function (err) {
                     resetLoadingButton(thisBtn, originalText);
-                    $("#event-modal").modal("hide");
                     toastr.error(JSON.stringify(err.response.data.errors));
                 });
         }
     }
+
+    function buildFormData(formData, data, parentKey) {
+        if (data && typeof data === 'object' && !(data instanceof Date) && !(data instanceof File) && !(data instanceof Blob)) {
+            Object.keys(data).forEach(key => {
+                buildFormData(formData, data[key], parentKey ? `${parentKey}[${key}]` : key);
+            });
+        } else {
+            const value = data == null ? '' : data;
+
+            if (data instanceof File) formData.append("files", data);
+            else formData.append(parentKey, value);
+        }
+    }
+
 })();
 

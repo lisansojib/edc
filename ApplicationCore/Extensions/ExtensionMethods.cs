@@ -19,6 +19,7 @@ namespace System
         public static string ToUniqueFileName(this string fileName)
         {
             fileName = string.Join("-", fileName.Split(Path.GetInvalidFileNameChars(), StringSplitOptions.RemoveEmptyEntries));
+            //fileName = fileName.Slugify();
             return Path.GetFileNameWithoutExtension(fileName)
                       + "-"
                       + Guid.NewGuid().ToString().Substring(0, 4)
@@ -91,7 +92,7 @@ namespace System
             var s = value.RemoveAccent().ToLower();
             s = Regex.Replace(s, @"[^a-z0-9\s-]", "");                      // remove invalid characters
             s = Regex.Replace(s, @"\s+", " ").Trim();                       // single space
-            s = s.Substring(0, s.Length <= 45 ? s.Length : 45).Trim();      // cut and trim
+            s = s.Trim();      // cut and trim
             s = Regex.Replace(s, @"\s", "-");                               // insert hyphens
             return s.ToLower();
         }

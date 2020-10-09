@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ApplicationCore;
@@ -8,6 +9,7 @@ using ApplicationCore.Interfaces.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Presentation.Admin.Interfaces;
@@ -24,16 +26,19 @@ namespace Presentation.Admin.Controllers.Api
         private readonly IEventService _service;
         private readonly IEfRepository<Event> _repository;
         private readonly IEventValueFieldsService _eventValueFieldsService;
+        private readonly IWebHostEnvironment _hostEnvironment;
         private readonly IMapper _mapper;
 
         public EventsController(IEventService service
             , IEfRepository<Event> repository
             , IEventValueFieldsService eventValueFieldsService
+            , IWebHostEnvironment hostEnvironment
             , IMapper mapper)
         {
             _service = service;
             _repository = repository;
             _eventValueFieldsService = eventValueFieldsService;
+            _hostEnvironment = hostEnvironment;
             _mapper = mapper;
         }
 
@@ -71,7 +76,7 @@ namespace Presentation.Admin.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] EventBindingModel model)
+        public async Task<IActionResult> Create([FromForm] EventBindingModel model)
         {
             var speakerIds = await _eventValueFieldsService.GetSpeakerIdsAsync(model.Speakers);
             var sponsorIds = await _eventValueFieldsService.GetSponsorIdsAsync(model.Sponsors);
@@ -84,13 +89,26 @@ namespace Presentation.Admin.Controllers.Api
 
             if (model.SessionId.NullOrEmpty()) entity.SessionId = Guid.NewGuid().ToString();
 
+            entity.EventFolder = DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString();
+            var folderPath = Path.Combine(_hostEnvironment.WebRootPath, UploadFolders.UPLOAD_PATH, UploadFolders.EVENTS, entity.EventFolder);
+            if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
+            int i = 0;
+            foreach (var item in model.Files)
+            {
+                var filename = item.FileName.ToUniqueFileName();
+                var savePath = Path.Combine(_hostEnvironment.WebRootPath, UploadFolders.UPLOAD_PATH, UploadFolders.EVENTS, entity.EventFolder, filename);
+                await item.CopyToAsync(new FileStream(savePath, FileMode.Create));
+
+                entity.EventResources[i].FilePath = new string[] { UploadFolders.UPLOAD_PATH, UploadFolders.EVENTS, entity.EventFolder, filename }.ToWebFilePath();
+            }
+
             await _repository.AddAsync(entity);
 
             return Ok();
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] EventBindingModel model)
+        public async Task<IActionResult> Update([FromForm] EventBindingModel model)
         {
             var entity = await _repository.QueryableAll(x => x.Id == model.Id).Include(x => x.EventSpeakers).Include(x => x.EventSponsors).FirstOrDefaultAsync();
 

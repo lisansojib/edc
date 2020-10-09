@@ -20,6 +20,8 @@ namespace Infrastructure.Data.Configurations
 
             builder.Property(t => t.ImagePath).HasMaxLength(250).HasDefaultValue("");
 
+            builder.Property(t => t.EventFolder).HasColumnType("varchar(50)");
+
             builder.Property(t => t.SessionId).HasMaxLength(100);
 
             builder.Property(t => t.Description).HasMaxLength(1000);

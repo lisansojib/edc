@@ -21,6 +21,7 @@ namespace ApplicationCore.Entities
         public int EventTypeId { get; set; }
         public int PresenterId { get; set; }
         public int CTOId { get; set; }
+        public string EventFolder { get; set; }
         public string SessionId { get; set; }
         public int CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
@@ -34,6 +35,6 @@ namespace ApplicationCore.Entities
         /// </summary>
         public virtual ICollection<EventSponsor> EventSponsors { get; set; }
 
-        public virtual ICollection<EventResource> EventResources { get; set; }
+        public virtual List<EventResource> EventResources { get; set; }
     }
 }

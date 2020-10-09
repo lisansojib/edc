@@ -18,9 +18,12 @@ namespace Presentation.Admin.Automapping
 
             CreateMap<Event, EventDTO>();
 
+            CreateMap<EventResourceBindingModel, EventResource>();
+
             CreateMap<EventBindingModel, Event>()
                 .ForMember(dest => dest.EventSpeakers, opt => opt.Ignore())
-                .ForMember(dest => dest.EventSponsors, opt => opt.Ignore());
+                .ForMember(dest => dest.EventSponsors, opt => opt.Ignore())
+                .ForMember(dest => dest.EventResources, opt => opt.MapFrom(src => src.Resources));
 
             CreateMap<Poll, PollDTO>();
 

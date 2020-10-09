@@ -49,5 +49,6 @@
         public const string PARTICIPANTS = "participants";
         public const string SPONSORS = "sponsors";
         public const string SPEAKERS = "speakers";
+        public const string EVENTS = "events";
     }
 }

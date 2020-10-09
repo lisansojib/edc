@@ -36,6 +36,9 @@ namespace Presentation.Admin.Services
         public async Task<List<int>> GetSpeakerIdsAsync(IEnumerable<Select2Option> speakers)
         {
             var speakerIds = new List<int>();
+
+            if (speakers == null) return speakerIds;
+
             foreach (var speaker in speakers)
             {
                 int.TryParse(speaker.Id, out int speakerId);
@@ -61,6 +64,9 @@ namespace Presentation.Admin.Services
         public async Task<List<int>> GetSponsorIdsAsync(IEnumerable<Select2Option> sponsors)
         {
             var sponsorIds = new List<int>();
+
+            if (sponsors == null) return sponsorIds;
+
             foreach (var sponsor in sponsors)
             {
                 int.TryParse(sponsor.Id, out int sponsorId);
