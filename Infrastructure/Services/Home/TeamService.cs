@@ -46,5 +46,24 @@ namespace Infrastructure.Services
 
             return records;
         }
+
+        public async Task<List<MyTeamDTO>> GetMyTeamsAsync(int participantId)
+        {
+            var query = $@"
+                With
+                T As (
+	                Select T.Id, T.Name, T.Description 
+	                From ParticipantTeams PT
+	                Inner Join Teams T On PT.TeamId = T.Id
+	                Where TeamMemberId = {participantId}
+                )
+
+                Select T.Id TeamId, T.Name TeamName, PT.Id ParticipantTeamId, PT.TeamMemberId, P.FirstName + ' ' + P.LastName + '(' + P.Username + ')' ParticipantName, P.PhotoUrl
+                From T
+                Inner Join ParticipantTeams PT On T.Id = PT.TeamId
+                Inner Join Participants P On PT.TeamMemberId = P.Id";
+
+            return await _repository.RawSqlQueryAsync<MyTeamDTO>(query);
+        }
     }
 }

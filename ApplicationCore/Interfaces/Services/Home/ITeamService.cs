@@ -7,5 +7,7 @@ namespace ApplicationCore.Interfaces.Services
     public interface ITeamService
     {
         Task<List<ParticipantTeamDTO>> GetPagedAsync(int offset = 0, int limit = 10, string filterBy = null, string orderBy = null);
+
+        Task<List<MyTeamDTO>> GetMyTeamsAsync(int participantId);
     }
 }

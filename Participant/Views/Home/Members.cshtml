@@ -1,0 +1,117 @@
+﻿@{
+    ViewData["Title"] = "My Teams";
+}
+
+<div class="row" id="teams-container">
+</div>
+
+<div class="modal fade" data-backdrop="static" data-keyboard="false" id="participant-modal" tabindex="-1" aria-labelledby="participant-modal" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="participant-modal-label">Participant Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="participant-form">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col">
+                                <input type="hidden" name="id" id="id" value="0" />
+                                <div class="form-group row">
+                                    <label for="username" class="col-md-3">Username</label>
+                                    <div class="col-md-9">
+                                        <input type="text" readonly class="form-control-plaintext" id="username" name="username">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="email" class="col-md-3">Email</label>
+                                    <div class="col-md-9">
+                                        <input type="text" readonly class="form-control-plaintext" id="email" name="email">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="firstName" class="col-md-3">FirstName</label>
+                                    <div class="col-md-9">
+                                        <input readonly class="form-control-plaintext" rows="2" id="firstName" name="firstName" />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="lastName" class="col-md-3">LastName</label>
+                                    <div class="col-md-9">
+                                        <input type="text" readonly class="form-control-plaintext" id="lastName" name="lastName">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="title" class="col-md-3">Title</label>
+                                    <div class="col-md-9">
+                                        <input type="text" readonly class="form-control-plaintext" id="title" name="title">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <img src="" alt="" class="img-thumbnail" id="photoUrl">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group row">
+                                    <label for="companyName" class="col-md-3">Company</label>
+                                    <div class="col-md-9">
+                                        <input type="text" readonly class="form-control-plaintext" id="companyName" name="companyName">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="phone" class="col-md-3">Phone</label>
+                                    <div class="col-md-9">
+                                        <input type="text" readonly class="form-control-plaintext" id="phone" name="phone">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="mobile" class="col-md-3">Mobile</label>
+                                    <div class="col-md-9">
+                                        <input type="text" readonly class="form-control-plaintext" rows="2" id="mobile" name="mobile" />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="emailCorp" class="col-md-3">Email Corp</label>
+                                    <div class="col-md-9">
+                                        <input type="text" readonly class="form-control-plaintext" id="emailCorp" name="emailCorp">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="phoneCorp" class="col-md-3">Phone Corp</label>
+                                    <div class="col-md-9">
+                                        <input type="text" readonly class="form-control-plaintext" id="phoneCorp" name="phoneCorp">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="linkedinUrl" class="col-md-3">Linkedin Url</label>
+                                    <div class="col-md-9">
+                                        <input type="text" readonly class="form-control-plaintext" id="linkedinUrl" name="linkedinUrl" />
+                                    </div>
+                                </div>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="active" name="active">
+                                    <label class="custom-control-label" for="verified">Active</label>
+                                </div>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="verified" name="verified">
+                                    <label class="custom-control-label" for="verified">Verified</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btn-send-message">Direct Message</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/js/portal/my-teams.js" asp-append-version="true"></script>
+}
