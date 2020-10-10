@@ -10,4 +10,10 @@
         public string Password { get; set; }
         public bool EnableSsl { get; set; }
     }
+
+    public class PubnubKeys
+    {
+        public string PublishKey { get; set; }
+        public string SubscribeKey { get; set; }
+    }
 }

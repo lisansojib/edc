@@ -1,12 +1,12 @@
 ﻿'use strict'
 
 var appConstants = Object.freeze({
-    LOGIN_REDIRECT_PATH: "/home/index",
+    BASE_URL: window.location.origin,
+    LOGIN_REDIRECT_PATH: "/portal/index",
     REGISTER_REDIRECT_PATH: "/account/login",
     RECOVER_REDIRECT_PATH: "/account/recovery-successful",
     RESET_REDIRECT_PATH: "/account/login",
-    LOGOUT_REDIRECT_PATH: "/account/login",
-    SAVE_AD_REDIRECT_PATH: "/my-account/ticket-save-success"
+    LOGOUT_REDIRECT_PATH: "/account/login"
 });
 
 var loginProviders = Object.freeze({
@@ -14,10 +14,7 @@ var loginProviders = Object.freeze({
     GOOGLE: "Google"
 });
 
-var pKeys = Object.freeze({
-    PUBLISH_KEY: "pub-c-96e4cfae-dc9f-4a2f-97fd-08794a7a7d48",
-    SUBSCRIBE_KEY: "sub-c-3974af1a-858f-11ea-a961-f6bfeb2ef611"
-});
+var pKeys;
 
 $(function () {
     toastr.options.escapeHtml = true;
@@ -32,12 +29,18 @@ $(function () {
         $.extend($.fn.bootstrapTable.defaults.icons, { clearSearch: 'fa-refresh' });
     }
 
+    getSiteSettings();
+
     loadProgressBar();
 
     $("#btnLogout").click(logout);
 
     $("#btn-create-password").click(createPassword);
 });
+
+function getSiteSettings() {
+    axios.get("/site-settings").then(function (response) { pKeys = response.data });
+}
 
 function logout(e) {
     e.preventDefault();

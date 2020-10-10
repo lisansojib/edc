@@ -3,11 +3,6 @@
   "defaultProvider": "cdnjs",
   "libraries": [
     {
-      "provider": "filesystem",
-      "library": "wwwroot/lib/pubnub/",
-      "destination": "wwwroot/lib/pubnub/"
-    },
-    {
       "library": "malihu-custom-scrollbar-plugin@3.1.5",
       "destination": "wwwroot/lib/malihu-custom-scrollbar-plugin/"
     },
@@ -134,6 +129,15 @@
         "bootstrap-table.min.css",
         "bootstrap-table.js",
         "bootstrap-table.css"
+      ]
+    },
+    {
+      "provider": "unpkg",
+      "library": "@aspnet/signalr@1.1.4",
+      "destination": "wwwroot/lib/signalr/",
+      "files": [
+        "dist/browser/signalr.js",
+        "dist/browser/signalr.min.js"
       ]
     }
   ]

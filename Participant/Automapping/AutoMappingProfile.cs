@@ -11,6 +11,8 @@ namespace Presentation.Participant.Automapping
 
             CreateMap<ApplicationCore.Entities.Participant, ParticipantDTO>()
                 .ForMember(dest => dest.CompanyName, opt => opt.MapFrom(src => src.Company.Name));
+
+            CreateMap<ApplicationCore.Entities.Participant, ProfileViewModel>();
         }
     }
 }

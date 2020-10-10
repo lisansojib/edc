@@ -51,5 +51,26 @@ namespace Infrastructure.Services
 
             return records;
         }
+
+        public async Task<IEnumerable<string>> GetAllTeamsAsync(int teamMemberId)
+        {
+            var query = $@"With 
+                PT As (
+	                Select * 
+	                From ParticipantTeams
+	                Where TeamMemberId = {teamMemberId}
+                )
+
+                Select T.Name 
+                From PT
+                Inner Join Teams T On PT.TeamId = T.Id
+                Group By T.Name
+                Union
+                Select ISNULL(Cohort, '') ChannelName
+                From dbo.Events
+                Group By Cohort";
+
+            return await _repository.RawSqlQueryAsync<string>(query);
+        }
     }
 }

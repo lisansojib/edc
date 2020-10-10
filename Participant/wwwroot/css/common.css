@@ -1,0 +1,4 @@
+﻿@media (max-width: 991px) {
+    .chat-wrapper .chat-content {
+        display: flex !important;
+    }

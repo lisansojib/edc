@@ -7,8 +7,10 @@ namespace ApplicationCore.Entities
         public User()
         {
             CreatedAt = DateTime.Now;
+            UUId = Guid.NewGuid().ToString();
         }
 
+        public string UUId { get; set; }
         public string Username { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

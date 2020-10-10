@@ -106,7 +106,7 @@
             })
             .catch(function (err) {
                 resetLoadingButton(thisBtn, thisBtnText);
-                toastr.error(JSON.stringify(err.response.data.errors));
+                showResponseError(err);
             });
     }
 
@@ -120,24 +120,17 @@
                 localStorage.setItem("token", response.data.accessToken);
                 loginToApp(response.data);
             })
-            .catch(function (err) {
-                toastr.error(JSON.stringify(err.response.data.errors));
-            });
+            .catch(showResponseError);
     }
     // #endregion
 
     function loginToApp(data) {
         axios.post(`/account/login`, data)
             .then(function () {
+                debugger;
                 toastr.success("Successfully logged in to App!");
                 window.location.href = appConstants.LOGIN_REDIRECT_PATH;
             })
-            .catch(function (err) {
-                var errMsg = err.response.data;
-                toastr.error(errMsg);
-            })
-            .finally(function () {
-                toastr.error(JSON.stringify(err.response.data.errors));
-            });
+            .catch(showResponseError);
     }
 })();

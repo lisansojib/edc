@@ -4,14 +4,16 @@ using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201010133014_Userchanges")]
+    partial class Userchanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,7 +79,7 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("varchar")
                         .HasMaxLength(100);
 
-                    b.Property<string>("UUId")
+                    b.Property<string>("UId")
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
@@ -468,7 +470,7 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("varchar")
                         .HasMaxLength(100);
 
-                    b.Property<string>("UUId")
+                    b.Property<string>("UId")
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
@@ -704,6 +706,10 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("TeamUId")
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 

@@ -13,18 +13,21 @@ using Microsoft.AspNetCore.Mvc;
 using NLog;
 using Presentation.Participant.Models;
 using Presentation.Participant.Interfaces;
+using Presentation.Participant.Controllers.Api;
+using Microsoft.EntityFrameworkCore;
 
 namespace Presentation.Participant.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthController : ApiBaseController
     {
         private readonly IEfRepository<ApplicationCore.Entities.Participant> _userRepository;
         private readonly IEfRepository<ExternalLogin> _externalLoginRepository;
         private readonly IEmailService _emailService;
         private readonly ITokenBuilder _tokenBuilder;
         private readonly IPasswordHasher _passwordHasher;
+        private readonly IParticipantService _participantService;
         private readonly IMapper _mapper;
         private readonly Logger _logger;
 
@@ -33,6 +36,7 @@ namespace Presentation.Participant.Controllers
             , IEmailService emailService
             , ITokenBuilder tokenBuilder
             , IPasswordHasher passwordHasher
+            , IParticipantService participantService
             , IMapper mapper)
         {
             _userRepository = userRepository;
@@ -40,8 +44,9 @@ namespace Presentation.Participant.Controllers
             _emailService = emailService;
             _passwordHasher = passwordHasher;
             _tokenBuilder = tokenBuilder;
+            _participantService = participantService;
             _mapper = mapper;
-            _logger = LogManager.GetLogger("adminLogger");
+            _logger = LogManager.GetLogger("participantLogger");
         }
 
         [ProducesResponseType(typeof(ErrorResponseModel), 400)]
@@ -185,6 +190,19 @@ namespace Presentation.Participant.Controllers
             _logger.Info($"{user.Username} changed password.");
 
             return Ok(GetTokenResponse(user, false));
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [ProducesResponseType(typeof(ErrorResponseModel), 400)]
+        [ProducesResponseType(typeof(ErrorResponseModel), 500)]
+        [ProducesResponseType(typeof(ProfileViewModel), 200)]
+        [HttpGet("me")]
+        public async Task<IActionResult> GetMe()
+        {
+            var record = await _userRepository.QueryableAll(x => x.Id == UserId).Include(x => x.ParticipantTeams).FirstOrDefaultAsync();
+            var user = _mapper.Map<ProfileViewModel>(record);
+            user.Channels = await _participantService.GetAllTeamsAsync(UserId);
+            return Ok(user);
         }
 
         #region Helpers

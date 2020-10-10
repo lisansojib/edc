@@ -35,7 +35,7 @@ using Presentation.Participant.Services;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
-namespace Admin
+namespace Presentation.Participant
 {
     public class Startup
     {
@@ -78,15 +78,17 @@ namespace Admin
             services.AddScoped(typeof(ISqlQueryRepository<>), typeof(SqlQueryRepository<>));
             services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
             services.Configure<SmtpSettings>(Configuration.GetSection("SmtpSettings"));
+            services.Configure<PubnubKeys>(Configuration.GetSection("PubnubKeys"));
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IDeSerializeJwtToken, DeSerializeJwtToken>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
             services.AddScoped<ITokenBuilder, TokenBuilder>();
-            services.AddScoped<ISelectOptionService, SelectOptionService>();
-            services.AddScoped<IEventService, EventService>();
-            services.AddScoped<ITeamService, TeamService>();
-            services.AddScoped<IPollService, PollService>();
-            services.AddScoped<IAnnouncementService, AnnouncementService>();
+            services.AddTransient<ISelectOptionService, SelectOptionService>();
+            services.AddTransient<IEventService, EventService>();
+            services.AddTransient<ITeamService, TeamService>();
+            services.AddTransient<IPollService, PollService>();
+            services.AddTransient<IAnnouncementService, AnnouncementService>();
+            services.AddTransient<IParticipantService, ParticipantService>();
 
             services.AddRouting(options =>
             {
@@ -256,7 +258,7 @@ namespace Admin
             {
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
-                endpoints.MapHub<ChatHub>("/chatHub");
+                endpoints.MapHub<ChannelHub>("/channelHub");
                 endpoints.MapControllerRoute("default", "{controller:slugify=Account}/{action:slugify=Login}/{id?}/{slugifiedTitle?}");
             });
         }

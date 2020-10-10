@@ -7,12 +7,20 @@
 
   <ItemGroup>
     <Content Remove="Views\Home\Members.cshtml" />
+    <Content Remove="Views\Home\Session.cshtml" />
+    <Content Remove="Views\Portal\Index.cshtml" />
+    <Content Remove="Views\Portal\Members.cshtml" />
+    <Content Remove="Views\Portal\Session.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="Views\Home\Index.cshtml" />
     <None Include="Views\Home\Members.cshtml" />
+    <None Include="Views\Home\Session.cshtml" />
     <None Include="Views\Home\Privacy.cshtml" />
+    <None Include="Views\Portal\Index.cshtml" />
+    <None Include="Views\Portal\Members.cshtml" />
+    <None Include="Views\Portal\Session.cshtml" />
     <None Include="Views\Shared\Error.cshtml" />
     <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
     <None Include="Views\_ViewImports.cshtml" />

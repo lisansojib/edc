@@ -68,5 +68,24 @@
     "inputFiles": [
       "wwwroot/js/account/register.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/portal/home.min.js",
+    "inputFiles": [
+      "wwwroot/js/portal/home.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/portal/my-teams.min.js",
+    "inputFiles": [
+      "wwwroot/js/portal/my-teams.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/chat-bundle.min.js",
+    "inputFiles": [
+      "wwwroot/lib/signalr/dist/browser/signalr.min.js",
+      "wwwroot/lib/pubnub/pubnub.min.js"
+    ]
   }
 ]

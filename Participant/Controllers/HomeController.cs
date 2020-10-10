@@ -1,31 +1,37 @@
 ﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Authorization;
+using ApplicationCore;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Presentation.Participant.Models;
 
-namespace Admin.Controllers
+namespace Presentation.Participant.Controllers
 {
     [ApiExplorerSettings(IgnoreApi = true)]
     public class HomeController : Controller
     {
-        public HomeController()
+        private readonly PubnubKeys _pubnubKeys;
+
+        public HomeController(IOptions<PubnubKeys> options)
         {
+            _pubnubKeys = options.Value;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+        //[HttpGet]
+        //public IActionResult Index()
+        //{
+        //    return View();
+        //}
 
+        [HttpGet]
         public IActionResult Privacy()
         {
             return View();
-        }
+        }        
 
-        [Authorize]
-        public ActionResult Members()
+        [HttpGet("site-settings")]
+        public IActionResult GetSiteSettings()
         {
-            return View();
+            return Ok(_pubnubKeys);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

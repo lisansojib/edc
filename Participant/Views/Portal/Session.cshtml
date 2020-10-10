@@ -1,0 +1,568 @@
+﻿@{
+    ViewData["Title"] = "Session";
+}
+
+@section styles{
+    @*<link href="~/css/common.css" rel="stylesheet" />*@
+}
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/portal/index">Portal</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Session</li>
+    </ol>
+</nav>
+
+<div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+    <div>
+        <h4 class="mb-3 mb-md-0">Welcome to Dashboard</h4>
+    </div>
+    <div class="d-flex align-items-center flex-wrap text-nowrap">
+        <div class="input-group date datepicker dashboard-date mr-2 mb-2 mb-md-0 d-md-none d-xl-flex" id="dashboardDate">
+            <span class="input-group-addon bg-transparent"><i data-feather="calendar" class=" text-primary"></i></span>
+            <input type="text" class="form-control">
+        </div>
+        <button type="button" class="btn btn-outline-info btn-icon-text mr-2 d-none d-md-block">
+            <i class="btn-icon-prepend" data-feather="download"></i>
+            Import
+        </button>
+        <button type="button" class="btn btn-outline-primary btn-icon-text mr-2 mb-2 mb-md-0">
+            <i class="btn-icon-prepend" data-feather="printer"></i>
+            Print
+        </button>
+        <button type="button" class="btn btn-primary btn-icon-text mb-2 mb-md-0">
+            <i class="btn-icon-prepend" data-feather="download-cloud"></i>
+            Download Report
+        </button>
+    </div>
+</div>
+
+<div class="row chat-wrapper">
+    <div class="col stretch-card">
+        <div class="row flex-grow">
+            <div class="col-md-7 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <div style="border: 0; margin: 0 auto; padding-top: 56.25%; position: relative;">
+                                    <iframe style="border: 0; position: absolute; top:0; left:0; height: 100%; width: 100%;" src="https://sl-player-host.s3.amazonaws.com/client.html?player=73681a60ea14acb6" allow="autoplay; fullscreen" allowFullScreen></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-5 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row position-relative">
+                            <div class="col chat-content">
+                                <div class="chat-header border-bottom pb-2">
+                                    <div class="d-flex justify-content-between">
+                                        <div class="d-flex align-items-center">
+                                            <figure class="mb-0 mr-2">
+                                                <img src="https://via.placeholder.com/43x43" class="img-sm rounded-circle" alt="image">
+                                                <div class="status online"></div>
+                                                <div class="status online"></div>
+                                            </figure>
+                                            <div>
+                                                <p>Mariana Zenha</p>
+                                                <p class="text-muted tx-13">Front-end Developer</p>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-center mr-n1">
+                                            <a href="#">
+                                                <i data-feather="refresh-ccw" class="icon-lg text-muted" data-toggle="tooltip" title="Switch User"></i> <span class="text-muted">Switch User</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="chat-body">
+                                    <ul class="messages">
+                                        <li class="message-item friend">
+                                            <img src="https://via.placeholder.com/43x43" class="img-xs rounded-circle" alt="avatar">
+                                            <div class="content">
+                                                <div class="message">
+                                                    <div class="bubble">
+                                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                                                    </div>
+                                                    <span>8:12 PM</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="message-item me">
+                                            <img src="https://via.placeholder.com/43x43" class="img-xs rounded-circle" alt="avatar">
+                                            <div class="content">
+                                                <div class="message">
+                                                    <div class="bubble">
+                                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry printing and typesetting industry.</p>
+                                                    </div>
+                                                </div>
+                                                <div class="message">
+                                                    <div class="bubble">
+                                                        <p>Lorem Ipsum.</p>
+                                                    </div>
+                                                    <span>8:13 PM</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="message-item friend">
+                                            <img src="https://via.placeholder.com/43x43" class="img-xs rounded-circle" alt="avatar">
+                                            <div class="content">
+                                                <div class="message">
+                                                    <div class="bubble">
+                                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                                                    </div>
+                                                    <span>8:15 PM</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="message-item me">
+                                            <img src="https://via.placeholder.com/43x43" class="img-xs rounded-circle" alt="avatar">
+                                            <div class="content">
+                                                <div class="message">
+                                                    <div class="bubble">
+                                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry printing and typesetting industry.</p>
+                                                    </div>
+                                                    <span>8:15 PM</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="message-item friend">
+                                            <img src="https://via.placeholder.com/43x43" class="img-xs rounded-circle" alt="avatar">
+                                            <div class="content">
+                                                <div class="message">
+                                                    <div class="bubble">
+                                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                                                    </div>
+                                                    <span>8:17 PM</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="message-item me">
+                                            <img src="https://via.placeholder.com/43x43" class="img-xs rounded-circle" alt="avatar">
+                                            <div class="content">
+                                                <div class="message">
+                                                    <div class="bubble">
+                                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry printing and typesetting industry.</p>
+                                                    </div>
+                                                </div>
+                                                <div class="message">
+                                                    <div class="bubble">
+                                                        <p>Lorem Ipsum.</p>
+                                                    </div>
+                                                    <span>8:18 PM</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="message-item friend">
+                                            <img src="https://via.placeholder.com/43x43" class="img-xs rounded-circle" alt="avatar">
+                                            <div class="content">
+                                                <div class="message">
+                                                    <div class="bubble">
+                                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                                                    </div>
+                                                    <span>8:22 PM</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="message-item me">
+                                            <img src="https://via.placeholder.com/43x43" class="img-xs rounded-circle" alt="avatar">
+                                            <div class="content">
+                                                <div class="message">
+                                                    <div class="bubble">
+                                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry printing and typesetting industry.</p>
+                                                    </div>
+                                                    <span>8:30 PM</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="chat-footer d-flex">
+                                    <div class="dropup">
+                                        <button class="btn p-0 border btn-icon rounded-circle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal"></i>
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="smile" class="icon-sm mr-2"></i> <span class="">Emoji</span></a>
+                                            <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="paperclip" class="icon-sm mr-2"></i> <span class="">Attatch files</span></a>
+                                            <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="mic" class="icon-sm mr-2"></i> <span class="">Record you voice</span></a>
+                                        </div>
+                                    </div>
+                                    <form class="search-form flex-grow mr-2">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control rounded-pill" id="chatForm" placeholder="Type a message">
+                                        </div>
+                                    </form>
+                                    <div>
+                                        <button type="button" class="btn btn-primary btn-icon rounded-circle">
+                                            <i data-feather="send"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="clearfix"></div>
+<div class="row mt-3">
+    <div class="col-12 col-xl-12 stretch-card">
+        <div class="row flex-grow">
+            <div class="col-md-4 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-baseline">
+                            <h6 class="card-title mb-0">New Customers</h6>
+                            <div class="dropdown mb-2">
+                                <button class="btn p-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal"></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="eye" class="icon-sm mr-2"></i> <span class="">View</span></a>
+                                    <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="edit-2" class="icon-sm mr-2"></i> <span class="">Edit</span></a>
+                                    <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="trash" class="icon-sm mr-2"></i> <span class="">Delete</span></a>
+                                    <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="printer" class="icon-sm mr-2"></i> <span class="">Print</span></a>
+                                    <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="download" class="icon-sm mr-2"></i> <span class="">Download</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 col-md-12 col-xl-5">
+                                <h3 class="mb-2">3,897</h3>
+                                <div class="d-flex align-items-baseline">
+                                    <p class="text-success">
+                                        <span>+3.3%</span>
+                                        <i data-feather="arrow-up" class="icon-sm mb-1"></i>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-12 col-xl-7">
+                                <div id="apexChart1" class="mt-md-3 mt-xl-0"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-baseline">
+                            <h6 class="card-title mb-0">New Orders</h6>
+                            <div class="dropdown mb-2">
+                                <button class="btn p-0" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal"></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton1">
+                                    <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="eye" class="icon-sm mr-2"></i> <span class="">View</span></a>
+                                    <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="edit-2" class="icon-sm mr-2"></i> <span class="">Edit</span></a>
+                                    <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="trash" class="icon-sm mr-2"></i> <span class="">Delete</span></a>
+                                    <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="printer" class="icon-sm mr-2"></i> <span class="">Print</span></a>
+                                    <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="download" class="icon-sm mr-2"></i> <span class="">Download</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 col-md-12 col-xl-5">
+                                <h3 class="mb-2">35,084</h3>
+                                <div class="d-flex align-items-baseline">
+                                    <p class="text-danger">
+                                        <span>-2.8%</span>
+                                        <i data-feather="arrow-down" class="icon-sm mb-1"></i>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-12 col-xl-7">
+                                <div id="apexChart2" class="mt-md-3 mt-xl-0"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-baseline">
+                            <h6 class="card-title mb-0">Growth</h6>
+                            <div class="dropdown mb-2">
+                                <button class="btn p-0" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal"></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton2">
+                                    <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="eye" class="icon-sm mr-2"></i> <span class="">View</span></a>
+                                    <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="edit-2" class="icon-sm mr-2"></i> <span class="">Edit</span></a>
+                                    <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="trash" class="icon-sm mr-2"></i> <span class="">Delete</span></a>
+                                    <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="printer" class="icon-sm mr-2"></i> <span class="">Print</span></a>
+                                    <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="download" class="icon-sm mr-2"></i> <span class="">Download</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 col-md-12 col-xl-5">
+                                <h3 class="mb-2">89.87%</h3>
+                                <div class="d-flex align-items-baseline">
+                                    <p class="text-success">
+                                        <span>+2.8%</span>
+                                        <i data-feather="arrow-up" class="icon-sm mb-1"></i>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-12 col-xl-7">
+                                <div id="apexChart3" class="mt-md-3 mt-xl-0"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- row -->
+
+<!--<div class="row">
+    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 h-100 p-2">
+        <div style="border: 0; margin: 0 auto; padding-top: 56.25%; position: relative;">
+            <iframe style="border: 0; position: absolute; top:0; left:0; height: 100%; width: 100%;" src="https://sl-player-host.s3.amazonaws.com/client.html?player=73681a60ea14acb6" allow="autoplay; fullscreen" allowFullScreen></iframe>
+        </div>
+    </div>
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 h-100 p-2">
+        <div class="card mb-0">-->
+<!-- Row start -->
+<!--<div class="row no-gutters" style="min-height: 25rem">
+    <div class="col">
+        <div class="row no-gutters">
+            <div class="col">
+                <div class="chat-container">
+                    <ul class="chat-box" style="min-height: 300px; max-height: 300px">
+                    </ul>
+                    <div class="row no-gutters">
+                        <div class="col-8">
+                            <div class="input-group mb-1 mt-1">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="user-ids-addon">To</span>
+                                </div>
+                                <select id="UserId" class="form-control select2-single" name="UserId" aria-describedby="user-ids-addon"></select>
+                            </div>
+                        </div>
+                        <div class="col-4 pl-2 pt-2">
+                            <span class="text-danger" id="chat-mode"></span>
+                        </div>
+                    </div>
+                    <div class="form-group mt-1 mb-0">
+                        <div class="input-group">
+                            <textarea class="form-control" id="txt-new-message" aria-describedby="btn-send-message"></textarea>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-primary" type="button" id="btn-send-message"><i class="fa fa-send-o"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>-->
+<!-- Row end -->
+<!--</div>
+    </div>
+
+    <div class="col">
+        <h5 class="text-muted">Online Now <span class="badge badge-primary" id="totalOccupancy"></span></h5>
+        <ul class="list-inline" id="ul-online-users">
+        </ul>
+    </div>
+</div>-->
+@*<div class="row">
+        <div class="col-12 col-xl-12 stretch-card">
+            <div class="row flex-grow">
+                <div class="col-md-7 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <div style="border: 0; margin: 0 auto; padding-top: 56.25%; position: relative;">
+                                        <iframe style="border: 0; position: absolute; top:0; left:0; height: 100%; width: 100%;" src="https://sl-player-host.s3.amazonaws.com/client.html?player=73681a60ea14acb6" allow="autoplay; fullscreen" allowFullScreen></iframe>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row chat-wrapper">
+                                <div class="col chat-content">
+                                    <div class="chat-header border-bottom pb-2">
+                                        <div class="d-flex justify-content-between">
+                                            <div class="d-flex align-items-center">
+                                                <i data-feather="corner-up-left" id="backToChatList" class="icon-lg mr-2 ml-n2 text-muted d-lg-none"></i>
+                                                <figure class="mb-0 mr-2">
+                                                    <img src="https://via.placeholder.com/43x43" class="img-sm rounded-circle" alt="image">
+                                                    <div class="status online"></div>
+                                                    <div class="status online"></div>
+                                                </figure>
+                                                <div>
+                                                    <p>Mariana Zenha</p>
+                                                    <p class="text-muted tx-13">Front-end Developer</p>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex align-items-center mr-n1">
+                                                <a href="#">
+                                                    <i data-feather="video" class="icon-lg text-muted mr-3" data-toggle="tooltip" title="Start video call"></i>
+                                                </a>
+                                                <a href="#">
+                                                    <i data-feather="phone-call" class="icon-lg text-muted mr-0 mr-sm-3" data-toggle="tooltip" title="Start voice call"></i>
+                                                </a>
+                                                <a href="#" class="d-none d-sm-block">
+                                                    <i data-feather="user-plus" class="icon-lg text-muted" data-toggle="tooltip" title="Add to contacts"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="chat-body">
+                                        <ul class="messages">
+                                            <li class="message-item friend">
+                                                <img src="https://via.placeholder.com/43x43" class="img-xs rounded-circle" alt="avatar">
+                                                <div class="content">
+                                                    <div class="message">
+                                                        <div class="bubble">
+                                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                                                        </div>
+                                                        <span>8:12 PM</span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="message-item me">
+                                                <img src="https://via.placeholder.com/43x43" class="img-xs rounded-circle" alt="avatar">
+                                                <div class="content">
+                                                    <div class="message">
+                                                        <div class="bubble">
+                                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry printing and typesetting industry.</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="message">
+                                                        <div class="bubble">
+                                                            <p>Lorem Ipsum.</p>
+                                                        </div>
+                                                        <span>8:13 PM</span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="message-item friend">
+                                                <img src="https://via.placeholder.com/43x43" class="img-xs rounded-circle" alt="avatar">
+                                                <div class="content">
+                                                    <div class="message">
+                                                        <div class="bubble">
+                                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                                                        </div>
+                                                        <span>8:15 PM</span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="message-item me">
+                                                <img src="https://via.placeholder.com/43x43" class="img-xs rounded-circle" alt="avatar">
+                                                <div class="content">
+                                                    <div class="message">
+                                                        <div class="bubble">
+                                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry printing and typesetting industry.</p>
+                                                        </div>
+                                                        <span>8:15 PM</span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="message-item friend">
+                                                <img src="https://via.placeholder.com/43x43" class="img-xs rounded-circle" alt="avatar">
+                                                <div class="content">
+                                                    <div class="message">
+                                                        <div class="bubble">
+                                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                                                        </div>
+                                                        <span>8:17 PM</span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="message-item me">
+                                                <img src="https://via.placeholder.com/43x43" class="img-xs rounded-circle" alt="avatar">
+                                                <div class="content">
+                                                    <div class="message">
+                                                        <div class="bubble">
+                                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry printing and typesetting industry.</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="message">
+                                                        <div class="bubble">
+                                                            <p>Lorem Ipsum.</p>
+                                                        </div>
+                                                        <span>8:18 PM</span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="message-item friend">
+                                                <img src="https://via.placeholder.com/43x43" class="img-xs rounded-circle" alt="avatar">
+                                                <div class="content">
+                                                    <div class="message">
+                                                        <div class="bubble">
+                                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                                                        </div>
+                                                        <span>8:22 PM</span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="message-item me">
+                                                <img src="https://via.placeholder.com/43x43" class="img-xs rounded-circle" alt="avatar">
+                                                <div class="content">
+                                                    <div class="message">
+                                                        <div class="bubble">
+                                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry printing and typesetting industry.</p>
+                                                        </div>
+                                                        <span>8:30 PM</span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="chat-footer d-flex">
+                                        <div class="dropup">
+                                            <button class="btn p-0 border btn-icon rounded-circle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal"></i>
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="smile" class="icon-sm mr-2"></i> <span class="">Emoji</span></a>
+                                                <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="paperclip" class="icon-sm mr-2"></i> <span class="">Attatch files</span></a>
+                                                <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="mic" class="icon-sm mr-2"></i> <span class="">Record you voice</span></a>
+                                            </div>
+                                        </div>
+
+                                        <form class="search-form flex-grow mr-2">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control rounded-pill" id="chatForm" placeholder="Type a message">
+                                            </div>
+                                        </form>
+                                        <div>
+                                            <button type="button" class="btn btn-primary btn-icon rounded-circle">
+                                                <i data-feather="send"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+
+@section scripts{
+    <script src="~/js/chat-bundle.min.js" asp-append-version="true"></script>
+    <script src="~/js/chat.js" asp-append-version="true"></script>
+    <script src="~/js/portal/session.js" asp-append-version="true"></script>
+}
+
