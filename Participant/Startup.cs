@@ -259,7 +259,7 @@ namespace Presentation.Participant
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
                 endpoints.MapHub<ChannelHub>("/channelHub");
-                endpoints.MapControllerRoute("default", "{controller:slugify=Account}/{action:slugify=Login}/{id?}/{slugifiedTitle?}");
+                endpoints.MapControllerRoute("default", "{controller:slugify=Portal}/{action:slugify=Index}/{id?}/{slugifiedTitle?}");
             });
         }
     }

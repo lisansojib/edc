@@ -7,11 +7,12 @@
         publisher: "", // message published by,
         subscriber: "" // optional parameter only for one to one chat
     };
-    var $chatbox;
+
     var $channelEl;
     var channelHub;
     var endTimeToken;
     var shouldLoadHistory = false;
+    var chatBoxPerfectScrollbar;
 
     $(function () {
         if (localStorage.getItem("endTimeToken")) {
@@ -23,37 +24,17 @@
 
         var connection = new signalR.HubConnectionBuilder().withUrl('/channelHub').build();
 
-        connection.on("channelAdded", function (message) {
-            //if (activeRoom.chatRoomId === message.chatRoomId) {
-            //    var markup = renderReceivedMessage(message);
-            //    updateChatbox(markup);
-            //}
-            //else {
-            //    var chatRoom = chatRooms.find(function (el) { return el.chatRoomId === message.chatRoomId });
-            //    chatRoom.unreadCount++;
-            //    // update UI
-            //}
+        connection.on("channelAdded", function (channelName) {
+            var existChannel = findChannel(channelName);
+            if (!existChannel) {
+                pubnubUser.channels.push(channel);
+                subscribeToChannel(channelName);
+            }
         });
 
         connection.start().then(function () {
             console.log("SignalR Started");
         }).catch(showResponseError);
-
-        //// Reference the auto-generated proxy for the hub.  
-        //channelHub = $.connection.channelHub;
-        //// Create a function that the hub can call back to display messages.
-        //channelHub.client.channelAdded = function (channel) {
-        //    var existChannel = findChannel(channel.Name);
-        //    if (!existChannel) {
-        //        pubnubUser.channels.push(channel);
-        //        subscribeToChannels();
-        //    }
-        //};
-
-        //$.connection.hub.start().done(function () {
-        //    debugger;
-        //    console.log("SignalR started");
-        //});
 
         $("#txt-new-message").keyup(function (e) {
             if ((e.keyCode || e.which) == 13) { //Enter keycode
@@ -84,13 +65,12 @@
             updateChatbox(markup);
         });
 
-        $channelEl = $("#UserId");
+        $channelEl = $("#ddlChannel");
         $channelEl.on("select2:select", updateActiveChannel);
 
-        //$chatbox = $(".chat-box");
-        //$chatbox.mCustomScrollbar({
-        //    theme: "minimal-dark"
-        //});
+        if ($('.chat-content .chat-body').length) {
+            chatBoxPerfectScrollbar = new PerfectScrollbar('.chat-content .chat-body');
+        }
 
         setInterval(getOnlineUsers, 15000);
 
@@ -105,7 +85,17 @@
         //    },
         //    idle: 60000
         //})
+
+        $("#swith-user").on("click", showSwithUserPrompt);
     });
+
+    function showSwithUserPrompt() {
+        var channels = pubnubUser.channels.map(function (item) { return { value: item, text: item } })
+
+        showBootboxSelectPrompt("Switch chat user/channel.", channels, "sm", activeChannel, function (value) {
+            if (value) activeChannel = value;
+        })
+    }
 
     function initPubnubUser() {
         axios.get("/api/auth/me")
@@ -114,7 +104,7 @@
 
                 initPubnub();
 
-                activeChannel = findChannel("All");
+                //activeChannel = findChannel("All");
             })
             .catch(function (err) {
                 console.error(err.response.data);
@@ -132,6 +122,7 @@
                 var markup = renderReceivedMsg(messageResponse);
                 updateChatbox(markup);
 
+                debugger;
                 var selectedUser = !$channelEl.val() ? "all-panelists" : $channelEl.val();
                 initSelect2($channelEl, pubnubUser.Users, false, "Select To User");
                 $channelEl.val(selectedUser).trigger("change");
@@ -376,22 +367,21 @@
             function (status, response) {
                 if (status.statusCode !== 200) return;
                 var channelInfo = response.channels.All;
-                var onlineUsers = [];
-                onlineUsers.push({ id: "", text: "" });
-                onlineUsers.push({ id: "all-panelists", text: "All Panelists" });
-                var onlineUsersMarkup = "";
+                var channels = [];
+                channels.push({ id: "", text: "" });
+                //channels.push({ id: "all-panelists", text: "All Panelists" });
+                var channelsMarkup = "";
                 channelInfo.occupants.forEach(function (occupant) {
                     var user = findUser(occupant.uuid);
                     if (user) {
-                        onlineUsers.push(user);
+                        channels.push(user);
 
-                        onlineUsersMarkup += `<li class="list-inline-item text-primary border">${user.text}</li>`;
+                        channelsMarkup += `<li class="list-inline-item text-primary border">${user.text}</li>`;
                     }
                 });
 
-                pubnubUser.onlineUsers = onlineUsers;
                 var userId = $channelEl.val();
-                initSelect2($channelEl, pubnubUser.onlineUsers, false, "Select To User");
+                initSelect2($channelEl, channels, false, "Select Team.");
 
                 if (userId === "all-panelists") {
                     $channelEl.val("all-panelists").trigger("change");

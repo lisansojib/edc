@@ -63,12 +63,14 @@ function showBootboxPrompt(title, message, callback) {
  * @param {any} size - Prompt Size
  * @param {any} callback - Callback function
  */
-function showBootboxSelectPrompt(title, optionsArray, size, callback) {
+function showBootboxSelectPrompt(title, optionsArray, size, value, callback) {
     if (!size) size = "small";
+    if (!value) value = "";
     bootbox.prompt({
         title: title,
         size: size,
         inputType: 'select',
+        value: value,
         inputOptions: optionsArray,
         callback: function (result) {
             return callback(result);

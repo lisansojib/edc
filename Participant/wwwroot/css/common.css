@@ -1,4 +1,17 @@
-﻿@media (max-width: 991px) {
-    .chat-wrapper .chat-content {
-        display: flex !important;
+﻿.chat-wrapper {
+    height: 100%;
+}
+
+@media (max-width: 768px) {
+    .chat-card-body {
+        min-height: 500px;
     }
+}
+
+.chat-content {
+    min-height: 350px;
+}
+
+.chat-body {
+    max-height: 300px !important;
+}
