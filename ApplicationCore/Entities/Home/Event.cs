@@ -13,7 +13,7 @@ namespace ApplicationCore.Entities
             EventResources = new List<EventResource>();
         }
 
-        public string Cohort { get; set; }
+        public int CohortId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime EventDate { get; set; }
@@ -36,5 +36,7 @@ namespace ApplicationCore.Entities
         public virtual ICollection<EventSponsor> EventSponsors { get; set; }
 
         public virtual List<EventResource> EventResources { get; set; }
+
+        public virtual Cohort Cohort { get; set; }
     }
 }

@@ -11,6 +11,8 @@ namespace ApplicationCore.Interfaces.Repositories
     {
         Task<List<T>> RawSqlQueryAsync(string query);
 
+        Task<T> FirstOrDefaultAsync(string query);
+
         Task<List<CT>> RawSqlQueryAsync<CT>(string query) where CT : class;
 
         Task<List<CT>> RawSqlQueryAsync<CT>(string query, object param) where CT : class;

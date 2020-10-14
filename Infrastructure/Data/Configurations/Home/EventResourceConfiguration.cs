@@ -20,7 +20,7 @@ namespace Infrastructure.Data.Configurations.Home
 
             builder.Property(t => t.FilePath).IsRequired().HasColumnType("varchar(250)");
 
-            builder.Property(t => t.PreviewType).IsRequired().HasColumnType("varchar(20)");
+            builder.Property(t => t.PreviewType).HasColumnType("varchar(20)");
 
             builder
                 .HasOne(t => t.Event)

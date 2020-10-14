@@ -14,7 +14,7 @@ namespace Presentation.Admin.Models
         }
 
         public string Title { get; set; }
-        public string Cohort { get; set; }
+        public int CohortId { get; set; }
         public string Description { get; set; }
         public DateTime EventDate { get; set; }
         public int EventTypeId { get; set; }

@@ -5,7 +5,6 @@ using Dapper;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Services
@@ -36,13 +35,15 @@ namespace Infrastructure.Services
             var query = $@"
                 ;With
                 Evts As (
-	                Select E.Id, E.Title, E.Description, E.EventDate, STRING_AGG(SV.FirstName + ' ' + SV.LastName + ' (' + SV.Title + ')', ', ') [Speakers], STRING_AGG(SPV.CompanyName, ', ') [Sponsors]
+	                Select E.Id, C.Name CohortName, E.Title, E.Description
+						, E.EventDate, STRING_AGG(SV.FirstName + ' ' + SV.LastName + ' (' + SV.Title + ')', ', ') [Speakers], STRING_AGG(SPV.CompanyName, ', ') [Sponsors]
                     From Events E
+					Inner Join Cohorts C On E.CohortId = C.Id
                     Left Join EventSpeakers S On E.Id = S.EventId
                     Left Join EventSponsors SP On E.Id = SP.EventId
                     Left Join Speakers SV On S.SpeakerId = SV.Id
                     Left Join Sponsors SPV On SP.SponsorId = SPV.Id
-                    Group By E.Id, E.Title, E.EventDate, E.Description
+                    Group By E.Id, E.Title, E.EventDate, E.Description, C.Name
                 )
 
                 Select Evts.Id, Evts.Title, Evts.Description, Evts.EventDate, Evts.Speakers, Evts.Sponsors, COUNT(*) OVER () as Total 
@@ -59,10 +60,9 @@ namespace Infrastructure.Services
         public async Task<EventDTO> GetByIdAsync(int id)
         {
             var query = $@"
-                Select E.Id, E.Title, E.Description, E.EventDate
+                Select E.*
                     , STRING_AGG(SV.Name, ', ') [Speakers]
                     , STRING_AGG(SPV.Name, ', ') [Sponsors]
-                    , COUNT(*) OVER () as Total
 	            From Events E
 	            Left Join Speakers S On E.Id = S.EventId
 	            Left Join Sponsors SP On E.Id = SP.EventId
@@ -71,14 +71,14 @@ namespace Infrastructure.Services
                 Where E.Id = {id}
 	            Group By E.Id, E.Title, E.EventDate, E.Description";
 
-            var records = await _repository.RawSqlQueryAsync(query);
-
-            return records.FirstOrDefault();
+            return await _repository.FirstOrDefaultAsync(query);
         }
 
         public async Task<EventDTO> GetNewAsync()
         {
             var query = @"
+                Select Cast(Id As varchar) Id, Name [text] From Cohorts
+
                 Select Cast(Id As varchar) Id, FirstName + ' ' + LastName + ' (' + Title + ')' [Text]
                 From Speakers;
 
@@ -100,6 +100,7 @@ namespace Infrastructure.Services
                 await connection.OpenAsync();
                 var records = await connection.QueryMultipleAsync(query);
 
+                data.CohortList = await records.ReadAsync<Select2Option>();
                 data.SpeakerList = await records.ReadAsync<Select2Option>();
                 data.SponsorList = await records.ReadAsync<Select2Option>();
                 data.EventTypeList = await records.ReadAsync<Select2Option>();

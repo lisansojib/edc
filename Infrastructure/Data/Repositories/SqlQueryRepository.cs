@@ -35,6 +35,24 @@ namespace Infrastructure.Data.Repositories
             }
         }
 
+        public async Task<T> FirstOrDefaultAsync(string query)
+        {
+            var connection = _dbContext.Database.GetDbConnection();
+
+            try
+            {
+                return await connection.QueryFirstOrDefaultAsync<T>(query);
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
         public async Task<List<CT>> RawSqlQueryAsync<CT>(string query) where CT : class
         {
             var connection = _dbContext.Database.GetDbConnection();

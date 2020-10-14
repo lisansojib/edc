@@ -69,8 +69,12 @@ namespace Presentation.Admin.Controllers.Api
             var model = _mapper.Map<EventViewModel>(entity);
 
             var evtData = await _service.GetNewAsync();
-            model.SpeakersList = evtData.SpeakerList;
-            model.SponsorsList = evtData.SponsorList;
+            model.CohortList = evtData.CohortList;
+            model.SpeakerList = evtData.SpeakerList;
+            model.SponsorList = evtData.SponsorList;
+            model.EventTypeList = evtData.EventTypeList;
+            model.CTOList = evtData.CTOList;
+            model.PresenterList = evtData.PresenterList;
 
             return Ok(model);
         }
@@ -140,7 +144,7 @@ namespace Presentation.Admin.Controllers.Api
             deletedSponsors.ForEach(x => entity.EventSponsors.Remove(x));
 
             entity.Title = model.Title;
-            entity.Cohort = model.Cohort;
+            entity.CohortId = model.CohortId;
             entity.EventTypeId = model.EventTypeId;
             entity.PresenterId = model.PresenterId;
             entity.SessionId = model.SessionId;

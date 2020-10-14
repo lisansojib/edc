@@ -9,11 +9,8 @@
                 maximum: 100
             }
         },
-        cohort: {
-            presence: true,
-            length: {
-                maximum: 100
-            }
+        cohortId: {
+            presence: true
         },
         eventDate: {
             presence: true,
@@ -330,6 +327,8 @@
         data.id = parseInt(data.id);
         if (isNaN(data.id)) data.id = 0;
         data.eventTypeId = parseInt(data.eventTypeId);
+
+        data.cohortId = parseInt(data.cohortId);
 
         var presenterId = parseInt(data.presenterId);
         if (isNaN(presenterId)) data.presenterId = 0;
