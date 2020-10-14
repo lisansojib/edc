@@ -13,13 +13,19 @@ namespace Presentation.Participant.Controllers
         }
 
         [HttpGet]
-        public ActionResult Session()
+        public IActionResult Session()
         {
             return View();
         }
 
         [HttpGet]
-        public ActionResult Members()
+        public IActionResult Members()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Schedule()
         {
             return View();
         }

@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewData["Title"] = "Schedule";
+}
+
+<button id="authorize_button" style="display: none;">Authorize</button>
+<button id="signout_button" style="display: none;">Sign Out</button>
+
+<div class="row">
+    <div class="col grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                    <h6 class="card-title mb-0">Upcoming Events</h6>
+                </div>
+                <table id="tblEvents" class="table table-hover mb-0"></table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script async defer src="https://apis.google.com/js/api.js"
+            onload="this.onload=function(){};handleClientLoad()"
+            onreadystatechange="if (this.readyState === 'complete') this.onload()">
+    </script>
+    <script src="~/js/portal/schedule.js" asp-append-version="true"></script>
+}
