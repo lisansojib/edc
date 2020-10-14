@@ -1,4 +1,5 @@
-﻿@{
+﻿@using System.Security.Claims;
+@{
     ViewData["Title"] = "Session";
 }
 
@@ -43,8 +44,8 @@
                                                 <div class="status online"></div>
                                             </figure>
                                             <div>
-                                                <p>Mariana Zenha</p>
-                                                <p class="text-muted tx-13">Front-end Developer</p>
+                                                <p id="d-name">@User.Claims.GetFullName()</p>
+                                                <p id="d-channel" class="text-muted tx-13">Front-end Developer</p>
                                             </div>
                                         </div>
                                         <div class="d-flex align-items-center mr-n1">

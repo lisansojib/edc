@@ -65,8 +65,8 @@
             updateChatbox(markup);
         });
 
-        $channelEl = $("#ddlChannel");
-        $channelEl.on("select2:select", updateActiveChannel);
+        //$channelEl = $("#ddlChannel");
+        //$channelEl.on("select2:select", updateActiveChannel);
 
         if ($('.chat-content .chat-body').length) {
             chatBoxPerfectScrollbar = new PerfectScrollbar('.chat-content .chat-body');
@@ -93,7 +93,7 @@
         var channels = pubnubUser.channels.map(function (item) { return { value: item, text: item } })
 
         showBootboxSelectPrompt("Switch chat user/channel.", channels, "sm", activeChannel, function (value) {
-            if (value) activeChannel = value;
+            if (value) setActiveChannel(value);
         })
     }
 
@@ -132,22 +132,24 @@
             });
     }
 
-    function updateActiveChannel(e) {
-        var userId = e.params.data.id;
+    //function updateActiveChannel(e) {
+    //    debugger;
+    //    var userId = e.params.data.id;
 
-        if (userId === "all-panelists") {
-            activeChannel = findChannel("All");
-            $("#chat-mode").text("(Publically)");
-        }
-        else {
-            activeChannel = findChannelByUserId(userId);
-            $("#chat-mode").text("(Privately)");
-        }
+    //    if (userId === "all-panelists") {
+    //        activeChannel = findChannel("All");
+    //        $("#chat-mode").text("(Publically)");
+    //    }
+    //    else {
+    //        activeChannel = findChannelByUserId(userId);
+    //        $("#chat-mode").text("(Privately)");
+    //    }
 
-        if (!activeChannel) saveChannel(userId);
-    }
+    //    if (!activeChannel) saveChannel(userId);
+    //}
 
     window.updateActiveChannelGlobal = function (userId) {
+        debugger;
         $channelEl.val(userId).trigger("change");
 
         if (userId === "all-panelists") {
@@ -485,6 +487,11 @@
 
     function findUser(userId) {
         return pubnubUser.Users.find(function (u) { return u.id === userId });
+    }
+
+    function setActiveChannel(channel) {
+        activeChannel = channel;
+        $("#d-channel").text(channel);
     }
 
     function getTime(timetoken) {

@@ -27,6 +27,11 @@ namespace System.Security.Claims
             return claims.FirstOrDefault(x => x.Type == AdditionalClaimTypes.FirstName).Value;
         }
 
+        public static string GetFullName(this IEnumerable<Claim> claims)
+        {
+            return claims.FirstOrDefault(x => x.Type == AdditionalClaimTypes.FullName).Value;
+        }
+
         public static bool GetIsPersistent(this IEnumerable<Claim> claims)
         {
             bool.TryParse(claims.FirstOrDefault(x => x.Type == ClaimTypes.IsPersistent).Value, out bool isPersistent);
