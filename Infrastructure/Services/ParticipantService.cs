@@ -1,6 +1,8 @@
 ﻿using ApplicationCore.DTOs;
 using ApplicationCore.Interfaces.Repositories;
 using ApplicationCore.Interfaces.Services;
+using Dapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,11 +11,14 @@ namespace Infrastructure.Services
 {
     public class ParticipantService : IParticipantService
     {
+        private readonly AppDbContext _dbContext;
         private readonly ISqlQueryRepository<ParticipantDTO> _repository;
 
-        public ParticipantService(ISqlQueryRepository<ParticipantDTO> repository)
+        public ParticipantService(ISqlQueryRepository<ParticipantDTO> repository
+           , AppDbContext dbContext)
         {
             _repository = repository;
+            _dbContext = dbContext;
         }
 
         public async Task<List<ParticipantDTO>> GetPagedAsync(int offset, int limit, string filterBy, string orderBy)
@@ -52,25 +57,76 @@ namespace Infrastructure.Services
             return records;
         }
 
-        public async Task<IEnumerable<string>> GetAllTeamsAsync(int teamMemberId)
+        public async Task<ChannelAndTeamMembersDTO> GetAllChannelsAsync(int teamMemberId)
         {
-            var query = $@"With 
+            var query = $@" 
+                ;With 
                 PT As (
 	                Select * 
 	                From ParticipantTeams
 	                Where TeamMemberId = {teamMemberId}
                 )
 
-                Select T.Name 
-                From PT
-                Inner Join Teams T On PT.TeamId = T.Id
-                Group By T.Name
-                Union
-                Select ISNULL(Cohort, '') ChannelName
-                From dbo.Events
-                Group By Cohort";
+                Select C.Name, IsCohort
+                From (
+	                Select T.Name, 0 IsCohort 
+	                From PT
+	                Inner Join Teams T On PT.TeamId = T.Id
+	                Union
+	                Select C.Name, 1 IsCohort
+	                From dbo.Events E
+	                Inner Join Cohorts C On E.CohortId = C.Id
+	                --Where E.Id In ()
+                    Group By C.Name
+                ) C
+                Order By IsCohort Desc;
 
-            return await _repository.RawSqlQueryAsync<string>(query);
+                ;With 
+                PT As (
+	                Select * 
+	                From ParticipantTeams
+	                Where TeamMemberId = {teamMemberId}
+                )
+
+				Select P.UUId, P.FirstName + ' ' + P.LastName Name, P.Email 
+				From ParticipantTeams T
+				Left Join PT On T.TeamId = PT.TeamId
+				Left Join Participants P ON T.TeamMemberId = P.Id
+                Group By P.UUId, P.FirstName, P.LastName, P.Email";
+
+            var connection = _dbContext.Database.GetDbConnection();
+
+            var data = new ChannelAndTeamMembersDTO();
+            try
+            {
+                await connection.OpenAsync();
+                var records = await connection.QueryMultipleAsync(query);
+
+                data.Channels = await records.ReadAsync<ChannelDTO>();
+                data.TeamMembers = await records.ReadAsync<TeamMemberDTO>();
+
+                return data;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                connection.Close();
+            }
         }
-    }
+
+        public async Task<IEnumerable<TeamMemberDTO>> GetTeamMembersAsync(string teamName)
+        {
+            var query = $@"
+            Select P.UUId, P.FirstName + ' ' + P.LastName Name, P.Email 
+            From ParticipantTeams PT
+            Inner Join Teams T On PT.TeamId = T.TeamId
+            Inner Join Participants P ON PT.TeamMemberId = P.Id
+            Where T.Name = '{teamName}'
+            Group By P.UUId, P.FirstName, P.LastName, P.Email";
+            return await _repository.RawSqlQueryAsync<TeamMemberDTO>(query);
+        }
+    }    
 }

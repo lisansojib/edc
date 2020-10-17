@@ -8,7 +8,9 @@ namespace ApplicationCore.Interfaces.Services
     {
         Task<List<ParticipantDTO>> GetPagedAsync(int offset = 0, int limit = 10, string filterBy = null, string orderBy = null);
 
-        Task<IEnumerable<string>> GetAllTeamsAsync(int teamMemberId);
+        Task<ChannelAndTeamMembersDTO> GetAllChannelsAsync(int teamMemberId);
+
+        Task<IEnumerable<TeamMemberDTO>> GetTeamMembersAsync(string teamName);
 
     }
 }

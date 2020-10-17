@@ -15,6 +15,8 @@ using Presentation.Participant.Models;
 using Presentation.Participant.Interfaces;
 using Presentation.Participant.Controllers.Api;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using Org.BouncyCastle.Math.EC.Rfc7748;
 
 namespace Presentation.Participant.Controllers
 {
@@ -190,19 +192,6 @@ namespace Presentation.Participant.Controllers
             _logger.Info($"{user.Username} changed password.");
 
             return Ok(GetTokenResponse(user, false));
-        }
-
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [ProducesResponseType(typeof(ErrorResponseModel), 400)]
-        [ProducesResponseType(typeof(ErrorResponseModel), 500)]
-        [ProducesResponseType(typeof(ProfileViewModel), 200)]
-        [HttpGet("me")]
-        public async Task<IActionResult> GetMe()
-        {
-            var record = await _userRepository.QueryableAll(x => x.Id == UserId).Include(x => x.ParticipantTeams).FirstOrDefaultAsync();
-            var user = _mapper.Map<ProfileViewModel>(record);
-            user.Channels = await _participantService.GetAllTeamsAsync(UserId);
-            return Ok(user);
         }
 
         #region Helpers

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using ApplicationCore.DTOs;
+using System.Collections.Generic;
 
 namespace Presentation.Participant.Models
 {
@@ -10,6 +11,7 @@ namespace Presentation.Participant.Models
         public string LastName { get; set; }
         public string Email { get; set; }
         public string PhotoUrl { get; set; }
-        public IEnumerable<string> Channels { get; set; }
+        public IEnumerable<ChannelDTO> Channels { get; set; }
+        public IEnumerable<TeamMemberDTO> TeamMembers { get; set; }
     }
 }

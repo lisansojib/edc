@@ -36,28 +36,27 @@
             console.log("SignalR Started");
         }).catch(showResponseError);
 
-        $("#txt-new-message").keyup(function (e) {
+        $("#txt-message").keyup(function (e) {
+            e.preventDefault();
             if ((e.keyCode || e.which) == 13) { //Enter keycode
-                var text = $(this).val();
+                var text = this.value ? this.value.trim() : this.value;
                 if (!text) return;
 
                 message = { text: text, publisher: pubnubUser.uuId };
-                if ($channelEl.val() !== "all-panelists") message.subscriber = $channelEl.val();
                 publishMessage(message);
 
-                $(this).val("");
+                this.value = "";
                 var markup = renderSentMsg(message);
                 updateChatbox(markup);
             }
         });
 
-        $("#btn-send-message").on("click", function (e) {
+        $("#btn-send").on("click", function (e) {
             e.preventDefault();
             var text = $("#txt-new-message").val();
             if (!text) return;
 
             message = { text: text, publisher: pubnubUser.uuId };
-            if ($channelEl.val() !== "all-panelists") message.subscriber = $channelEl.val();
             publishMessage(message);
 
             $("#txt-new-message").val("");
@@ -98,13 +97,13 @@
     }
 
     function initPubnubUser() {
-        axios.get("/api/auth/me")
+        axios.get("/api/sessions/pubnub-user")
             .then(function (response) {
                 pubnubUser = response.data;
 
                 initPubnub();
 
-                //activeChannel = findChannel("All");
+                activeChannel = findDefaultChannel();
             })
             .catch(function (err) {
                 console.error(err.response.data);
@@ -112,55 +111,17 @@
     }
 
     function getPublisherAndRenderMessage(messageResponse) {
-        axios.get(`/api/user/publisher?userId=${messageResponse.publisher}&channelName=${messageResponse.channel}`)
+        axios.get(`/api/sessions/teammembers/${messageResponse.channel}`)
             .then(function (response) {
-                var data = response.data;
-                pubnubUser.Users.push(data.User);
-
-                if (data.Channel.Name !== "All") pubnubUser.channels.push(data.Channel);
+                pubnubUser.teamMembers.push.apply(pubnubUser.teamMembers, response.data);
 
                 var markup = renderReceivedMsg(messageResponse);
                 updateChatbox(markup);
-
-                debugger;
-                var selectedUser = !$channelEl.val() ? "all-panelists" : $channelEl.val();
-                initSelect2($channelEl, pubnubUser.Users, false, "Select To User");
-                $channelEl.val(selectedUser).trigger("change");
             })
             .catch(function (err) {
                 console.error(err.response.data);
             });
     }
-
-    //function updateActiveChannel(e) {
-    //    debugger;
-    //    var userId = e.params.data.id;
-
-    //    if (userId === "all-panelists") {
-    //        activeChannel = findChannel("All");
-    //        $("#chat-mode").text("(Publically)");
-    //    }
-    //    else {
-    //        activeChannel = findChannelByUserId(userId);
-    //        $("#chat-mode").text("(Privately)");
-    //    }
-
-    //    if (!activeChannel) saveChannel(userId);
-    //}
-
-    window.updateActiveChannelGlobal = function (userId) {
-        debugger;
-        $channelEl.val(userId).trigger("change");
-
-        if (userId === "all-panelists") {
-            activeChannel = findChannel("All");
-            $("#chat-mode").text("(Publically)");
-        }
-        else {
-            activeChannel = findChannelByUserId(userId);
-            $("#chat-mode").text("(Privately)");
-        }
-    };
 
     function saveChannel(userId) {
         if (userId === "all-panelists") return;
@@ -180,7 +141,7 @@
 
     function publishMessage(msg) {
         var publishConfig = {
-            channel: activeChannel.Name,
+            channel: activeChannel.name,
             message: msg
         }
         pubnub.publish(publishConfig, function (status, response) {
@@ -197,22 +158,24 @@
                 count: 25
             },
             (status, response) => {
-                var channels = response.channels;
-                var channelMessages = [];
-                for (const property in channels) {
-                    channelMessages.push.apply(channelMessages, channels[property])
-                }
+                if (response) {
+                    var channels = response.channels;
+                    var channelMessages = [];
+                    for (const property in channels) {
+                        channelMessages.push.apply(channelMessages, channels[property])
+                    }
 
-                channelMessages = _.sortBy(channelMessages, 'timetoken');
-                console.log(channelMessages);
+                    channelMessages = _.sortBy(channelMessages, 'timetoken');
+                    console.log(channelMessages);
 
-                var markup = "";
-                channelMessages.forEach(function (item) {
-                    markup += renderBatchMessage(item);
-                });
+                    var markup = "";
+                    channelMessages.forEach(function (item) {
+                        markup += renderBatchMessage(item);
+                    });
 
-                $(".chat-box li").remove();
-                updateChatbox(markup);
+                    $(".chat-box li").remove();
+                    updateChatbox(markup);
+                }                
             }
         );
     }
@@ -321,19 +284,14 @@
 
                 var publisher = findUser(response.publisher);
                 if (!publisher) {
+                    pubnubUser.channels.push({ "name": response.channel})
                     getPublisherAndRenderMessage(response);
                 }
                 else {
-                    if (response.channel === "All") {
-                        var markup = renderReceivedMsg(response);
-                        updateChatbox(markup);
-                    }
-                    else {
-                        if (pubnubUser.uuId !== response.message.subscriber) return;
+                    if (response.message.subscriber && pubnubUser.uuId !== response.message.subscriber) return;
 
-                        var markup = renderReceivedMsg(response);
-                        updateChatbox(markup);
-                    }
+                    var markup = renderReceivedMsg(response);
+                    updateChatbox(markup);
                 }
             },
             presence: function (presenceEvent) {
@@ -424,69 +382,64 @@
      */
     function subscribeToChannels() {
         pubnub.subscribe({
-            channels: pubnubUser.channels,
+            channels: pubnubUser.channels.map(function (el) { return el.name }),
             withPresence: true
         });
     }
 
     function renderSentMsg(message) {
-        var privately = activeChannel.Name == "All" ? "" : `<span class="text-danger">(privately)</span>`;
-        var subscriber = $channelEl.select2("data")[0];
-        var markup =
-            `<li>
-                <p>
-                    <span class="text-muted">From Me to</span>&nbsp;
-                    <span style="cursor: pointer;" class="btn-link" onclick="updateActiveChannelGlobal('${subscriber.id}')">${subscriber.text}: </span>${privately}
-                    <br />
-                    ${message.text}
-                    <br>
-                    <small>${getChatTime()}</small>
-                </p>
+        var template =
+            `<li class="message-item me">
+                <img src="https://via.placeholder.com/43x43" class="img-xs rounded-circle" alt="avatar">
+                <div class="content">
+                    <div class="message">
+                        <div class="bubble">
+                            <p>${message.text}</p>
+                        </div>
+                        <span>${getChatTime(new Date())}</span>
+                    </div>
+                </div>
             </li>`;
-        return markup;
+
+        return template;
     }
 
     function renderReceivedMsg(messageResponse) {
-        var toSpan = "";
-        if (messageResponse.channel === "All") {
-            var subscriber = findUser("all-panelists");
-            toSpan = `<span style="cursor:pointer;" class="btn-link" onclick="updateActiveChannelGlobal('${subscriber.id}')" > ${subscriber.text}:</span>`;
-        }
-        else {
-            toSpan = `<span class="text-primary">Me:</span><span class="text-danger">(privately)</span>`;
-        }
-
-        var publisher = findUser(messageResponse.publisher);
-
-        var markup =
-            `<li>
-                <p>
-                    From <span style="cursor: pointer;" class="btn-link" onclick="updateActiveChannelGlobal('${publisher.id}')">${publisher.text}:</span>
-                    &nbsp;to&nbsp;${toSpan}
-                    <br />
-                    ${messageResponse.message.text}
-                    <br>
-                    <small>${getDate(messageResponse.timetoken)}</small>
-                </p>
+        var template = 
+            `<li class="message-item friend">
+                <img src="https://via.placeholder.com/43x43" class="img-xs rounded-circle" alt="avatar">
+                <div class="content">
+                    <div class="message">
+                        <div class="bubble">
+                            <p>${messageResponse.message.text}</p>
+                        </div>
+                        <span>${getDate(messageResponse.timetoken)}</span>
+                    </div>
+                </div>
             </li>`;
-        return markup;
+
+        return template;
     }
 
-    //function updateChatbox(markup) {
-    //    $(".chat-box .mCSB_container").append(markup);
-    //    $(".chat-box").mCustomScrollbar("scrollTo", "bottom");
-    //}
+    function updateChatbox(markup) {
+        $(".messages").append(markup);
+        chatBoxPerfectScrollbar.update();
+    }
+
+    function findDefaultChannel() {
+        return pubnubUser.channels.find(function (item) { return item.isDefault })
+    }
 
     function findChannel(name) {
-        return pubnubUser.channels.find(function (c) { return c.Name === name });
+        return pubnubUser.channels.find(function (c) { return c.name === name });
     }
 
-    function findChannelByUserId(userId) {
-        return pubnubUser.channels.find(function (c) { return c.UserId === userId });
-    }
+    //function findChannelByUserId(userId) {
+    //    return pubnubUser.channels.find(function (c) { return c.userId === userId });
+    //}
 
     function findUser(userId) {
-        return pubnubUser.Users.find(function (u) { return u.id === userId });
+        return pubnubUser.teamMembers.find(function (u) { return u.uuId === userId });
     }
 
     function setActiveChannel(channel) {
