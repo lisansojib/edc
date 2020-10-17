@@ -4,14 +4,16 @@ using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201017183249_PendingSpeaker")]
+    partial class PendingSpeaker
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -563,12 +565,6 @@ namespace Infrastructure.Data.Migrations
                         .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime");
-
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("int");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("varchar(500)");
@@ -580,9 +576,6 @@ namespace Infrastructure.Data.Migrations
                     b.Property<string>("InterestInTopic")
                         .IsRequired()
                         .HasColumnType("nvarchar(500)");
-
-                    b.Property<bool>("IsReferrer")
-                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -597,12 +590,6 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("varchar(20)");
 
                     b.Property<int>("ReferredBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime");
-
-                    b.Property<int?>("UpdatedBy")
                         .HasColumnType("int");
 
                     b.Property<string>("Username")

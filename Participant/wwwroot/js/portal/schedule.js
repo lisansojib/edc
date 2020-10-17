@@ -1,12 +1,46 @@
 ﻿var handleClientLoad;
 
 (function () {
-    var $tblEvents;
+    var $tblEvents, $formAddSpeaker;
+
+    var validationConstraints = {
+        firstName: {
+            length: {
+                maximum: 100
+            }
+        },
+        lastName: {
+            length: {
+                maximum: 100
+            }
+        },
+        email: {
+            presence: true,
+            email: true,
+            length: {
+                maximum: 500
+            }
+        },
+        phone: {
+            length: {
+                maximum: 20
+            }
+        },
+        linkedinUrl: {
+            length: {
+                maximum: 500
+            }
+        }
+    };
 
     $(function () {
         $tblEvents = $("#tblEvents");
         initEventsTbl();
         loadEventsData();
+
+        $formAddSpeaker = $("#add-speaker-form");
+
+        $("#btn-save-speaker").click(saveSpeaker);
     })
 
     // #region Events
@@ -35,9 +69,9 @@
                     align: 'center',
                     formatter: function (value, row, index, field) {
                         var template =
-                            `<div class="dropright">
-                                <button class="btn p-0" type="button" id="dropdownTblAction-${row.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="More Options">
-                                    <i class="icon-lg text-muted pb-3px fa fa-ellipsis-h"></i> 
+                            `<div class="dropdown">
+                                <button class="btn pt-2" type="button" id="dropdownTblAction-${row.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="More Options">
+                                    <i class="icon-lg text-muted pb-3px fa fa-ellipsis-h"></i> Options
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownTblAction-${row.id}">
                                     <a class="dropdown-item d-flex align-items-center add-to-google-calendar" href="#"><i class="icon-sm mr-2 fa fa-calendar-plus-o"></i> <span class="">Add to Google</span></a>
@@ -66,15 +100,19 @@
                         },
                         'click .add-to-outlook-calendar': function (e, value, row, index) {
                             e.preventDefault();
-                            alert("Outlook");
+                            alert("This feature is not enabled yet.");
                         },
                         'click .apply-to-speak': function (e, value, row, index) {
                             e.preventDefault();
-                            alert("Speak");
+                            $formAddSpeaker.trigger("reset");
+                            $("#divlinkedinUrl").addClass("d-none");
+                            $("#add-speaker-modal").modal("show");
                         },
                         'click .refer-to-speaker': function (e, value, row, index) {
                             e.preventDefault();
-                            alert("Speaker");
+                            $formAddSpeaker.trigger("reset");
+                            $("#divlinkedinUrl").removeClass("d-none");
+                            $("#add-speaker-modal").modal("show");
                         }
                     }
                 },
@@ -82,22 +120,19 @@
                     sortable: true,
                     searchable: true,
                     field: "title",
-                    title: "Title",
-                    width: 100
+                    title: "Title"
                 },
                 {
                     sortable: true,
                     searchable: true,
                     field: "speakers",
-                    title: "Speakers",
-                    width: 100
+                    title: "Speakers"
                 },
                 {
                     sortable: true,
                     searchable: true,
                     field: "sponsors",
-                    title: "Sponsors",
-                    width: 100
+                    title: "Sponsors"
                 },
                 {
                     sortable: true,
@@ -106,15 +141,13 @@
                     title: "Event Date",
                     formatter: function (value, row, index, field) {
                         return formatDateToDDMMYYYY(value);
-                    },
-                    width: 100
+                    }
                 },
                 {
                     sortable: true,
                     searchable: true,
                     field: "description",
-                    title: "Description",
-                    width: 100
+                    title: "Description"
                 }
             ],
             onPageChange: function (number, size) {
@@ -166,6 +199,68 @@
         tableParams.filter = '';
         tableParams.sort = 'name';
         tableParams.order = '';
+    }
+
+    function saveSpeaker(e) {
+        e.preventDefault();
+
+        var thisBtn = $(this);
+        var originalText = thisBtn.html();
+        setLoadingButton(thisBtn);
+
+        initializeValidation($formAddSpeaker, validationConstraints);
+
+        var errorObj = isValidForm($formAddSpeaker, validationConstraints);
+        if (errorObj) {
+            showValidationToast(errorObj);
+            resetLoadingButton(thisBtn, originalText);
+            return;
+        }
+        else hideValidationErrors($formAddSpeaker);
+
+        var data = formDataToJson($formAddSpeaker);
+
+        axios.post('/api/schedules/save-speaker', data)
+            .then(function () {
+                toastr.success("Referred speaker");
+                $("#refer-speaker-modal").modal("hide");
+                loadTableData();
+            })
+            .catch(function (err) {
+                showResponseError(err);
+                resetLoadingButton(thisBtn, originalText);
+            });
+    }
+
+    function referSpeaker(e) {
+        e.preventDefault();
+
+        var thisBtn = $(this);
+        var originalText = thisBtn.html();
+        setLoadingButton(thisBtn);
+
+        initializeValidation($formReferSpeaker, validationConstraints);
+
+        var errorObj = isValidForm($formReferSpeaker, validationConstraints);
+        if (errorObj) {
+            showValidationToast(errorObj);
+            resetLoadingButton(thisBtn, originalText);
+            return;
+        }
+        else hideValidationErrors($formReferSpeaker);
+
+        var data = formDataToJson($formReferSpeaker);
+
+        axios.post('/api/schedules/add-speaker', data)
+            .then(function () {
+                toastr.success("Referred speaker");
+                $("#refer-speaker-modal").modal("hide");
+                loadTableData();
+            })
+            .catch(function (err) {
+                showResponseError(err);
+                resetLoadingButton(thisBtn, originalText);
+            });
     }
     // #endregion
 

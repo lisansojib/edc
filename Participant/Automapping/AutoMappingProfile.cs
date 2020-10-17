@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.DTOs;
+using ApplicationCore.Entities;
 using Presentation.Participant.Models;
 
 namespace Presentation.Participant.Automapping
@@ -13,6 +14,8 @@ namespace Presentation.Participant.Automapping
                 .ForMember(dest => dest.CompanyName, opt => opt.MapFrom(src => src.Company.Name));
 
             CreateMap<ApplicationCore.Entities.Participant, ProfileViewModel>();
+
+            CreateMap<PendingSepakerBindingModel, PendingSepaker>();
         }
     }
 }
