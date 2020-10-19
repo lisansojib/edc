@@ -43,5 +43,10 @@ namespace Presentation.Admin.Controllers
         {
             return View();
         }
+
+        public IActionResult PendingSpeakers()
+        {
+            return View();
+        }
     }
 }

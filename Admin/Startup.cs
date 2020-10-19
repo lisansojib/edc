@@ -93,6 +93,7 @@ namespace Admin
             services.AddTransient<ISponsorService, SponsorService>();
             services.AddTransient<ISpeakerService, SpeakerService>();
             services.AddTransient<IImageHelper, ImageHelper>();
+            services.AddTransient<IPendingSpeakerService, PendingSpeakerService>();
 
             services.AddRouting(options =>
             {

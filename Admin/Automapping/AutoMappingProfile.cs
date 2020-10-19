@@ -65,6 +65,11 @@ namespace Presentation.Admin.Automapping
             CreateMap<Speaker, SpeakerDTO>();
 
             CreateMap<SpeakerBindingModel, Speaker>();
+
+            CreateMap<PendingSpeaker, PendingSpeakerDTO>();
+
+            CreateMap<PendingSpeakerBindingModel, PendingSpeaker>();
+
         }
     }
 }
