@@ -1,6 +1,6 @@
 ﻿namespace Presentation.Participant.Models
 {
-    public class PendingSepakerBindingModel
+    public class PendingSpeakerBindingModel
     {
         public string Email { get; set; }
         public string FirstName { get; set; }

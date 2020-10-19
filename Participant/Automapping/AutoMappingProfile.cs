@@ -15,7 +15,7 @@ namespace Presentation.Participant.Automapping
 
             CreateMap<ApplicationCore.Entities.Participant, ProfileViewModel>();
 
-            CreateMap<PendingSepakerBindingModel, PendingSepaker>();
+            CreateMap<PendingSpeakerBindingModel, PendingSpeaker>();
         }
     }
 }

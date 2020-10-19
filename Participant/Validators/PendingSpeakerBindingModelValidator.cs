@@ -3,9 +3,9 @@ using Presentation.Participant.Models;
 
 namespace Presentation.Participant.Validators
 {
-    public class PendingSepakerBindingModelValidator : AbstractValidator<PendingSepakerBindingModel>
+    public class PendingSpeakerBindingModelValidator : AbstractValidator<PendingSpeakerBindingModel>
     {
-        public PendingSepakerBindingModelValidator()
+        public PendingSpeakerBindingModelValidator()
         {
             RuleFor(x => x.Email).NotEmpty().EmailAddress();
             RuleFor(x => x.FirstName).NotEmpty().MaximumLength(100);
