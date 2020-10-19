@@ -7,11 +7,11 @@ using System.Text;
 
 namespace Infrastructure.Data.Configurations
 {
-    public class PendingSepakerConfiguration : IEntityTypeConfiguration<PendingSepaker>
+    public class PendingSpeakerConfiguration : IEntityTypeConfiguration<PendingSpeaker>
     {
-        public void Configure(EntityTypeBuilder<PendingSepaker> builder)
+        public void Configure(EntityTypeBuilder<PendingSpeaker> builder)
         {
-            builder.ToTable("PendingSepakers");
+            builder.ToTable("PendingSpeakers");
 
             builder.HasKey(t => t.Id);
 
@@ -29,7 +29,11 @@ namespace Infrastructure.Data.Configurations
 
             builder.Property(t => t.Phone).IsRequired().HasColumnType("varchar(20)");
 
-            builder.Property(t => t.LinkedInUrl).IsRequired().HasColumnType("varchar(500)"); 
+            builder.Property(t => t.LinkedInUrl).IsRequired().HasColumnType("varchar(500)");
+
+            builder.Property(t => t.AcceptDate).HasColumnType("datetime");
+
+            builder.Property(t => t.RejectDate).HasColumnType("datetime");
 
             builder.Property(t => t.CreatedAt).HasColumnType("datetime");
 

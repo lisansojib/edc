@@ -19,6 +19,7 @@ namespace Infrastructure
         public DbSet<Speaker> SpeakerSet { get; set; }
         public DbSet<Sponsor> SponsorSet { get; set; }
         public DbSet<EventResource> EventResourceSet { get; set; }
+        public DbSet<PendingSpeaker> PendingSpeakersSet { get; set; }
         #endregion
 
         #region User
