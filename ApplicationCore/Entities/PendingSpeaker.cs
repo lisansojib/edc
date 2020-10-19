@@ -2,9 +2,9 @@
 
 namespace ApplicationCore.Entities
 {
-    public class PendingSepaker : BaseEntity, IAuditFields
+    public class PendingSpeaker : BaseEntity, IAuditFields
     {
-        public PendingSepaker()
+        public PendingSpeaker()
         {
             CreatedAt = DateTime.Now;
         }
@@ -18,6 +18,12 @@ namespace ApplicationCore.Entities
         public string Phone { get; set; }
         public string LinkedInUrl { get; set; }
         public bool IsReferrer { get; set; }
+        public bool IsAccepted { get; set; }
+        public int? AcceptedBy { get; set; }
+        public DateTime? AcceptDate { get; set; }
+        public bool IsRejected { get; set; }
+        public int? RejectedBy { get; set; }
+        public DateTime? RejectDate { get; set; }
         public int CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
         public int? UpdatedBy { get; set; }
