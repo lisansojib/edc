@@ -49,9 +49,16 @@ function initTbl() {
                 },
                 events: {
                     'click .accept': function (e, value, row, index) {
-                        console.log(value);
+                        console.log(row);
                         // Create speaker
-
+                        axios.put(`/api/pending-speakers/`)
+                            .then(function (res) {
+                                toastr.success('Speaker allowed');
+                                $table.bootstrapTable('refresh');
+                            })
+                            .catch(function (err) {
+                                showResponseError(err);
+                            })
                         e.preventDefault();
                     },
                     'click .reject': function (e, value, row, index) {
@@ -60,11 +67,10 @@ function initTbl() {
                         e.preventDefault();
                         showBootboxConfirm("Reject Speaker", "Are you sure you want to do this?", function (yes) {
                             if (yes) {
-
                                 // Update speaker
-                                axios.put(`/api/pending-speakers`)
+                                axios.put(`/api/pending-speakers/${row.id}`)
                                     .then(function () {
-                                        toastr.success(appConstants.ITEM_DELETED_SUCCESSFULLY);
+                                        toastr.success('Speaker rejected successfuly');
                                         $table.bootstrapTable('refresh');
                                     })
                                     .catch(showResponseError)

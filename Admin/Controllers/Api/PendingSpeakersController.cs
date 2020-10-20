@@ -44,25 +44,24 @@ namespace Presentation.Admin.Controllers.Api
             return Ok(response);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateStatus(PendingSpeakerBindingModel model)
+
+        /// <summary>
+        /// Rejects Pending Speaker
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>NoContent</returns>
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateStatus(int id)
         {
-            var entity = await _repository.FindAsync(model.Id);
+            var entity = await _repository.FindAsync(id);
 
             if (entity == null) return BadRequest(new BadRequestResponseModel(ErrorTypes.BadRequest, ErrorMessages.ItemNotFound));
 
-            if (model.IsAccepted)
-            {
-                entity.IsAccepted = true;
-                entity.AcceptDate = DateTime.Now;
-                entity.AcceptedBy = UserId;
-            }
-            else
-            {
-                entity.IsRejected = true;
-                entity.RejectDate = DateTime.Now;
-                entity.RejectedBy = UserId;
-            }
+            
+            entity.IsRejected = true;
+            entity.RejectDate = DateTime.Now;
+            entity.RejectedBy = UserId;
+            
 
             await _repository.UpdateAsync(entity);
 
