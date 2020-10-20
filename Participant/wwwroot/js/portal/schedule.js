@@ -223,38 +223,7 @@
         axios.post('/api/schedules/save-speaker', data)
             .then(function () {
                 toastr.success("Referred speaker");
-                $("#refer-speaker-modal").modal("hide");
-                loadTableData();
-            })
-            .catch(function (err) {
-                showResponseError(err);
-                resetLoadingButton(thisBtn, originalText);
-            });
-    }
-
-    function referSpeaker(e) {
-        e.preventDefault();
-
-        var thisBtn = $(this);
-        var originalText = thisBtn.html();
-        setLoadingButton(thisBtn);
-
-        initializeValidation($formReferSpeaker, validationConstraints);
-
-        var errorObj = isValidForm($formReferSpeaker, validationConstraints);
-        if (errorObj) {
-            showValidationToast(errorObj);
-            resetLoadingButton(thisBtn, originalText);
-            return;
-        }
-        else hideValidationErrors($formReferSpeaker);
-
-        var data = formDataToJson($formReferSpeaker);
-
-        axios.post('/api/schedules/add-speaker', data)
-            .then(function () {
-                toastr.success("Referred speaker");
-                $("#refer-speaker-modal").modal("hide");
+                $("#add-speaker-modal").modal("hide");
                 loadTableData();
             })
             .catch(function (err) {

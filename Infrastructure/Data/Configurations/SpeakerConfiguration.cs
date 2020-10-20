@@ -1,9 +1,6 @@
 ﻿using ApplicationCore.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Infrastructure.Data.Configurations
 {
@@ -21,11 +18,24 @@ namespace Infrastructure.Data.Configurations
 
             builder.Property(t => t.LastName).IsRequired().HasColumnType("varchar(100)");
 
-            builder.Property(t => t.Title).IsRequired().HasColumnType("varchar(100)");
+            builder.Property(t => t.Title).HasColumnType("varchar(100)");
+
+            builder.Property(t => t.Email).IsRequired().HasColumnType("varchar(500)");
+
+            builder.Property(t => t.Phone).IsRequired().HasColumnType("varchar(20)");
+
+            builder.Property(t => t.LinkedInUrl).IsRequired().HasColumnType("varchar(500)");
 
             builder.Property(t => t.CreatedAt).HasColumnType("datetime").HasDefaultValueSql("getdate()");
 
             builder.Property(t => t.UpdatedAt).HasColumnType("datetime");
+
+            builder
+                .HasOne(t => t.Company)
+                .WithMany(t => t.Speakers)
+                .HasForeignKey(t => t.CompanyId)
+                .HasConstraintName("FK_Speaker_Company")
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

@@ -9,8 +9,8 @@ namespace Presentation.Admin.Validators
         {
             RuleFor(x => x.FirstName).NotEmpty().MaximumLength(100);
             RuleFor(x => x.LastName).NotEmpty().MaximumLength(100);
-            RuleFor(x => x.Title).NotEmpty().MaximumLength(100);
-            RuleFor(x => x.CompanyId).NotEmpty();
+            RuleFor(x => x.Title).MaximumLength(100);
+            //RuleFor(x => x.CompanyId).NotEmpty();
         }
     }
 }

@@ -14,7 +14,6 @@ var tableParams = {
     filter: ''
 };
 
-
 function initTbl() {
     $table.bootstrapTable('destroy');
     $table.bootstrapTable({
@@ -49,10 +48,19 @@ function initTbl() {
                 },
                 events: {
                     'click .accept': function (e, value, row, index) {
-                        console.log(row);
-                        // Create speaker
-                        axios.put(`/api/pending-speakers/`)
-                            .then(function (res) {
+                        showBootboxConfirm("Create Speaker", "Are you sure you want to do this?", function (yes) {
+                            if (yes) {
+                                axios.put(`/api/pending-speakers/reject/${row.id}`)
+                                    .then(function () {
+                                        toastr.success('Speaker created successfuly');
+                                        $table.bootstrapTable('refresh');
+                                    })
+                                    .catch(showResponseError)
+                            }
+                        })
+
+                        axios.put(`/api/pending-speakers/create-speaker/${row.id}`)
+                            .then(function () {
                                 toastr.success('Speaker allowed');
                                 $table.bootstrapTable('refresh');
                             })
@@ -62,13 +70,10 @@ function initTbl() {
                         e.preventDefault();
                     },
                     'click .reject': function (e, value, row, index) {
-                        console.log(value);
-
                         e.preventDefault();
                         showBootboxConfirm("Reject Speaker", "Are you sure you want to do this?", function (yes) {
                             if (yes) {
-                                // Update speaker
-                                axios.put(`/api/pending-speakers/${row.id}`)
+                                axios.put(`/api/pending-speakers/reject/${row.id}`)
                                     .then(function () {
                                         toastr.success('Speaker rejected successfuly');
                                         $table.bootstrapTable('refresh');

@@ -70,6 +70,7 @@ namespace Presentation.Admin.Automapping
 
             CreateMap<PendingSpeakerBindingModel, PendingSpeaker>();
 
+            CreateMap<PendingSpeaker, Speaker>();
         }
     }
 }
