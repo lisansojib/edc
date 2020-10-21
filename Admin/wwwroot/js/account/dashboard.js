@@ -1,4 +1,6 @@
-﻿(function () {
+﻿var profile;
+
+(function () {
 
     function initPage() {
         getUserData();
@@ -15,7 +17,6 @@
         }
         axios.get(`/api/auth/me`, config)
             .then(res => {
-                console.log(res);
                 renderUserData(res.data);
             })
             .catch(err => {
@@ -28,6 +29,7 @@
         $("#d-full-name").text(`${data.firstName} ${data.lastName}`);
         $("#d-email").text(data.email);
         $("#d-gravatar").attr("src", data.photoUrl);
+        $("#d-gravatar-2").attr("src", data.photoUrl);
     }
 
 

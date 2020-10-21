@@ -34,7 +34,7 @@
                 maximum: 100
             }
         },
-    }; 
+    };
 
     $(function () {
         $("#btn-edit-profile").click(function () {
@@ -123,7 +123,7 @@
     }
 
     function getProfileInfo() {
-        axios.get("/api/user/profile")
+        axios.get("/api/auth/me")
             .then(function (response) {
                 profile = response.data;
                 setProfileInfo();
@@ -141,20 +141,15 @@
             return;
         }
 
-        $("#profileNotSet").hide();
-        $("#profileSet").show();
+        var fullName = `${profile.firstName} ${profile.lastName}`;
 
-        $(".card-title").html(`${profile.Name} <small class="text-muted">${profile.Title}</small>`);
-        $("#bio").html(profile.Bio);
-        $("#company").html(profile.Company);
-        $("#phoneNumber").html(profile.PhoneNumber);
-        $("#bringsToGroup").html(profile.BringsToGroup);
-        $("#goalsForProgram").html(profile.GoalsForProgram);
+        $("#d-profile-name").text(fullName);
 
-        if (!profile.PhotoUrl) profile.PhotoUrl = "https://via.placeholder.com/400"
-        $("#photo").attr("src", profile.PhotoUrl); 
 
-        if (!profile.LogoUrl) profile.LogoUrl = "https://via.placeholder.com/100"
-        $("#logo").attr("src", profile.LogoUrl); 
+        if (!profile.photoUrl) profile.photoUrl = "https://via.placeholder.com/400"
+        $("#photo").attr("src", profile.photoUrl);
+
+        if (!profile.logoUrl) profile.LogoUrl = "https://via.placeholder.com/100"
+        $("#logo").attr("src", profile.LogoUrl);
     }
 })();

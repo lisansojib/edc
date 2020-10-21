@@ -28,6 +28,7 @@
         $("#d-full-name").text(`${data.firstName} ${data.lastName}`);
         $("#d-email").text(data.email);
         $("#d-gravatar").attr("src", data.photoUrl);
+        $("#d-gravatar-2").attr("src", data.photoUrl);
     }
 
 
