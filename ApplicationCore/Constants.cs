@@ -53,4 +53,16 @@
         public const string SPEAKERS = "speakers";
         public const string EVENTS = "events";
     }
+
+    public static class PreviewFileType
+    {
+        public const string IMAGE = "image";
+        public const string AUDIO = "audio";
+        public const string VIDEO = "video";
+        public const string OFFICE = "office";
+        public const string PDF = "pdf";
+        public const string GDOCS = "gdocs";
+        public const string TEXT = "text";
+        public const string HTML = "html";
+    }
 }

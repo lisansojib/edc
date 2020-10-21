@@ -40,6 +40,22 @@
             sortable: true,
             columns: [
                 {
+                    title: 'Actions',
+                    align: 'center',
+                    formatter: function (value, row, index, field) {
+                        var template =
+                            `<a class="btn btn-sm view"  title="Go to Session">
+                              <i class="fa fa-eye" aria-hidden="true"></i> Go to Session
+                            </a>`;
+                        return template;
+                    },
+                    events: {
+                        'click .view': function (e, value, row, index) {
+                            e.preventDefault();
+                        }
+                    }
+                },
+                {
                     sortable: true,
                     searchable: true,
                     field: "title",
