@@ -70,6 +70,12 @@
     ]
   },
   {
+    "outputFileName": "wwwroot/js/account/dashboard.min.js",
+    "inputFiles": [
+      "wwwroot/js/account/dashboard.js"
+    ]
+  },
+  {
     "outputFileName": "wwwroot/js/portal/home.min.js",
     "inputFiles": [
       "wwwroot/js/portal/home.js"
