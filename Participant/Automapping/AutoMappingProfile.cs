@@ -16,6 +16,8 @@ namespace Presentation.Participant.Automapping
             CreateMap<ApplicationCore.Entities.Participant, ProfileViewModel>();
 
             CreateMap<PendingSpeakerBindingModel, PendingSpeaker>();
+
+            CreateMap<ApplicationCore.Entities.Participant, ParticipantViewModel>();
         }
     }
 }

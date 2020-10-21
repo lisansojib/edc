@@ -194,6 +194,25 @@ namespace Presentation.Participant.Controllers
             return Ok(GetTokenResponse(user, false));
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [ProducesResponseType(typeof(ErrorResponseModel), 400)]
+        [ProducesResponseType(typeof(ErrorResponseModel), 500)]
+        [ProducesResponseType(typeof(TokenResponse), 200)]
+        [HttpGet("me")]
+        public async Task<IActionResult> GetAdmin()
+        {
+            var entity = await _userRepository.FindAsync(User.Claims.GetUserId());
+
+            if (entity == null)
+            {
+                return NotFound();
+            }
+
+            var user = _mapper.Map<ParticipantViewModel>(entity);
+            return Ok(user);
+
+        }
+
         #region Helpers
         private TokenResponse GetTokenResponse(User user, bool isPersistent)
         {

@@ -73,5 +73,11 @@
     "inputFiles": [
       "wwwroot/js/account/register.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/dashboard.min.js",
+    "inputFiles": [
+      "wwwroot/js/account/dashboard.js"
+    ]
   }
 ]

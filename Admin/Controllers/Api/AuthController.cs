@@ -189,6 +189,26 @@ namespace Presentation.Admin.Controllers
             return Ok(GetTokenResponse(user, false));
         }
 
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [ProducesResponseType(typeof(ErrorResponseModel), 400)]
+        [ProducesResponseType(typeof(ErrorResponseModel), 500)]
+        [ProducesResponseType(typeof(TokenResponse), 200)]
+        [HttpGet("me")]
+        public async Task<IActionResult> GetAdmin()
+        {
+            var entity = await _userRepository.FindAsync(User.Claims.GetUserId());
+
+            if (entity == null)
+            {
+                return NotFound();
+            }
+
+            var admin = _mapper.Map<AdminBindingModel>(entity);
+            return Ok(admin);
+
+        }
+
         #region Helpers
         private TokenResponse GetTokenResponse(ApplicationCore.Entities.Admin user, bool isPersistent)
         {

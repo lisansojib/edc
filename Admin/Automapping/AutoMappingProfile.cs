@@ -71,6 +71,11 @@ namespace Presentation.Admin.Automapping
             CreateMap<PendingSpeakerBindingModel, PendingSpeaker>();
 
             CreateMap<PendingSpeaker, Speaker>();
+
+            CreateMap<ApplicationCore.Entities.Admin, UserDTO>();
+
+            CreateMap<ApplicationCore.Entities.Admin, AdminBindingModel>();
+
         }
     }
 }
