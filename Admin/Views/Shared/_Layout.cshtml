@@ -29,7 +29,7 @@
                 <ul class="nav">
                     <li class="nav-item nav-category">Main</li>
                     <li class="nav-item">
-                        <a href="/" class="nav-link">
+                        <a href="#." class="nav-link">
                             <i class="link-icon" data-feather="box"></i>
                             <span class="link-title">Dashboard</span>
                         </a>
@@ -326,11 +326,11 @@
                             <div class="dropdown-menu" aria-labelledby="profileDropdown">
                                 <div class="dropdown-header d-flex flex-column align-items-center">
                                     <div class="figure mb-3">
-                                        <img src="https://via.placeholder.com/80x80" alt="">
+                                        <img id="d-gravatar" src="https://via.placeholder.com/80x80" alt="Profile picture">
                                     </div>
                                     <div class="info text-center">
-                                        <p class="name font-weight-bold mb-0">Amiah Burton</p>
-                                        <p class="email text-muted mb-3">amiahburton@gmail.com</p>
+                                        <p class="name font-weight-bold mb-0" id="d-full-name"></p>
+                                        <p class="email text-muted mb-3" id="d-email"></p>
                                     </div>
                                 </div>
                                 <div class="dropdown-body">
@@ -382,9 +382,13 @@
         </div>
     </div>
 
+
+
     <script src="~/nobleui/assets/vendors/core/core.js"></script>
     <script src="~/js/admin.min.js"></script>
     @*<script src="~/js/utilities.js"></script>*@
+
+    <script src="~/js/dashboard.min.js"></script>
 
     @RenderSection("scripts", false);
 </body>
