@@ -139,6 +139,26 @@
         "dist/browser/signalr.js",
         "dist/browser/signalr.min.js"
       ]
+    },
+    {
+      "library": "bootstrap-fileinput@5.1.2",
+      "destination": "wwwroot/lib/bootstrap-fileinput/",
+      "files": [
+        "js/fileinput.min.js",
+        "css/fileinput.css",
+        "css/fileinput.min.css",
+        "img/loading-sm.gif",
+        "img/loading.gif",
+        "js/fileinput.js",
+        "themes/fa/theme.js",
+        "themes/fa/theme.min.js",
+        "js/plugins/piexif.js",
+        "js/plugins/piexif.min.js",
+        "js/plugins/purify.js",
+        "js/plugins/purify.min.js",
+        "js/plugins/sortable.js",
+        "js/plugins/sortable.min.js"
+      ]
     }
   ]
 }
