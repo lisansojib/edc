@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Presentation.Participant.Models
 {
-    public class ProfileViewModel : BaseViewModel
+    public class PubnubUserViewModel : BaseViewModel
     {
         public string UUId { get; set; }
         public string FullName => $"{FirstName} {LastName}";
@@ -13,5 +13,6 @@ namespace Presentation.Participant.Models
         public string PhotoUrl { get; set; }
         public IEnumerable<ChannelDTO> Channels { get; set; }
         public IEnumerable<TeamMemberDTO> TeamMembers { get; set; }
+        public IEnumerable<SessionEventDTO> Events { get; set; }
     }
 }

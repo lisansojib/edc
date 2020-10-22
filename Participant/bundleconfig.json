@@ -34,6 +34,7 @@
       "wwwroot/nobleui/assets/fonts/feather-font/css/iconfont.css",
       "wwwroot/nobleui/assets/vendors/flag-icon-css/css/flag-icon.min.css",
       "wwwroot/lib/bootstrap-table/bootstrap-table.min.css",
+      "wwwroot/lib/bootstrap-fileinput/css/fileinput.min.css",
       "wwwroot/lib/toastr.js/toastr.min.css",
       "wwwroot/lib/axios-progress-bar/dist/nprogress.min.css",
       "wwwroot/nobleui/assets/css/demo_5/style.css"
@@ -88,10 +89,12 @@
     ]
   },
   {
-    "outputFileName": "wwwroot/js/chat-bundle.min.js",
+    "outputFileName": "wwwroot/js/session-bundle.min.js",
     "inputFiles": [
       "wwwroot/lib/signalr/dist/browser/signalr.min.js",
-      "wwwroot/lib/pubnub/pubnub.min.js"
+      "wwwroot/lib/pubnub/pubnub.min.js",
+      "wwwroot/lib/bootstrap-fileinput/js/fileinput.min.js",
+      "wwwroot/lib/bootstrap-fileinput/themes/fa/theme.min.js"
     ]
   }
 ]

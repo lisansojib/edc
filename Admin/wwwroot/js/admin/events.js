@@ -283,7 +283,7 @@
             </div>
             <div class="form-group row">
                 <div class="col">
-                    <input type="file" id="resourceFile-${resoureCount}" name="resourceFile-${resoureCount}" class="form-control file">
+                    <input type="file" accept="image/jpeg,image/gif,image/png,application/pdf" id="resourceFile-${resoureCount}" name="resourceFile-${resoureCount}" class="form-control file">
                 </div>
             </div>`;
 

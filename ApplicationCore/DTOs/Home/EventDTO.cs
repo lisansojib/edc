@@ -32,4 +32,26 @@ namespace ApplicationCore.DTOs
         public IEnumerable<Select2Option> SessionList { get; set; }
         public IEnumerable<Select2Option> CohortList { get; set; }
     }
+
+    public class SessionEventDTO : BaseDTO
+    {
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public DateTime EventDate { get; set; }
+        public string ImagePath { get; set; }
+        public string EventType { get; set; }
+        public string CTO { get; set; }
+        public string Speakers { get; set; }
+        public string Sponsors { get; set; }
+        public IEnumerable<EventResourceDTO> Resources { get; set; }
+    }
+
+    public class EventResourceDTO : BaseDTO
+    {
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public string FilePath { get; set; }
+        public string PreviewType { get; set; }
+        public int EventId { get; set; }
+    }
 }

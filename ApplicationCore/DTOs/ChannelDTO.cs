@@ -6,6 +6,7 @@ namespace ApplicationCore.DTOs
     {
         public IEnumerable<ChannelDTO> Channels { get; set; }
         public IEnumerable<TeamMemberDTO> TeamMembers { get; set; }
+        public IEnumerable<SessionEventDTO> Events { get; set; }
     }
 
     public class ChannelDTO 

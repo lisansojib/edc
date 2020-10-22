@@ -13,8 +13,9 @@ namespace Presentation.Participant.Controllers
         }
 
         [HttpGet]
-        public IActionResult Session()
+        public IActionResult Session(int eventId = 0)
         {
+            ViewBag.EventId = eventId;
             return View();
         }
 

@@ -32,17 +32,18 @@ namespace Presentation.Participant.Controllers.Api
 
         [ProducesResponseType(typeof(ErrorResponseModel), 400)]
         [ProducesResponseType(typeof(ErrorResponseModel), 500)]
-        [ProducesResponseType(typeof(ProfileViewModel), 200)]
-        [HttpGet("pubnub-user")]
-        public async Task<IActionResult> GetPubnubUser()
+        [ProducesResponseType(typeof(PubnubUserViewModel), 200)]
+        [HttpGet("pubnub-user/{eventId?}")]
+        public async Task<IActionResult> GetPubnubUser(int eventId = 0)
         {
             var record = await _userRepository.QueryableAll(x => x.Id == UserId).Include(x => x.ParticipantTeams).FirstOrDefaultAsync();
-            var user = _mapper.Map<ProfileViewModel>(record);
+            var user = _mapper.Map<PubnubUserViewModel>(record);
 
-            var channelAndteamMembers = await _participantService.GetAllChannelsAsync(UserId);
+            var channelAndteamMembers = await _participantService.GetAllChannelsAsync(UserId, eventId);
             user.Channels = channelAndteamMembers.Channels;
             user.TeamMembers = channelAndteamMembers.TeamMembers;
             user.Channels.First(x => x.IsCohort).IsDefault = true;
+            user.Events = channelAndteamMembers.Events;
 
             return Ok(user);
         }

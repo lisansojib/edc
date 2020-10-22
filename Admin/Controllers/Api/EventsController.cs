@@ -104,6 +104,7 @@ namespace Presentation.Admin.Controllers.Api
                 await item.CopyToAsync(new FileStream(savePath, FileMode.Create));
 
                 entity.EventResources[i].FilePath = new string[] { UploadFolders.UPLOAD_PATH, UploadFolders.EVENTS, entity.EventFolder, filename }.ToWebFilePath();
+                entity.EventResources[i].PreviewType = filename.Contains(".pdf") ? "pdf" : "image";
             }
 
             await _repository.AddAsync(entity);

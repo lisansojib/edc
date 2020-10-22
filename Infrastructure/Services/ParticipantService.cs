@@ -5,6 +5,7 @@ using Dapper;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Services
@@ -57,11 +58,18 @@ namespace Infrastructure.Services
             return records;
         }
 
-        public async Task<ChannelAndTeamMembersDTO> GetAllChannelsAsync(int teamMemberId)
+        public async Task<ChannelAndTeamMembersDTO> GetAllChannelsAsync(int teamMemberId, int eventId)
         {
             var query = $@" 
                 ;With 
-                PT As (
+                E As (
+	                Select E.CohortId, E.Id
+	                From Events E
+	                Left Join Events E2 On E.SessionId = E2.SessionId
+	                Where E.Id = {eventId} Or E.SessionId = E2.SessionId
+	                Group By E.CohortId, E.Id
+                )
+                , PT As (
 	                Select * 
 	                From ParticipantTeams
 	                Where TeamMemberId = {teamMemberId}
@@ -74,9 +82,8 @@ namespace Infrastructure.Services
 	                Inner Join Teams T On PT.TeamId = T.Id
 	                Union
 	                Select C.Name, 1 IsCohort
-	                From dbo.Events E
+	                From E
 	                Inner Join Cohorts C On E.CohortId = C.Id
-	                --Where E.Id In ()
                     Group By C.Name
                 ) C
                 Order By IsCohort Desc;
@@ -88,11 +95,47 @@ namespace Infrastructure.Services
 	                Where TeamMemberId = {teamMemberId}
                 )
 
-				Select P.UUId, P.FirstName + ' ' + P.LastName Name, P.Email 
-				From ParticipantTeams T
-				Left Join PT On T.TeamId = PT.TeamId
-				Left Join Participants P ON T.TeamMemberId = P.Id
-                Group By P.UUId, P.FirstName, P.LastName, P.Email";
+                Select P.UUId, P.FirstName + ' ' + P.LastName Name, P.Email 
+                From ParticipantTeams T
+                Left Join PT On T.TeamId = PT.TeamId
+                Left Join Participants P ON T.TeamMemberId = P.Id
+                Group By P.UUId, P.FirstName, P.LastName, P.Email
+
+                ;With 
+                E As (
+	                Select E.Id
+	                From Events E
+	                Left Join Events E2 On E.SessionId = E2.SessionId
+	                Where E.Id = {eventId} Or E.SessionId = E2.SessionId
+	                Group By E.CohortId, E.Id
+                )
+
+                Select Top(2) EVT.Id, EVT.Title, ISNULL(EVT.Description, '') Description, EVT.EventDate, EVT.ImagePath
+	                , C.Name CohortName, VT.Name EventType, ISNULL(CTO.FirstName + ' ' + CTO.LastName, '') CTO
+	                , ISNULL(PS.FirstName + ' ' + PS.LastName, '') Speakers, ISNULL(PS.FirstName + ' ' + PS.LastName, '') Sponsors 
+                From Events EVT
+                Inner Join Cohorts C On EVT.CohortId = C.Id
+                Inner Join ValueFields VT On EVT.EventTypeId = VT.Id
+                Left Join Participants CTO On EVT.CTOId = CTO.Id
+                Left Join Participants PS On EVT.CTOId = PS.Id
+                Left Join Participants P On EVT.CTOId = P.Id 
+                Left Join EventSpeakers ES On EVT.Id = ES.EventId
+                Left Join EventSponsors ESP On EVT.Id = ESP.EventId
+                Inner Join E On E.Id = EVT.Id
+                Order By VT.SeqNo
+
+                ;With 
+                E As (
+	                Select E.Id
+	                From Events E
+	                Left Join Events E2 On E.SessionId = E2.SessionId
+	                Where E.Id = 10 Or E.SessionId = E2.SessionId
+	                Group By E.CohortId, E.Id
+                )
+
+                Select R.Id, R.Title, R.Description, R.FilePath, ISNULL(R.PreviewType, 'image') PreviewType, R.EventId 
+                From E
+                Inner Join EventResources R On E.Id = R.EventId";
 
             var connection = _dbContext.Database.GetDbConnection();
 
@@ -104,6 +147,13 @@ namespace Infrastructure.Services
 
                 data.Channels = await records.ReadAsync<ChannelDTO>();
                 data.TeamMembers = await records.ReadAsync<TeamMemberDTO>();
+                data.Events = await records.ReadAsync<SessionEventDTO>();
+
+                var resources = await records.ReadAsync<EventResourceDTO>();
+                foreach (var item in data.Events)
+                {
+                    item.Resources = resources.Where(x => x.EventId == item.Id);
+                }
 
                 return data;
             }

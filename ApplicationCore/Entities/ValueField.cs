@@ -29,6 +29,8 @@ namespace ApplicationCore.Entities
         /// </summary>
         public int TypeId { get; set; }
 
+        public int SeqNo { get; set; }
+
         public virtual ValueFieldType ValueFieldType { get; set; }
 
         public virtual ICollection<Admin> Managements { get; private set; }
