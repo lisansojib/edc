@@ -89,5 +89,13 @@ namespace Presentation.Admin.Controllers
             var model = new ResetPasswordBindingModel { Token = token, Email = email };
             return View(model);
         }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult Profile()
+        {
+            return View();
+        }
+
     }
 }

@@ -48,7 +48,7 @@
   <ItemGroup>
     <None Include="bundleconfig.json" />
     <None Include="Views\Account\Login.cshtml" />
-    <None Include="Views\Account\MyProfile.cshtml" />
+    <None Include="Views\Account\Profile.cshtml" />
     <None Include="Views\Account\Register.cshtml" />
     <None Include="Views\Errors\InternalServerError.cshtml" />
     <None Include="Views\Errors\NotFound.cshtml" />
