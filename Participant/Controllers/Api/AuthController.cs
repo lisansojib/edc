@@ -29,7 +29,7 @@ namespace Presentation.Participant.Controllers
         private readonly IEmailService _emailService;
         private readonly ITokenBuilder _tokenBuilder;
         private readonly IPasswordHasher _passwordHasher;
-        private readonly IParticipantService _participantService;
+        private readonly IZoomApiService _zoomApiService;
         private readonly IMapper _mapper;
         private readonly Logger _logger;
 
@@ -38,7 +38,7 @@ namespace Presentation.Participant.Controllers
             , IEmailService emailService
             , ITokenBuilder tokenBuilder
             , IPasswordHasher passwordHasher
-            , IParticipantService participantService
+            , IZoomApiService zoomApiService
             , IMapper mapper)
         {
             _userRepository = userRepository;
@@ -46,7 +46,7 @@ namespace Presentation.Participant.Controllers
             _emailService = emailService;
             _passwordHasher = passwordHasher;
             _tokenBuilder = tokenBuilder;
-            _participantService = participantService;
+            _zoomApiService = zoomApiService;
             _mapper = mapper;
             _logger = LogManager.GetLogger("participantLogger");
         }
@@ -127,6 +127,10 @@ namespace Presentation.Participant.Controllers
             await _userRepository.AddAsync(user);
 
             _logger.Info($"{user.Username} account created.");
+
+            // Create zoom account
+            var response = await _zoomApiService.CreateUserAsync(user);
+            if(response.StatusCode != System.Net.HttpStatusCode.OK) _logger.Error(response.ErrorMessage);
 
             return Ok(GetTokenResponse(user, false));
         }
@@ -211,6 +215,20 @@ namespace Presentation.Participant.Controllers
             var user = _mapper.Map<ParticipantViewModel>(entity);
             return Ok(user);
 
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [ProducesResponseType(typeof(ErrorResponseModel), 400)]
+        [ProducesResponseType(typeof(ErrorResponseModel), 500)]
+        [ProducesResponseType(200)]
+        [HttpPost("create-zoom")]
+        public async Task<IActionResult> CreateZoomUser()
+        {
+            var user = await _userRepository.FindAsync(UserId);
+            var response = await _zoomApiService.CreateUserAsync(user);
+
+            if (response.StatusCode == System.Net.HttpStatusCode.Created) return Ok();
+            else return BadRequest(response.ErrorMessage);
         }
 
         #region Helpers

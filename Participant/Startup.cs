@@ -89,6 +89,7 @@ namespace Presentation.Participant
             services.AddTransient<IPollService, PollService>();
             services.AddTransient<IAnnouncementService, AnnouncementService>();
             services.AddTransient<IParticipantService, ParticipantService>();
+            services.AddTransient<IZoomApiService, ZoomApiService>();
 
             services.AddRouting(options =>
             {
