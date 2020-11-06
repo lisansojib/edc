@@ -118,5 +118,10 @@ namespace System
         {
             return TimeZoneInfo.ConvertTimeFromUtc(value.UtcDateTime, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"));
         }
+
+        public static long ToTimestamp(this DateTime value)
+        {
+            return (value.Ticks - 621355968000000000) / 10000; ;
+        }
     }
 }

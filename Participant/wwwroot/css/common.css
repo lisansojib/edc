@@ -15,3 +15,7 @@
 .chat-body {
     max-height: 300px !important;
 }
+
+#zmmtg-root {
+    all: revert !important;
+}

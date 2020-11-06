@@ -30,5 +30,11 @@ namespace Presentation.Participant.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public IActionResult Meeting()
+        {
+            return View();
+        }
     }
 }
