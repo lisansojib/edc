@@ -1,0 +1,80 @@
+﻿@{
+    Layout = null;
+}
+
+<link type="text/css" rel="stylesheet" href="https://source.zoom.us/1.7.10/css/bootstrap.css" />
+<link type="text/css" rel="stylesheet" href="https://source.zoom.us/1.7.10/css/react-select.css" />
+
+<link href="~/css/portal.min.css" rel="stylesheet" />
+<link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+
+@*Contains the Zoom Section*@
+
+<style>
+    #zmmtg-root{
+        height: 100%;
+        width: 100%;
+    }
+    @*.zoom-player{
+        height: 100%;
+        border: 1px solid violet;
+    }*@
+
+    @*.zoom-form{
+        border: 1px solid yellow;
+    }*@
+</style>
+
+<div id="zmmtg-root">
+
+    <div class="row">
+        <div class="col zoom-player">
+            <div style="border: 0; margin: 0 auto; padding-top: 56.25%; position: relative;">
+                <iframe id="websdk-iframe" style="border: 0; position: absolute; top:0; left:0; height: 100%; width: 100%;" src="https://sl-player-host.s3.amazonaws.com/client.html?player=73681a60ea14acb6" allow="microphone; camera; fullscreen;" allowFullScreen sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+            </div>
+        </div>
+    </div>
+
+    @*<div class="clearfix"></div>*@
+
+    <div class="row">
+        <div class="col zoom-form">
+            <form class="navbar-form navbar-right" id="meeting_form">
+                <input type="hidden" name="display_name" id="display_name" value="1.7.10#CDN" />
+                <input type="hidden" name="meeting_email" id="meeting_email" value="" />
+                <input type="hidden" name="meeting_role" id="meeting_role" value="0" />
+                <input type="hidden" name="meeting_china" id="meeting_china" value="0" />
+                <input type="hidden" name="meeting_lang" id="meeting_lang" value="en-US" />
+
+                <div class="form-row p-1">
+                    <div class="col">
+                        <input type="text" class="form-control" name="meeting_number" id="meeting_number" placeholder="Meeting number" required />
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control" name="meeting_pwd" id="meeting_pwd" placeholder="Meeting password" required />
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-primary w-100" id="join_meeting" type="button">Join Meeting</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+
+@section scripts{
+
+
+    <script src="https://source.zoom.us/1.7.10/lib/vendor/react.min.js"></script>
+    <script src="https://source.zoom.us/1.7.10/lib/vendor/react-dom.min.js"></script>
+    <script src="https://source.zoom.us/1.7.10/lib/vendor/redux.min.js"></script>
+    <script src="https://source.zoom.us/1.7.10/lib/vendor/redux-thunk.min.js"></script>
+    <script src="https://source.zoom.us/1.7.10/lib/vendor/lodash.min.js"></script>
+    <script src="https://source.zoom.us/zoom-meeting-1.7.10.min.js"></script>
+
+    <script src="~/js/zoom/tool.js"></script>
+    <script src="~/js/zoom/vconsole.min.js"></script>
+    <script src="~/js/zoom/index.js"></script>
+}

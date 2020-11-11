@@ -4,150 +4,122 @@
 }
 
 @section styles{
+    
+    <!-- import #zmmtg-root css -->
+    @*<link type="text/css" rel="stylesheet" href="https://source.zoom.us/1.7.10/css/bootstrap.css" />
+    <link type="text/css" rel="stylesheet" href="https://source.zoom.us/1.7.10/css/react-select.css" />*@
+
     <link href="~/css/common.css" rel="stylesheet" />
 }
+
 <nav class="page-breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/portal/index">Portal</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Session</li>
-    </ol>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/portal/index">Portal</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Session</li>
+        </ol>
 </nav>
 
 <input type="hidden" name="eventId" id="eventId" value="@ViewBag.EventId" />
-<div class="row chat-wrapper">
-    <div class="col">
-        <div class="row flex-grow">
-            <div class="col-md-7 col-sm-12 grid-margin">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <div id="zmmtg-root">
-                            <div class="row">
-                                <div class="col">
-                                    <div style="border: 0; margin: 0 auto; padding-top: 56.25%; position: relative;">
-                                        <iframe id="websdk-iframe" style="border: 0; position: absolute; top:0; left:0; height: 100%; width: 100%;" src="https://sl-player-host.s3.amazonaws.com/client.html?player=73681a60ea14acb6" allow="microphone; camera; fullscreen;" allowFullScreen sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
-                                    </div>
+
+<div class="row">
+
+    @*Contains the Zoom player*@
+    <div class="col-md-7 col-sm-12 grid-margin stretch-card">
+
+        <div class="card iframe-card">
+            <div class="card-body">
+                <iframe scrolling="no" class="iframe-zoom" src='@Url.Action("Zoom", "Portal")' frameBorder="0"></iframe>
+            </div>
+        </div>
+
+    </div>
+
+@*Contains the chat box*@
+
+<div class="col-md-5 col-sm-12 grid-margin">
+    <div class="card h-100">
+        <div class="card-body chat-card-body">
+            <div class="row position-relative">
+                <div class="col chat-content">
+
+                    <div class="chat-header border-bottom pb-2">
+                        <div class="d-flex justify-content-between">
+                            <div class="d-flex align-items-center">
+                                <figure class="mb-0 mr-2">
+                                    <img src="https://via.placeholder.com/43x43" class="img-sm rounded-circle" alt="image">
+                                    <div class="status online"></div>
+                                    <div class="status online"></div>
+                                </figure>
+                                <div>
+                                    <p id="d-name">@User.Claims.GetFullName()</p>
+                                    <p id="d-channel" class="text-muted tx-13 font-weight-bold"></p>
                                 </div>
                             </div>
-                            <div class="clearfix"></div>
-                            <div class="row mt-2">
-                                <div class="col">
-                                    <form class="navbar-form navbar-right" id="meeting_form">
-                                        <input type="hidden" name="display_name" id="display_name" value="1.7.10#CDN" />
-                                        <input type="hidden" name="meeting_email" id="meeting_email" value="" />
-                                        <input type="hidden" name="meeting_role" id="meeting_role" value="0" />
-                                        <input type="hidden" name="meeting_china" id="meeting_china" value="0" />
-                                        <input type="hidden" name="meeting_lang" id="meeting_lang" value="en-US" />
-
-                                        <div class="form-row">
-                                            <div class="col">
-                                                <input type="text" class="form-control" name="meeting_number" id="meeting_number" placeholder="Meeting number" required />
-                                            </div>
-                                            <div class="col">
-                                                <input type="text" class="form-control" name="meeting_pwd" id="meeting_pwd" placeholder="Meeting password" required />
-                                            </div>
-                                            <div class="col">
-                                                <button class="btn btn-primary" id="join_meeting" type="button">Join Meeting</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
+                            <div class="d-flex align-items-center mr-n1">
+                                <a role="button" id="swith-user">
+                                    <i data-feather="refresh-ccw" class="icon-lg text-muted" data-toggle="tooltip" title="Switch User"></i> <span class="text-muted">Switch User</span>
+                                </a>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <div class="col-md-5 col-sm-12 grid-margin">
-                <div class="card h-100">
-                    <div class="card-body chat-card-body">
-                        <div class="row position-relative">
-                            <div class="col chat-content">
-                                <div class="chat-header border-bottom pb-2">
-                                    <div class="d-flex justify-content-between">
-                                        <div class="d-flex align-items-center">
-                                            <figure class="mb-0 mr-2">
-                                                <img src="https://via.placeholder.com/43x43" class="img-sm rounded-circle" alt="image">
-                                                <div class="status online"></div>
-                                                <div class="status online"></div>
-                                            </figure>
-                                            <div>
-                                                <p id="d-name">@User.Claims.GetFullName()</p>
-                                                <p id="d-channel" class="text-muted tx-13 font-weight-bold"></p>
-                                            </div>
+                    <div class="chat-body">
+                        <ul class="messages">
+                            <li class="message-item friend">
+                                <img src="https://via.placeholder.com/43x43" class="img-xs rounded-circle" alt="avatar">
+                                <div class="content">
+                                    <div class="message">
+                                        <div class="bubble">
+                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
                                         </div>
-                                        <div class="d-flex align-items-center mr-n1">
-                                            <a role="button" id="swith-user">
-                                                <i data-feather="refresh-ccw" class="icon-lg text-muted" data-toggle="tooltip" title="Switch User"></i> <span class="text-muted">Switch User</span>
-                                            </a>
-                                        </div>
+                                        <span>8:12 PM</span>
                                     </div>
                                 </div>
-                                <div class="chat-body">
-                                    <ul class="messages">
-                                        <li class="message-item friend">
-                                            <img src="https://via.placeholder.com/43x43" class="img-xs rounded-circle" alt="avatar">
-                                            <div class="content">
-                                                <div class="message">
-                                                    <div class="bubble">
-                                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                                    </div>
-                                                    <span>8:12 PM</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="chat-footer d-flex">
-                                    <div class="dropup">
-                                        <button class="btn p-0 border btn-icon rounded-circle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal"></i>
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                            <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="smile" class="icon-sm mr-2"></i> <span class="">Emoji</span></a>
-                                            <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="paperclip" class="icon-sm mr-2"></i> <span class="">Attatch files</span></a>
-                                            <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="mic" class="icon-sm mr-2"></i> <span class="">Record you voice</span></a>
-                                        </div>
-                                    </div>
-                                    <div class="search-form flex-grow mr-2">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control rounded-pill" id="txt-message" placeholder="Type a message">
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <button type="button" id="btn-send" class="btn btn-primary btn-icon rounded-circle">
-                                            <i data-feather="send"></i>
-                                        </button>
-                                    </div>
-                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="chat-footer d-flex">
+                        <div class="dropup">
+                            <button class="btn p-0 border btn-icon rounded-circle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal"></i>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="smile" class="icon-sm mr-2"></i> <span class="">Emoji</span></a>
+                                <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="paperclip" class="icon-sm mr-2"></i> <span class="">Attatch files</span></a>
+                                <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="mic" class="icon-sm mr-2"></i> <span class="">Record you voice</span></a>
                             </div>
+                        </div>
+                        <div class="search-form flex-grow mr-2">
+                            <div class="input-group">
+                                <input type="text" class="form-control rounded-pill" id="txt-message" placeholder="Type a message">
+                            </div>
+                        </div>
+                        <div>
+                            <button type="button" id="btn-send" class="btn btn-primary btn-icon rounded-circle">
+                                <i data-feather="send"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
+</div>
 
-<div class="row mt-3">
-    <div class="col-12 col-xl-12 stretch-card">
-        <div class="row flex-grow" id="eventInfo">
+        @*Contains the event information*@
+
+        <div class="row">
+            <div class="col col-xl-12 stretch-card">
+                <div class="row flex-grow" id="eventInfo">
+                </div>
+            </div>
         </div>
-    </div>
-</div>
 
-@section scripts{
-    <script src="~/js/session-bundle.min.js" asp-append-version="true"></script>
-    <script src="~/js/portal/session.js" asp-append-version="true"></script>
+        @section scripts{
 
-    <script src="https://source.zoom.us/1.7.10/lib/vendor/react.min.js"></script>
-    <script src="https://source.zoom.us/1.7.10/lib/vendor/react-dom.min.js"></script>
-    <script src="https://source.zoom.us/1.7.10/lib/vendor/redux.min.js"></script>
-    <script src="https://source.zoom.us/1.7.10/lib/vendor/redux-thunk.min.js"></script>
-    <script src="https://source.zoom.us/1.7.10/lib/vendor/lodash.min.js"></script>
-    <script src="https://source.zoom.us/zoom-meeting-1.7.10.min.js"></script>
-    <script src="~/js/zoom/tool.js"></script>
-    <script src="~/js/zoom/vconsole.min.js"></script>
-    <script src="~/js/zoom/index.js"></script>
-}
+            <script src="~/js/session-bundle.min.js" asp-append-version="true"></script>
+            <script src="~/js/portal/session.js" asp-append-version="true"></script>
+        }
 

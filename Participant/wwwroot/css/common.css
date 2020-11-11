@@ -1,21 +1,46 @@
-﻿.chat-wrapper {
-    height: 100%;
-}
-
-@media (max-width: 768px) {
-    .chat-card-body {
-        min-height: 500px;
-    }
-}
-
-.chat-content {
-    min-height: 350px;
+﻿.chat-content {
+    min-height: 25rem;
+    overflow:hidden;
 }
 
 .chat-body {
     max-height: 300px !important;
+    max-height: 25rem;
+}
+.chat-body ul{
+    list-style-type:none;
+    padding: 0;
+    height: 100%;
+    overflow-y: auto;
+}
+.chat-body ul li{
+    margin: .5rem 0;
 }
 
-#zmmtg-root {
-    all: revert !important;
+.chat-footer{
+    position: absolute;
+    bottom: 0;
+    width: 95%;
+}
+
+.iframe-card{
+    width: 100%;
+    height: 100%;
+}
+
+.iframe-zoom {
+    height: 100%;
+    width: 100%;
+    min-height: 25rem;
+    overflow: hidden;
+}
+
+@media only screen and (max-width: 768px) {
+    .chat-card-body {
+        min-height: 500px;
+    }
+
+    .iframe-zoom {
+        min-height: 15rem;
+    }
 }

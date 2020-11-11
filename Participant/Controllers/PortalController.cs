@@ -20,6 +20,12 @@ namespace Presentation.Participant.Controllers
         }
 
         [HttpGet]
+        public IActionResult Zoom()
+        {
+            return View();
+        }
+
+        [HttpGet]
         public IActionResult Members()
         {
             return View();

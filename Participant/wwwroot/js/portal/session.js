@@ -504,7 +504,7 @@
             if (event.resources.length > 0) {
                 eventResources =
                     `<div class="col-12 py-3">
-                        <h5>Resourses</h5>
+                        <h5>Resources</h5>
                         <input id="previewFile-${event.id}" name="previewFile" type="file" multiple disabled>
                     </div>`;
 
