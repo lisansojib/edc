@@ -93,12 +93,19 @@ namespace Presentation.Admin.Controllers.Api
 
             if (model.SessionId.NullOrEmpty()) entity.SessionId = Guid.NewGuid().ToString();
 
-            entity.EventFolder = DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString();
-            var folderPath = Path.Combine(_hostEnvironment.WebRootPath, UploadFolders.UPLOAD_PATH, UploadFolders.EVENTS, entity.EventFolder);
-            if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
+            // No files are uploaded in Networking event
+            // Networking event ID = 12
 
-            try
+            if(model.EventTypeId != 12 && model.Files == null)
             {
+                return BadRequest(new BadRequestResponseModel(ErrorTypes.BadRequest, ErrorMessages.MissingRequiredItem));
+            }
+            else if(model.EventTypeId != 12)
+            {
+                entity.EventFolder = DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString();
+                var folderPath = Path.Combine(_hostEnvironment.WebRootPath, UploadFolders.UPLOAD_PATH, UploadFolders.EVENTS, entity.EventFolder);
+                if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
+
                 int i = 0;
                 foreach (var item in model.Files)
                 {
@@ -109,13 +116,9 @@ namespace Presentation.Admin.Controllers.Api
                     entity.EventResources[i].FilePath = new string[] { UploadFolders.UPLOAD_PATH, UploadFolders.EVENTS, entity.EventFolder, filename }.ToWebFilePath();
                     entity.EventResources[i].PreviewType = filename.Contains(".pdf") ? "pdf" : "image";
                 }
+            }
 
-                await _repository.AddAsync(entity);
-            }
-            catch (NullReferenceException)
-            {
-                return BadRequest(new BadRequestResponseModel(ErrorTypes.BadRequest, ErrorMessages.MissingRequiredItem));
-            }
+            await _repository.AddAsync(entity);
 
             return Ok();
         }

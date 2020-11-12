@@ -1,6 +1,6 @@
 ﻿(function () {
     var $table, $formEl;
-    var resoureCount = 0;
+    var resourceCount = 0;
 
     var validationConstraints = {
         title: {
@@ -227,7 +227,7 @@
             $("#fg-sponsor").addClass("d-none");
             $("#fg-presenter").addClass("d-none");
             $("#fg-cto").addClass("d-none");
-            resoureCount = 0;
+            resourceCount = 0;
             addResource();
             $("#resourceDiv").removeClass("d-none");
         }
@@ -236,7 +236,7 @@
             $("#fg-sponsor").addClass("d-none");
             $("#fg-presenter").removeClass("d-none");
             $("#fg-cto").removeClass("d-none");
-            resoureCount = 0;
+            resourceCount = 0;
             addResource();
             $("#resourceDiv").removeClass("d-none");
         }
@@ -245,7 +245,7 @@
             $("#fg-sponsor").addClass("d-none");
             $("#fg-presenter").addClass("d-none");
             $("#fg-cto").addClass("d-none");
-            resoureCount = 0;
+            resourceCount = 0;
             removeResources();           
         }
         else { // EDC Post-Panel
@@ -253,7 +253,7 @@
             $("#fg-sponsor").removeClass("d-none");
             $("#fg-presenter").addClass("d-none");
             $("#fg-cto").addClass("d-none");
-            resoureCount = 0;
+            resourceCount = 0;
             addResource();
             $("#resourceDiv").removeClass("d-none");
         }
@@ -269,21 +269,21 @@
     }
 
     function addResource() {
-        if (resoureCount.length === 10) return toastr.warning("You can only add up to 10 files.");
-        resoureCount++;
+        if (resourceCount.length === 10) return toastr.warning("You can only add up to 10 files.");
+        resourceCount++;
         var template =
-            `<h6>Resource ${resoureCount}</h6>
+            `<h6>Resource ${resourceCount}</h6>
             <div class="form-group row">
                 <div class="col">
-                    <input type="text" id="resourceTitle-${resoureCount}" name="resourceTitle-${resoureCount}" class="form-control" placeholder="Resource Title">
+                    <input type="text" id="resourceTitle-${resourceCount}" name="resourceTitle-${resourceCount}" class="form-control" placeholder="Resource Title">
                 </div>
                 <div class="col">
-                    <input type="text" id="resourceDescription-${resoureCount}" name="resourceDescription-${resoureCount}" class="form-control" placeholder="Resource Description">
+                    <input type="text" id="resourceDescription-${resourceCount}" name="resourceDescription-${resourceCount}" class="form-control" placeholder="Resource Description">
                 </div>
             </div>
             <div class="form-group row">
                 <div class="col">
-                    <input type="file" accept="image/jpeg,image/gif,image/png,application/pdf" id="resourceFile-${resoureCount}" name="resourceFile-${resoureCount}" class="form-control file">
+                    <input type="file" accept="image/jpeg,image/gif,image/png,application/pdf" id="resourceFile-${resourceCount}" name="resourceFile-${resourceCount}" class="form-control file">
                 </div>
             </div>`;
 
@@ -301,7 +301,7 @@
     }
 
     function removeResources() {
-        resoureCount = 0;
+        resourceCount = 0;
         $("#resource-container").empty();
         $("#resourceDiv").addClass("d-none");
     }
@@ -342,40 +342,48 @@
         var sponsors = $("#sponsors").select2("data");
         if (sponsors) data.sponsors = sponsors.map(function (el) { return { id: el.id, text: el.text } });
 
-        data.resources = [];
-        for (var i = 1; i <= resoureCount; i++) {
-            var isValid = true;
+        // Check for networking event
+        if ($("#eventTypeId").val !== "12") {
+
+            data.resources = [];
             var errors = '';
-            var title = $(`#resourceTitle-${i}`).val();
-            if (!title || !title.trim()) {
-                errors += `Title can't be empty for resource ${i}<br>`;
-                isValid = false;
+            var isValid = true;
+
+            for (var i = 1; i <= resourceCount; i++) {
+                var title = $(`#resourceTitle-${i}`).val();
+                if (!title || !title.trim()) {
+                    errors += `\nResource ${i} - Title can't be empty`;
+                    isValid = false;
+                }
+
+                var description = $(`#resourceDescription-${i}`).val();
+                //if (!description || !description.trim()) {
+                //    errors += `Description can't be empty for resource ${i}<br>`;
+                //    false;
+                //}
+
+                var file = $(`#resourceFile-${i}`)[0].files[0];
+                if (!file) {
+                    errors += `\nResource ${i} - File can't be empty`;
+                    isValid = false;
+                }
+
+                var newResource = {
+                    title: title,
+                    description: description,
+                    file: file
+                }
+
+                data.resources.push(newResource);
             }
 
-            var description = $(`#resourceDescription-${i}`).val();
-            //if (!description || !description.trim()) {
-            //    errors += `Description can't be empty for resource ${i}<br>`;
-            //    false;
-            //}
-
-            var file = $(`#resourceFile-${i}`)[0].files[0];
-            if (!file) {
-                errors += `You must upload a file for resource ${i}`;
-                isValid = false;
-            }
             if (!isValid) {
                 toastr.error(errors);
-                continue;
+                resetLoadingButton(thisBtn, originalText);
+                return;
             }
-
-            var newResource = {
-                title: title,
-                description: description,
-                file: file
-            }
-
-            data.resources.push(newResource);
         }
+
 
         var formData = new FormData();
         buildFormData(formData, data);
