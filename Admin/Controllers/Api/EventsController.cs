@@ -96,18 +96,26 @@ namespace Presentation.Admin.Controllers.Api
             entity.EventFolder = DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString();
             var folderPath = Path.Combine(_hostEnvironment.WebRootPath, UploadFolders.UPLOAD_PATH, UploadFolders.EVENTS, entity.EventFolder);
             if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
-            int i = 0;
-            foreach (var item in model.Files)
+
+            try
             {
-                var filename = item.FileName.ToUniqueFileName();
-                var savePath = Path.Combine(_hostEnvironment.WebRootPath, UploadFolders.UPLOAD_PATH, UploadFolders.EVENTS, entity.EventFolder, filename);
-                await item.CopyToAsync(new FileStream(savePath, FileMode.Create));
+                int i = 0;
+                foreach (var item in model.Files)
+                {
+                    var filename = item.FileName.ToUniqueFileName();
+                    var savePath = Path.Combine(_hostEnvironment.WebRootPath, UploadFolders.UPLOAD_PATH, UploadFolders.EVENTS, entity.EventFolder, filename);
+                    await item.CopyToAsync(new FileStream(savePath, FileMode.Create));
 
-                entity.EventResources[i].FilePath = new string[] { UploadFolders.UPLOAD_PATH, UploadFolders.EVENTS, entity.EventFolder, filename }.ToWebFilePath();
-                entity.EventResources[i].PreviewType = filename.Contains(".pdf") ? "pdf" : "image";
+                    entity.EventResources[i].FilePath = new string[] { UploadFolders.UPLOAD_PATH, UploadFolders.EVENTS, entity.EventFolder, filename }.ToWebFilePath();
+                    entity.EventResources[i].PreviewType = filename.Contains(".pdf") ? "pdf" : "image";
+                }
+
+                await _repository.AddAsync(entity);
             }
-
-            await _repository.AddAsync(entity);
+            catch (NullReferenceException)
+            {
+                return BadRequest(new BadRequestResponseModel(ErrorTypes.BadRequest, ErrorMessages.MissingRequiredItem));
+            }
 
             return Ok();
         }

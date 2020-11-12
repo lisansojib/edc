@@ -104,7 +104,7 @@
                 localStorage.setItem("token", response.data.accessToken);
                 loginToApp(response.data);
             })
-            .catch(function () {
+            .catch(function (err) {
                 resetLoadingButton(thisBtn, thisBtnText);
                 toastr.error(JSON.stringify(err.response.data.errors));
             });

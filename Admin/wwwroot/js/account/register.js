@@ -24,12 +24,13 @@
         var data = formDataToJson($formEl);
 
         axios.post('/api/auth/register', data)
-            .then(function () {
+            .then(function (response) {
                 resetLoadingButton(thisBtn, originalText);
                 localStorage.setItem("token", response.data.accessToken);
                 loginToApp(response.data);
             })
             .catch(function (err) {
+                console.log(err);
                 resetLoadingButton(thisBtn, originalText);
                 showResponseError(err);
             });
