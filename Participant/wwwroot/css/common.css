@@ -1,5 +1,5 @@
 ﻿.chat-content {
-    min-height: 25rem;
+    min-height: 23rem;
     overflow:hidden;
 }
 
@@ -23,24 +23,9 @@
     width: 95%;
 }
 
-.iframe-card{
-    width: 100%;
-    height: 100%;
-}
-
-.iframe-zoom {
-    height: 100%;
-    width: 100%;
-    min-height: 25rem;
-    overflow: hidden;
-}
 
 @media only screen and (max-width: 768px) {
     .chat-card-body {
         min-height: 500px;
-    }
-
-    .iframe-zoom {
-        min-height: 15rem;
     }
 }
