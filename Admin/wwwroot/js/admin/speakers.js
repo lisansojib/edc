@@ -14,10 +14,28 @@
                 maximum: 100
             }
         },
+        email: {
+            presence: true,
+            length: {
+                maximum: 100
+            }
+        },
         title: {
             presence: true,
             length: {
                 maximum: 100
+            }
+        },
+        linkedInUrl: {
+            presence: true,
+            length: {
+                maximum: 100,
+            }
+        },
+        phone: {
+            presence: true,
+            length: {
+                maximum: 20
             }
         },
         companyId: {
@@ -168,10 +186,14 @@
         var url = `/api/speakers?${queryParams}`;
         axios.get(url)
             .then(function (response) {
+                console.log(response);
                 $table.bootstrapTable('load', response.data);
                 $table.bootstrapTable('hideLoading');
             })
-            .catch(showResponseError)
+            .catch(function (err) {
+                console.log(err);
+                //showResponseError(err.response);
+            })
     }
 
     function resetTableParams() {
@@ -248,7 +270,7 @@
                 initSelect2($("#companyId"), response.data);
             })
             .catch(function (err) {
-                toastr.error(err.response.data);
+                toastr.error(err.response);
             });
     }
 })();

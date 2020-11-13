@@ -210,6 +210,14 @@
         var participants = $("#participants").val();
         data.participants = participants.map(function (el) { return parseInt(el) });
 
+        // Check for participants (presence doesn't work)
+
+        if (!data.participants.length) {
+            resetLoadingButton(thisBtn, originalText);
+            toastr.error("Please add participants");
+            return;
+        }
+
         if (data.id <= 0) {
             axios.post('/api/teams', data)
                 .then(function () {

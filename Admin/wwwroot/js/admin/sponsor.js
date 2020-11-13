@@ -28,6 +28,11 @@
         contactPersonEmail: {
             presence: true,
             email: true
+        },
+        website: {
+            length: {
+                maximum: 250
+            }
         }
     };
 

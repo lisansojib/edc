@@ -14,7 +14,6 @@
             }
         },
         phone: {
-            presence: true,
             length: {
                 maximum: 20
             }

@@ -9,7 +9,6 @@
             }
         },
         password: {
-            //presence: true,
             length: {
                 maximum: 20
             }

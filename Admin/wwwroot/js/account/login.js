@@ -106,7 +106,7 @@
             })
             .catch(function (err) {
                 resetLoadingButton(thisBtn, thisBtnText);
-                toastr.error(JSON.stringify(err.response.data.errors));
+                showResponseError(err);
             });
     }
 
@@ -121,7 +121,7 @@
                 loginToApp(response.data);
             })
             .catch(function (err) {
-                toastr.error(JSON.stringify(err.response.data.errors));
+                showResponseError(err);
             });
     }
     // #endregion
@@ -133,7 +133,7 @@
                 window.location.href = appConstants.LOGIN_REDIRECT_PATH;
             })
             .catch(function (err) {
-                toastr.error(JSON.stringify(err.response.data.errors));
+                showResponseError(err);
             });
     }
 })();

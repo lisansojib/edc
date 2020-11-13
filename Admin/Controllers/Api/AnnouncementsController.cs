@@ -60,7 +60,7 @@ namespace Presentation.Admin.Controllers.Api
         {
             var entity = _mapper.Map<Announcement>(model);
             entity.CreatedBy = UserId;
-            entity.ImageUrl = "";
+            entity.ImageUrl = ""; // should this be in the form?
 
             await _repository.AddAsync(entity);
 
