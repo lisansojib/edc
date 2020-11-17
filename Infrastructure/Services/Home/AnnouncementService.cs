@@ -28,7 +28,7 @@ namespace Infrastructure.Services
             var pageBy = $@"Offset {offset} Rows Fetch Next {limit} Rows Only";
 
             var query = $@"
-                select Id, Title, Description, CallAction, LinkUrl, ImageUrl, Expiration
+                select Id, Title, Description, CallAction, LinkUrl, ImageUrl, Expiration, COUNT(*) OVER () as Total
                 from announcements
                 {filterBy}
                 Group By Id, Title, Description, CallAction, LinkUrl, ImageUrl, Expiration

@@ -6,7 +6,6 @@ namespace Presentation.Participant.Models
     {
         public PagedListViewModel(IEnumerable<object> records, int? count)
         {
-
             Rows = records;
             Total = count;
         }
