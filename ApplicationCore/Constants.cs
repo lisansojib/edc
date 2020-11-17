@@ -43,6 +43,12 @@
         public const int SPONSORS = 2;
     }
 
+    public static class ValueFieldTypeNames
+    {
+        public const string GraphTypeName = "Types of Graphs";
+        public const string EventTypeName = "Types of Events";
+    }
+
     public static class UploadFolders
     {
         public const string UPLOAD_PATH = "uploads";

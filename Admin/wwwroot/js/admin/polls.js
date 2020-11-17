@@ -8,23 +8,14 @@
                 maximum: 100
             }
         },
-        graphType: {
+        graphTypeId: {
             presence: true,
-            length: {
-                maximum: 100
-            }
         },
-        panel: {
+        panelId: {
             presence: true,
-            length: {
-                maximum: 200
-            }
         },
-        origin: {
+        originId: {
             presence: true,
-            length: {
-                maximum: 200
-            }
         },
         pollDate: {
             presence: true,
@@ -47,11 +38,7 @@
 
         $formEl = $("#poll-form");
 
-        $("#add-new-poll").click(function () {
-            $("#poll-modal-label").text("Add new Poll");
-            $formEl.trigger("reset");
-            $("#poll-modal").modal("show");
-        })
+        $("#add-new-poll").click(getNew);
 
         $("#btn-save-poll").click(save);
     });
@@ -184,6 +171,7 @@
         axios.get(url)
             .then(function (response) {
                 $table.bootstrapTable('load', response.data);
+                console.log(response.data);
                 $table.bootstrapTable('hideLoading');
             })
             .catch(function (err) {
@@ -202,12 +190,35 @@
     function getDetails(id) {
         axios.get(`/api/polls/${id}`)
             .then(function (response) {
-                setFormData($formEl, response.data);
+                var data = response.data;
+                data.pollDate = formatDateToYYYYDDMM(data.pollDate);
+
+                setFormData($formEl, data);
+
                 $("#poll-modal-label").text("Edit Poll");
                 $("#poll-modal").modal("show");
             })
             .catch(function (err) {
-                toastr.error(err.response.data);
+                showResponseError(err)
+            });
+    }
+
+    function getNew() {
+      
+        axios.get(`/api/polls/new`)
+            .then(function (response) {
+                $("#event-modal-label").text("Add new Poll");
+                var data = response.data;
+
+
+                data.pollDate = formatDateToYYYYMMDD(data.pollDate);
+                setFormData($formEl, data);
+
+                $("#pollDate").val(data.pollDate);
+                $("#poll-modal").modal("show");
+            })
+            .catch(function (err) {
+                showResponseError(err)
             });
     }
 
@@ -230,6 +241,9 @@
 
         var data = formDataToJson($formEl);
         data.id = parseInt(data.id);
+        data.graphTypeId = parseInt(data.graphTypeId);
+        data.originId = parseInt(data.originId);
+        data.panelId = parseInt(data.panelId);
 
         if (data.id <= 0) {
             axios.post('/api/polls', data)
@@ -237,9 +251,9 @@
                     toastr.success("Poll created successfully!");
                 })
                 .catch(function (err) {
-                    toastr.error(err.response.data);
+                    showResponseError(err);
                 })
-                .then(function () {
+                .finally(function () {
                     resetLoadingButton(thisBtn, originalText);
                     $("#poll-modal").modal("hide");
                     loadTableData();
@@ -251,14 +265,21 @@
                     toastr.success("Poll updated successfully!");
                 })
                 .catch(function (err) {
-                    toastr.error(err.response.data);
+                    showResponseError(err);
                 })
-                .then(function () {
+                .finally(function () {
                     resetLoadingButton(thisBtn, originalText);
                     $("#poll-modal").modal("hide");
                     loadTableData();
                 });
         }
+    }
+
+    // Temporarily here cause of reference error
+    // Also in the utilities file
+    function formatDateToYYYYMMDD(date) {
+        if (!date) return "";
+        return moment(date).format("YYYY-MM-DD");
     }
 })();
 

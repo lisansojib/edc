@@ -192,7 +192,7 @@ function setFormData($formEl, data, allowTagging = false) {
                             break;
                         case "date":
                             debugger;
-                            $input.val(formatDateToYYYYDDMM(value));
+                            $input.val(formatDateToYYYYMMDD(value));
                             break;
                         case "file":
                             break;
@@ -433,6 +433,10 @@ function formatDateToMMDDYYYY(date) {
 function formatDateToYYYYDDMM(date) {
     if (!date) return "";
     return moment(date).format("YYYY-DD-MM");
+}
+function formatDateToYYYYMMDD(date) {
+    if (!date) return "";
+    return moment(date).format("YYYY-MM-DD");
 }
 
 /**

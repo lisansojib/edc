@@ -7,10 +7,10 @@ namespace Presentation.Admin.Validators
     {
         public PollBindingModelValidator()
         {
-            RuleFor(x => x.GraphType).NotEmpty().MaximumLength(100);
+            RuleFor(x => x.GraphTypeId).NotEmpty();
             RuleFor(x => x.Name).MaximumLength(100);
-            RuleFor(x => x.Panel).NotEmpty().MaximumLength(200);
-            RuleFor(x => x.Origin).MaximumLength(200);
+            RuleFor(x => x.PanelId).NotEmpty();
+            RuleFor(x => x.OriginId).NotEmpty();
             RuleFor(x => x.PollDate).NotEmpty();
         }
     }

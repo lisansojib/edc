@@ -27,6 +27,8 @@ namespace Presentation.Admin.Automapping
 
             CreateMap<Poll, PollDTO>();
 
+            CreateMap<Poll, PollViewModel>();
+
             CreateMap<PollBindingModel, Poll>();
 
             CreateMap<ValueField, Select2Option>()

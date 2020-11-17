@@ -10,12 +10,12 @@ namespace ApplicationCore.Entities
             CreatedAt = DateTime.Now;
             DataPoints = new List<DataPoint>();
         }
-
-        public string GraphType { get; set; }
+        
         public string Name { get; set; }
         public DateTime PollDate { get; set; }
-        public string Panel { get; set; }
-        public string Origin { get; set; }
+        public int GraphTypeId { get; set; }
+        public int PanelId { get; set; }
+        public int OriginId { get; set; }
         public int CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
         public int? UpdatedBy { get; set; }

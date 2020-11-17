@@ -10,7 +10,9 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Presentation.Admin.Models;
+using Presentation.Admin.Models.Home;
 
 namespace Presentation.Admin.Controllers.Api
 {
@@ -21,15 +23,32 @@ namespace Presentation.Admin.Controllers.Api
     {
         private readonly IPollService _service;
         private readonly IEfRepository<Poll> _repository;
+        private readonly IEfRepository<Cohort> _cohort_repository;
+        private readonly IEfRepository<ValueField> _value_field_repository;
         private readonly IMapper _mapper;
 
         public PollsController(IPollService service
             , IEfRepository<Poll> repository
-            , IMapper mapper)
+            , IMapper mapper
+            , IEfRepository<Cohort> cohortRepository
+            , IEfRepository<ValueField> valueFieldRepository)
         {
             _service = service;
             _repository = repository;
             _mapper = mapper;
+            _cohort_repository = cohortRepository;
+            _value_field_repository = valueFieldRepository;
+        }
+
+        /// <summary>
+        /// Get data for creating a new poll
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("new")]
+        public async Task<IActionResult> GetPollData()
+        {
+            return Ok(await _service.GetNewAsync());
         }
 
         [HttpGet]
@@ -46,13 +65,18 @@ namespace Presentation.Admin.Controllers.Api
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var entity = await _repository.FindAsync(id);
+            var entity = await _repository.FindAsync(x => x.Id == id);
 
             if (entity == null) return BadRequest(new BadRequestResponseModel(ErrorTypes.BadRequest, ErrorMessages.ItemNotFound));
 
-            var record = _mapper.Map<PollDTO>(entity);
+            var model = _mapper.Map<PollViewModel>(entity);
 
-            return Ok(record);
+            var evtData = await _service.GetNewAsync();
+            model.OriginList = evtData.OriginList;
+            model.GraphTypeList = evtData.GraphTypeList;
+            model.PanelList = evtData.PanelList;
+
+            return Ok(model);
         }
 
         [HttpPost]
@@ -73,11 +97,11 @@ namespace Presentation.Admin.Controllers.Api
 
             if (entity == null) return BadRequest(new BadRequestResponseModel(ErrorTypes.BadRequest, ErrorMessages.ItemNotFound));
 
-            entity.GraphType = model.GraphType;
+            entity.GraphTypeId = model.GraphTypeId;
             entity.Name = model.Name;
             entity.PollDate = model.PollDate;
-            entity.Panel = model.Panel;
-            entity.Origin = model.Origin;
+            entity.PanelId = model.PanelId;
+            entity.OriginId = model.OriginId;
             entity.UpdatedAt = DateTime.Now;
             entity.UpdatedBy = UserId;
 

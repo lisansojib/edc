@@ -1,16 +1,13 @@
-﻿using System;
+﻿using ApplicationCore.DTOs;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace ApplicationCore.DTOs
+namespace Presentation.Admin.Models.Home
 {
-    public class PollDTO : BaseDTO
+    public class PollViewModel: BaseViewModel
     {
-        public PollDTO()
-        {
-            Name = "";
-            PollDate = DateTime.Now;
-        }
-
         public string Name { get; set; }
         public DateTime PollDate { get; set; }
         public int GraphTypeId { get; set; }

@@ -14,15 +14,15 @@ namespace Infrastructure.Data.Configurations
 
             builder.Property(t => t.Id).UseIdentityColumn();
 
-            builder.Property(t => t.GraphType).IsRequired().HasMaxLength(100);
+            builder.Property(t => t.GraphTypeId).IsRequired();
 
             builder.Property(t => t.Name).IsRequired().HasMaxLength(100);
 
             builder.Property(t => t.PollDate).HasColumnType("datetime");
 
-            builder.Property(t => t.Panel).IsRequired().HasMaxLength(200);
+            builder.Property(t => t.PanelId).IsRequired();
 
-            builder.Property(t => t.Origin).IsRequired().HasMaxLength(200);
+            builder.Property(t => t.OriginId).IsRequired();
 
             builder.Property(t => t.CreatedAt).HasColumnType("datetime");
 
