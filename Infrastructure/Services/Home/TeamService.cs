@@ -29,14 +29,14 @@ namespace Infrastructure.Services
             var query = $@"
                 ;With 
                 PT As (
-	                Select T.Id, T.Name, T.Description, STRING_AGG(P.Email, ',') [Participants], COUNT(*) OVER () as Total 
+	                Select T.Id, T.Name, T.Description, STRING_AGG(P.Email, ',') [Participants] 
 	                From Teams T
 	                Left Join ParticipantTeams PT On T.Id = PT.TeamId
 	                Left Join Participants P On P.Id = PT.TeamMemberId
 	                Group By T.Id, Name, Description
                 )
 
-                Select Id, Name, Description, Participants
+                Select Id, Name, Description, Participants, COUNT(*) OVER () as Total
                 From PT
                 {filterBy}
                 {orderBy}
