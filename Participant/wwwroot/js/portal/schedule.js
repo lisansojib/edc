@@ -26,6 +26,9 @@
                 maximum: 20
             }
         },
+        panelId: {
+            presence: true,
+        },
         linkedinUrl: {
             length: {
                 maximum: 500
@@ -106,7 +109,7 @@
                             e.preventDefault();
                             $formAddSpeaker.trigger("reset");
                             $("#divlinkedinUrl").addClass("d-none");
-                            $("#add-speaker-modal").modal("show");
+                            getNewSpeaker();
                         },
                         'click .refer-to-speaker': function (e, value, row, index) {
                             e.preventDefault();
@@ -201,6 +204,21 @@
         tableParams.order = '';
     }
 
+    function getNewSpeaker() {
+        axios.get(`/api/schedules/new-speaker`)
+            .then(function (response) {
+                debugger;
+                var data = response.data;
+                console.log(data);
+                setFormData($formAddSpeaker, data);
+
+                $("#add-speaker-modal").modal("show");
+            })
+            .catch(function (err) {
+                showResponseError(err)
+            });
+    }
+
     function saveSpeaker(e) {
         e.preventDefault();
 
@@ -219,17 +237,20 @@
         else hideValidationErrors($formAddSpeaker);
 
         var data = formDataToJson($formAddSpeaker);
-
+        data.panelId = parseInt(data.panelId);
         axios.post('/api/schedules/save-speaker', data)
             .then(function () {
-                toastr.success("Referred speaker");
+                toastr.success("Successfully Referred speaker");
                 $("#add-speaker-modal").modal("hide");
-                loadTableData();
+                loadEventsData();
             })
             .catch(function (err) {
+                console.log(err);
                 showResponseError(err);
+            })
+            .finally(function () {
                 resetLoadingButton(thisBtn, originalText);
-            });
+            })
     }
     // #endregion
 

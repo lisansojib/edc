@@ -9,5 +9,6 @@
         public string Phone { get; set; }
         public string LinkedInUrl { get; set; }
         public bool IsReferrer { get; set; }
+        public int PanelId { get; set; }
     }
 }

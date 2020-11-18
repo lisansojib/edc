@@ -34,6 +34,8 @@ using Presentation.Participant.Interfaces;
 using Presentation.Participant.Services;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using ApplicationCore.Interfaces.Services.Portal;
+using Infrastructure.Services.Home;
 
 namespace Presentation.Participant
 {
@@ -90,6 +92,7 @@ namespace Presentation.Participant
             services.AddTransient<IAnnouncementService, AnnouncementService>();
             services.AddTransient<IParticipantService, ParticipantService>();
             services.AddTransient<IZoomApiService, ZoomApiService>();
+            services.AddTransient<IScheduleService, ScheduleService>();
 
             services.AddRouting(options =>
             {

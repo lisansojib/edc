@@ -205,7 +205,6 @@
       
         axios.get(`/api/polls/new`)
             .then(function (response) {
-                $("#event-modal-label").text("Add new Poll");
                 var data = response.data;
 
                 setFormData($formEl, data);

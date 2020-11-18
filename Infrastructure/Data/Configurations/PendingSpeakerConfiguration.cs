@@ -24,6 +24,8 @@ namespace Infrastructure.Data.Configurations
 
             builder.Property(t => t.InterestInTopic).IsRequired().HasColumnType("nvarchar(500)");
 
+            builder.Property(t => t.PanelId).IsRequired();
+
             builder.Property(t => t.Phone).IsRequired().HasColumnType("varchar(20)");
 
             builder.Property(t => t.LinkedInUrl).IsRequired().HasColumnType("varchar(500)");

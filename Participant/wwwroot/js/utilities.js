@@ -291,7 +291,6 @@ function initSelect2($el, data, allowClear = true, placeholder = "Select a Value
 
     if (showDefaultOption)
         data.unshift({ id: '', text: '' });
-
     $el.html('').select2({
         'data': data,
         'allowClear': allowClear,

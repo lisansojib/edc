@@ -1,5 +1,6 @@
 ﻿using ApplicationCore.Entities;
 using ApplicationCore.Interfaces.Repositories;
+using ApplicationCore.Interfaces.Services.Portal;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -16,12 +17,15 @@ namespace Presentation.Participant.Controllers.Api
     {
         private readonly IEfRepository<PendingSpeaker> _pendingSpeakerRepository;
         private readonly IMapper _mapper;
+        private readonly IScheduleService _service;
 
         public SchedulesController(IEfRepository<PendingSpeaker> pendingSpeakerRepository
-            , IMapper mapper)
+            , IMapper mapper
+            , IScheduleService scheduleService)
         {
             _pendingSpeakerRepository = pendingSpeakerRepository;
             _mapper = mapper;
+            _service = scheduleService;
         }
 
         [HttpPost("save-speaker")]
@@ -37,6 +41,12 @@ namespace Presentation.Participant.Controllers.Api
             await _pendingSpeakerRepository.AddAsync(entity);
 
             return Ok();
+        }
+
+        [HttpGet("new-speaker")]
+        public async Task<IActionResult> GetNewSpeaker()
+        {
+            return Ok(await _service.GetNewPendingSpeakerAsync(UserId));
         }
     }
 }

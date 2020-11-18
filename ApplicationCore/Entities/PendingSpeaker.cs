@@ -14,6 +14,7 @@ namespace ApplicationCore.Entities
         public string LastName { get; set; }
         public string Email { get; set; }
         public string InterestInTopic { get; set; }
+        public int PanelId { get; set; }
         public int ReferredBy { get; set; }
         public string Phone { get; set; }
         public string LinkedInUrl { get; set; }
