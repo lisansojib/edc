@@ -191,7 +191,6 @@ function setFormData($formEl, data, allowTagging = false) {
                             });
                             break;
                         case "date":
-                            debugger;
                             $input.val(formatDateToYYYYMMDD(value));
                             break;
                         case "file":

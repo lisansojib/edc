@@ -191,8 +191,6 @@
         axios.get(`/api/polls/${id}`)
             .then(function (response) {
                 var data = response.data;
-                data.pollDate = formatDateToYYYYDDMM(data.pollDate);
-
                 setFormData($formEl, data);
 
                 $("#poll-modal-label").text("Edit Poll");
@@ -210,11 +208,8 @@
                 $("#event-modal-label").text("Add new Poll");
                 var data = response.data;
 
-
-                data.pollDate = formatDateToYYYYMMDD(data.pollDate);
                 setFormData($formEl, data);
 
-                $("#pollDate").val(data.pollDate);
                 $("#poll-modal").modal("show");
             })
             .catch(function (err) {
