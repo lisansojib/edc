@@ -1,6 +1,7 @@
 ﻿using ApplicationCore;
 using ApplicationCore.DTOs;
 using ApplicationCore.Interfaces.Repositories;
+using ApplicationCore.Interfaces.Services;
 using ApplicationCore.Interfaces.Services.Portal;
 using Dapper;
 using Microsoft.EntityFrameworkCore;
@@ -15,10 +16,10 @@ namespace Infrastructure.Services.Home
     public class ScheduleService: IScheduleService
     {
         private readonly AppDbContext _dbContext;
-        private readonly ISqlQueryRepository<PendingSpeakerDTO> _repository;
-        public ScheduleService(ISqlQueryRepository<PendingSpeakerDTO> repository, AppDbContext dbContext)
+        private readonly ISelectOptionService _select2OptionService;
+        public ScheduleService(ISelectOptionService selectOptionService, AppDbContext dbContext)
         {
-            _repository = repository;
+            _select2OptionService = selectOptionService;
             _dbContext = dbContext;
         }
 
@@ -52,6 +53,9 @@ namespace Infrastructure.Services.Home
                     
                 var valueFileds = await records.ReadAsync<Select2Option>();
                 data.PanelList = valueFileds.Where(x => x.Desc == ValueFieldTypeNames.EventTypeName);
+                
+                // For refer user
+                data.CompanyList = await _select2OptionService.GetCompaniesAsync();
 
                 return data;
             }

@@ -10,5 +10,7 @@
         public string LinkedInUrl { get; set; }
         public bool IsReferrer { get; set; }
         public int PanelId { get; set; }
+        public int CompanyId { get; set; }
+        public string Note { get; set; }
     }
 }

@@ -1,9 +1,10 @@
 ﻿var handleClientLoad;
 
 (function () {
-    var $tblEvents, $formAddSpeaker;
+    var $tblEvents, $formAddSpeaker, $formReferSpeaker;
+    var $formContainer;
 
-    var validationConstraints = {
+    var addSpeakerValidationConstraints = {
         firstName: {
             length: {
                 maximum: 100
@@ -29,6 +30,12 @@
         panelId: {
             presence: true,
         },
+        interestInTopic: {
+            presence: true,
+            length: {
+                maximum: 500
+            }
+        },
         linkedinUrl: {
             length: {
                 maximum: 500
@@ -36,14 +43,58 @@
         }
     };
 
+    var referSpeakerValidationConstraints = {
+        firstName: {
+            length: {
+                maximum: 100
+            }
+        },
+        lastName: {
+            length: {
+                maximum: 100
+            }
+        },
+        email: {
+            presence: true,
+            email: true,
+            length: {
+                maximum: 500
+            }
+        },
+        phone: {
+            length: {
+                maximum: 20
+            }
+        },
+        panelId: {
+            presence: true,
+        },
+        interestInTopic: {
+            presence: true,
+            length: {
+                maximum: 500
+            }
+        },
+        note: {
+            length: {
+                maximum: 500
+            }
+        },
+        linkedinUrl: {
+            length: {
+                maximum: 500
+            }
+        },
+        companyId: {
+            presence: true
+        }
+    };
+
     $(function () {
         $tblEvents = $("#tblEvents");
         initEventsTbl();
         loadEventsData();
-
-        $formAddSpeaker = $("#add-speaker-form");
-
-        $("#btn-save-speaker").click(saveSpeaker);
+        $formContainer = $("#form-modal-container");
     })
 
     // #region Events
@@ -80,7 +131,7 @@
                                     <a class="dropdown-item d-flex align-items-center add-to-google-calendar" href="#"><i class="icon-sm mr-2 fa fa-calendar-plus-o"></i> <span class="">Add to Google</span></a>
                                     <a class="dropdown-item d-flex align-items-center add-to-outlook-calendar" href="#"><i class="icon-sm mr-2 fa fa-calendar-plus-o"></i> <span class="">Add to Outlook</span></a>
                                     <a class="dropdown-item d-flex align-items-center apply-to-speak" href="#"><i class="icon-sm mr-2 fa fa-commenting-o"></i> <span class="">Apply to Speak</span></a>
-                                    <a class="dropdown-item d-flex align-items-center refer-to-speaker" href="#"><i class="icon-sm mr-2 fa fa-share"></i> <span class="">Refer to Speaker</span></a>
+                                    <a class="dropdown-item d-flex align-items-center refer-to-speak" href="#"><i class="icon-sm mr-2 fa fa-share"></i> <span class="">Refer to Speaker</span></a>
                                 </div>
                             </div>`;
                         return template;
@@ -107,15 +158,13 @@
                         },
                         'click .apply-to-speak': function (e, value, row, index) {
                             e.preventDefault();
-                            $formAddSpeaker.trigger("reset");
-                            $("#divlinkedinUrl").addClass("d-none");
+                            renderApplyForm();
                             getNewSpeaker();
                         },
-                        'click .refer-to-speaker': function (e, value, row, index) {
+                        'click .refer-to-speak': function (e, value, row, index) {
                             e.preventDefault();
-                            $formAddSpeaker.trigger("reset");
-                            $("#divlinkedinUrl").removeClass("d-none");
-                            $("#add-speaker-modal").modal("show");
+                            renderReferForm();
+                            getNewRefer();
                         }
                     }
                 },
@@ -207,7 +256,7 @@
     function getNewSpeaker() {
         axios.get(`/api/schedules/new-speaker`)
             .then(function (response) {
-                debugger;
+  
                 var data = response.data;
                 console.log(data);
                 setFormData($formAddSpeaker, data);
@@ -219,6 +268,167 @@
             });
     }
 
+    function getNewRefer() {
+        axios.get(`/api/schedules/new-speaker`)
+            .then(function (response) {
+                var data = response.data;
+                console.log(data);
+                setFormData($formReferSpeaker, data);
+
+                $("#refer-speaker-modal").modal("show");
+            })
+            .catch(function (err) {
+                showResponseError(err)
+            });
+    }
+
+    // Renders refer another speaker form
+    function renderReferForm() {
+
+        $formContainer.empty();
+
+        var template = `<div class="modal fade" data-backdrop="static" data-keyboard="false" id="refer-speaker-modal" tabindex="-1" aria-labelledby="refer-speaker-modal" aria-hidden="true">
+                        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="refer-speaker-modal-label">Refer a Speaker</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="refer-speaker-form">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="form-group">
+                                                        <label for="email">Email <sup>&#x2605;</sup></label>
+                                                        <input type="email" class="form-control" id="email" name="email">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="firstName">First Name <sup>&#x2605;</sup></label>
+                                                        <input class="form-control" type="text" id="firstName" name="firstName" />
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="lastName">Last Name <sup>&#x2605;</sup></label>
+                                                        <input type="text" class="form-control" id="lastName" name="lastName">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="phone">Phone</label>
+                                                        <input type="text" class="form-control" id="phone" name="phone">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="panelId">Panel<sup>&#x2605;</sup></label>
+                                                        <select id="panelId" name="panelId" class="form-control" style="width: 100%"></select>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    
+                                                    <div class="form-group">
+                                                        <label for="companyId">Company<sup>&#x2605;</sup></label>
+                                                        <select id="companyId" name="companyId" class="form-control" style="width: 100%"></select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="interestInTopic">Interest in Topic <sup>&#x2605;</sup></label>
+                                                        <textarea class="form-control" id="interestInTopic" name="interestInTopic" rows="4"></textarea>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="note">Note</label>
+                                                        <textarea class="form-control" id="note" name="note" rows="4"></textarea>
+                                                    </div>
+                                                    <div class="form-group d-none">
+                                                        <label for="linkedInUrl">Linked in URL</label>
+                                                        <input type="url" class="form-control" id="linkedInUrl" name="linkedInUrl">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary" id="btn-save-reffered-speaker">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    `
+
+        $formContainer.html(template);
+        // Get the elements
+        $("#btn-save-reffered-speaker").click(saveReferSpeaker);
+        $formReferSpeaker = $("#refer-speaker-form");
+    }
+
+    // Renders apply to speak form
+    function renderApplyForm() {
+
+        $formContainer.empty();
+
+        var template = `<div class="modal fade" data-backdrop="static" data-keyboard="false" id="add-speaker-modal" tabindex="-1" aria-labelledby="add-speaker-modal" aria-hidden="true">
+                        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="add-speaker-modal-label">Apply to speak</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="add-speaker-form">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="form-group">
+                                                        <label for="email">Email <sup>&#x2605;</sup></label>
+                                                        <input type="email" class="form-control" id="email" name="email">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="firstName">First Name <sup>&#x2605;</sup></label>
+                                                        <input  type="text" class="form-control" id="firstName" name="firstName" />
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="lastName">Last Name <sup>&#x2605;</sup></label>
+                                                        <input type="text" class="form-control" id="lastName" name="lastName">
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="form-group">
+                                                        <label for="phone">Phone</label>
+                                                        <input type="text" class="form-control" id="phone" name="phone">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="panelId">Panel<sup>&#x2605;</sup></label>
+                                                        <select id="panelId" name="panelId" class="form-control" style="width: 100%"></select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="interestInTopic">Interest in Topic <sup>&#x2605;</sup></label>
+                                                        <textarea class="form-control" id="interestInTopic" name="interestInTopic" rows="3"></textarea>
+                                                    </div>
+                                                    <div class="form-group d-none">
+                                                        <label for="linkedInUrl">Linked in URL</label>
+                                                        <input type="url" class="form-control" id="linkedInUrl" name="linkedInUrl">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary" id="btn-save-speaker">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`
+
+        $formContainer.html(template);
+
+        // Get the elements
+        $("#btn-save-speaker").click(saveSpeaker);
+        $formAddSpeaker = $("#add-speaker-form");
+    }
+
     function saveSpeaker(e) {
         e.preventDefault();
 
@@ -226,9 +436,9 @@
         var originalText = thisBtn.html();
         setLoadingButton(thisBtn);
 
-        initializeValidation($formAddSpeaker, validationConstraints);
+        initializeValidation($formAddSpeaker, addSpeakerValidationConstraints);
 
-        var errorObj = isValidForm($formAddSpeaker, validationConstraints);
+        var errorObj = isValidForm($formAddSpeaker, addSpeakerValidationConstraints);
         if (errorObj) {
             showValidationToast(errorObj);
             resetLoadingButton(thisBtn, originalText);
@@ -240,8 +450,43 @@
         data.panelId = parseInt(data.panelId);
         axios.post('/api/schedules/save-speaker', data)
             .then(function () {
-                toastr.success("Successfully Referred speaker");
+                toastr.success("Successfully Applied to Speak");
                 $("#add-speaker-modal").modal("hide");
+                loadEventsData();
+            })
+            .catch(function (err) {
+                console.log(err);
+                showResponseError(err);
+            })
+            .finally(function () {
+                resetLoadingButton(thisBtn, originalText);
+            })
+    }
+
+    function saveReferSpeaker(e) {
+        e.preventDefault();
+
+        var thisBtn = $(this);
+        var originalText = thisBtn.html();
+        setLoadingButton(thisBtn);
+
+        initializeValidation($formReferSpeaker, referSpeakerValidationConstraints);
+
+        var errorObj = isValidForm($formReferSpeaker, referSpeakerValidationConstraints);
+        if (errorObj) {
+            showValidationToast(errorObj);
+            resetLoadingButton(thisBtn, originalText);
+            return;
+        }
+        else hideValidationErrors($formReferSpeaker);
+
+        var data = formDataToJson($formReferSpeaker);
+        data.panelId = parseInt(data.panelId);
+        data.companyId = parseInt(data.companyId);
+        axios.post('/api/schedules/save-speaker', data)
+            .then(function () {
+                toastr.success("Successfully Reffered to Speak");
+                $("#refer-speaker-modal").modal("hide");
                 loadEventsData();
             })
             .catch(function (err) {
