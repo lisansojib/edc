@@ -2,28 +2,32 @@
     var $table, $formEl;
 
     var validationConstraints = {
-        username: {
-            presence: true,
-            length: {
-                maximum: 50
-            }
-        },
         password: {
+            presence: true,
             length: {
                 maximum: 20
             }
         },
         firstName: {
+            presence: true,
             length: {
                 maximum: 100
             }
         },
         lastName: {
+            presence: true,
             length: {
                 maximum: 100
             }
         },
-        email: {
+        emailCorp: {
+            presence: true,
+            email: true,
+            length: {
+                maximum: 500
+            }
+        },
+        emailPersonal: {
             presence: true,
             email: true,
             length: {
@@ -35,7 +39,7 @@
                 maximum: 20
             }
         },
-        mobile: {
+        PhoneCorp: {
             length: {
                 maximum: 20
             }
@@ -45,8 +49,61 @@
                 maximum: 100
             }
         },
+        linkedinUrl: {
+            length: {
+                maximum: 250
+            }
+        },
+        companyId: {
+            presence: true
+        }
+    };
+    var updateValidationConstraints = {
+        password: {
+            length: {
+                maximum: 20
+            }
+        },
+        firstName: {
+            presence: true,
+            length: {
+                maximum: 100
+            }
+        },
+        lastName: {
+            presence: true,
+            length: {
+                maximum: 100
+            }
+        },
         emailCorp: {
-            email: true
+            presence: true,
+            email: true,
+            length: {
+                maximum: 500
+            }
+        },
+        emailPersonal: {
+            presence: true,
+            email: true,
+            length: {
+                maximum: 500
+            }
+        },
+        phone: {
+            length: {
+                maximum: 20
+            }
+        },
+        PhoneCorp: {
+            length: {
+                maximum: 20
+            }
+        },
+        title: {
+            length: {
+                maximum: 100
+            }
         },
         linkedinUrl: {
             length: {
@@ -293,12 +350,23 @@
         else hideValidationErrors($formEl);
 
         var data = getFormData($formEl);
+
+        data = formDataToJson2(data);
+
+        debugger;
         data.companyId = parseInt(data.companyId);
+        data.id = parseInt(data.id);
+
+        data.active = parseTruth(data.active);
+        data.verified = parseTruth(data.verified);
+  
         var files = $("#photo")[0].files;
         if (files.length > 0) data.append("photo", files[0]);
 
-        var id = parseInt($formEl.find("#id"));
-        if (isNaN(id) || id <= 0) {
+        data.email = $("input[name='primaryEmail']:checked").val() === 'work' ? data.emailCorp : data.emailPersonal;
+        debugger;
+
+        if (isNaN(data.id) || data.id <= 0) {
             axios.post('/api/participants', data)
                 .then(function () {
                     toastr.success("Participant updated successfully!");

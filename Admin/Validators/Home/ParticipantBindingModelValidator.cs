@@ -7,15 +7,14 @@ namespace Presentation.Admin.Validators
     {
         public ParticipantBindingModelValidator()
         {
-            RuleFor(x => x.Username).NotEmpty().MaximumLength(50);
-            RuleFor(x => x.FirstName).MaximumLength(100);
-            RuleFor(x => x.LastName).MaximumLength(100);
-            RuleFor(x => x.Email).EmailAddress();
-            //RuleFor(x => x.Password).MaximumLength(20);
-            RuleFor(x => x.Phone).MaximumLength(20);
-            RuleFor(x => x.Mobile).MaximumLength(20);
             RuleFor(x => x.Title).MaximumLength(100);
-            RuleFor(x => x.EmailCorp).EmailAddress();
+            RuleFor(x => x.FirstName).NotEmpty().MaximumLength(100);
+            RuleFor(x => x.LastName).NotEmpty().MaximumLength(100);
+            RuleFor(x => x.Email).NotEmpty().EmailAddress();
+            RuleFor(x => x.EmailCorp).NotEmpty().EmailAddress();
+            RuleFor(x => x.EmailPersonal).NotEmpty().EmailAddress();
+            RuleFor(x => x.Password).MaximumLength(20);
+            RuleFor(x => x.Phone).MaximumLength(20);
             RuleFor(x => x.PhoneCorp).MaximumLength(20);
             RuleFor(x => x.LinkedinUrl).MaximumLength(250);
             RuleFor(x => x.CompanyId).NotEmpty();

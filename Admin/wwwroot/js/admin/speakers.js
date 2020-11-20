@@ -54,8 +54,8 @@
     $(document).ready(function () {
         $table = $("#tblList");
 
-        initTbl();
-        loadTableData();
+        //initTbl();
+        //loadTableData();
 
         $formEl = $("#speaker-form");
 
@@ -267,10 +267,12 @@
     function getCompanies() {
         axios.get("/api/select-options/companies")
             .then(function (response) {
-                initSelect2($("#companyId"), response.data);
+                console.log(response);
+                //initSelect2($("#companyId"), response.data);
             })
             .catch(function (err) {
-                toastr.error(err.response);
+                console.log(err);
+                showResponseError(err);
             });
     }
 })();

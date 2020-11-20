@@ -44,28 +44,24 @@
                             <div class="col">
                                 <input type="hidden" name="id" id="id" value="0" />
                                 <div class="form-group">
-                                    <label for="username">Username<sup>&#x2605;</sup></label>
-                                    <input type="text" class="form-control" id="username" name="username">
-                                </div>
-                                <div class="form-group">
-                                    <label for="username">Password</label>
-                                    <input type="password" class="form-control" id="password" name="password">
-                                </div>
-                                <div class="form-group">
-                                    <label for="email">Email<sup>&#x2605;</sup></label>
-                                    <input type="email" class="form-control" id="email" name="email">
-                                </div>
-                                <div class="form-group">
-                                    <label for="firstName">First Name</label>
+                                    <label for="firstName">First Name <sup>&#x2605;</sup></label>
                                     <input class="form-control" rows="2" id="firstName" name="firstName" />
                                 </div>
                                 <div class="form-group">
-                                    <label for="lastName">Last Name</label>
+                                    <label for="lastName">Last Name <sup>&#x2605;</sup></label>
                                     <input type="text" class="form-control" id="lastName" name="lastName">
                                 </div>
                                 <div class="form-group">
                                     <label for="title">Title</label>
                                     <input type="text" class="form-control" id="title" name="title">
+                                </div>
+                                <div class="form-group">
+                                    <label for="username">Password <sup>&#x2605;</sup></label>
+                                    <input type="password" class="form-control" id="password" name="password">
+                                </div>
+                                <div class="form-group">
+                                    <label for="emailPersonal">Personal Email<sup>&#x2605;</sup></label>
+                                    <input type="email" class="form-control" id="emailPersonal" name="emailPersonal">
                                 </div>
                                 <div class="form-group">
                                     <label for="logo">Upload Photo</label>
@@ -76,22 +72,19 @@
                                 <div class="form-group">
                                     <label for="companyId">Company <sup>&#x2605;</sup></label>
                                     <select class="form-control" id="companyId" name="companyId" style="width: 100%"></select>
+                                    @*<input type="text" class="form-control" id="companyName" name="companyName" />*@
                                 </div>
                                 <div class="form-group">
                                     <label for="phone">Phone</label>
                                     <input type="text" class="form-control" id="phone" name="phone">
                                 </div>
                                 <div class="form-group">
-                                    <label for="mobile">Mobile</label>
-                                    <input type="text" class="form-control" rows="2" id="mobile" name="mobile" />
-                                </div>
-                                <div class="form-group">
-                                    <label for="emailCorp">Email Corp</label>
-                                    <input type="email" class="form-control" id="emailCorp" name="emailCorp">
-                                </div>
-                                <div class="form-group">
-                                    <label for="phoneCorp">Phone Corp</label>
+                                    <label for="phoneCorp">Work Phone</label>
                                     <input type="text" class="form-control" id="phoneCorp" name="phoneCorp">
+                                </div>
+                                <div class="form-group">
+                                    <label for="emailCorp">Work Email <sup>&#x2605;</sup></label>
+                                    <input type="email" class="form-control" id="emailCorp" name="emailCorp">
                                 </div>
                                 <div class="form-group">
                                     <label for="linkedinUrl">Linkedin Url</label>
@@ -104,6 +97,15 @@
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" id="verified" name="verified">
                                     <label class="custom-control-label" for="verified">Verified</label>
+                                </div>
+                                <h5 class="text-muted">Select your primary email <sup>&#x2605;</sup></h5>
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" value="work" id="workPrimary" name="primaryEmail">
+                                    <label class="custom-control-label" for="workPrimary">Work Email</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" value="personal" id="personalPrimary" name="primaryEmail">
+                                    <label class="custom-control-label" for="personalPrimary">Personal Email</label>
                                 </div>
                             </div>
                         </div>

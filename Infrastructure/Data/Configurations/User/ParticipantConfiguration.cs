@@ -29,6 +29,10 @@ namespace Infrastructure.Data.Config
             builder.Property(t => t.DateSuspended).HasColumnType("datetime");
 
             builder.Property(t => t.EmailCorp).HasMaxLength(500);
+            builder.Property(t => t.EmailPersonal).HasMaxLength(500);
+
+            builder.Property(t => t.CompanyName).HasMaxLength(500);
+
             builder.Property(t => t.PhoneCorp).HasMaxLength(20);
             builder.Property(t => t.LinkedinUrl).HasMaxLength(250);
 

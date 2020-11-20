@@ -73,7 +73,7 @@ namespace Presentation.Admin.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromForm] ParticipantBindingModel model)
+        public async Task<IActionResult> Create([FromBody] ParticipantBindingModel model)
         {
             var entity = _mapper.Map<Participant>(model);
             entity.CreatedBy = UserId;
@@ -95,6 +95,10 @@ namespace Presentation.Admin.Controllers.Api
             }
 
             if(entity.Password.NotNullOrEmpty()) entity.Password = _passwordHasher.Hash(model.Password);
+            
+            // Temporary Username
+            // Username should be generated on server
+            entity.Username = entity.FirstName + entity.LastName;
 
             await _repository.AddAsync(entity);
 
@@ -102,23 +106,22 @@ namespace Presentation.Admin.Controllers.Api
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromForm] ParticipantBindingModel model)
+        public async Task<IActionResult> Update([FromBody] ParticipantBindingModel model)
         {
             var entity = await _repository.FindAsync(model.Id);
 
             if (entity == null) return BadRequest(new BadRequestResponseModel(ErrorTypes.BadRequest, ErrorMessages.ItemNotFound));
 
-            entity.Username = model.Username;
+            entity.Title = model.Title;
             entity.FirstName = model.FirstName;
             entity.LastName = model.LastName;
-            entity.Email = model.Email;
-            entity.Verified = model.Verified;
-            entity.Phone = model.Phone;
-            entity.Mobile = model.Mobile;
-            entity.Title = model.Title;
-            entity.Active = model.Active;
+            //entity.Email = model.Email;
             entity.EmailCorp = model.EmailCorp;
+            entity.EmailPersonal = model.EmailPersonal;
+            //entity.Verified = model.Verified;
+            entity.Phone = model.Phone;
             entity.PhoneCorp = model.PhoneCorp;
+            entity.Active = model.Active;
             entity.LinkedinUrl = model.LinkedinUrl;
             entity.CompanyId = model.CompanyId;
 
