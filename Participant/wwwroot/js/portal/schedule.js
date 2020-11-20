@@ -520,8 +520,8 @@
      */
     function initClient() {
         gapi.client.init({
-            apiKey: "AIzaSyAofpw-Q37kytSSUZE1YKMQ4YFKhcpHz5M",
-            clientId: "733141581889-qauttj30bgdr7o3o6pc3m66vincf8sdq.apps.googleusercontent.com",
+            apiKey: "AIzaSyBTop7xBzBNvLyUyOhN_zvIkjd6v-MRfVU",
+            clientId: "27017976469-p9svugd1uksek2kmeod8o7ce1v1lvhp4.apps.googleusercontent.com",
             discoveryDocs: DISCOVERY_DOCS,
             scope: SCOPES
         }).then(function () {
