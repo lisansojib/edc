@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200915153512_EventUpdated")]
-    partial class EventUpdated
+    [Migration("20201120175007_DbChanges-5")]
+    partial class DbChanges5
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.8")
+                .HasAnnotation("ProductVersion", "3.1.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -43,39 +43,37 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime");
 
-                    b.Property<DateTime>("DateSuspended")
+                    b.Property<DateTime?>("DateSuspended")
                         .HasColumnType("datetime");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(500)")
-                        .HasMaxLength(500);
+                        .HasColumnType("varchar(500)");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("Mobile")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("varchar(20)");
 
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("varchar(20)");
 
                     b.Property<string>("PhotoUrl")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(250)")
+                        .HasMaxLength(250);
 
                     b.Property<string>("Title")
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("UUId")
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
@@ -84,8 +82,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("nvarchar(500)")
-                        .HasMaxLength(500);
+                        .HasColumnType("varchar(50)");
 
                     b.Property<bool>("Verified")
                         .HasColumnType("bit");
@@ -155,6 +152,27 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("Announcements");
                 });
 
+            modelBuilder.Entity("ApplicationCore.Entities.Cohort", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Cohorts");
+                });
+
             modelBuilder.Entity("ApplicationCore.Entities.Company", b =>
                 {
                     b.Property<int>("Id")
@@ -174,6 +192,9 @@ namespace Infrastructure.Data.Migrations
                     b.Property<int>("CreatedBy")
                         .HasColumnType("int");
 
+                    b.Property<string>("LogoUrl")
+                        .HasColumnType("varchar(250)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(100)")
@@ -188,6 +209,9 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<int?>("UpdatedBy")
                         .HasColumnType("int");
+
+                    b.Property<string>("Website")
+                        .HasColumnType("varchar(250)");
 
                     b.HasKey("Id");
 
@@ -230,6 +254,12 @@ namespace Infrastructure.Data.Migrations
                         .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("CTOId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CohortId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime");
 
@@ -242,6 +272,25 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<DateTime>("EventDate")
                         .HasColumnType("datetime");
+
+                    b.Property<string>("EventFolder")
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<int>("EventTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImagePath")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(250)")
+                        .HasMaxLength(250)
+                        .HasDefaultValue("");
+
+                    b.Property<int>("PresenterId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SessionId")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -256,7 +305,90 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CohortId");
+
                     b.ToTable("Events");
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.EventResource", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("varchar(250)");
+
+                    b.Property<string>("PreviewType")
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.ToTable("EventResources");
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.EventSpeaker", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SpeakerId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.HasIndex("SpeakerId");
+
+                    b.ToTable("EventSpeakers");
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.EventSponsor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SponsorId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.HasIndex("SponsorId");
+
+                    b.ToTable("EventSponsors");
                 });
 
             modelBuilder.Entity("ApplicationCore.Entities.ExternalLogin", b =>
@@ -296,62 +428,75 @@ namespace Infrastructure.Data.Migrations
                     b.Property<int>("CompanyId")
                         .HasColumnType("int");
 
+                    b.Property<string>("CompanyName")
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime");
 
-                    b.Property<DateTime>("DateSuspended")
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DateSuspended")
                         .HasColumnType("datetime");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(500)")
-                        .HasMaxLength(500);
+                        .HasColumnType("varchar(500)");
 
                     b.Property<string>("EmailCorp")
                         .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
+                    b.Property<string>("EmailPersonal")
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
+
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("LinkedinUrl")
                         .HasColumnType("nvarchar(250)")
                         .HasMaxLength(250);
 
                     b.Property<string>("Mobile")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("varchar(20)");
 
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("varchar(20)");
 
                     b.Property<string>("PhoneCorp")
                         .HasColumnType("nvarchar(20)")
                         .HasMaxLength(20);
 
                     b.Property<string>("PhotoUrl")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(250)")
+                        .HasMaxLength(250);
 
                     b.Property<string>("Title")
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("UUId")
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime");
 
+                    b.Property<int>("UpdatedBy")
+                        .HasColumnType("int");
+
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("nvarchar(500)")
-                        .HasMaxLength(500);
+                        .HasColumnType("varchar(50)");
 
                     b.Property<bool>("Verified")
                         .HasColumnType("bit");
@@ -405,6 +550,96 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("ParticipantTeams");
                 });
 
+            modelBuilder.Entity("ApplicationCore.Entities.PendingSpeaker", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("AcceptDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<int>("AcceptedBy")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CompanyId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime");
+
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("InterestInTopic")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<bool>("IsAccepted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsReferrer")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsRejected")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("LinkedInUrl")
+                        .IsRequired()
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int>("PanelId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<int>("ReferredBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("RejectDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<int>("RejectedBy")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SpeakerId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime");
+
+                    b.Property<int?>("UpdatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PendingSpeakers");
+                });
+
             modelBuilder.Entity("ApplicationCore.Entities.Poll", b =>
                 {
                     b.Property<int>("Id")
@@ -420,25 +655,19 @@ namespace Infrastructure.Data.Migrations
                     b.Property<int>("CreatedBy")
                         .HasColumnType("int");
 
-                    b.Property<string>("GraphType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                    b.Property<int>("GraphTypeId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
-                    b.Property<string>("Origin")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
+                    b.Property<int>("OriginId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Panel")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
+                    b.Property<int>("PanelId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("PollDate")
                         .HasColumnType("datetime");
@@ -463,17 +692,49 @@ namespace Infrastructure.Data.Migrations
                         .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("EventId")
+                    b.Property<int?>("CompanyId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SpeakerId")
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("LinkedInUrl")
+                        .IsRequired()
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime");
+
+                    b.Property<int?>("UpdatedBy")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EventId");
-
-                    b.HasIndex("SpeakerId");
+                    b.HasIndex("CompanyId");
 
                     b.ToTable("Speakers");
                 });
@@ -487,17 +748,47 @@ namespace Infrastructure.Data.Migrations
                         .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("EventId")
+                    b.Property<string>("CompanyName")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("ContactPerson")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("ContactPersonEmail")
+                        .IsRequired()
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<string>("ContactPersonPhone")
+                        .IsRequired()
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.Property<int>("CreatedBy")
                         .HasColumnType("int");
 
-                    b.Property<int>("SponsorId")
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(1000)")
+                        .HasMaxLength(1000);
+
+                    b.Property<string>("LogoUrl")
+                        .HasColumnType("varchar(250)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime");
+
+                    b.Property<int?>("UpdatedBy")
                         .HasColumnType("int");
+
+                    b.Property<string>("Website")
+                        .HasColumnType("varchar(250)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EventId");
-
-                    b.HasIndex("SponsorId");
 
                     b.ToTable("Sponsors");
                 });
@@ -516,6 +807,10 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(1000)")
+                        .HasMaxLength(1000);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -552,6 +847,9 @@ namespace Infrastructure.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
+
+                    b.Property<int>("SeqNo")
+                        .HasColumnType("int");
 
                     b.Property<int>("TypeId")
                         .HasColumnType("int");
@@ -609,6 +907,60 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ApplicationCore.Entities.Event", b =>
+                {
+                    b.HasOne("ApplicationCore.Entities.Cohort", "Cohort")
+                        .WithMany("Events")
+                        .HasForeignKey("CohortId")
+                        .HasConstraintName("FK_Event_Cohort")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.EventResource", b =>
+                {
+                    b.HasOne("ApplicationCore.Entities.Event", "Event")
+                        .WithMany("EventResources")
+                        .HasForeignKey("EventId")
+                        .HasConstraintName("FK_EventResource_Event")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.EventSpeaker", b =>
+                {
+                    b.HasOne("ApplicationCore.Entities.Event", "Event")
+                        .WithMany("EventSpeakers")
+                        .HasForeignKey("EventId")
+                        .HasConstraintName("FK_EventSpeaker_Event")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ApplicationCore.Entities.Speaker", "Speaker")
+                        .WithMany("EventSpeakers")
+                        .HasForeignKey("SpeakerId")
+                        .HasConstraintName("FK_EventSpeaker_ValueField")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.EventSponsor", b =>
+                {
+                    b.HasOne("ApplicationCore.Entities.Event", "Event")
+                        .WithMany("EventSponsors")
+                        .HasForeignKey("EventId")
+                        .HasConstraintName("FK_EventSponsor_Event")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ApplicationCore.Entities.Sponsor", "Sponsor")
+                        .WithMany("EventSponsors")
+                        .HasForeignKey("SponsorId")
+                        .HasConstraintName("FK_EventSponsor_Sponsor")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ApplicationCore.Entities.ExternalLogin", b =>
                 {
                     b.HasOne("ApplicationCore.Entities.Admin", "Management")
@@ -655,36 +1007,11 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("ApplicationCore.Entities.Speaker", b =>
                 {
-                    b.HasOne("ApplicationCore.Entities.Event", "Event")
+                    b.HasOne("ApplicationCore.Entities.Company", "Company")
                         .WithMany("Speakers")
-                        .HasForeignKey("EventId")
-                        .HasConstraintName("FK_Speaker_Event")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ApplicationCore.Entities.ValueField", "ValueField")
-                        .WithMany("Speakers")
-                        .HasForeignKey("SpeakerId")
-                        .HasConstraintName("FK_Speaker_ValueField")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ApplicationCore.Entities.Sponsor", b =>
-                {
-                    b.HasOne("ApplicationCore.Entities.Event", "Event")
-                        .WithMany("Sponsors")
-                        .HasForeignKey("EventId")
-                        .HasConstraintName("FK_Sponsor_Event")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ApplicationCore.Entities.ValueField", "ValueField")
-                        .WithMany("Sponsors")
-                        .HasForeignKey("SponsorId")
-                        .HasConstraintName("FK_Sponsor_ValueField")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CompanyId")
+                        .HasConstraintName("FK_Speaker_Company")
+                        .OnDelete(DeleteBehavior.NoAction);
                 });
 
             modelBuilder.Entity("ApplicationCore.Entities.ValueField", b =>

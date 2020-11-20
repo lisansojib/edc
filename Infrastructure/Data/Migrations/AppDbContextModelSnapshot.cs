@@ -46,36 +46,30 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("varchar")
-                        .HasMaxLength(500);
+                        .HasColumnType("varchar(500)");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("varchar")
-                        .HasMaxLength(100);
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("varchar")
-                        .HasMaxLength(100);
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("Mobile")
-                        .HasColumnType("varchar")
-                        .HasMaxLength(20);
+                        .HasColumnType("varchar(20)");
 
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<string>("Phone")
-                        .HasColumnType("varchar")
-                        .HasMaxLength(20);
+                        .HasColumnType("varchar(20)");
 
                     b.Property<string>("PhotoUrl")
                         .HasColumnType("nvarchar(250)")
                         .HasMaxLength(250);
 
                     b.Property<string>("Title")
-                        .HasColumnType("varchar")
-                        .HasMaxLength(100);
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("UUId")
                         .HasColumnType("nvarchar(100)")
@@ -86,8 +80,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("varchar")
-                        .HasMaxLength(50);
+                        .HasColumnType("varchar(50)");
 
                     b.Property<bool>("Verified")
                         .HasColumnType("bit");
@@ -433,6 +426,10 @@ namespace Infrastructure.Data.Migrations
                     b.Property<int>("CompanyId")
                         .HasColumnType("int");
 
+                    b.Property<string>("CompanyName")
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime");
 
@@ -444,36 +441,35 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("varchar")
-                        .HasMaxLength(500);
+                        .HasColumnType("varchar(500)");
 
                     b.Property<string>("EmailCorp")
                         .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
+                    b.Property<string>("EmailPersonal")
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
+
                     b.Property<string>("FirstName")
-                        .HasColumnType("varchar")
-                        .HasMaxLength(100);
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("varchar")
-                        .HasMaxLength(100);
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("LinkedinUrl")
                         .HasColumnType("nvarchar(250)")
                         .HasMaxLength(250);
 
                     b.Property<string>("Mobile")
-                        .HasColumnType("varchar")
-                        .HasMaxLength(20);
+                        .HasColumnType("varchar(20)");
 
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<string>("Phone")
-                        .HasColumnType("varchar")
-                        .HasMaxLength(20);
+                        .HasColumnType("varchar(20)");
 
                     b.Property<string>("PhoneCorp")
                         .HasColumnType("nvarchar(20)")
@@ -484,8 +480,7 @@ namespace Infrastructure.Data.Migrations
                         .HasMaxLength(250);
 
                     b.Property<string>("Title")
-                        .HasColumnType("varchar")
-                        .HasMaxLength(100);
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("UUId")
                         .HasColumnType("nvarchar(100)")
@@ -499,8 +494,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("varchar")
-                        .HasMaxLength(50);
+                        .HasColumnType("varchar(50)");
 
                     b.Property<bool>("Verified")
                         .HasColumnType("bit");
@@ -569,6 +563,9 @@ namespace Infrastructure.Data.Migrations
                     b.Property<int>("AcceptedBy")
                         .HasColumnType("int");
 
+                    b.Property<int?>("CompanyId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime");
 
@@ -603,6 +600,12 @@ namespace Infrastructure.Data.Migrations
                     b.Property<string>("LinkedInUrl")
                         .IsRequired()
                         .HasColumnType("varchar(500)");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int>("PanelId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Phone")
                         .IsRequired()
@@ -650,25 +653,19 @@ namespace Infrastructure.Data.Migrations
                     b.Property<int>("CreatedBy")
                         .HasColumnType("int");
 
-                    b.Property<string>("GraphType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                    b.Property<int>("GraphTypeId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
-                    b.Property<string>("Origin")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
+                    b.Property<int>("OriginId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Panel")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
+                    b.Property<int>("PanelId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("PollDate")
                         .HasColumnType("datetime");
