@@ -26,6 +26,7 @@ namespace Infrastructure
         public DbSet<Participant> ParticipantSet { get; set; }
         public DbSet<Admin> AdminSet { get; set; }
         public DbSet<ExternalLogin> ExternalLoginSet { get; set; }
+        public DbSet<Guest> GuestSet { get; set; }
         #endregion
 
         public DbSet<Company> CompanySet { get; set; }

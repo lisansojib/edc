@@ -407,6 +407,70 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("ExternalLogins");
                 });
 
+            modelBuilder.Entity("ApplicationCore.Entities.Guest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CompanyName")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime");
+
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<string>("EmailCorp")
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
+
+                    b.Property<string>("EmailPersonal")
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<int>("GeustTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("LinkedinUrl")
+                        .HasColumnType("nvarchar(250)")
+                        .HasMaxLength(250);
+
+                    b.Property<string>("PhoneCorp")
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
+
+                    b.Property<string>("PhonePersonal")
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
+
+                    b.Property<string>("Title")
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime");
+
+                    b.Property<int?>("UpdatedBy")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GeustTypeId");
+
+                    b.ToTable("Guests");
+                });
+
             modelBuilder.Entity("ApplicationCore.Entities.Participant", b =>
                 {
                     b.Property<int>("Id")
@@ -972,6 +1036,16 @@ namespace Infrastructure.Data.Migrations
                         .WithMany("ExternalLogins")
                         .HasForeignKey("UserId")
                         .HasConstraintName("FK_ExternalLogin_Participant")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.Guest", b =>
+                {
+                    b.HasOne("ApplicationCore.Entities.ValueField", "GuestType")
+                        .WithMany("Guests")
+                        .HasForeignKey("GeustTypeId")
+                        .HasConstraintName("FK_Guest_GuestType")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

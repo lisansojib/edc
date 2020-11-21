@@ -34,5 +34,6 @@ namespace ApplicationCore.Entities
         public virtual ValueFieldType ValueFieldType { get; set; }
 
         public virtual ICollection<Admin> Managements { get; private set; }
+        public virtual ICollection<Guest> Guests { get; private set; }
     }
 }
