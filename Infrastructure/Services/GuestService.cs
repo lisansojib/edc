@@ -38,7 +38,7 @@ namespace Infrastructure.Services.Home
 	                SELECT G.Id, G.FirstName, G.LastName, G.EmailPersonal, G.EmailCorp, G.PhonePersonal, G.PhoneCorp, G.LinkedinUrl
 		                , G.CompanyName, G.Title, GT.Name GuestType
 	                From Guests G
-	                Left Join ValueFields GT On G.GeustTypeId = GT.Id
+	                Left Join ValueFields GT On G.GuestTypeId = GT.Id
                 )
 
                 SELECT Id, FirstName, LastName, EmailPersonal, EmailCorp, PhonePersonal, PhoneCorp, LinkedinUrl

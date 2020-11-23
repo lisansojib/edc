@@ -18,6 +18,6 @@ namespace ApplicationCore.DTOs
         public string Title { get; set; }
         public int GuestTypeId { get; set; }
         public int CreatedBy { get; set; }
-        public virtual ValueField GuestType { get; set; }
+        public string GuestType { get; set; }
     }
 }

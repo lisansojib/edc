@@ -59,6 +59,8 @@ namespace Presentation.Admin.Controllers.Api
             
             entity.CreatedBy = UserId;
             entity.CreatedAt = DateTime.Now;
+            // Default value
+            entity.GuestTypeId = 2001;
 
             await _repository.AddAsync(entity);
             return Ok();
@@ -74,11 +76,14 @@ namespace Presentation.Admin.Controllers.Api
             entity.LastName = model.LastName;
             entity.LinkedinUrl = model.LinkedinUrl;
             entity.PhoneCorp = model.PhoneCorp;
+            entity.PhonePersonal = model.PhonePersonal;
             entity.EmailCorp = model.EmailCorp;
             entity.EmailPersonal = model.EmailPersonal;
             entity.GuestTypeId = model.GuestTypeId;
             entity.UpdatedAt = DateTime.Now;
             entity.UpdatedBy = UserId;
+            // Default value
+            entity.GuestTypeId = 2001;
 
             await _repository.UpdateAsync(entity);
             return Ok();

@@ -67,7 +67,10 @@
 
         $("#add-new-guest").click(function () {
             $("#guest-modal-label").text("Add new Guest");
-            $formEl.trigger("reset");
+            $("#id").val(0);
+
+            $("#guest-form").trigger("reset");
+
             initNewFileInput($("#photo"));
             $("#guest-modal").modal("show");
         });
@@ -165,6 +168,13 @@
                 {
                     sortable: true,
                     searchable: true,
+                    field: "phonePersonal",
+                    title: "Phone Personal",
+                    width: 100
+                },
+                {
+                    sortable: true,
+                    searchable: true,
                     field: "companyName",
                     title: "Company Name",
                     width: 100
@@ -215,13 +225,14 @@
         tableParams.offset = 0;
         tableParams.limit = 10;
         tableParams.filter = '';
-        tableParams.sort = 'name';
+        tableParams.sort = 'firstName';
         tableParams.order = '';
     }
 
     function getDetails(id) {
         axios.get(`/api/guests/${id}`)
             .then(function (response) {
+                $formEl.trigger("reset");
                 setFormData($formEl, response.data);
                 previewFileInput(response.data.id, response.data.photoUrl, $("#photo"));
                 $("#guest-modal-label").text("Edit Guest");
@@ -285,6 +296,8 @@
                     showResponseError(err);
                 });
         }
+
+        $formEl.trigger("reset");
     }
 })();
 
