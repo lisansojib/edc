@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ApplicationCore;
+﻿using ApplicationCore;
 using ApplicationCore.Entities;
 using ApplicationCore.Interfaces.Repositories;
-using ApplicationCore.Interfaces.Services;
+using ApplicationCore.Interfaces.Services.Home;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Admin.Models;
 using Presentation.Admin.Models.Home;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Presentation.Admin.Controllers.Api
 {
@@ -22,17 +20,31 @@ namespace Presentation.Admin.Controllers.Api
     public class GuestsController : ApiBaseController
     {
         private readonly IEfRepository<Guest> _repository;
+        private readonly IGuestService _service;
         private readonly IMapper _mapper;
 
-        public GuestsController(IEfRepository<Guest> repository, IMapper mapper)
+        public GuestsController(IEfRepository<Guest> repository
+            , IGuestService service
+            , IMapper mapper)
         {
             _repository = repository;
+            _service = service;
             _mapper = mapper;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Get(int offset = 0, int limit = 10, string filter = null, string sort = null, string order = null)
+        {
+            var orderBy = string.IsNullOrEmpty(sort) ? "" : $"ORDER BY {sort} {order}";
+            var records = await _service.GetPagedAsync(offset, limit, filter, orderBy);
+
+            var response = new PagedListViewModel(records, records.FirstOrDefault()?.Total);
+
+            return Ok(response);
+        }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetGuestById(int id)
+        public async Task<IActionResult> Get(int id)
         {
             var entity = await _repository.FindAsync(id);
             if (entity == null) return BadRequest(new BadRequestResponseModel(ErrorTypes.BadRequest, ErrorMessages.ItemNotFound));
@@ -41,7 +53,7 @@ namespace Presentation.Admin.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<IActionResult> SaveGuest([FromBody] GuestBindingModel model)
+        public async Task<IActionResult> Save([FromBody] GuestBindingModel model)
         {
             var entity = _mapper.Map<Guest>(model);
             

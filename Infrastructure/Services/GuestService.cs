@@ -19,32 +19,34 @@ namespace Infrastructure.Services.Home
             _dbContext = dbContext;
             _repository = repository;
         }
+
         public async Task<List<GuestDTO>> GetPagedAsync(int offset = 0, int limit = 10, string filterBy = null, string orderBy = null)
         {
             if (filterBy.NotNullOrEmpty())
-                filterBy = $@"WHERE FirstName  LIKE '%{filterBy}%' OR LastName LIKE '%{filterBy}%'
-                            OR Title  LIKE '%{filterBy}%'
-                            OR EmailCorp  LIKE '%{filterBy}%' OR PhoneCorp  LIKE '%{filterBy}%'
+                filterBy = $@"WHERE FirstName LIKE '%{filterBy}%' OR LastName LIKE '%{filterBy}%' OR Title LIKE '%{filterBy}%' 
+                            OR EmailPersonal LIKE '%{filterBy}%'
+                            OR EmailCorp LIKE '%{filterBy}%' OR PhoneCorp LIKE '%{filterBy}%'
                             OR CompanyName  LIKE '%{filterBy}%'";
-            else
-                filterBy = "";
+            else filterBy = "";
 
-            orderBy = string.IsNullOrEmpty(orderBy) ? "ORDER BY Name DESC" : orderBy;
+            orderBy = string.IsNullOrEmpty(orderBy) ? "ORDER BY Id DESC" : orderBy;
             var pageBy = $@"OFFSET {offset} ROWS FETCH NEXT {limit} ROWS ONLY";
-
 
             var query = $@"
                 ;WITH 
-                P AS (
-	                SELECT P.Id, P.FirstName, P.LastName, P.Phone,
-	                , P.Title, P.EmailPersonal, P.EmailCorp, P.PhoneCorp, P.LinkedinUrl, P.CompanyName
-	                From Guests
+                G AS (
+	                SELECT G.Id, G.FirstName, G.LastName, G.EmailPersonal, G.EmailCorp, G.PhonePersonal, G.PhoneCorp, G.LinkedinUrl
+		                , G.CompanyName, G.Title, GT.Name GuestType
+	                From Guests G
+	                Left Join ValueFields GT On G.GeustTypeId = GT.Id
                 )
 
-                SELECT Id,FirstName,	LastName, Phone, Title, EmailPersonal,	EmailCorp, PhoneCorp, LinkedinUrl, CompanyName, COUNT(*) OVER () as Total 
-                FROM P
+                SELECT Id, FirstName, LastName, EmailPersonal, EmailCorp, PhonePersonal, PhoneCorp, LinkedinUrl
+	                , CompanyName, Title, GuestType, COUNT(*) OVER () as Total 
+                FROM G
                 {filterBy} 
-                GROUP By Id,FirstName,	LastName,Phone, Title, EmailPersonal, EmailCorp, PhoneCorp, LinkedinUrl, CompanyName 
+                GROUP By Id, FirstName, LastName, EmailPersonal, EmailCorp, PhonePersonal, PhoneCorp, LinkedinUrl
+	                , CompanyName, Title, GuestType 
                 {orderBy}
                 {pageBy}";
 
