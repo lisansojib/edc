@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace ApplicationCore.Entities
+namespace Presentation.Admin.Models.Home
 {
-    public class Guest : BaseEntity, IAuditFields
+    public class GuestBindingModel: BaseViewModel
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -14,11 +17,5 @@ namespace ApplicationCore.Entities
         public string CompanyName { get; set; }
         public string Title { get; set; }
         public int GuestTypeId { get; set; }
-        public int CreatedBy { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public int? UpdatedBy { get; set; }
-        public DateTime? UpdatedAt { get; set; }
-
-        public virtual ValueField GuestType { get; set; }
     }
 }

@@ -36,6 +36,8 @@ using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Presentation.Admin.Interfaces;
 using Presentation.Admin.Services;
+using ApplicationCore.Interfaces.Services.Home;
+using Infrastructure.Services.Home;
 
 namespace Admin
 {
@@ -94,6 +96,7 @@ namespace Admin
             services.AddTransient<ISpeakerService, SpeakerService>();
             services.AddTransient<IImageHelper, ImageHelper>();
             services.AddTransient<IPendingSpeakerService, PendingSpeakerService>();
+            services.AddTransient<IGuestService, GuestService>();
 
             services.AddRouting(options =>
             {

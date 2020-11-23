@@ -2,12 +2,6 @@
     var $table, $formEl;
 
     var validationConstraints = {
-        password: {
-            presence: true,
-            length: {
-                maximum: 20
-            }
-        },
         firstName: {
             presence: true,
             length: {
@@ -34,12 +28,7 @@
                 maximum: 500
             }
         },
-        phone: {
-            length: {
-                maximum: 20
-            }
-        },
-        PhoneCorp: {
+        phoneCorp: {
             length: {
                 maximum: 20
             }
@@ -54,63 +43,7 @@
                 maximum: 250
             }
         },
-        companyId: {
-            presence: true
-        }
-    };
-    var updateValidationConstraints = {
-        password: {
-            length: {
-                maximum: 20
-            }
-        },
-        firstName: {
-            presence: true,
-            length: {
-                maximum: 100
-            }
-        },
-        lastName: {
-            presence: true,
-            length: {
-                maximum: 100
-            }
-        },
-        emailCorp: {
-            presence: true,
-            email: true,
-            length: {
-                maximum: 500
-            }
-        },
-        emailPersonal: {
-            presence: true,
-            email: true,
-            length: {
-                maximum: 500
-            }
-        },
-        phone: {
-            length: {
-                maximum: 20
-            }
-        },
-        PhoneCorp: {
-            length: {
-                maximum: 20
-            }
-        },
-        title: {
-            length: {
-                maximum: 100
-            }
-        },
-        linkedinUrl: {
-            length: {
-                maximum: 250
-            }
-        },
-        companyId: {
+        guestTypeId: {
             presence: true
         }
     };
@@ -118,7 +51,7 @@
     var tableParams = {
         offset: 0,
         limit: 10,
-        sort: 'username',
+        sort: 'firstName',
         order: '',
         filter: ''
     };
@@ -129,18 +62,17 @@
         initTbl();
         loadTableData();
 
-        $formEl = $("#participant-form");
+        $formEl = $("#guest-form");
 
-        getCompanies();
 
-        $("#add-new-participant").click(function () {
-            $("#participant-modal-label").text("Add new Participant");
+        $("#add-new-guest").click(function () {
+            $("#guest-modal-label").text("Add new Guest");
             $formEl.trigger("reset");
             initNewFileInput($("#photo"));
-            $("#participant-modal").modal("show");
+            $("#guest-modal").modal("show");
         });
 
-        $("#btn-save-participant").click(save);
+        $("#btn-save-guest").click(save);
     });
 
     function initTbl() {
@@ -167,10 +99,10 @@
                     width: 125,
                     formatter: function (value, row, index, field) {
                         var template =
-                            `<a class="btn btn-primary btn-sm edit" title="Edit Participant">
+                            `<a class="btn btn-primary btn-sm edit" title="Edit Guest">
                               <i class="fa fa-edit" aria-hidden="true"></i> 
                             </a>
-                            <a class="btn btn-danger btn-sm ml-2 remove" href="javascript:" title="Delete Participant">
+                            <a class="btn btn-danger btn-sm ml-2 remove" href="javascript:" title="Delete Guest">
                               <i class="fa fa-trash" aria-hidden="true"></i>
                             </a>`;
                         return template;
@@ -182,9 +114,9 @@
                         },
                         'click .remove': function (e, value, row, index) {
                             e.preventDefault();
-                            showBootboxConfirm("Delete Participant", "Are you sure you want to delete this?", function (yes) {
+                            showBootboxConfirm("Delete Guest", "Are you sure you want to delete this?", function (yes) {
                                 if (yes) {
-                                    axios.delete(`/api/participants/${row.id}`)
+                                    axios.delete(`/api/guests/${row.id}`)
                                         .then(function () {
                                             toastr.success(appConstants.ITEM_DELETED_SUCCESSFULLY);
                                             $table.bootstrapTable('refresh');
@@ -198,29 +130,15 @@
                 {
                     sortable: true,
                     searchable: true,
-                    field: "username",
-                    title: "Username",
-                    width: 100
-                },
-                {
-                    sortable: true,
-                    searchable: true,
-                    field: "email",
-                    title: "Email",
-                    width: 100
-                },
-                {
-                    sortable: true,
-                    searchable: true,
                     field: "firstName",
-                    title: "FirstName",
+                    title: "First Name",
                     width: 100
                 },
                 {
                     sortable: true,
                     searchable: true,
                     field: "lastName",
-                    title: "LastName",
+                    title: "Last Name",
                     width: 100
                 },
                 {
@@ -251,26 +169,6 @@
                     title: "Company Name",
                     width: 100
                 },
-                {
-                    sortable: true,
-                    searchable: false,
-                    field: "active",
-                    title: "Active",
-                    width: 100,
-                    formatter: function (value, row, index, field) {
-                        return value ? "Yes" : "No";
-                    }
-                },
-                {
-                    sortable: true,
-                    searchable: false,
-                    field: "verified",
-                    title: "Verified",
-                    width: 100,
-                    formatter: function (value, row, index, field) {
-                        return value ? "Yes" : "No";
-                    }
-                }
             ],
             onPageChange: function (number, size) {
                 var newOffset = (number - 1) * size;
@@ -304,7 +202,7 @@
     function loadTableData() {
         $table.bootstrapTable('showLoading');
         var queryParams = $.param(tableParams);
-        var url = `/api/participants?${queryParams}`;
+        var url = `/api/guests?${queryParams}`;
         axios.get(url)
             .then(function (response) {
                 $table.bootstrapTable('load', response.data);
@@ -322,12 +220,12 @@
     }
 
     function getDetails(id) {
-        axios.get(`/api/participants/${id}`)
+        axios.get(`/api/guests/${id}`)
             .then(function (response) {
                 setFormData($formEl, response.data);
                 previewFileInput(response.data.id, response.data.photoUrl, $("#photo"));
-                $("#participant-modal-label").text("Edit Participant");
-                $("#participant-modal").modal("show");
+                $("#guest-modal-label").text("Edit Guest");
+                $("#guest-modal").modal("show");
             })
             .catch(showResponseError);
     }
@@ -354,24 +252,19 @@
         data = formDataToJson2(data);
 
         debugger;
-        data.companyId = parseInt(data.companyId);
+        //data.guestTypeId = parseInt(data.guestTypeId);
+        // Default
+        data.guestTypeId = 2001;
+
         data.id = parseInt(data.id);
-
-        data.active = parseTruth(data.active);
-        data.verified = parseTruth(data.verified);
-  
-        var files = $("#photo")[0].files;
-        if (files.length > 0) data.append("photo", files[0]);
-
-        data.email = $("input[name='primaryEmail']:checked").val() === 'work' ? data.emailCorp : data.emailPersonal;
         debugger;
 
         if (isNaN(data.id) || data.id <= 0) {
-            axios.post('/api/participants', data)
+            axios.post('/api/guests', data)
                 .then(function () {
-                    toastr.success("Participant added successfully!");
+                    toastr.success("Guest added successfully!");
                     resetLoadingButton(thisBtn, originalText);
-                    $("#participant-modal").modal("hide");
+                    $("#guest-modal").modal("hide");
                     loadTableData();
                 })
                 .catch(function (err) {
@@ -380,11 +273,11 @@
                 });
         }
         else {
-            axios.put('/api/participants', data)
+            axios.put('/api/guests', data)
                 .then(function () {
-                    toastr.success("Participant updated successfully!");
+                    toastr.success("Guest updated successfully!");
                     resetLoadingButton(thisBtn, originalText);
-                    $("#participant-modal").modal("hide");
+                    $("#guest-modal").modal("hide");
                     loadTableData();
                 })
                 .catch(function (err) {
@@ -392,16 +285,6 @@
                     showResponseError(err);
                 });
         }
-    }
-
-    function getCompanies() {
-        axios.get("/api/select-options/companies")
-            .then(function (response) {
-                initSelect2($("#companyId"), response.data);
-            })
-            .catch(function (err) {
-                toastr.error(err.response.data);
-            });
     }
 })();
 

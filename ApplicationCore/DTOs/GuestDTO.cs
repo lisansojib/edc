@@ -1,8 +1,11 @@
-﻿using System;
+﻿using ApplicationCore.Entities;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace ApplicationCore.Entities
+namespace ApplicationCore.DTOs
 {
-    public class Guest : BaseEntity, IAuditFields
+    public class GuestDTO: BaseDTO
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -15,10 +18,6 @@ namespace ApplicationCore.Entities
         public string Title { get; set; }
         public int GuestTypeId { get; set; }
         public int CreatedBy { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public int? UpdatedBy { get; set; }
-        public DateTime? UpdatedAt { get; set; }
-
         public virtual ValueField GuestType { get; set; }
     }
 }

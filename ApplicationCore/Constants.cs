@@ -47,6 +47,7 @@
     {
         public const string GraphTypeName = "Types of Graphs";
         public const string EventTypeName = "Types of Events";
+        public const string GuestTypeName = "Types of Guests";
     }
 
     public static class UploadFolders

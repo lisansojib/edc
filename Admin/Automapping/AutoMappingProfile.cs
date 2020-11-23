@@ -78,6 +78,14 @@ namespace Presentation.Admin.Automapping
 
             CreateMap<ApplicationCore.Entities.Admin, AdminBindingModel>();
 
+            CreateMap<Guest, GuestBindingModel>();
+
+            CreateMap<GuestBindingModel, Guest>();
+
+            CreateMap<GuestDTO, Guest>();
+
+            CreateMap<Guest, GuestDTO>();
+
         }
     }
 }
