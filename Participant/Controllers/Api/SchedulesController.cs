@@ -1,4 +1,5 @@
-﻿using ApplicationCore.Entities;
+﻿using ApplicationCore;
+using ApplicationCore.Entities;
 using ApplicationCore.Interfaces.Repositories;
 using ApplicationCore.Interfaces.Services.Portal;
 using AutoMapper;
@@ -31,6 +32,9 @@ namespace Presentation.Participant.Controllers.Api
         [HttpPost("save-speaker")]
         public async Task<IActionResult> SavePendingSpeaker(PendingSpeakerBindingModel model)
         {
+            var exists = await _pendingSpeakerRepository.ExistsAsync(x => x.Email == model.Email && x.PanelId == model.PanelId);
+            if (exists) return BadRequest(new BadRequestResponseModel(ErrorTypes.BadRequest, "Already exists!"));
+
             var entity = _mapper.Map<PendingSpeaker>(model);
 
             if (entity.IsReferrer) entity.ReferredBy = UserId;

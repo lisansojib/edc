@@ -200,7 +200,7 @@
             resetLoadingButton(thisBtn, originalText);
             return;
         }
-        else hideValidationErrors($formEl);
+        else resetValidationState($formEl);
 
         debugger;
         var data = formDataToJson($formEl);

@@ -63,12 +63,14 @@ function showBootboxPrompt(title, message, callback) {
  * @param {any} size - Prompt Size
  * @param {any} callback - Callback function
  */
-function showBootboxSelectPrompt(title, optionsArray, size, callback) {
+function showBootboxSelectPrompt(title, optionsArray, size, value, callback) {
     if (!size) size = "small";
+    if (!value) value = "";
     bootbox.prompt({
         title: title,
         size: size,
         inputType: 'select',
+        value: value,
         inputOptions: optionsArray,
         callback: function (result) {
             return callback(result);
@@ -127,6 +129,7 @@ function setAllFormCheckBoxValue($formEl) {
  * @param {HTMLElement} $formEl - Jquery form element
  */
 function formDataToJson($formEl) {
+    setAllFormCheckBoxValue($formEl);
 
     var data = $formEl.serializeArray();
     var jsonObj = {};
@@ -135,29 +138,6 @@ function formDataToJson($formEl) {
     });
 
     return jsonObj;
-}
-
-function formDataToJson2(formData) {
-    var object = {};
-    formData.forEach((value, key) => {
-        // Reflect.has in favor of: object.hasOwnProperty(key)
-        if (!Reflect.has(object, key)) {
-            object[key] = value;
-            return;
-        }
-        if (!Array.isArray(object[key])) {
-            object[key] = [object[key]];
-        }
-        object[key].push(value);
-    });
-    return object;
-}
-
-function parseTruth(boolString) {
-    if (boolString === "true") {
-        return true;
-    }
-    return false;
 }
 
 /**
@@ -183,6 +163,7 @@ function getFormData($formEl) {
  * @param {any} data - data object
  */
 function setFormData($formEl, data, allowTagging = false) {
+    resetValidationState($formEl);
     $formEl.trigger("reset");
 
     if (!data && ! typeof data === 'object') {
@@ -213,7 +194,8 @@ function setFormData($formEl, data, allowTagging = false) {
                             });
                             break;
                         case "date":
-                            $input.val(formatDateToYYYYMMDD(value));
+                            debugger;
+                            $input.val(formatDateToYYYYDDMM(value));
                             break;
                         case "file":
                             break;
@@ -310,7 +292,6 @@ function initSelect2($el, data, allowClear = true, placeholder = "Select a Value
 
     if (showDefaultOption)
         data.unshift({ id: '', text: '' });
-
     $el.html('').select2({
         'data': data,
         'allowClear': allowClear,
@@ -455,10 +436,6 @@ function formatDateToYYYYDDMM(date) {
     if (!date) return "";
     return moment(date).format("YYYY-DD-MM");
 }
-function formatDateToYYYYMMDD(date) {
-    if (!date) return "";
-    return moment(date).format("YYYY-MM-DD");
-}
 
 /**
  * Format date like (19:20)
@@ -525,7 +502,7 @@ function showResponseError(error) {
     var messages = error.response.data.title || error.response.data.Title;
     var errors = error.response.data.errors || error.response.data.Errors;
     if (typeof errors === 'object' && errors !== null) {
-        
+
         for (var property in errors) {
             messages += errors[property].join('<br>');
         }
@@ -580,7 +557,7 @@ function initNewFileInput($el) {
  */
 function initializeValidation(container, constraints) {
     extendValidation();
-    var inputs = container.find("input[name], select[name]");
+    var inputs = container.find("input[name], select[name], textarea[name]");
     for (var i = 0; i < inputs.length; ++i) {
         inputs[i].addEventListener("change", function (ev) {
             var errors = validate(container, constraints) || {};
@@ -595,7 +572,7 @@ function initializeValidation(container, constraints) {
  * @param {Array} constraints - Array of Constraints
  */
 function isValidForm(container, constraints) {
-    hideValidationErrors(container);
+    resetValidationState(container);
 
     var errors = validate(container, constraints);
 
@@ -611,7 +588,7 @@ function isValidForm(container, constraints) {
  * @param {Array} errors - Array of errors
  */
 function showErrors(container, errors) {
-    var inputs = container.find("input[name], select[name]");
+    var inputs = container.find("input[name], select[name], textarea[name]");
     $.each(inputs, function (i, inputEl) {
         var thisPropertyErrors = errors[inputEl.name];
         if (!thisPropertyErrors) return;
@@ -645,14 +622,11 @@ function showErrorsForInput(inputEl, error) {
  * Hides all validation error
  *  @param {HTMLDivElement | HTMLFormElement} container - form container
  */
-function hideValidationErrors(container) {
-    var inputs = container.find("input[name], select[name]");
-
+function resetValidationState(container) {
     container.find('.invalid-feedback').remove();
 
-    $.each(inputs, function (i, input) {
-        input.classList.remove("is-invalid");
-        input.classList.add("is-valid");
+    container.find("input[name], select[name], textarea[name]").each(function () {
+        $(this).removeClass("is-valid is-invalid");
     });
 }
 

@@ -206,7 +206,7 @@
             resetLoadingButton(thisBtn, originalText);
             return;
         }
-        else hideValidationErrors($formEl);
+        else resetValidationState($formEl);
 
         var data = getFormData($formEl);
         var files = $("#logo")[0].files;

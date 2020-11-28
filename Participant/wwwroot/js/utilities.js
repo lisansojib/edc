@@ -163,6 +163,7 @@ function getFormData($formEl) {
  * @param {any} data - data object
  */
 function setFormData($formEl, data, allowTagging = false) {
+    resetValidationState($formEl);
     $formEl.trigger("reset");
 
     if (!data && ! typeof data === 'object') {
@@ -555,8 +556,8 @@ function initNewFileInput($el) {
  * @param {Array} constraints - Array of Constraints
  */
 function initializeValidation(container, constraints) {
-    extendValidation();
-    var inputs = container.find("input[name], select[name]");
+    extendValidation();    
+    var inputs = container.find("input[name], select[name], textarea[name]");
     for (var i = 0; i < inputs.length; ++i) {
         inputs[i].addEventListener("change", function (ev) {
             var errors = validate(container, constraints) || {};
@@ -571,7 +572,7 @@ function initializeValidation(container, constraints) {
  * @param {Array} constraints - Array of Constraints
  */
 function isValidForm(container, constraints) {
-    hideValidationErrors(container);
+    resetValidationState(container);
 
     var errors = validate(container, constraints);
 
@@ -587,7 +588,7 @@ function isValidForm(container, constraints) {
  * @param {Array} errors - Array of errors
  */
 function showErrors(container, errors) {
-    var inputs = container.find("input[name], select[name]");
+    var inputs = container.find("input[name], select[name], textarea[name]");
     $.each(inputs, function (i, inputEl) {
         var thisPropertyErrors = errors[inputEl.name];
         if (!thisPropertyErrors) return;
@@ -621,14 +622,11 @@ function showErrorsForInput(inputEl, error) {
  * Hides all validation error
  *  @param {HTMLDivElement | HTMLFormElement} container - form container
  */
-function hideValidationErrors(container) {
-    var inputs = container.find("input[name], select[name]");
-
+function resetValidationState(container) {
     container.find('.invalid-feedback').remove();
 
-    $.each(inputs, function (i, input) {
-        input.classList.remove("is-invalid");
-        input.classList.add("is-valid");
+    container.find("input[name], select[name], textarea[name]").each(function () {
+        $(this).removeClass("is-valid is-invalid");
     });
 }
 

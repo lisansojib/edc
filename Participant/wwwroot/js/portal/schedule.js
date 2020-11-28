@@ -2,7 +2,6 @@
 
 (function () {
     var $tblEvents, $formAddSpeaker, $formReferSpeaker;
-    var $formContainer;
 
     var addSpeakerValidationConstraints = {
         firstName: {
@@ -94,7 +93,12 @@
         $tblEvents = $("#tblEvents");
         initEventsTbl();
         loadEventsData();
-        $formContainer = $("#form-modal-container");
+
+        $formAddSpeaker = $("#add-speaker-form");
+        $formReferSpeaker = $("#refer-speaker-form");
+
+        $("#btn-save-reffered-speaker").click(saveReferSpeaker);
+        $("#btn-save-speaker").click(saveSpeaker);
     })
 
     // #region Events
@@ -158,12 +162,10 @@
                         },
                         'click .apply-to-speak': function (e, value, row, index) {
                             e.preventDefault();
-                            renderApplyForm();
                             getNewSpeaker();
                         },
                         'click .refer-to-speak': function (e, value, row, index) {
                             e.preventDefault();
-                            renderReferForm();
                             getNewRefer();
                         }
                     }
@@ -282,153 +284,6 @@
             });
     }
 
-    // Renders refer another speaker form
-    function renderReferForm() {
-
-        $formContainer.empty();
-
-        var template = `<div class="modal fade" data-backdrop="static" data-keyboard="false" id="refer-speaker-modal" tabindex="-1" aria-labelledby="refer-speaker-modal" aria-hidden="true">
-                        <div class="modal-dialog modal-xl modal-dialog-scrollable">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="refer-speaker-modal-label">Refer a Speaker</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form id="refer-speaker-form">
-                                        <div class="container-fluid">
-                                            <div class="row">
-                                                <div class="col">
-                                                    <div class="form-group">
-                                                        <label for="email">Email <sup>&#x2605;</sup></label>
-                                                        <input type="email" class="form-control" id="email" name="email">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="firstName">First Name <sup>&#x2605;</sup></label>
-                                                        <input class="form-control" type="text" id="firstName" name="firstName" />
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="lastName">Last Name <sup>&#x2605;</sup></label>
-                                                        <input type="text" class="form-control" id="lastName" name="lastName">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="phone">Phone</label>
-                                                        <input type="text" class="form-control" id="phone" name="phone">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="panelId">Panel<sup>&#x2605;</sup></label>
-                                                        <select id="panelId" name="panelId" class="form-control" style="width: 100%"></select>
-                                                    </div>
-                                                </div>
-                                                <div class="col">
-                                                    
-                                                    <div class="form-group">
-                                                        <label for="companyId">Company<sup>&#x2605;</sup></label>
-                                                        <select id="companyId" name="companyId" class="form-control" style="width: 100%"></select>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="interestInTopic">Interest in Topic <sup>&#x2605;</sup></label>
-                                                        <textarea class="form-control" id="interestInTopic" name="interestInTopic" rows="4"></textarea>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="note">Note</label>
-                                                        <textarea class="form-control" id="note" name="note" rows="4"></textarea>
-                                                    </div>
-                                                    <div class="form-group d-none">
-                                                        <label for="linkedInUrl">Linked in URL</label>
-                                                        <input type="url" class="form-control" id="linkedInUrl" name="linkedInUrl">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary" id="btn-save-reffered-speaker">Save changes</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    `
-
-        $formContainer.html(template);
-        // Get the elements
-        $("#btn-save-reffered-speaker").click(saveReferSpeaker);
-        $formReferSpeaker = $("#refer-speaker-form");
-    }
-
-    // Renders apply to speak form
-    function renderApplyForm() {
-
-        $formContainer.empty();
-
-        var template = `<div class="modal fade" data-backdrop="static" data-keyboard="false" id="add-speaker-modal" tabindex="-1" aria-labelledby="add-speaker-modal" aria-hidden="true">
-                        <div class="modal-dialog modal-xl modal-dialog-scrollable">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="add-speaker-modal-label">Apply to speak</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form id="add-speaker-form">
-                                        <div class="container-fluid">
-                                            <div class="row">
-                                                <div class="col">
-                                                    <div class="form-group">
-                                                        <label for="email">Email <sup>&#x2605;</sup></label>
-                                                        <input type="email" class="form-control" id="email" name="email">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="firstName">First Name <sup>&#x2605;</sup></label>
-                                                        <input  type="text" class="form-control" id="firstName" name="firstName" />
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="lastName">Last Name <sup>&#x2605;</sup></label>
-                                                        <input type="text" class="form-control" id="lastName" name="lastName">
-                                                    </div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="form-group">
-                                                        <label for="phone">Phone</label>
-                                                        <input type="text" class="form-control" id="phone" name="phone">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="panelId">Panel<sup>&#x2605;</sup></label>
-                                                        <select id="panelId" name="panelId" class="form-control" style="width: 100%"></select>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="interestInTopic">Interest in Topic <sup>&#x2605;</sup></label>
-                                                        <textarea class="form-control" id="interestInTopic" name="interestInTopic" rows="3"></textarea>
-                                                    </div>
-                                                    <div class="form-group d-none">
-                                                        <label for="linkedInUrl">Linked in URL</label>
-                                                        <input type="url" class="form-control" id="linkedInUrl" name="linkedInUrl">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary" id="btn-save-speaker">Save changes</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>`
-
-        $formContainer.html(template);
-
-        // Get the elements
-        $("#btn-save-speaker").click(saveSpeaker);
-        $formAddSpeaker = $("#add-speaker-form");
-    }
-
     function saveSpeaker(e) {
         e.preventDefault();
 
@@ -444,23 +299,22 @@
             resetLoadingButton(thisBtn, originalText);
             return;
         }
-        else hideValidationErrors($formAddSpeaker);
+        else resetValidationState($formAddSpeaker);
 
         var data = formDataToJson($formAddSpeaker);
         data.panelId = parseInt(data.panelId);
         axios.post('/api/schedules/save-speaker', data)
             .then(function () {
+                resetLoadingButton(thisBtn, originalText);
                 toastr.success("Successfully Applied to Speak");
                 $("#add-speaker-modal").modal("hide");
                 loadEventsData();
             })
             .catch(function (err) {
+                resetLoadingButton(thisBtn, originalText);
                 console.log(err);
                 showResponseError(err);
-            })
-            .finally(function () {
-                resetLoadingButton(thisBtn, originalText);
-            })
+            });
     }
 
     function saveReferSpeaker(e) {
@@ -478,24 +332,25 @@
             resetLoadingButton(thisBtn, originalText);
             return;
         }
-        else hideValidationErrors($formReferSpeaker);
+        else resetValidationState($formReferSpeaker);
 
         var data = formDataToJson($formReferSpeaker);
         data.panelId = parseInt(data.panelId);
         data.companyId = parseInt(data.companyId);
+        data.isReferer = true;
+
         axios.post('/api/schedules/save-speaker', data)
             .then(function () {
+                resetLoadingButton(thisBtn, originalText);
                 toastr.success("Successfully Reffered to Speak");
                 $("#refer-speaker-modal").modal("hide");
                 loadEventsData();
             })
             .catch(function (err) {
+                resetLoadingButton(thisBtn, originalText);
                 console.log(err);
                 showResponseError(err);
-            })
-            .finally(function () {
-                resetLoadingButton(thisBtn, originalText);
-            })
+            });
     }
     // #endregion
 

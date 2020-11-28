@@ -60,7 +60,7 @@ namespace Presentation.Admin.Controllers.Api
             entity.CreatedBy = UserId;
             entity.CreatedAt = DateTime.Now;
             // Default value
-            entity.GuestTypeId = 2001;
+            entity.GuestTypeId = 23;
 
             await _repository.AddAsync(entity);
             return Ok();

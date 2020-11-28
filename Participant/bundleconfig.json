@@ -35,9 +35,11 @@
       "wwwroot/nobleui/assets/vendors/flag-icon-css/css/flag-icon.min.css",
       "wwwroot/lib/bootstrap-table/bootstrap-table.min.css",
       "wwwroot/lib/bootstrap-fileinput/css/fileinput.min.css",
-      "wwwroot/lib/toastr.js/toastr.min.css",
+      "wwwroot/lib/select2/css/select2.min.css",
+      "wwwroot/lib/select2-bootstrap-theme/select2-bootstrap.min.css",
       "wwwroot/lib/axios-progress-bar/dist/nprogress.min.css",
-      "wwwroot/nobleui/assets/css/demo_5/style.css"
+      "wwwroot/nobleui/assets/css/demo_5/style.css",
+      "wwwroot/lib/toastr.js/toastr.min.css"
     ]
   },
   {
@@ -51,7 +53,7 @@
       "wwwroot/lib/bootbox.js/bootbox.min.js",
       "wwwroot/lib/validate.js/validate.min.js",
       "wwwroot/lib/toastr.js/toastr.min.js",
-      //"wwwroot/lib/select2/js/select2.min.js",
+      "wwwroot/lib/select2/js/select2.min.js",
       "wwwroot/lib/bootstrap-table/bootstrap-table.min.js",
       "wwwroot/lib/bootstrap-table/extensions/filter-control/bootstrap-table-filter-control.min.js",
       "wwwroot/nobleui/assets/js/template.js",

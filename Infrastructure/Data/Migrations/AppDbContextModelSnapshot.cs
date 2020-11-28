@@ -437,7 +437,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("varchar(100)");
 
-                    b.Property<int>("GeustTypeId")
+                    b.Property<int>("GuestTypeId")
                         .HasColumnType("int");
 
                     b.Property<string>("LastName")
@@ -466,7 +466,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GeustTypeId");
+                    b.HasIndex("GuestTypeId");
 
                     b.ToTable("Guests");
                 });
@@ -1044,7 +1044,7 @@ namespace Infrastructure.Data.Migrations
                 {
                     b.HasOne("ApplicationCore.Entities.ValueField", "GuestType")
                         .WithMany("Guests")
-                        .HasForeignKey("GeustTypeId")
+                        .HasForeignKey("GuestTypeId")
                         .HasConstraintName("FK_Guest_GuestType")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

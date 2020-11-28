@@ -231,7 +231,7 @@
             resetLoadingButton(thisBtn, originalText);
             return;
         }
-        else hideValidationErrors($formEl);
+        else resetValidationState($formEl);
 
         var data = formDataToJson($formEl);
         data.id = parseInt(data.id);
