@@ -26,7 +26,13 @@ namespace Presentation.Participant.Controllers
         }
 
         [HttpGet]
-        public IActionResult Members()
+        public IActionResult TeamMembers()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult MyTeams()
         {
             return View();
         }

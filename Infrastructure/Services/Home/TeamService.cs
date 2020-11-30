@@ -47,7 +47,7 @@ namespace Infrastructure.Services
             return records;
         }
 
-        public async Task<List<MyTeamDTO>> GetMyTeamsAsync(int participantId)
+        public async Task<List<MyTeamDTO>> GetMyTeamsAsync(int userId)
         {
             var query = $@"
                 With
@@ -55,7 +55,7 @@ namespace Infrastructure.Services
 	                Select T.Id, T.Name, T.Description 
 	                From ParticipantTeams PT
 	                Inner Join Teams T On PT.TeamId = T.Id
-	                Where TeamMemberId = {participantId}
+	                Where TeamMemberId = {userId}
                 )
 
                 Select T.Id TeamId, T.Name TeamName, PT.Id ParticipantTeamId, PT.TeamMemberId, P.FirstName + ' ' + P.LastName + '(' + P.Username + ')' ParticipantName, P.PhotoUrl
@@ -64,6 +64,31 @@ namespace Infrastructure.Services
                 Inner Join Participants P On PT.TeamMemberId = P.Id";
 
             return await _repository.RawSqlQueryAsync<MyTeamDTO>(query);
+        }
+
+        public async Task<List<MyTeamMemberDTO>> GetAllTeamMembersAsync(int userId)
+        {
+            var query = $@"
+                With 
+                T AS (
+	                Select TeamId 
+	                From ParticipantTeams
+	                Where TeamMemberId = {userId}
+	                Group By TeamId
+                )
+                , TM AS (
+	                Select TeamMemberId 
+	                From ParticipantTeams PT
+	                Inner Join T On PT.TeamId = T.TeamId
+	                Where TeamMemberId != 2
+	                Group By TeamMemberId
+                )
+
+                Select P.Id, P.Email, Trim(ISNULL(P.Title, '') + ' ' + P.FirstName + ' ' + P.LastName) Name, P.PhotoUrl, P.Phone, P.Mobile, P.LinkedinUrl
+                From TM
+                Inner Join Participants P On TM.TeamMemberId = P.Id";
+
+            return await _repository.RawSqlQueryAsync<MyTeamMemberDTO>(query);
         }
     }
 }

@@ -109,6 +109,15 @@ namespace Presentation.Participant.Controllers.Api
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("my-team-members")]
+        public async Task<IActionResult> GetMyTeamMembers()
+        {
+            var records = await _teamService.GetAllTeamMembersAsync(UserId);
+            records.ForEach(x => x.PhotoUrl = x.PhotoUrl.ToThumbnailImagePath());
+            return Ok(records);
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("participant/{id}")]
         public async Task<IActionResult> GetParticipantDetails(int id)
         {

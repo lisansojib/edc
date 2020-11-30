@@ -8,32 +8,17 @@
     })
 
     function getMyTeams() {
-        axios.get(`/api/portals/my-teams`)
+        axios.get(`/api/portals/my-team-members`)
             .then(function (response) {
-                teams = response.data;
-                teams.forEach(function (team) {
-                    $("#teams-container").append(
-                        `<div class="col-6 grid-margin stretch-card">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between align-items-baseline mb-2">
-                                        <h6 class="card-title mb-0">${team.name}</h6>
-                                    </div>
-                                    <table id="tbl-team-${team.id}" class="table table-hover mb-0"></table>
-                                </div>
-                            </div>
-                        </div>`);
-
-                    var $tableEl = $(`#tbl-team-${team.id}`);
-                    initTable($tableEl, team.participants);
-                })
+                debugger;
+                initTable(response.data);
             })
             .catch(showResponseError);
     }
 
-    function initTable($el, data) {
-        $el.bootstrapTable('destroy');
-        $el.bootstrapTable({
+    function initTable(data) {
+        $("#tbl-team-members").bootstrapTable('destroy');
+        $("#tbl-team-members").bootstrapTable({
             cache: false,
             sortable: true,
             columns: [
@@ -65,8 +50,23 @@
                 },
                 {
                     sortable: true,
-                    field: "participantName",
-                    title: "Participant Name"
+                    field: "name",
+                    title: "Name"
+                },
+                {
+                    sortable: true,
+                    field: "email",
+                    title: "Email"
+                },
+                {
+                    sortable: true,
+                    field: "phone",
+                    title: "Phone"
+                },
+                {
+                    sortable: true,
+                    field: "mobile",
+                    title: "Mobile"
                 },
                 {
                     field: "photoUrl",
