@@ -97,5 +97,20 @@ namespace Presentation.Admin.Controllers.Api
             await _repository.DeleteAsync(entity);
             return NoContent(); 
         }
+
+        [HttpPut("convert-to-member/{id}")]
+        public async Task<IActionResult> ConvertToMember(int id)
+        {
+            var entity = await _repository.FindAsync(id);
+            if (entity == null) return BadRequest(new BadRequestResponseModel(ErrorTypes.BadRequest, ErrorMessages.ItemNotFound));
+
+            // Default 
+            // Add to service later
+            entity.GuestTypeId = 2004;
+
+            await _repository.UpdateAsync(entity);
+
+            return NoContent();
+        }
     }
 }

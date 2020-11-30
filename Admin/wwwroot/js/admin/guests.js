@@ -102,7 +102,11 @@
                     width: 125,
                     formatter: function (value, row, index, field) {
                         var template =
-                            `<a class="btn btn-primary btn-sm edit" title="Edit Guest">
+                            `
+                            <a class="btn btn-secondary btn-sm make-member" title="Convert to Member">
+                              <i class="fa fa-user" aria-hidden="true"></i> 
+                            </a>
+                            <a class="btn btn-primary btn-sm ml-2 edit" title="Edit Guest">
                               <i class="fa fa-edit" aria-hidden="true"></i> 
                             </a>
                             <a class="btn btn-danger btn-sm ml-2 remove" href="javascript:" title="Delete Guest">
@@ -122,6 +126,19 @@
                                     axios.delete(`/api/guests/${row.id}`)
                                         .then(function () {
                                             toastr.success(appConstants.ITEM_DELETED_SUCCESSFULLY);
+                                            $table.bootstrapTable('refresh');
+                                        })
+                                        .catch(showResponseError)
+                                }
+                            })
+                        },
+                        'click .make-member': function (e, value, row, index) {
+                            e.preventDefault();
+                            showBootboxConfirm("Convert to member?", "Are you sure you want to convert this guest to member?", function (yes) {
+                                if (yes) {
+                                    axios.put(`/api/guests/convert-to-member/${row.id}`)
+                                        .then(function () {
+                                            toastr.success('Successfully coverted this guest to member');
                                             $table.bootstrapTable('refresh');
                                         })
                                         .catch(showResponseError)

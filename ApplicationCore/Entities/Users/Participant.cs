@@ -19,7 +19,9 @@ namespace ApplicationCore.Entities
         public int CompanyId { get; set; }
         public int CreatedBy { get; set; }
         public int UpdatedBy { get; set; }
+        public int GuestTypeId { get; set; }
 
+        public virtual ValueField GuestType { get; set; }
         public virtual Company Company { get; set; }
         public virtual ICollection<ParticipantTeam> ParticipantTeams { get; set; }
         public virtual ICollection<ExternalLogin> ExternalLogins { get; set; }
