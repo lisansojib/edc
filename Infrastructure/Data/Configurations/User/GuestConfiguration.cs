@@ -24,8 +24,7 @@ namespace Infrastructure.Data.Configurations
             builder.Property(t => t.CreatedAt).HasColumnType("datetime");
             builder.Property(t => t.UpdatedAt).HasColumnType("datetime");
             builder.Property(t => t.LinkedinUrl).HasMaxLength(250);
-            builder.Property(t => t.GuestTypeId).IsRequired();
-            builder.HasOne(t => t.GuestType).WithMany(t => t.Guests).HasForeignKey(t => t.GuestTypeId).HasConstraintName("FK_Guest_GuestType");
+            builder.Property(t => t.Role).IsRequired().HasColumnType("varchar(20)").HasComment("Guest,Member,Speaker,Sponsor");
         }
     }
 }

@@ -26,16 +26,11 @@ namespace Infrastructure.Data.Configurations
 
             builder.Property(t => t.LinkedInUrl).IsRequired().HasColumnType("varchar(500)");
 
+            builder.Property(t => t.CompanyName).HasColumnType("varchar(100)");
+
             builder.Property(t => t.CreatedAt).HasColumnType("datetime").HasDefaultValueSql("getdate()");
 
             builder.Property(t => t.UpdatedAt).HasColumnType("datetime");
-
-            builder
-                .HasOne(t => t.Company)
-                .WithMany(t => t.Speakers)
-                .HasForeignKey(t => t.CompanyId)
-                .HasConstraintName("FK_Speaker_Company")
-                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

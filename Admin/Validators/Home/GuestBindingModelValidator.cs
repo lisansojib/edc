@@ -1,9 +1,5 @@
 ﻿using FluentValidation;
 using Presentation.Admin.Models.Home;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Presentation.Admin.Validators.Home
 {
@@ -18,7 +14,6 @@ namespace Presentation.Admin.Validators.Home
             RuleFor(x => x.EmailPersonal).NotEmpty().EmailAddress();
             RuleFor(x => x.PhoneCorp).MaximumLength(20);
             RuleFor(x => x.LinkedinUrl).MaximumLength(250);
-            RuleFor(x => x.GuestTypeId).NotEmpty();
         }
     }
 }

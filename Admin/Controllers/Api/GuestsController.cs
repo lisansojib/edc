@@ -55,12 +55,8 @@ namespace Presentation.Admin.Controllers.Api
         [HttpPost]
         public async Task<IActionResult> Save([FromBody] GuestBindingModel model)
         {
-            var entity = _mapper.Map<Guest>(model);
-            
+            var entity = _mapper.Map<Guest>(model);            
             entity.CreatedBy = UserId;
-            entity.CreatedAt = DateTime.Now;
-            // Default value
-            entity.GuestTypeId = 23;
 
             await _repository.AddAsync(entity);
             return Ok();
@@ -79,11 +75,8 @@ namespace Presentation.Admin.Controllers.Api
             entity.PhonePersonal = model.PhonePersonal;
             entity.EmailCorp = model.EmailCorp;
             entity.EmailPersonal = model.EmailPersonal;
-            entity.GuestTypeId = model.GuestTypeId;
             entity.UpdatedAt = DateTime.Now;
             entity.UpdatedBy = UserId;
-            // Default value
-            entity.GuestTypeId = 2001;
 
             await _repository.UpdateAsync(entity);
             return Ok();
@@ -95,7 +88,7 @@ namespace Presentation.Admin.Controllers.Api
             var entity = await _repository.FindAsync(id);
             if (entity == null) return BadRequest(new BadRequestResponseModel(ErrorTypes.BadRequest, ErrorMessages.ItemNotFound));
             await _repository.DeleteAsync(entity);
-            return NoContent(); 
+            return Ok(); 
         }
 
         [HttpPut("convert-to-member/{id}")]
@@ -104,13 +97,11 @@ namespace Presentation.Admin.Controllers.Api
             var entity = await _repository.FindAsync(id);
             if (entity == null) return BadRequest(new BadRequestResponseModel(ErrorTypes.BadRequest, ErrorMessages.ItemNotFound));
 
-            // Default 
-            // Add to service later
-            entity.GuestTypeId = 2004;
+            entity.Role = GuestRoles.MEMBER;
 
             await _repository.UpdateAsync(entity);
 
-            return NoContent();
+            return Ok();
         }
     }
 }

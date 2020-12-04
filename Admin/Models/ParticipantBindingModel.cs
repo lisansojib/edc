@@ -18,6 +18,6 @@ namespace Presentation.Admin.Models
         public string Phone { get; set; }
         public string PhoneCorp { get; set; }
         public string LinkedinUrl { get; set; }
-        public int CompanyId { get; set; }
+        public string CompanyName { get; set; }
     }
 }

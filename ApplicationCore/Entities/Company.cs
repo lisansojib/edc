@@ -7,8 +7,6 @@ namespace ApplicationCore.Entities
     {
         public Company()
         {
-            Participants = new List<Participant>();
-            Speakers = new List<Speaker>();
             CreatedAt = DateTime.Now;
         }
 
@@ -21,8 +19,5 @@ namespace ApplicationCore.Entities
         public DateTime CreatedAt { get; set; }
         public int? UpdatedBy { get; set; }
         public DateTime? UpdatedAt { get; set; }
-
-        public virtual ICollection<Participant> Participants { get; set; }
-        public virtual ICollection<Speaker> Speakers { get; set; }
     }
 }

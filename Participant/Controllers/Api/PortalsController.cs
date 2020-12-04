@@ -1,16 +1,15 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using ApplicationCore;
+using ApplicationCore.DTOs;
+using ApplicationCore.Interfaces.Repositories;
 using ApplicationCore.Interfaces.Services;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Participant.Models;
 using System;
-using ApplicationCore.Interfaces.Repositories;
-using Microsoft.EntityFrameworkCore;
-using AutoMapper;
-using ApplicationCore.DTOs;
-using ApplicationCore;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Presentation.Participant.Controllers.Api
 {
@@ -121,7 +120,7 @@ namespace Presentation.Participant.Controllers.Api
         [HttpGet("participant/{id}")]
         public async Task<IActionResult> GetParticipantDetails(int id)
         {
-            var participant = await _participantRepository.QueryableAll(x => x.Id == id).Include(x => x.Company).FirstOrDefaultAsync();
+            var participant = await _participantRepository.FindAsync(id);
             if (participant == null) return BadRequest(new BadRequestResponseModel(ErrorMessages.ItemNotFound, "Participant not found"));
             
             var response = _mapper.Map<ParticipantDTO>(participant);

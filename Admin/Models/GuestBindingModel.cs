@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Presentation.Admin.Models.Home
+﻿namespace Presentation.Admin.Models.Home
 {
     public class GuestBindingModel: BaseViewModel
     {
@@ -16,6 +11,5 @@ namespace Presentation.Admin.Models.Home
         public string LinkedinUrl { get; set; }
         public string CompanyName { get; set; }
         public string Title { get; set; }
-        public int GuestTypeId { get; set; }
     }
 }

@@ -96,9 +96,7 @@ namespace Presentation.Admin.Controllers.Api
 
             if(entity.Password.NotNullOrEmpty()) entity.Password = _passwordHasher.Hash(model.Password);
             
-            // Temporary Username
-            // Username should be generated on server
-            entity.Username = entity.FirstName + entity.LastName;
+            entity.Username = model.Email;
 
             await _repository.AddAsync(entity);
 
@@ -115,15 +113,13 @@ namespace Presentation.Admin.Controllers.Api
             entity.Title = model.Title;
             entity.FirstName = model.FirstName;
             entity.LastName = model.LastName;
-            //entity.Email = model.Email;
             entity.EmailCorp = model.EmailCorp;
             entity.EmailPersonal = model.EmailPersonal;
-            //entity.Verified = model.Verified;
             entity.Phone = model.Phone;
             entity.PhoneCorp = model.PhoneCorp;
             entity.Active = model.Active;
             entity.LinkedinUrl = model.LinkedinUrl;
-            entity.CompanyId = model.CompanyId;
+            entity.CompanyName = model.CompanyName;
 
             if (model.Photo != null && model.Photo.Length > 0)
             {

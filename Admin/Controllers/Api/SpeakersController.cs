@@ -80,7 +80,7 @@ namespace Presentation.Admin.Controllers.Api
             entity.FirstName = model.FirstName;
             entity.LastName = model.LastName;
             entity.Title = model.Title;
-            entity.CompanyId = model.CompanyId;
+            entity.CompanyName = model.CompanyName;
             entity.UpdatedBy = UserId;
             entity.UpdatedAt = DateTime.Now;
 

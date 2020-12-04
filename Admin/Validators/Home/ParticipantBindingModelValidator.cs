@@ -17,7 +17,7 @@ namespace Presentation.Admin.Validators
             RuleFor(x => x.Phone).MaximumLength(20);
             RuleFor(x => x.PhoneCorp).MaximumLength(20);
             RuleFor(x => x.LinkedinUrl).MaximumLength(250);
-            RuleFor(x => x.CompanyId).NotEmpty();
+            RuleFor(x => x.CompanyName).MaximumLength(100);
         }
     }
 }

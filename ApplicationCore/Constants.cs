@@ -12,6 +12,13 @@
         public const string Admin = "Admin";
     }
 
+    public static class GuestRoles
+    {
+        public const string GUEST = "Guest";
+        public const string MEMBER = "Member";
+        public const string SPEAKER = "Speaker";
+    }
+
     public static class ErrorTypes
     {
         public const string InternalServerError = "Internal Server Error.";

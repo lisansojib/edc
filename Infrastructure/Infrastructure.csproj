@@ -1,21 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Data\Migrations\20200908070153_TablesAdded.cs" />
-    <Compile Remove="Data\Migrations\20200908070153_TablesAdded.Designer.cs" />
-    <Compile Remove="Data\Migrations\20200921153636_DbChanges.cs" />
-    <Compile Remove="Data\Migrations\20200921153636_DbChanges.Designer.cs" />
-    <Compile Remove="Data\Migrations\20201006164154_EventChanges3.cs" />
-    <Compile Remove="Data\Migrations\20201006164154_EventChanges3.Designer.cs" />
-    <Compile Remove="Data\Migrations\20201120174530_DbChanges-5.cs" />
-    <Compile Remove="Data\Migrations\20201120174530_DbChanges-5.Designer.cs" />
-    <Compile Remove="Migrations\20201204110410_GuestTypeUpdated.cs" />
-    <Compile Remove="Migrations\20201204110410_GuestTypeUpdated.Designer.cs" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.35" />
@@ -33,10 +20,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ApplicationCore\ApplicationCore.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

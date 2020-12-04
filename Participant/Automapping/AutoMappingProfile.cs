@@ -10,8 +10,7 @@ namespace Presentation.Participant.Automapping
         {
             CreateMap<RegisterBindingModel, ApplicationCore.Entities.Participant>();
 
-            CreateMap<ApplicationCore.Entities.Participant, ParticipantDTO>()
-                .ForMember(dest => dest.CompanyName, opt => opt.MapFrom(src => src.Company.Name));
+            CreateMap<ApplicationCore.Entities.Participant, ParticipantDTO>();
 
             CreateMap<ApplicationCore.Entities.Participant, PubnubUserViewModel>();
 
