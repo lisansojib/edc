@@ -1,18 +1,18 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using ApplicationCore;
+﻿using ApplicationCore;
 using ApplicationCore.DTOs;
 using ApplicationCore.Entities;
 using ApplicationCore.Interfaces.Repositories;
 using ApplicationCore.Interfaces.Services;
 using AutoMapper;
+using Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Presentation.Admin.Models;
-using Presentation.Admin.Models.Home;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Presentation.Admin.Controllers.Api
 {
@@ -23,21 +23,18 @@ namespace Presentation.Admin.Controllers.Api
     {
         private readonly IPollService _service;
         private readonly IEfRepository<Poll> _repository;
-        private readonly IEfRepository<Cohort> _cohort_repository;
-        private readonly IEfRepository<ValueField> _value_field_repository;
         private readonly IMapper _mapper;
+        private readonly AppDbContext _dbContext;
 
         public PollsController(IPollService service
             , IEfRepository<Poll> repository
             , IMapper mapper
-            , IEfRepository<Cohort> cohortRepository
-            , IEfRepository<ValueField> valueFieldRepository)
+            , AppDbContext dbContext)
         {
             _service = service;
             _repository = repository;
             _mapper = mapper;
-            _cohort_repository = cohortRepository;
-            _value_field_repository = valueFieldRepository;
+            _dbContext = dbContext;
         }
 
         /// <summary>
@@ -65,11 +62,11 @@ namespace Presentation.Admin.Controllers.Api
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var entity = await _repository.FindAsync(x => x.Id == id);
+            var entity = await _repository.FindAsyncWithInclude(id, x => x.DataPoints);
 
             if (entity == null) return BadRequest(new BadRequestResponseModel(ErrorTypes.BadRequest, ErrorMessages.ItemNotFound));
 
-            var model = _mapper.Map<PollViewModel>(entity);
+            var model = _mapper.Map<PollDTO>(entity);
 
             var evtData = await _service.GetNewAsync();
             model.OriginList = evtData.OriginList;
@@ -104,6 +101,24 @@ namespace Presentation.Admin.Controllers.Api
             entity.OriginId = model.OriginId;
             entity.UpdatedAt = DateTime.Now;
             entity.UpdatedBy = UserId;
+
+            entity.DataPoints = entity.DataPoints.ToList();
+            
+            foreach(var item in model.DataPoints)
+            {
+                var dataPoint = entity.DataPoints.FirstOrDefault(x => x.Id == item.Id);
+                if(dataPoint == null)
+                {
+                    dataPoint = _mapper.Map<PollDataPoint>(item);
+                    entity.DataPoints.Add(dataPoint);
+                }
+                else
+                {
+                    dataPoint.Name = item.Name;
+                    dataPoint.Value = item.Value;
+                    _dbContext.Entry(dataPoint).State = EntityState.Modified;
+                }
+            }
 
             await _repository.UpdateAsync(entity);
 

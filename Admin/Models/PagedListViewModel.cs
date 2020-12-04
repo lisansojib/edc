@@ -6,9 +6,8 @@ namespace Presentation.Admin.Models
     {
         public PagedListViewModel(IEnumerable<object> records, int? count)
         {
-
             Rows = records;
-            Total = count;
+            Total = count ?? 0;
         }
 
         public int? Total { get; set; }

@@ -171,6 +171,17 @@
         "src/download/HoldOn.min.css",
         "src/download/HoldOn.min.js"
       ]
+    },
+    {
+      "library": "x-editable@1.5.1",
+      "destination": "wwwroot/lib/x-editable/",
+      "files": [
+        "bootstrap3-editable/css/bootstrap-editable.css",
+        "bootstrap3-editable/img/clear.png",
+        "bootstrap3-editable/img/loading.gif",
+        "bootstrap3-editable/js/bootstrap-editable.js",
+        "bootstrap3-editable/js/bootstrap-editable.min.js"
+      ]
     }
   ]
 }

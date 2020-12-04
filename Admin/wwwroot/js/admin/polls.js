@@ -1,5 +1,5 @@
 ﻿(function () {
-    var $table, $formEl;
+    var $table, $tblPollDataPoint, $formEl, poll;
 
     var validationConstraints = {
         name: {
@@ -32,6 +32,7 @@
 
     $(document).ready(function () {
         $table = $("#tblList");
+        $tblPollDataPoint = $("#tblPollDataPoints");
 
         initTbl();
         loadTableData();
@@ -41,6 +42,8 @@
         $("#add-new-poll").click(getNew);
 
         $("#btn-save-poll").click(save);
+
+        $("#add-new-data-point").click(addNewDataPoint);
     });
 
     function initTbl() {
@@ -114,14 +117,14 @@
                 {
                     sortable: true,
                     searchable: true,
-                    field: "panel",
+                    field: "panelName",
                     title: "Panel",
                     width: 100
                 },
                 {
                     sortable: true,
                     searchable: true,
-                    field: "origin",
+                    field: "originName",
                     title: "Origin",
                     width: 100
                 },
@@ -164,6 +167,57 @@
         });
     }
 
+    function initPollDataPointTbl(data) {
+        $tblPollDataPoint.bootstrapTable('destroy');
+        $tblPollDataPoint.bootstrapTable({
+            toolbar: "#tblPollDataPoints", 
+            uniqueId: "id",
+            columns: [
+                {
+                    title: 'Actions',
+                    align: 'center',
+                    formatter: function (value, row, index, field) {
+                        var template =
+                            `<a class="btn btn-danger btn-sm ml-2 remove" href="javascript:" title="Delete Poll Data">
+                              <i class="fa fa-trash" aria-hidden="true"></i>
+                            </a>`;
+                        return template;
+                    },
+                    events: {
+                        'click .remove': function (e, value, row, index) {
+                            e.preventDefault();
+                            $tblPollDataPoint.bootstrapTable("removeByUniqueId", row.id);
+                        }
+                    }
+                },
+                {
+                    field: "name",
+                    title: "Name",
+                    width: 100,
+                    editable: {
+                        type: "text",
+                        showButtons: false,
+                    }
+                },
+                {
+                    field: "value",
+                    title: "Value",
+                    width: 100,
+                    editable: {
+                        type: "text",
+                        showButtons: false,
+                        tpl: '<input type="number" class="form-control input-sm" min="0" style="padding-right: 24px;">',
+                        validate: function (value) {
+                            if (!value || !value.trim() || isNaN(parseInt(value)) || parseInt(value) <= 0) {
+                                return 'Must be a positive integer.';
+                            }
+                        }
+                    }
+                }],
+            data: data
+        });
+    }
+
     function loadTableData() {
         $table.bootstrapTable('showLoading');
         var queryParams = $.param(tableParams);
@@ -201,19 +255,25 @@
             });
     }
 
-    function getNew() {
-      
+    function getNew() {      
         axios.get(`/api/polls/new`)
             .then(function (response) {
-                var data = response.data;
-
-                setFormData($formEl, data);
-
+                poll = response.data;
+                setFormData($formEl, poll);
+                initPollDataPointTbl(poll.dataPoints);
+                $tblPollDataPoint.bootstrapTable('hideLoading')
                 $("#poll-modal").modal("show");
             })
             .catch(function (err) {
                 showResponseError(err)
             });
+    }
+
+    function addNewDataPoint(e) {
+        e.preventDefault();
+        var maxId = getMaxIdForArray(poll.dataPoints, "id");
+        poll.dataPoints.push({ "id": maxId, "pollId": poll.id, "name": "", "value": 0 });
+        $tblPollDataPoint.bootstrapTable("load", poll.dataPoints);
     }
 
     function save(e) {
@@ -238,6 +298,10 @@
         data.graphTypeId = parseInt(data.graphTypeId);
         data.originId = parseInt(data.originId);
         data.panelId = parseInt(data.panelId);
+        data.dataPoints = poll.dataPoints;
+        data.dataPoints.forEach(function (item) {
+            item.value = parseFloat(item.value);
+        })
 
         if (data.id <= 0) {
             axios.post('/api/polls', data)
@@ -268,12 +332,4 @@
                 });
         }
     }
-
-    // Temporarily here cause of reference error
-    // Also in the utilities file
-    function formatDateToYYYYMMDD(date) {
-        if (!date) return "";
-        return moment(date).format("YYYY-MM-DD");
-    }
 })();
-

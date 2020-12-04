@@ -1,10 +1,8 @@
 ﻿using ApplicationCore.DTOs;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Presentation.Admin.Models.Home
+namespace Presentation.Admin.Models
 {
     public class PollViewModel: BaseViewModel
     {

@@ -5,11 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="RestSharp" Version="106.11.7" />
+    <Compile Remove="DTOs\Zoom\**" />
+    <EmbeddedResource Remove="DTOs\Zoom\**" />
+    <None Remove="DTOs\Zoom\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\Zoom\" />
+    <PackageReference Include="RestSharp" Version="106.11.7" />
   </ItemGroup>
 
 </Project>

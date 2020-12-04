@@ -12,7 +12,7 @@ namespace Infrastructure
 
         #region Home
         public DbSet<Announcement> AnnouncementSet { get; set; }
-        public DbSet<DataPoint> DataPointSet { get; set; }
+        public DbSet<PollDataPoint> DataPointSet { get; set; }
         public DbSet<Event> EventSet { get; set; }
         public DbSet<ParticipantTeam> ParticipantTeamSet { get; set; }
         public DbSet<Poll> PollSet { get; set; }

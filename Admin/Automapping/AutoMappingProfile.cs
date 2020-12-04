@@ -25,9 +25,12 @@ namespace Presentation.Admin.Automapping
                 .ForMember(dest => dest.EventSponsors, opt => opt.Ignore())
                 .ForMember(dest => dest.EventResources, opt => opt.MapFrom(src => src.Resources));
 
-            CreateMap<Poll, PollDTO>();
+            CreateMap<PollDataPointBindingModel, PollDataPoint>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
 
-            CreateMap<Poll, PollViewModel>();
+            CreateMap<PollDataPoint, PollDataPointDTO>();
+
+            CreateMap<Poll, PollDTO>();
 
             CreateMap<PollBindingModel, Poll>();
 

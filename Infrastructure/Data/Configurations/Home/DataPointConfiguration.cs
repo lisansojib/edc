@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Data.Configurations
 {
-    public class DataPointConfiguration : IEntityTypeConfiguration<DataPoint>
+    public class DataPointConfiguration : IEntityTypeConfiguration<PollDataPoint>
     {
-        public void Configure(EntityTypeBuilder<DataPoint> builder)
+        public void Configure(EntityTypeBuilder<PollDataPoint> builder)
         {
-            builder.ToTable("DataPoints");
+            builder.ToTable("PollDataPoints");
 
             builder.HasKey(t => t.Id);
 

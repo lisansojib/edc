@@ -1,5 +1,6 @@
 ﻿(function () {
     var $table, $formEl;
+    var companies = [];
 
     var validationConstraints = {
         firstName: {
@@ -54,8 +55,8 @@
     $(document).ready(function () {
         $table = $("#tblList");
 
-        //initTbl();
-        //loadTableData();
+        initTbl();
+        loadTableData();
 
         $formEl = $("#speaker-form");
 
@@ -181,18 +182,19 @@
     }
 
     function loadTableData() {
-        $table.bootstrapTable('showLoading');
+        debugger;
+        //$table.bootstrapTable('showLoading');
         var queryParams = $.param(tableParams);
         var url = `/api/speakers?${queryParams}`;
         axios.get(url)
             .then(function (response) {
-                console.log(response);
+                debugger;
                 $table.bootstrapTable('load', response.data);
-                $table.bootstrapTable('hideLoading');
+                //$table.bootstrapTable('hideLoading');
             })
             .catch(function (err) {
-                console.log(err);
-                //showResponseError(err.response);
+                debugger;
+                var v = err;
             })
     }
 
@@ -231,7 +233,6 @@
         }
         else resetValidationState($formEl);
 
-        debugger;
         var data = formDataToJson($formEl);
         data.id = parseInt(data.id);
         data.companyId = parseInt(data.companyId);
@@ -267,13 +268,9 @@
     function getCompanies() {
         axios.get("/api/select-options/companies")
             .then(function (response) {
-                console.log(response);
-                //initSelect2($("#companyId"), response.data);
+                companies = response.data;
             })
-            .catch(function (err) {
-                console.log(err);
-                showResponseError(err);
-            });
+            .catch(showResponseError);
     }
 })();
 

@@ -8,7 +8,7 @@ namespace ApplicationCore.Entities
         public Poll()
         {
             CreatedAt = DateTime.Now;
-            DataPoints = new List<DataPoint>();
+            DataPoints = new List<PollDataPoint>();
         }
         
         public string Name { get; set; }
@@ -21,6 +21,6 @@ namespace ApplicationCore.Entities
         public int? UpdatedBy { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
-        public ICollection<DataPoint> DataPoints { get; set; }
+        public ICollection<PollDataPoint> DataPoints { get; set; }
     }
 }

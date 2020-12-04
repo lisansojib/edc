@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Presentation.Admin.Models
 {
@@ -10,5 +10,14 @@ namespace Presentation.Admin.Models
         public int GraphTypeId { get; set; }
         public int PanelId { get; set; }
         public int OriginId { get; set; }
+
+        public IEnumerable<PollDataPointBindingModel> DataPoints { get; set; }
+    }
+
+    public class PollDataPointBindingModel : BaseViewModel
+    {
+        public int PollId { get; set; }
+        public string Name { get; set; }
+        public decimal Value { get; set; }
     }
 }

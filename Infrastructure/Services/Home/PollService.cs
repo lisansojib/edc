@@ -60,8 +60,8 @@ namespace Infrastructure.Services
         public async Task<List<PollDTO>> GetPagedAsync(int offset = 0, int limit = 10, string filterBy = null, string orderBy = null)
         {
             if (filterBy.NotNullOrEmpty())
-                filterBy = $@"where GraphTypeId like '%{filterBy}%' or Name like '%{filterBy}%' or PanelId like '%{filterBy}%'
-                            or OriginId like '%{filterBy}%' or PollDate like '{filterBy}%'";
+                filterBy = $@"where Name like '%{filterBy}%' or PanelName like '%{filterBy}%' 
+                            or GraphType like '%{filterBy}%' or OriginName like '{filterBy}%'";
             else
                 filterBy = "";
 
@@ -69,10 +69,19 @@ namespace Infrastructure.Services
             var pageBy = $@"Offset {offset} Rows Fetch Next {limit} Rows Only";
 
             var query = $@"
-                select Id, GraphTypeId, Name, PanelId, OriginId, PollDate, COUNT(*) OVER () as Total
-                from Polls
+                With 
+                P As(
+	                Select P.Id, P.Name, Panel.Name PanelName, Graph.Name GraphType, Origin.Name OriginName, P.PollDate
+	                From Polls P
+	                Inner Join ValueFields Panel On P.PanelId = Panel.Id
+	                Inner Join ValueFields Graph On P.GraphTypeId = Graph.Id
+	                Inner Join Cohorts Origin On P.OriginId = Origin.Id
+                )
+
+                Select Id, Name, PanelName, GraphType, OriginName, P.PollDate, COUNT(*) OVER () as Total
+                From P                
                 {filterBy}
-                Group By Id, GraphTypeId, Name, PanelId, OriginId, PollDate
+                Group By Id, Name, PanelName, GraphType, OriginName, P.PollDate
                 {orderBy}
                 {pageBy}";
 

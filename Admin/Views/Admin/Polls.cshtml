@@ -37,7 +37,7 @@
 
 <!-- Modal -->
 <div class="modal fade" data-backdrop="static" data-keyboard="false" id="poll-modal" tabindex="-1" aria-labelledby="poll-modal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="poll-modal-label">Add new Poll</h5>
@@ -47,29 +47,43 @@
             </div>
             <div class="modal-body">
                 <form id="poll-form">
-                    <input type="hidden" name="id" id="id" value="0" />
-                    <div class="form-group">
-                        <label for="name">Name<sup>&#x2605;</sup></label>
-                        <input type="text" class="form-control" id="name" name="name">
-                    </div>
-                    <div class="form-group">
-                        <label for="graphTypeId">Graph Type<sup>&#x2605;</sup></label>
-                        <select type="text" class="form-control" id="graphTypeId" name="graphTypeId"></select>
-                    </div>
-                    <div class="form-group">
-                        <label for="panelId">Panel <sup>&#x2605;</sup></label>
-                        <select id="panelId" name="panelId" class="form-control" style="width: 100%"></select>
-                    </div>
-                    <div class="form-group">
-                        <label for="originId">Origin <sup>&#x2605;</sup></label>
-                        <select id="originId" name="originId" class="form-control" style="width: 100%"></select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="pollDate">Poll Date<sup>&#x2605;</sup></label>
-                        <input type="date" class="form-control" id="pollDate" name="pollDate">
+                    <div class="row">
+                        <div class="col-6">
+                            <input type="hidden" name="id" id="id" value="0" />
+                            <div class="form-group">
+                                <label for="name">Name<sup>&#x2605;</sup></label>
+                                <input type="text" class="form-control" id="name" name="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="pollDate">Poll Date<sup>&#x2605;</sup></label>
+                                <input type="date" class="form-control" id="pollDate" name="pollDate">
+                            </div>
+                            <div class="form-group">
+                                <label for="graphTypeId">Graph Type<sup>&#x2605;</sup></label>
+                                <select type="text" class="form-control" id="graphTypeId" name="graphTypeId"></select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="originId">Origin <sup>&#x2605;</sup></label>
+                                <select id="originId" name="originId" class="form-control" style="width: 100%"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="panelId">Panel <sup>&#x2605;</sup></label>
+                                <select id="panelId" name="panelId" class="form-control" style="width: 100%"></select>
+                            </div>
+                        </div>
                     </div>
                 </form>
+
+                <div class="table-responsive">
+                    <div id="tblToolbarPollDataPoints" class="mb-1">
+                        <button class="btn btn-primary" id="add-new-data-point">
+                            <i class="fa fa-plus"></i>&nbsp;Add New Data Point
+                        </button>
+                    </div>
+                    <table id="tblPollDataPoints"></table>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -78,7 +92,6 @@
         </div>
     </div>
 </div>
-
 
 @section scripts{
     <script src="~/js/admin/polls.js" asp-append-version="true"></script>
