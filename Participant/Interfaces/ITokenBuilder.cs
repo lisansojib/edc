@@ -1,11 +1,10 @@
-﻿using ApplicationCore.Entities;
+﻿using Presentation.Participant.Models;
 using System;
-using System.Security.Claims;
 
 namespace Presentation.Participant.Interfaces
 {
     public interface ITokenBuilder
     {
-        string BuildToken(User user, DateTime expiresAtUtc, bool isPersistent);
+        string BuildToken(UserViewModel user, DateTime expiresAtUtc, bool isPersistent);
     }
 }

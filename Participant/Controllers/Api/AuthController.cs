@@ -1,8 +1,4 @@
-﻿using System;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using ApplicationCore;
+﻿using ApplicationCore;
 using ApplicationCore.Entities;
 using ApplicationCore.Interfaces.Repositories;
 using ApplicationCore.Interfaces.Services;
@@ -11,12 +7,13 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
-using Presentation.Participant.Models;
-using Presentation.Participant.Interfaces;
 using Presentation.Participant.Controllers.Api;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using Org.BouncyCastle.Math.EC.Rfc7748;
+using Presentation.Participant.Interfaces;
+using Presentation.Participant.Models;
+using System;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Presentation.Participant.Controllers
 {
@@ -25,6 +22,7 @@ namespace Presentation.Participant.Controllers
     public class AuthController : ApiBaseController
     {
         private readonly IEfRepository<ApplicationCore.Entities.Participant> _userRepository;
+        private readonly IEfRepository<Guest> _guestRepository;
         private readonly IEfRepository<ExternalLogin> _externalLoginRepository;
         private readonly IEmailService _emailService;
         private readonly ITokenBuilder _tokenBuilder;
@@ -34,6 +32,7 @@ namespace Presentation.Participant.Controllers
         private readonly Logger _logger;
 
         public AuthController(IEfRepository<ApplicationCore.Entities.Participant> userRepository
+            , IEfRepository<Guest> guestRepository
             , IEfRepository<ExternalLogin> externalLoginRepository
             , IEmailService emailService
             , ITokenBuilder tokenBuilder
@@ -42,6 +41,7 @@ namespace Presentation.Participant.Controllers
             , IMapper mapper)
         {
             _userRepository = userRepository;
+            _guestRepository = guestRepository;
             _externalLoginRepository = externalLoginRepository;
             _emailService = emailService;
             _passwordHasher = passwordHasher;
@@ -57,9 +57,9 @@ namespace Presentation.Participant.Controllers
         [HttpPost("token")]
         public async Task<IActionResult> Login([FromBody]LoginBindingModel model)
         {
-            var user = await _userRepository.FindAsync(x => x.Email == model.Email);
+            var user = await GetLoginUserAsync(model.Email);
 
-            if (user == null) return NotFound(new BadRequestResponseModel(ErrorMessages.AuthenticatinError, "User not found"));
+            if (user == null ) return NotFound(new BadRequestResponseModel(ErrorMessages.AuthenticatinError, "User not found"));
 
             var (Verified, NeedsUpgrade) = _passwordHasher.Check(user.Password, model.Password);
 
@@ -102,7 +102,9 @@ namespace Presentation.Participant.Controllers
                 }
             }
 
-            return Ok(GetTokenResponse(user, false));
+            var loginUser = _mapper.Map<ApplicationCore.Entities.Participant, UserViewModel>(user);
+
+            return Ok(GetTokenResponse(loginUser, false));
         }
 
         [ProducesResponseType(typeof(ErrorResponseModel), 400)]
@@ -132,7 +134,9 @@ namespace Presentation.Participant.Controllers
             var response = await _zoomApiService.CreateUserAsync(user);
             if(response.StatusCode != System.Net.HttpStatusCode.OK) _logger.Error(response.ErrorMessage);
 
-            return Ok(GetTokenResponse(user, false));
+            var loginUser = _mapper.Map<ApplicationCore.Entities.Participant, UserViewModel>(user);
+
+            return Ok(GetTokenResponse(loginUser, false));
         }
 
         [ProducesResponseType(typeof(ErrorResponseModel), 400)]
@@ -172,7 +176,9 @@ namespace Presentation.Participant.Controllers
 
             _logger.Info($"{user.Username} reseted password.");
 
-            return Ok(GetTokenResponse(user, false));
+            var loginUser = _mapper.Map<ApplicationCore.Entities.Participant, UserViewModel>(user);
+
+            return Ok(GetTokenResponse(loginUser, false));
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
@@ -195,7 +201,9 @@ namespace Presentation.Participant.Controllers
 
             _logger.Info($"{user.Username} changed password.");
 
-            return Ok(GetTokenResponse(user, false));
+            var loginUser = _mapper.Map<ApplicationCore.Entities.Participant, UserViewModel>(user);
+
+            return Ok(GetTokenResponse(loginUser, false));
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
@@ -232,7 +240,22 @@ namespace Presentation.Participant.Controllers
         }
 
         #region Helpers
-        private TokenResponse GetTokenResponse(User user, bool isPersistent)
+        private async Task<UserViewModel> GetLoginUserAsync(string email)
+        {
+            UserViewModel user = _mapper.Map<ApplicationCore.Entities.Participant, UserViewModel>(await _userRepository.FindAsync(x => x.Email == email));
+
+            if (user == null)
+            {
+                var guest = await _guestRepository.FindAsync(x => x.Email == email);
+                user = _mapper.Map<Guest, UserViewModel>(guest);
+                user.IsGuest = true;
+                user.Role = guest.Role;
+            }
+
+            return user;
+        }
+
+        private TokenResponse GetTokenResponse(UserViewModel user, bool isPersistent)
         {
             var expiresAtUtc = DateTime.UtcNow.AddDays(7);
 

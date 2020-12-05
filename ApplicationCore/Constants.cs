@@ -42,6 +42,7 @@
         public const string ContactNo = "ContactNo";
         public const string PhotoUrl = "PhotoUrl";
         public const string FullName = "FullName";
+        public const string IsGuest = "IsGuest";
     }
 
     public static class ValueFieldTypes
