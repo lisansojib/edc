@@ -23,7 +23,6 @@ namespace ApplicationCore.DTOs
         public string PhoneCorp { get; set; }
         public string LinkedinUrl { get; set; }
         public string CompanyName { get; set; }
-        public int CompanyId { get; set; }
 
         public List<Select2Option> CompanyList { get; set; }
     }

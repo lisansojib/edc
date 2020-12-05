@@ -2,12 +2,6 @@
     var $table, $formEl;
 
     var validationConstraints = {
-        password: {
-            presence: true,
-            length: {
-                maximum: 20
-            }
-        },
         firstName: {
             presence: true,
             length: {
@@ -54,64 +48,11 @@
                 maximum: 250
             }
         },
-        companyId: {
-            presence: true
-        }
-    };
-    var updateValidationConstraints = {
-        password: {
-            length: {
-                maximum: 20
-            }
-        },
-        firstName: {
+        companyName: {
             presence: true,
             length: {
                 maximum: 100
             }
-        },
-        lastName: {
-            presence: true,
-            length: {
-                maximum: 100
-            }
-        },
-        emailCorp: {
-            presence: true,
-            email: true,
-            length: {
-                maximum: 500
-            }
-        },
-        emailPersonal: {
-            presence: true,
-            email: true,
-            length: {
-                maximum: 500
-            }
-        },
-        phone: {
-            length: {
-                maximum: 20
-            }
-        },
-        PhoneCorp: {
-            length: {
-                maximum: 20
-            }
-        },
-        title: {
-            length: {
-                maximum: 100
-            }
-        },
-        linkedinUrl: {
-            length: {
-                maximum: 250
-            }
-        },
-        companyId: {
-            presence: true
         }
     };
 
@@ -131,9 +72,8 @@
 
         $formEl = $("#participant-form");
 
-        getCompanies();
-
         $("#add-new-participant").click(function () {
+            $("#fg-password").show();
             $("#participant-modal-label").text("Add new Participant");
             $formEl.trigger("reset");
             initNewFileInput($("#photo"));
@@ -310,7 +250,10 @@
                 $table.bootstrapTable('load', response.data);
                 $table.bootstrapTable('hideLoading');
             })
-            .catch(showResponseError)
+            .catch(function (err) {
+                $table.bootstrapTable('hideLoading');
+                showResponseError(err);
+            })
     }
 
     function resetTableParams() {
@@ -324,6 +267,7 @@
     function getDetails(id) {
         axios.get(`/api/participants/${id}`)
             .then(function (response) {
+                $("#fg-password").hide();
                 setFormData($formEl, response.data);
                 previewFileInput(response.data.id, response.data.photoUrl, $("#photo"));
                 $("#participant-modal-label").text("Edit Participant");
@@ -349,22 +293,16 @@
         }
         else resetValidationState($formEl);
 
-        var data = getFormData($formEl);
-
-        data = formDataToJson2(data);
-
         debugger;
-        data.companyId = parseInt(data.companyId);
+        var data = getFormData($formEl);
         data.id = parseInt(data.id);
-
-        data.active = parseTruth(data.active);
-        data.verified = parseTruth(data.verified);
+        data.active = convertToBoolean(data.active);
+        data.verified = convertToBoolean(data.verified);
   
         var files = $("#photo")[0].files;
         if (files.length > 0) data.append("photo", files[0]);
 
         data.email = $("input[name='primaryEmail']:checked").val() === 'work' ? data.emailCorp : data.emailPersonal;
-        debugger;
 
         if (isNaN(data.id) || data.id <= 0) {
             axios.post('/api/participants', data)
@@ -392,16 +330,6 @@
                     showResponseError(err);
                 });
         }
-    }
-
-    function getCompanies() {
-        axios.get("/api/select-options/companies")
-            .then(function (response) {
-                initSelect2($("#companyId"), response.data);
-            })
-            .catch(function (err) {
-                toastr.error(err.response.data);
-            });
     }
 })();
 

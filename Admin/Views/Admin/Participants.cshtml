@@ -55,7 +55,7 @@
                                     <label for="title">Title</label>
                                     <input type="text" class="form-control" id="title" name="title">
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" id="fg-password">
                                     <label for="username">Password <sup>&#x2605;</sup></label>
                                     <input type="password" class="form-control" id="password" name="password">
                                 </div>
@@ -71,8 +71,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="companyId">Company <sup>&#x2605;</sup></label>
-                                    <select class="form-control" id="companyId" name="companyId" style="width: 100%"></select>
-                                    @*<input type="text" class="form-control" id="companyName" name="companyName" />*@
+                                    <input type="text" class="form-control" id="companyName" name="companyName" />
                                 </div>
                                 <div class="form-group">
                                     <label for="phone">Phone</label>
@@ -90,22 +89,26 @@
                                     <label for="linkedinUrl">Linkedin Url</label>
                                     <input type="url" class="form-control"  id="linkedinUrl" name="linkedinUrl" />
                                 </div>
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="active" name="active">
-                                    <label class="custom-control-label" for="active">Active  <sup>&#x2605;</sup></label>
+                                <div class="form-group">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="active" name="active">
+                                        <label class="custom-control-label" for="active">Active  <sup>&#x2605;</sup></label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="verified" name="verified">
+                                        <label class="custom-control-label" for="verified">Verified</label>
+                                    </div>
                                 </div>
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="verified" name="verified">
-                                    <label class="custom-control-label" for="verified">Verified</label>
-                                </div>
-                                <h5 class="text-muted">What's your primary email?<sup>&#x2605;</sup></h5>
-                                <div class="custom-control custom-radio">
-                                    <input type="radio" class="custom-control-input" value="work" id="workPrimary" name="primaryEmail">
-                                    <label class="custom-control-label" for="workPrimary">Work Email</label>
-                                </div>
-                                <div class="custom-control custom-radio">
-                                    <input type="radio" class="custom-control-input" value="personal" id="personalPrimary" name="primaryEmail" checked>
-                                    <label class="custom-control-label" for="personalPrimary">Personal Email</label>
+                                <div class="form-group">
+                                    <h5 class="text-muted">What's your primary email?<sup>&#x2605;</sup></h5>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" class="custom-control-input" value="work" id="workPrimary" name="primaryEmail">
+                                        <label class="custom-control-label" for="workPrimary">Work Email</label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" class="custom-control-input" value="personal" id="personalPrimary" name="primaryEmail" checked>
+                                        <label class="custom-control-label" for="personalPrimary">Personal Email</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>

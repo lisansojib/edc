@@ -39,9 +39,8 @@ namespace Infrastructure.Services
                 ;With 
                 P As (
 	                Select P.Id, P.Username, P.FirstName, P.LastName, P.Email, P.Verified, P.Phone, P.Mobile
-	                , P.Title, P.Active, P.PhotoUrl, P.DateSuspended, P.EmailCorp, P.PhoneCorp, P.LinkedinUrl, C.Name CompanyName
+	                , P.Title, P.Active, P.PhotoUrl, P.DateSuspended, P.EmailCorp, P.PhoneCorp, P.LinkedinUrl, P.CompanyName
 	                From Participants P
-	                Inner Join Companies C On P.CompanyId = C.Id
                 )
 
                 Select Id, Username, FirstName,	LastName, Email, Verified, Phone, Mobile, Title, Active, PhotoUrl
