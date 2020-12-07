@@ -32,5 +32,11 @@ namespace System.Security.Claims
             bool.TryParse(claims.FirstOrDefault(x => x.Type == ClaimTypes.IsPersistent).Value, out bool isPersistent);
             return isPersistent;
         }
+
+        public static string GetZoomUserId(this IEnumerable<Claim> claims)
+        {
+            var zoomUserId =  claims.FirstOrDefault(x => x.Type == AdditionalClaimTypes.ZoomUserId).Value;
+            return zoomUserId.NullOrEmpty() ? Constants.MAX_ZOOM_USER_ID : zoomUserId;
+        }
     }
 }

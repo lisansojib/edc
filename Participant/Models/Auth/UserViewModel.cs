@@ -17,5 +17,6 @@
         public string PhotoUrl { get; set; }
         public string Role { get; set; }
         public bool IsGuest { get; set; }
+        public string ZoomUserId { get; set; }
     }
 }

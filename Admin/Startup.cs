@@ -97,6 +97,7 @@ namespace Admin
             services.AddTransient<IImageHelper, ImageHelper>();
             services.AddTransient<IPendingSpeakerService, PendingSpeakerService>();
             services.AddTransient<IGuestService, GuestService>();
+            services.AddTransient<IZoomApiService, ZoomApiService>();
 
             services.AddRouting(options =>
             {

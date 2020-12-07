@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "Session";
+    Layout = "~/Views/Shared/_LayoutGuest.cshtml";
+}
+
+@section styles{
+    <link href="~/css/common.css" rel="stylesheet" />
+}
+
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/portal/index">Portal</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Session</li>
+    </ol>
+</nav>
+
+<input type="hidden" name="eventId" id="eventId" value="@ViewBag.EventId" />
+
+<div class="row">
+
+    @*Contains the Zoom player*@
+    <div class="col grid-margin stretch-card">
+
+        <div class="card iframe-card">
+            <div class="card-body embed-responsive embed-responsive-16by9">
+                <iframe scrolling="no" class="embed-responsive-item" src='@Url.Action("Zoom", "Portal")' frameBorder="0"></iframe>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@*Contains the event information*@
+
+<div class="row">
+    <div class="col col-xl-12 stretch-card">
+        <div class="row flex-grow" id="eventInfo">
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/js/session-bundle.min.js" asp-append-version="true"></script>
+    <script src="~/js/portal/session.js" asp-append-version="true"></script>
+}
+

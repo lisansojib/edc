@@ -4,14 +4,16 @@ using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201206055407_GuestUpdated")]
+    partial class GuestUpdated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,9 +86,6 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<bool>("Verified")
                         .HasColumnType("bit");
-
-                    b.Property<string>("ZoomUserId")
-                        .HasColumnType("varchar(100)");
 
                     b.HasKey("Id");
 
@@ -539,9 +538,6 @@ namespace Infrastructure.Data.Migrations
                     b.Property<bool>("Verified")
                         .HasColumnType("bit");
 
-                    b.Property<string>("ZoomUserId")
-                        .HasColumnType("varchar(100)");
-
                     b.HasKey("Id");
 
                     b.HasAlternateKey("Email")
@@ -952,71 +948,6 @@ namespace Infrastructure.Data.Migrations
                         .HasName("UniqueKey_ValueFieldTypeName");
 
                     b.ToTable("ValueFieldTypes");
-                });
-
-            modelBuilder.Entity("ApplicationCore.Entities.ZoomMeeting", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Agenda")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(2000)")
-                        .HasMaxLength(2000);
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime");
-
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("int");
-
-                    b.Property<long>("Duration")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("HostId")
-                        .IsRequired()
-                        .HasColumnType("varchar(128)");
-
-                    b.Property<string>("JoinUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<string>("PMI")
-                        .IsRequired()
-                        .HasColumnType("varchar(128)");
-
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Timezone")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<string>("Topic")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int")
-                        .HasComment("1-Instant meeting, 2-Schedule meeting, 3-Recurring meeting with no fixed time, 4-Recurring meeting with fixed time");
-
-                    b.Property<string>("UUId")
-                        .IsRequired()
-                        .HasColumnType("varchar(128)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime");
-
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ZoomMeetings");
                 });
 
             modelBuilder.Entity("ApplicationCore.Entities.Admin", b =>

@@ -4,6 +4,7 @@
     {
         public const string SYMMETRIC_SECURITY_KEY = "8b327b47-2e48-4116-9134-dcbcd5aff40b";
         public const string THUMBNAIL_IMAGE = "100x100";
+        public const string MAX_ZOOM_USER_ID = "QBzo0AMOT6WYB8ywmfuXog";
     }
 
     public static class UserRoles
@@ -43,6 +44,7 @@
         public const string PhotoUrl = "PhotoUrl";
         public const string FullName = "FullName";
         public const string IsGuest = "IsGuest";
+        public const string ZoomUserId = "ZoomUserId";
     }
 
     public static class ValueFieldTypes
@@ -79,5 +81,19 @@
         public const string GDOCS = "gdocs";
         public const string TEXT = "text";
         public const string HTML = "html";
+    }
+
+    public static class ZooomMeetingAudioType
+    {
+        public const string BOTH = "both";
+        public const string TELEPHONY = "telephony";
+        public const string VOIP = "voip";
+    }
+
+    public static class ZooomMeetingAutoRecording
+    {
+        public const string LOCAL = "local";
+        public const string CLOUD = "cloud";
+        public const string NONE = "none";
     }
 }

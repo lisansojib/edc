@@ -4,14 +4,16 @@ using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201206171400_ZoomMeetingAdded")]
+    partial class ZoomMeetingAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,9 +86,6 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<bool>("Verified")
                         .HasColumnType("bit");
-
-                    b.Property<string>("ZoomUserId")
-                        .HasColumnType("varchar(100)");
 
                     b.HasKey("Id");
 
@@ -538,9 +537,6 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<bool>("Verified")
                         .HasColumnType("bit");
-
-                    b.Property<string>("ZoomUserId")
-                        .HasColumnType("varchar(100)");
 
                     b.HasKey("Id");
 

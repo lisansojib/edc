@@ -1,4 +1,5 @@
 ﻿using ApplicationCore;
+using ApplicationCore.DTOs;
 using ApplicationCore.Entities;
 using ApplicationCore.Interfaces.Services;
 using Microsoft.IdentityModel.Tokens;
@@ -13,24 +14,61 @@ namespace Infrastructure.Services
 {
     public class ZoomApiService : IZoomApiService
     {
-        public async Task<IRestResponse> CreateUserAsync(User model)
+        public async Task<IRestResponse> GetUserListAsync()
         {
             var token = GetJwtToken();
 
-            var requestBody = JsonConvert.SerializeObject(
-                new
-                {
-                    action = "create" ,
-                    user_info = new
-                    {
-                        email = model.Email,
-                        type = 1,
-                        first_name = model.FirstName,
-                        last_name = model.LastName
-                    }
-                });
+            var client = new RestClient($"{ZoomSettings.ZOOM_API_ENDPOINT}/users");
+            var request = new RestRequest(Method.GET);
+            request.AddHeader("authorization", $"Bearer {token}");
+            return await client.ExecuteAsync(request);
+        }
+
+        public async Task<IRestResponse> CreateUserAsync(ZoomUserInfo userInfo)
+        {
+            var token = GetJwtToken();
+
+            var zoomUser = new CreateZoomUserDTO
+            {
+                UserInfo = userInfo
+            };
+
+            var requestBody = JsonConvert.SerializeObject(zoomUser);
 
             var client = new RestClient($"{ZoomSettings.ZOOM_API_ENDPOINT}/users");
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("content-type", "application/json");
+            request.AddHeader("authorization", $"Bearer {token}");
+            request.AddParameter("application/json", requestBody, ParameterType.RequestBody);
+            return await client.ExecuteAsync(request); 
+        }
+
+        public async Task<IRestResponse> GetListMeetings(string zoomUserId)
+        {
+            var token = GetJwtToken();
+            var client = new RestClient($"{ZoomSettings.ZOOM_API_ENDPOINT}/users/{zoomUserId}/meetings");
+            var request = new RestRequest(Method.GET);
+            request.AddHeader("content-type", "application/json");
+            request.AddHeader("authorization", $"Bearer {token}");
+            IRestResponse response = await client.ExecuteAsync(request);
+            return response;
+        }
+
+        public async Task<IRestResponse> CreateMeetingAsync(string zoomUserId, CreateingZoomMeetingDTO model)
+        {
+            var token = GetJwtToken();
+
+            var zoomMeeting = new CreateZoomMeeting
+            {
+                Topic = model.Topic,
+                StartTime = model.StartTime,
+                Duration = model.Duration,
+                Agenda = model.Agenda
+            };
+
+            var requestBody = JsonConvert.SerializeObject(zoomMeeting);
+
+            var client = new RestClient($"{ZoomSettings.ZOOM_API_ENDPOINT}/users/{zoomUserId}/meetings");
             var request = new RestRequest(Method.POST);
             request.AddHeader("content-type", "application/json");
             request.AddHeader("authorization", $"Bearer {token}");

@@ -37,5 +37,11 @@ namespace System.Security.Claims
             bool.TryParse(claims.FirstOrDefault(x => x.Type == ClaimTypes.IsPersistent).Value, out bool isPersistent);
             return isPersistent;
         }
+
+        public static bool GetIsGuest(this IEnumerable<Claim> claims)
+        {
+            bool.TryParse(claims.FirstOrDefault(x => x.Type == AdditionalClaimTypes.IsGuest).Value, out bool isGuest);
+            return isGuest;
+        }
     }
 }

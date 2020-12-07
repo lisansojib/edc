@@ -1,4 +1,5 @@
 ﻿using ApplicationCore;
+using ApplicationCore.DTOs;
 using ApplicationCore.Entities;
 using ApplicationCore.Interfaces.Repositories;
 using ApplicationCore.Interfaces.Services;
@@ -6,6 +7,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using NLog;
 using Presentation.Participant.Controllers.Api;
 using Presentation.Participant.Interfaces;
@@ -131,8 +133,14 @@ namespace Presentation.Participant.Controllers
             _logger.Info($"{user.Username} account created.");
 
             // Create zoom account
-            var response = await _zoomApiService.CreateUserAsync(user);
+            var zoomUserInfo = _mapper.Map<ZoomUserInfo>(user);
+            var response = await _zoomApiService.CreateUserAsync(zoomUserInfo);
             if(response.StatusCode != System.Net.HttpStatusCode.OK) _logger.Error(response.ErrorMessage);
+
+            var zoomUser = JsonConvert.DeserializeObject<ZoomUserInfo>(response.Content);
+
+            user.ZoomUserId = zoomUser.Id;
+            await _userRepository.UpdateAsync(user);
 
             var loginUser = _mapper.Map<ApplicationCore.Entities.Participant, UserViewModel>(user);
 
@@ -233,10 +241,17 @@ namespace Presentation.Participant.Controllers
         public async Task<IActionResult> CreateZoomUser()
         {
             var user = await _userRepository.FindAsync(UserId);
-            var response = await _zoomApiService.CreateUserAsync(user);
+            var zoomUserInfo = _mapper.Map<ZoomUserInfo>(user);
+            var response = await _zoomApiService.CreateUserAsync(zoomUserInfo);
 
-            if (response.StatusCode == System.Net.HttpStatusCode.Created) return Ok();
-            else return BadRequest(response.ErrorMessage);
+            if (response.StatusCode != System.Net.HttpStatusCode.Created) return BadRequest(response.ErrorMessage);
+
+            var zoomUser = JsonConvert.DeserializeObject<ZoomUserInfo>(response.Content);
+
+            user.ZoomUserId = zoomUser.Id;
+            await _userRepository.UpdateAsync(user);
+
+            return Ok();
         }
 
         #region Helpers

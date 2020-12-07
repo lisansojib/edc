@@ -22,6 +22,7 @@ namespace Infrastructure.Data.Config
             builder.Property(t => t.Phone).HasColumnType("varchar(20)");
             builder.Property(t => t.Mobile).HasColumnType("varchar(20)");
             builder.Property(t => t.Title).HasColumnType("varchar(100)");
+            builder.Property(t => t.ZoomUserId).HasColumnType("varchar(100)");
             builder.Property(t => t.PhotoUrl).HasMaxLength(250);
             builder.Property(t => t.ActivationCode).HasMaxLength(128);
             builder.Property(t => t.CreatedAt).HasColumnType("datetime");

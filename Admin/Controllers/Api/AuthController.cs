@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using ApplicationCore;
+using ApplicationCore.DTOs;
 using ApplicationCore.Entities;
 using ApplicationCore.Interfaces.Repositories;
 using ApplicationCore.Interfaces.Services;
@@ -10,6 +11,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using NLog;
 using Presentation.Admin.Models;
 using Presentation.Interfaces;
@@ -18,13 +20,14 @@ namespace Presentation.Admin.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthController : ApiBaseController
     {
         private readonly IEfRepository<ApplicationCore.Entities.Admin> _userRepository;
         private readonly IEfRepository<ExternalLogin> _externalLoginRepository;
         private readonly IEmailService _emailService;
         private readonly ITokenBuilder _tokenBuilder;
         private readonly IPasswordHasher _passwordHasher;
+        private readonly IZoomApiService _zoomApiService;
         private readonly IMapper _mapper;
         private readonly Logger _logger;
 
@@ -33,7 +36,7 @@ namespace Presentation.Admin.Controllers
             , IEmailService emailService
             , ITokenBuilder tokenBuilder
             , IPasswordHasher passwordHasher
-            , IMapper mapper)
+            , IMapper mapper, IZoomApiService zoomApiService)
         {
             _userRepository = userRepository;
             _externalLoginRepository = externalLoginRepository;
@@ -42,6 +45,7 @@ namespace Presentation.Admin.Controllers
             _tokenBuilder = tokenBuilder;
             _mapper = mapper;
             _logger = LogManager.GetLogger("adminLogger");
+            _zoomApiService = zoomApiService;
         }
 
         [ProducesResponseType(typeof(ErrorResponseModel), 400)]
@@ -207,6 +211,27 @@ namespace Presentation.Admin.Controllers
             var admin = _mapper.Map<AdminBindingModel>(entity);
             return Ok(admin);
 
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [ProducesResponseType(typeof(ErrorResponseModel), 400)]
+        [ProducesResponseType(typeof(ErrorResponseModel), 500)]
+        [ProducesResponseType(200)]
+        [HttpPost("create-zoom")]
+        public async Task<IActionResult> CreateZoomUser()
+        {
+            var user = await _userRepository.FindAsync(UserId);
+            var zoomUserInfo = _mapper.Map<ZoomUserInfo>(user);
+            var response = await _zoomApiService.CreateUserAsync(zoomUserInfo);
+
+            if (response.StatusCode != System.Net.HttpStatusCode.Created) return BadRequest(response.ErrorMessage);
+
+            var zoomUser = JsonConvert.DeserializeObject<ZoomUserInfo>(response.Content);
+
+            user.ZoomUserId = zoomUser.Id;
+            await _userRepository.UpdateAsync(user);
+
+            return Ok();
         }
 
         #region Helpers

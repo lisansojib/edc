@@ -10,7 +10,13 @@ namespace Infrastructure
         {
         }
 
-        #region Home
+        #region User
+        public DbSet<Participant> ParticipantSet { get; set; }
+        public DbSet<Admin> AdminSet { get; set; }
+        public DbSet<ExternalLogin> ExternalLoginSet { get; set; }
+        public DbSet<Guest> GuestSet { get; set; }
+        #endregion
+
         public DbSet<Announcement> AnnouncementSet { get; set; }
         public DbSet<PollDataPoint> DataPointSet { get; set; }
         public DbSet<Event> EventSet { get; set; }
@@ -20,19 +26,13 @@ namespace Infrastructure
         public DbSet<Sponsor> SponsorSet { get; set; }
         public DbSet<EventResource> EventResourceSet { get; set; }
         public DbSet<PendingSpeaker> PendingSpeakersSet { get; set; }
-        #endregion
-
-        #region User
-        public DbSet<Participant> ParticipantSet { get; set; }
-        public DbSet<Admin> AdminSet { get; set; }
-        public DbSet<ExternalLogin> ExternalLoginSet { get; set; }
-        public DbSet<Guest> GuestSet { get; set; }
-        #endregion
 
         public DbSet<Company> CompanySet { get; set; }
         public DbSet<Team> TeamSet { get; set; }
         public DbSet<ValueField> ValueFieldSet { get; set; }
         public DbSet<ValueFieldType> ValueFieldTypeSet { get; set; }
+
+        public DbSet<ZoomMeeting> ZoomMeetingSet { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
