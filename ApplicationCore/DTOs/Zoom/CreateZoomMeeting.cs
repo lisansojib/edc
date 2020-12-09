@@ -16,7 +16,7 @@ namespace ApplicationCore.DTOs
         public CreateZoomMeeting()
         {
             Type = ZoomMeetingType.Scheduled;
-            Password = ExtensionMethods.GeneratePassword(6, 2);
+            Password = ExtensionMethods.GeneratePassword(8, 2);
             Timezone = "America/New_York";
         }
 

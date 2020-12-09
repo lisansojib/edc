@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Migrations\20201208222226_DbChanges54.cs" />
+    <Compile Remove="Data\Migrations\20201208222226_DbChanges54.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201208225741_DbChanges0.cs" />
+    <Compile Remove="Data\Migrations\20201208225741_DbChanges0.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.35" />
     <PackageReference Include="MailKit" Version="2.9.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.9" />

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Presentation.Admin.Models;
 using System.Threading.Tasks;
+using System;
 
 namespace Presentation.Admin.Controllers.Api
 {
@@ -37,7 +38,8 @@ namespace Presentation.Admin.Controllers.Api
         [HttpGet("users")]
         public async Task<IActionResult> GetZoomUsers(int offset = 0, int limit = 30)
         {
-            var response = await _zoomApiService.GetUserListAsync();
+            var pageNumber = offset.ToPageNumber(limit);
+            var response = await _zoomApiService.GetUserListAsync(pageNumber, limit);
 
             if (response.StatusCode != System.Net.HttpStatusCode.OK) return BadRequest(response.ErrorMessage);
 
@@ -71,10 +73,26 @@ namespace Presentation.Admin.Controllers.Api
         [ProducesResponseType(typeof(ErrorResponseModel), 400)]
         [ProducesResponseType(typeof(ErrorResponseModel), 500)]
         [ProducesResponseType(typeof(TokenResponse), 200)]
+        [HttpGet("meetings/{meetingId}")]
+        public async Task<IActionResult> GetZoomMeetings(long meetingId)
+        {
+            var response = await _zoomApiService.GetMeetingAsync(meetingId);
+
+            if (response.StatusCode != System.Net.HttpStatusCode.OK) return BadRequest(response.ErrorMessage);
+
+            var meeting = JsonConvert.DeserializeObject<ZoomMeetingDTO>(response.Content);
+
+            return Ok(meeting);
+        }
+
+        [ProducesResponseType(typeof(ErrorResponseModel), 400)]
+        [ProducesResponseType(typeof(ErrorResponseModel), 500)]
+        [ProducesResponseType(typeof(TokenResponse), 200)]
         [HttpGet("meetings")]
         public async Task<IActionResult> GetZoomMeetings(int offset = 0, int limit = 30)
         {
-            var response = await _zoomApiService.GetListMeetings(ZoomUserId);
+            var pageNumber = offset.ToPageNumber(limit);
+            var response = await _zoomApiService.GetListMeetingsAsync(ZoomUserId, pageNumber, limit);
 
             if (response.StatusCode != System.Net.HttpStatusCode.OK) return BadRequest(response.ErrorMessage);
 
@@ -92,6 +110,7 @@ namespace Presentation.Admin.Controllers.Api
             var response = await _zoomApiService.CreateMeetingAsync(ZoomUserId, model);
             if (response.StatusCode != System.Net.HttpStatusCode.Created) return BadRequest(response.ErrorMessage);
 
+            //var zoomMeetingInfo 
             return Ok();
         }
         #endregion

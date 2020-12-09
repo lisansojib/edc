@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewData["Title"] = "Polls";
+}
+
+<div class="row">
+    <div class="col stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                    <h6 class="card-title mb-0">Zoom Users</h6>
+                </div>
+                <div class="table-responsive">
+                    <div id="tblToolbar" class="mb-1">
+                        <button class="btn btn-primary" id="add-new-zoomuser">
+                            <i class="fa fa-plus"></i>&nbsp;Add New
+                        </button>
+                    </div>
+                    <table id="tblList" class="table table-hover mb-0"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/js/admin/zoom-users.js" asp-append-version="true"></script>
+}

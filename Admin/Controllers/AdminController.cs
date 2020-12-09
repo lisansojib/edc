@@ -53,5 +53,15 @@ namespace Presentation.Admin.Controllers
         {
             return View();
         }
+
+        public IActionResult ZoomMeetings()
+        {
+            return View();
+        }
+
+        public IActionResult ZoomUsers()
+        {
+            return View();
+        }
     }
 }

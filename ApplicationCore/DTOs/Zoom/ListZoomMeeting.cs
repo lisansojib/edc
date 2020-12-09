@@ -53,5 +53,8 @@ namespace ApplicationCore.DTOs
 
         [JsonProperty("join_url")]
         public Uri JoinUrl { get; set; }
+
+        [JsonProperty("password")]
+        public string Password { get; set; }
     }
 }

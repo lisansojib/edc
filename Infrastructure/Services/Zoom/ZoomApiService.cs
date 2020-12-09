@@ -1,6 +1,5 @@
 ﻿using ApplicationCore;
 using ApplicationCore.DTOs;
-using ApplicationCore.Entities;
 using ApplicationCore.Interfaces.Services;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
@@ -14,11 +13,11 @@ namespace Infrastructure.Services
 {
     public class ZoomApiService : IZoomApiService
     {
-        public async Task<IRestResponse> GetUserListAsync()
+        public async Task<IRestResponse> GetUserListAsync(int pageNumber = 1, int pageSize = 30)
         {
             var token = GetJwtToken();
 
-            var client = new RestClient($"{ZoomSettings.ZOOM_API_ENDPOINT}/users");
+            var client = new RestClient($"{ZoomSettings.ZOOM_API_ENDPOINT}/users?page_number={pageNumber}&page_size={pageSize}");
             var request = new RestRequest(Method.GET);
             request.AddHeader("authorization", $"Bearer {token}");
             return await client.ExecuteAsync(request);
@@ -43,10 +42,21 @@ namespace Infrastructure.Services
             return await client.ExecuteAsync(request); 
         }
 
-        public async Task<IRestResponse> GetListMeetings(string zoomUserId)
+        public async Task<IRestResponse> GetListMeetingsAsync(string zoomUserId, int pageNumber = 1, int pageSize = 30)
         {
             var token = GetJwtToken();
             var client = new RestClient($"{ZoomSettings.ZOOM_API_ENDPOINT}/users/{zoomUserId}/meetings");
+            var request = new RestRequest(Method.GET);
+            request.AddHeader("content-type", "application/json");
+            request.AddHeader("authorization", $"Bearer {token}");
+            IRestResponse response = await client.ExecuteAsync(request);
+            return response;
+        }
+
+        public async Task<IRestResponse> GetMeetingAsync(long meetingId)
+        {
+            var token = GetJwtToken();
+            var client = new RestClient($"{ZoomSettings.ZOOM_API_ENDPOINT}/meetings/{meetingId}");
             var request = new RestRequest(Method.GET);
             request.AddHeader("content-type", "application/json");
             request.AddHeader("authorization", $"Bearer {token}");

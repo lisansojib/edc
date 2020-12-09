@@ -28,13 +28,12 @@
             <div class="sidebar-body">
                 <ul class="nav">
                     <li class="nav-item nav-category">Main</li>
-                    <li class="nav-item">
-                        <a href="#." class="nav-link">
-                            <i class="link-icon" data-feather="box"></i>
-                            <span class="link-title">Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="nav-item nav-category">Setup pages</li>
+                    @*<li class="nav-item">
+            <a href="#." class="nav-link">
+                <i class="link-icon" data-feather="box"></i>
+                <span class="link-title">Dashboard</span>
+            </a>
+        </li>*@
                     <li class="nav-item">
                         <a href="/admin/events" class="nav-link">
                             <i class="link-icon" data-feather="calendar"></i>
@@ -65,6 +64,25 @@
                             <span class="link-title">Anouncements</span>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#zoom" role="button" aria-expanded="false" aria-controls="zoom">
+                            <i class="link-icon" data-feather="video"></i>
+                            <span class="link-title">Zoom</span>
+                            <i class="link-arrow" data-feather="chevron-down"></i>
+                        </a>
+                        <div class="collapse" id="zoom">
+                            <ul class="nav sub-menu">
+                                <li class="nav-item">
+                                    <a href="/admin/zoom-meetings" class="nav-link">Meetings</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/admin/zoom-users" class="nav-link">Users</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="nav-item nav-category">Setup pages</li>
                     <li class="nav-item">
                         <a href="/admin/participants" class="nav-link">
                             <i class="link-icon" data-feather="user"></i>

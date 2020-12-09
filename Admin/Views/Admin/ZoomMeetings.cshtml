@@ -1,0 +1,108 @@
+﻿
+@{
+    ViewData["Title"] = "Zoom Meetings";
+}
+
+<div class="row">
+    <div class="col stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                    <h6 class="card-title mb-0">Zoom Meetings</h6>
+                </div>
+                <div class="table-responsive">
+                    <div id="tblToolbar" class="mb-1">
+                        <button class="btn btn-primary" id="add-new">
+                            <i class="fa fa-plus"></i>&nbsp;Add New
+                        </button>
+                    </div>
+                    <table id="tblList" class="table table-hover mb-0"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" data-backdrop="static" data-keyboard="false" id="zoom-meeting-modal" tabindex="-1" aria-labelledby="zoom-meeting-modal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="zoom-meeting-modal-label">Add new Zoom Meeting</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="zoom-meeting-form">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="topic">Topic<sup>&#x2605;</sup></label>
+                                <input type="text" class="form-control" id="topic" name="topic" placeholder="Meeting Topic">
+                            </div>
+                            <div class="form-group">
+                                <label for="startTime">Start Time<sup>&#x2605;</sup></label>
+                                <input type="date" class="form-control" id="startTime" name="startTime">
+                            </div>
+                            <div class="form-group">
+                                <label for="duration">Duration</label>
+                                <input type="number" step="1" class="form-control" id="duration" name="duration" value="30" aria-describedby="durationHelp">
+                                <small id="durationHelp" class="form-text text-muted">Meeting duration in minutes. Default 30 minutes.</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="startTime">Meeting Agenda<sup>&#x2605;</sup></label>
+                                <textarea class="form-control" rows="3" placeholder="Write details about your meeting" id="agenda" name="agenda"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btn-save-zoom-meeting">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" data-backdrop="static" data-keyboard="false" id="view-zoom-meeting-modal" tabindex="-1" aria-labelledby="view-zoom-meeting-modal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="view-zoom-meeting-modal-label">Zoom Meeting Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="view-zoom-meeting-form">
+                    <div class="row">
+                        <div class="col-12">
+                            <input type="hidden" name="id" id="id" value="0" />
+                            <div class="form-group">
+                                <label for="topic">Meeting Id</label>
+                                <input type="text" class="form-control" id="id" name="id" placeholder="Meeting Id" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="startTime">Meeting Password</label>
+                                <input type="text" class="form-control" id="password" name="password" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="startTime">Join Url</label>
+                                <input type="text" class="form-control" id="joinUrl" name="joinUrl" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/js/admin/zoom-meetings.js" asp-append-version="true"></script>
+}

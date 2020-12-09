@@ -194,5 +194,12 @@ namespace System
                 return new string(characterBuffer);
             }
         }
+
+        public static int ToPageNumber(this int offset, int limit)
+        {
+            if (offset == 0) return 1;
+
+            return (offset + limit) / limit + 1;
+        }
     }
 }
