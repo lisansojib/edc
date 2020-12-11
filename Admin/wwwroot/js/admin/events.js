@@ -79,6 +79,7 @@
                     events: {
                         'click .edit': function (e, value, row, index) {
                             e.preventDefault();
+                            $("#fg-createZoomMeeting").hide();
                             getDetails(row.id);
                         },
                         'click .remove': function (e, value, row, index) {
@@ -323,6 +324,7 @@
         }
         else resetValidationState($formEl);
 
+        debugger;
         var data = formDataToJson($formEl);
         data.id = parseInt(data.id);
         if (isNaN(data.id)) data.id = 0;
@@ -357,10 +359,6 @@
                 }
 
                 var description = $(`#resourceDescription-${i}`).val();
-                //if (!description || !description.trim()) {
-                //    errors += `Description can't be empty for resource ${i}<br>`;
-                //    false;
-                //}
 
                 var file = $(`#resourceFile-${i}`)[0].files[0];
                 if (!file) {

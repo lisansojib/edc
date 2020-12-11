@@ -23,6 +23,8 @@ namespace ApplicationCore.Entities
         public int CTOId { get; set; }
         public string EventFolder { get; set; }
         public string SessionId { get; set; }
+        public string MeetingId { get; set; }
+        public string MeetingPassword { get; set; }
         public int CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
         public int? UpdatedBy { get; set; }

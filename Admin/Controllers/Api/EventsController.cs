@@ -3,15 +3,18 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ApplicationCore;
+using ApplicationCore.DTOs;
 using ApplicationCore.Entities;
 using ApplicationCore.Interfaces.Repositories;
 using ApplicationCore.Interfaces.Services;
+using ApplicationCore.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Presentation.Admin.Interfaces;
 using Presentation.Admin.Models;
 using Presentation.Admin.Models.Home;
@@ -26,6 +29,7 @@ namespace Presentation.Admin.Controllers.Api
         private readonly IEventService _service;
         private readonly IEfRepository<Event> _repository;
         private readonly IEventValueFieldsService _eventValueFieldsService;
+        private readonly IZoomApiService _zoomApiService;
         private readonly IWebHostEnvironment _hostEnvironment;
         private readonly IMapper _mapper;
 
@@ -33,13 +37,15 @@ namespace Presentation.Admin.Controllers.Api
             , IEfRepository<Event> repository
             , IEventValueFieldsService eventValueFieldsService
             , IWebHostEnvironment hostEnvironment
-            , IMapper mapper)
+            , IMapper mapper
+            , IZoomApiService zoomApiService)
         {
             _service = service;
             _repository = repository;
             _eventValueFieldsService = eventValueFieldsService;
             _hostEnvironment = hostEnvironment;
             _mapper = mapper;
+            _zoomApiService = zoomApiService;
         }
 
         [HttpGet]
@@ -48,7 +54,7 @@ namespace Presentation.Admin.Controllers.Api
             var orderBy = string.IsNullOrEmpty(sort) ? "" : $"ORDER BY {sort} {order}";
             var records = await _service.GetPagedAsync(offset, limit, filter, orderBy);
 
-            var response = new PagedListViewModel(records, records.FirstOrDefault()?.Total);
+            var response = new PagedListViewModel<EventDTO>(records, records.FirstOrDefault()?.Total);
 
             return Ok(response);
         }
@@ -82,6 +88,22 @@ namespace Presentation.Admin.Controllers.Api
         [HttpPost]
         public async Task<IActionResult> Create([FromForm] EventBindingModel model)
         {
+            ZoomMeetingDTO zoomMeetingInfo = null;
+            if (model.CreateZoomMeeting)
+            {
+                var createZoomMeetingModel = new CreateingZoomMeetingDTO
+                {
+                    Topic = model.Title,
+                    Agenda = model.Description,
+                    Duration = Constants.DEFAULT_ZOOM_MEETING_DURATION,
+                    StartTime = model.EventDate
+                };
+                var response = await _zoomApiService.CreateMeetingAsync(ZoomUserId, createZoomMeetingModel);
+                if (response.StatusCode != System.Net.HttpStatusCode.Created) return BadRequest(response.ErrorMessage);
+
+                zoomMeetingInfo = JsonConvert.DeserializeObject<ZoomMeetingDTO>(response.Content);
+            }
+
             var speakerIds = await _eventValueFieldsService.GetSpeakerIdsAsync(model.Speakers);
             var sponsorIds = await _eventValueFieldsService.GetSponsorIdsAsync(model.Sponsors);
 
@@ -92,9 +114,6 @@ namespace Presentation.Admin.Controllers.Api
             sponsorIds.ForEach(x => entity.EventSponsors.Add(new EventSponsor { SponsorId = x }));
 
             if (model.SessionId.NullOrEmpty()) entity.SessionId = Guid.NewGuid().ToString();
-
-            // No files are uploaded in Networking event
-            // Networking event ID = 12
 
             if(model.EventTypeId != 12 && model.Files == null)
             {
@@ -116,6 +135,12 @@ namespace Presentation.Admin.Controllers.Api
                     entity.EventResources[i].FilePath = new string[] { UploadFolders.UPLOAD_PATH, UploadFolders.EVENTS, entity.EventFolder, filename }.ToWebFilePath();
                     entity.EventResources[i].PreviewType = filename.Contains(".pdf") ? "pdf" : "image";
                 }
+            }
+
+            if(zoomMeetingInfo != null)
+            {
+                entity.MeetingId = zoomMeetingInfo.Id.ToString();
+                entity.MeetingPassword = zoomMeetingInfo.Password;
             }
 
             await _repository.AddAsync(entity);

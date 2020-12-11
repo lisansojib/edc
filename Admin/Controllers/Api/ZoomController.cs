@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using Presentation.Admin.Models;
 using System.Threading.Tasks;
 using System;
+using ApplicationCore.Models;
 
 namespace Presentation.Admin.Controllers.Api
 {
@@ -34,7 +35,7 @@ namespace Presentation.Admin.Controllers.Api
 
         [ProducesResponseType(typeof(ErrorResponseModel), 400)]
         [ProducesResponseType(typeof(ErrorResponseModel), 500)]
-        [ProducesResponseType(typeof(TokenResponse), 200)]
+        [ProducesResponseType(typeof(PagedListViewModel<ZoomUser>), 200)]
         [HttpGet("users")]
         public async Task<IActionResult> GetZoomUsers(int offset = 0, int limit = 30)
         {
@@ -45,12 +46,12 @@ namespace Presentation.Admin.Controllers.Api
 
             var records = JsonConvert.DeserializeObject<ListZoomUser>(response.Content);
 
-            return Ok(new PagedListViewModel(records.Users, (int)records.TotalRecords));
+            return Ok(new PagedListViewModel<ZoomUser>(records.Users, (int)records.TotalRecords));
         }
 
         [ProducesResponseType(typeof(ErrorResponseModel), 400)]
         [ProducesResponseType(typeof(ErrorResponseModel), 500)]
-        [ProducesResponseType(typeof(TokenResponse), 200)]
+        [ProducesResponseType(typeof(ZoomUserInfo), 200)]
         [HttpPost("users/{userId}")]
         public async Task<IActionResult> CreateZoomUser(int userId)
         {
@@ -72,7 +73,7 @@ namespace Presentation.Admin.Controllers.Api
         #region Zoom Meetings
         [ProducesResponseType(typeof(ErrorResponseModel), 400)]
         [ProducesResponseType(typeof(ErrorResponseModel), 500)]
-        [ProducesResponseType(typeof(TokenResponse), 200)]
+        [ProducesResponseType(typeof(ZoomMeetingDTO), 200)]
         [HttpGet("meetings/{meetingId}")]
         public async Task<IActionResult> GetZoomMeetings(long meetingId)
         {
@@ -87,7 +88,7 @@ namespace Presentation.Admin.Controllers.Api
 
         [ProducesResponseType(typeof(ErrorResponseModel), 400)]
         [ProducesResponseType(typeof(ErrorResponseModel), 500)]
-        [ProducesResponseType(typeof(TokenResponse), 200)]
+        [ProducesResponseType(typeof(PagedListViewModel<ZoomMeetingDTO>), 200)]
         [HttpGet("meetings")]
         public async Task<IActionResult> GetZoomMeetings(int offset = 0, int limit = 30)
         {
@@ -98,20 +99,20 @@ namespace Presentation.Admin.Controllers.Api
 
             var records = JsonConvert.DeserializeObject<ListZoomMeeting>(response.Content);
 
-            return Ok(new PagedListViewModel(records.Meetings, (int)records.TotalRecords));
+            return Ok(new PagedListViewModel<ZoomMeetingDTO>(records.Meetings, (int)records.TotalRecords));
         }
 
         [ProducesResponseType(typeof(ErrorResponseModel), 400)]
         [ProducesResponseType(typeof(ErrorResponseModel), 500)]
-        [ProducesResponseType(typeof(TokenResponse), 200)]
+        [ProducesResponseType(typeof(ZoomMeetingDTO), 200)]
         [HttpPost("meetings")]
         public async Task<IActionResult> CreateZoomMeeting(CreateingZoomMeetingDTO model)
         {
             var response = await _zoomApiService.CreateMeetingAsync(ZoomUserId, model);
             if (response.StatusCode != System.Net.HttpStatusCode.Created) return BadRequest(response.ErrorMessage);
 
-            //var zoomMeetingInfo 
-            return Ok();
+            var zoomMeetingInfo = JsonConvert.DeserializeObject<ZoomMeetingDTO>(response.Content);
+            return Ok(zoomMeetingInfo);
         }
         #endregion
     }

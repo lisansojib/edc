@@ -2,9 +2,11 @@
 using System.Linq;
 using System.Threading.Tasks;
 using ApplicationCore;
+using ApplicationCore.DTOs;
 using ApplicationCore.Entities;
 using ApplicationCore.Interfaces.Repositories;
 using ApplicationCore.Interfaces.Services;
+using ApplicationCore.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -39,7 +41,7 @@ namespace Presentation.Admin.Controllers.Api
             var orderBy = string.IsNullOrEmpty(sort) ? "" : $"ORDER BY {sort} {order}";
             var records = await _service.GetPagedAsync(offset, limit, filter, orderBy);
 
-            var response = new PagedListViewModel(records, records.FirstOrDefault()?.Total);
+            var response = new PagedListViewModel<PendingSpeakerDTO>(records, records.FirstOrDefault()?.Total);
 
             return Ok(response);
         }
