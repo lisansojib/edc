@@ -68,8 +68,11 @@
                     width: 125,
                     formatter: function (value, row, index, field) {
                         var template =
-                            `<a class="btn btn-primary btn-sm edit"  title="Edit Event">
+                            `<a class="btn btn-primary btn-sm edit" title="Edit Event">
                               <i class="fa fa-edit" aria-hidden="true"></i> 
+                            </a>
+                            <a class="btn btn-primary btn-sm edit" title="Share Event with Guest">
+                              <i class="fa fa-share" aria-hidden="true"></i> 
                             </a>
                             <a class="btn btn-danger btn-sm ml-2 remove" href="javascript:" title="Delete Event">
                               <i class="fa fa-trash" aria-hidden="true"></i>
@@ -77,26 +80,9 @@
                         return template;
                     },
                     events: {
-                        'click .edit': function (e, value, row, index) {
-                            e.preventDefault();
-                            $("#fg-createZoomMeeting").hide();
-                            getDetails(row.id);
-                        },
-                        'click .remove': function (e, value, row, index) {
-                            e.preventDefault();
-                            showBootboxConfirm("Delete Event", "Are you sure you want to delete this?", function (yes) {
-                                if (yes) {
-                                    axios.delete(`/api/events/${row.id}`)
-                                        .then(function () {
-                                            toastr.success(appConstants.ITEM_DELETED_SUCCESSFULLY);
-                                            $table.bootstrapTable('refresh');
-                                        })
-                                        .catch(function (err) {
-                                            toastr.error(err.response.data.message);
-                                        })
-                                }
-                            })
-                        }
+                        'click .edit': getDetails,
+                        'click .edit': shareEventLink,
+                        'click .remove': removeEvent
                     }
                 },
                 {
@@ -208,8 +194,11 @@
             });
     }
 
-    function getDetails(id) {
-        axios.get(`/api/events/${id}`)
+    function getDetails(e, value, row, index) {
+        e.preventDefault();
+        $("#fg-createZoomMeeting").hide();
+
+        axios.get(`/api/events/${row.id}`)
             .then(function (response) {
                 setFormData($formEl, response.data, true);
                 $("#event-modal-label").text("Edit Event");
@@ -218,6 +207,48 @@
             .catch(function (err) {
                 toastr.error(err.response.data);
             });
+    }
+
+    function removeEvent(e, value, row, index) {
+        e.preventDefault();
+        showBootboxConfirm("Delete Event", "Are you sure you want to delete this?", function (yes) {
+            if (yes) {
+                axios.delete(`/api/events/${row.id}`)
+                    .then(function () {
+                        toastr.success(appConstants.ITEM_DELETED_SUCCESSFULLY);
+                        $table.bootstrapTable('refresh');
+                    })
+                    .catch(function (err) {
+                        toastr.error(err.response.data.message);
+                    })
+            }
+        })
+    }
+
+    function shareEventLink(e, value, row, index) {
+        e.preventDefault();
+        var eventId = row.id;
+        var eventTitle = row.title;
+        axios.get("/api/select-options/guest").then(function (response) {
+            showBootboxSelect2MultipleDialog(
+                "Select one or many guest.", "GuestIds",
+                "Share event link to one or more guest.",
+                response.data,
+                function (data) {
+                    var toEmail = data.map(function (el) { return el.text }).join(';');
+                    var model = {
+                        "guestEmail": toEmail,
+                        "eventId": eventId,
+                        "eventTitle": eventTitle
+                    };
+
+                    axios.post("/api/events/share-link", model)
+                        .then(function () {
+                            toastr.success("Link to this event is shared to the selected guests.");
+                        })
+                        .catch(showResponseError);
+                });
+        }).catch(showResponseError);
     }
 
     function handleEventTypeSelection(e) {

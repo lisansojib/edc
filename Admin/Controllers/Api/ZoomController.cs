@@ -22,15 +22,18 @@ namespace Presentation.Admin.Controllers.Api
     {
         private readonly IZoomApiService _zoomApiService;
         private readonly IEfRepository<Participant> _participantRepsitory;
+        private readonly IEfRepository<ZoomMeeting> _zoomMeetingRepository;
         private readonly IMapper _mapper;
 
         public ZoomController(IZoomApiService zoomApiService
             , IEfRepository<Participant> participantRepsitory
-            , IMapper mapper)
+            , IMapper mapper
+            , IEfRepository<ZoomMeeting> zoomMeetingRepository)
         {
             _participantRepsitory = participantRepsitory;
             _zoomApiService = zoomApiService;
             _mapper = mapper;
+            _zoomMeetingRepository = zoomMeetingRepository;
         }
 
         [ProducesResponseType(typeof(ErrorResponseModel), 400)]
@@ -111,8 +114,11 @@ namespace Presentation.Admin.Controllers.Api
             var response = await _zoomApiService.CreateMeetingAsync(ZoomUserId, model);
             if (response.StatusCode != System.Net.HttpStatusCode.Created) return BadRequest(response.ErrorMessage);
 
-            var zoomMeetingInfo = JsonConvert.DeserializeObject<ZoomMeetingDTO>(response.Content);
-            return Ok(zoomMeetingInfo);
+            var zoomMeeting = JsonConvert.DeserializeObject<ZoomMeeting>(response.Content);
+            zoomMeeting.CreatedBy = UserId;
+            await _zoomMeetingRepository.AddAsync(zoomMeeting);
+
+            return Ok(zoomMeeting);
         }
         #endregion
     }

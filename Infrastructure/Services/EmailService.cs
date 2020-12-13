@@ -1,10 +1,9 @@
 ﻿using ApplicationCore;
-using ApplicationCore.Interfaces.Logger;
 using ApplicationCore.Interfaces.Services;
+using MailKit.Net.Smtp;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using System;
-using MailKit.Net.Smtp;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Services
@@ -19,20 +18,33 @@ namespace Infrastructure.Services
             _smtpSettings = currentConfigs.Value;
         }
 
-        public async Task SendEmailAsync(string username, string toEmail, string subject, string messageBody)
+        public async Task SendEmailAsync(string username, string toEmail, string subject, string messageBody, bool showGreetings = true)
         {
             try
             {
                 var message = new MimeMessage();
                 message.From.Add(new MailboxAddress(_smtpSettings.Name, _smtpSettings.Email));
-                message.To.Add(new MailboxAddress(username, toEmail));
                 message.Subject = subject;
 
-                var bodyBuilder = new BodyBuilder
+                var toMailList = toEmail.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var item in toMailList)
                 {
-                    TextBody = $@"Greetings {username},",
-                    HtmlBody = messageBody
-                };
+                    message.To.Add(new MailboxAddress(username, toEmail));
+                }
+
+                BodyBuilder bodyBuilder;
+                if (showGreetings)
+                {
+                    bodyBuilder = new BodyBuilder
+                    {
+                        TextBody = $@"Greetings {username},",
+                        HtmlBody = messageBody
+                    };
+                }
+                else
+                {
+                   bodyBuilder = new BodyBuilder { HtmlBody = messageBody};
+                }
 
                 message.Body = bodyBuilder.ToMessageBody();
 

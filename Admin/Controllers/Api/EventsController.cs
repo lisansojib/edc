@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Presentation.Admin.Interfaces;
 using Presentation.Admin.Models;
@@ -30,7 +31,10 @@ namespace Presentation.Admin.Controllers.Api
         private readonly IEfRepository<Event> _repository;
         private readonly IEventValueFieldsService _eventValueFieldsService;
         private readonly IZoomApiService _zoomApiService;
+        private readonly IEmailService _emailService;
+        private readonly IEfRepository<ZoomMeeting> _zoomMeetingRepository;
         private readonly IWebHostEnvironment _hostEnvironment;
+        private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
 
         public EventsController(IEventService service
@@ -38,7 +42,10 @@ namespace Presentation.Admin.Controllers.Api
             , IEventValueFieldsService eventValueFieldsService
             , IWebHostEnvironment hostEnvironment
             , IMapper mapper
-            , IZoomApiService zoomApiService)
+            , IZoomApiService zoomApiService
+            , IConfiguration configuration
+            , IEmailService emailService
+            , IEfRepository<ZoomMeeting> zoomMeetingRepository)
         {
             _service = service;
             _repository = repository;
@@ -46,6 +53,9 @@ namespace Presentation.Admin.Controllers.Api
             _hostEnvironment = hostEnvironment;
             _mapper = mapper;
             _zoomApiService = zoomApiService;
+            _configuration = configuration;
+            _emailService = emailService;
+            _zoomMeetingRepository = zoomMeetingRepository;
         }
 
         [HttpGet]
@@ -88,7 +98,7 @@ namespace Presentation.Admin.Controllers.Api
         [HttpPost]
         public async Task<IActionResult> Create([FromForm] EventBindingModel model)
         {
-            ZoomMeetingDTO zoomMeetingInfo = null;
+            ZoomMeeting zoomMeeting = null;
             if (model.CreateZoomMeeting)
             {
                 var createZoomMeetingModel = new CreateingZoomMeetingDTO
@@ -101,7 +111,9 @@ namespace Presentation.Admin.Controllers.Api
                 var response = await _zoomApiService.CreateMeetingAsync(ZoomUserId, createZoomMeetingModel);
                 if (response.StatusCode != System.Net.HttpStatusCode.Created) return BadRequest(response.ErrorMessage);
 
-                zoomMeetingInfo = JsonConvert.DeserializeObject<ZoomMeetingDTO>(response.Content);
+                zoomMeeting = JsonConvert.DeserializeObject<ZoomMeeting>(response.Content);
+                zoomMeeting.CreatedBy = UserId;
+                await _zoomMeetingRepository.AddAsync(zoomMeeting);
             }
 
             var speakerIds = await _eventValueFieldsService.GetSpeakerIdsAsync(model.Speakers);
@@ -137,10 +149,10 @@ namespace Presentation.Admin.Controllers.Api
                 }
             }
 
-            if(zoomMeetingInfo != null)
+            if(zoomMeeting != null)
             {
-                entity.MeetingId = zoomMeetingInfo.Id.ToString();
-                entity.MeetingPassword = zoomMeetingInfo.Password;
+                entity.MeetingId = zoomMeeting.Id.ToString();
+                entity.MeetingPassword = zoomMeeting.Password;
             }
 
             await _repository.AddAsync(entity);
@@ -205,6 +217,23 @@ namespace Presentation.Admin.Controllers.Api
 
             await _repository.DeleteAsync(entity);
 
+            return Ok();
+        }
+
+        [HttpPost("share-link")]
+        public async Task<IActionResult> ShareLink(ShareEventLinkBindingModel model)
+        {
+            var guestSessionBaseUrl = _configuration.GetSection("GuestSessionBaseUrl");
+            var sessionLink = guestSessionBaseUrl + "?eventId=" + model.EventId;
+            var messageBody = $@"Greetings,
+                <br><br>
+                Here is the link to connect to <b>${model.EventTitle}</b>.
+                Please <a href='{sessionLink}'>follow this link</a> to directly connect to the event.
+                <br><br>
+                Best Regards,
+                {Username}";
+
+            await _emailService.SendEmailAsync(Username, model.GuestEmail, $"Connect to {model.EventTitle}", messageBody, false);
             return Ok();
         }
     }
