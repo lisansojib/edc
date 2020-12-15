@@ -224,10 +224,10 @@ namespace Presentation.Admin.Controllers.Api
         public async Task<IActionResult> ShareLink(ShareEventLinkBindingModel model)
         {
             var guestSessionBaseUrl = _configuration.GetSection("GuestSessionBaseUrl");
-            var sessionLink = guestSessionBaseUrl + "?eventId=" + model.EventId;
+            var sessionLink = guestSessionBaseUrl.Value + "?eventId=" + model.EventId;
             var messageBody = $@"Greetings,
                 <br><br>
-                Here is the link to connect to <b>${model.EventTitle}</b>.
+                Here is the link to connect to <b>{model.EventTitle}</b>.
                 Please <a href='{sessionLink}'>follow this link</a> to directly connect to the event.
                 <br><br>
                 Best Regards,

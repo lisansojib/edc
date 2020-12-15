@@ -28,26 +28,23 @@
     </div>
 
 
-    @*<div class="clearfix"></div>*@
+    <div class="clearfix"></div>
 
     <div>
         <div class="zoom-form">
-            <form class="navbar-form navbar-right" id="meeting_form">
+            <form id="meeting_form">
                 <input type="hidden" name="display_name" id="display_name" value="1.7.10#CDN" />
                 <input type="hidden" name="meeting_email" id="meeting_email" value="" />
                 <input type="hidden" name="meeting_role" id="meeting_role" value="0" />
                 <input type="hidden" name="meeting_china" id="meeting_china" value="0" />
                 <input type="hidden" name="meeting_lang" id="meeting_lang" value="en-US" />
+                <input type="hidden" name="meeting_number" id="meeting_number" value="@ViewBag.MeetingId" />
+                <input type="hidden" name="meeting_pwd" id="meeting_pwd" value="@ViewBag.MeetingPassword" />
+                <input type="hidden" id="is_guest" name="is_guest" value="@ViewBag.IsGuest" />
 
-                <div class="form-row p-1">
+                <div class="row">
                     <div class="col">
-                        <input type="text" class="form-control" name="meeting_number" id="meeting_number" placeholder="Meeting number" required />
-                    </div>
-                    <div class="col">
-                        <input type="text" class="form-control" name="meeting_pwd" id="meeting_pwd" placeholder="Meeting password" required />
-                    </div>
-                    <div class="col">
-                        <button class="btn btn-primary w-100" id="join_meeting" type="button">Join Meeting</button>
+                        <button class="btn btn-primary w-100" id="join_meeting">Join Meeting</button>
                     </div>
                 </div>
             </form>

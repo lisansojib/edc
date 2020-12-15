@@ -2,6 +2,12 @@
 {
     public class UserViewModel : BaseViewModel
     {
+        public UserViewModel()
+        {
+            ZoomUserId = "";
+            Role = "";
+        }
+
         public string UUId { get; set; }
         public string Username { get; set; }
         public string FirstName { get; set; }

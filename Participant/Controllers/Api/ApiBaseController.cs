@@ -5,9 +5,9 @@ namespace Presentation.Participant.Controllers.Api
 {
     public abstract class ApiBaseController : ControllerBase
     {
-        protected int UserId => User.Claims.GetUserId();
-        protected string Username => User.Claims.GetUsername();
-        protected string UserRole => User.Claims.GetUserRole();
+        protected int UserId => User.Claims.UserId();
+        protected string Username => User.Claims.Username();
+        protected string UserRole => User.Claims.UserRole();
         protected string BaseUrl => Request.Scheme + "://" + Request.Host + Request.PathBase;
     }
 }

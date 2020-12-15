@@ -36,11 +36,11 @@ namespace Presentation.Participant.Controllers
         public async Task<IActionResult> Login([FromBody]TokenBindingModel model)
         {
             var claims = _deSerializeJwtToken.GetClaims(model.AccessToken);
-            if (claims.GetUserId() <= 0) return BadRequest(new BadRequestResponseModel(ErrorMessages.AuthenticatinError, "Can not authenticate user."));
+            if (claims.UserId() <= 0) return BadRequest(new BadRequestResponseModel(ErrorMessages.AuthenticatinError, "Can not authenticate user."));
 
             var authProperties = new AuthenticationProperties
             {
-                IsPersistent = claims.GetIsPersistent(),
+                IsPersistent = claims.IsPersistent(),
                 ExpiresUtc = model.ExpiresAtUtc
             };
 

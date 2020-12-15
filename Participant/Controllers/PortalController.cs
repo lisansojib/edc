@@ -17,9 +17,6 @@ namespace Presentation.Participant.Controllers
         public IActionResult Session(int eventId = 0)
         {
             ViewBag.EventId = eventId;
-
-            if (User.Claims.GetIsGuest()) return View("~/Views/Portals/Session.cshtml");
-
             return View();
         }
 

@@ -28,12 +28,7 @@
     testTool.detectOS() +
     "#" +
     testTool.getBrowserInfo();
-  document.getElementById("meeting_number").value = testTool.getCookie(
-    "meeting_number"
-  );
-  document.getElementById("meeting_pwd").value = testTool.getCookie(
-    "meeting_pwd"
-  );
+  
   if (testTool.getCookie("meeting_lang"))
     document.getElementById("meeting_lang").value = testTool.getCookie(
       "meeting_lang"
@@ -51,61 +46,32 @@
         document.getElementById("meeting_lang").value
       );
     });
-  // copy zoom invite link to mn, autofill mn and pwd.
-  document
-    .getElementById("meeting_number")
-    .addEventListener("input", function (e) {
-      var tmpMn = e.target.value.replace(/([^0-9])+/i, "");
-      if (tmpMn.match(/([0-9]{9,11})/)) {
-        tmpMn = tmpMn.match(/([0-9]{9,11})/)[1];
-      }
-      var tmpPwd = e.target.value.match(/pwd=([\d,\w]+)/);
-      if (tmpPwd) {
-        document.getElementById("meeting_pwd").value = tmpPwd[1];
-        testTool.setCookie("meeting_pwd", tmpPwd[1]);
-      }
-      document.getElementById("meeting_number").value = tmpMn;
-      testTool.setCookie(
-        "meeting_number",
-        document.getElementById("meeting_number").value
-      );
-    });
 
-  //document.getElementById("clear_all").addEventListener("click", function (e) {
-  //  testTool.deleteAllCookies();
-  //  document.getElementById("display_name").value = "";
-  //  document.getElementById("meeting_number").value = "";
-  //  document.getElementById("meeting_pwd").value = "";
-  //  document.getElementById("meeting_lang").value = "en-US";
-  //  document.getElementById("meeting_role").value = 0;
-  //  window.location.href = "/portal/session";
-  //});
-
-  
+    testTool.setCookie("meeting_pwd", document.getElementById("meeting_pwd").value);
+    testTool.setCookie("meeting_number", document.getElementById("meeting_number").value);
+    testTool.setCookie("is_guest", document.getElementById("is_guest").value);
+      
   // click join iframe buttong
-  document
-      .getElementById("join_meeting")
-    .addEventListener("click", function (e) {
-        e.preventDefault();
-        debugger;
-      var meetingConfig = testTool.getMeetingConfig();
-      if (!meetingConfig.mn || !meetingConfig.name) {
-        alert("Meeting number or username is empty");
-        return false;
-      }
-      var signature = ZoomMtg.generateSignature({
-        meetingNumber: meetingConfig.mn,
-        apiKey: API_KEY,
-        apiSecret: API_SECRET,
-        role: meetingConfig.role,
-          success: function (res) {
-              debugger;
-              console.log(res.result);
-              meetingConfig.signature = res.result;
-              meetingConfig.apiKey = API_KEY;
-              var joinUrl = testTool.getCurrentDomain() + "/portal/meeting?" + testTool.serialize(meetingConfig);
-              document.getElementById("websdk-iframe").src = joinUrl;
-        },
+  document.getElementById("join_meeting")
+      .addEventListener("click", function (e) {
+          e.preventDefault();
+          var meetingConfig = testTool.getMeetingConfig();
+          if (!meetingConfig.mn || !meetingConfig.name) {
+            alert("Meeting number or username is empty");
+            return false;
+          }
+          var signature = ZoomMtg.generateSignature({
+            meetingNumber: meetingConfig.mn,
+            apiKey: API_KEY,
+            apiSecret: API_SECRET,
+            role: meetingConfig.role,
+              success: function (res) {
+                  console.log(res.result);
+                  meetingConfig.signature = res.result;
+                  meetingConfig.apiKey = API_KEY;
+                  var joinUrl = testTool.getCurrentDomain() + "/guest/meeting?" + testTool.serialize(meetingConfig);
+                  document.getElementById("websdk-iframe").src = joinUrl;
+            },
+          });
       });
-    });
 })();

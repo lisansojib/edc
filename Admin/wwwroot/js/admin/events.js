@@ -235,6 +235,7 @@
                 "Share event link to one or more guest.",
                 response.data,
                 function (data) {
+                    debugger;
                     var toEmail = data.map(function (el) { return el.text }).join(';');
                     var model = {
                         "guestEmail": toEmail,

@@ -35,18 +35,19 @@ var testTool = {
   },
   getMeetingConfig: function () {
     return {
-      mn: parseInt(document.getElementById("meeting_number").value),
-      name: testTool.b64EncodeUnicode(
-        document.getElementById("display_name").value
-      ),
-      pwd: document.getElementById("meeting_pwd").value,
-      role: parseInt(document.getElementById("meeting_role").value, 10),
-      email: testTool.b64EncodeUnicode(
-        document.getElementById("meeting_email").value
-      ),
-      lang: document.getElementById("meeting_lang").value,
-      signature: "",
-      china: document.getElementById("meeting_china").value,
+        mn: parseInt(document.getElementById("meeting_number").value),
+        name: testTool.b64EncodeUnicode(
+            document.getElementById("display_name").value
+        ),
+        pwd: document.getElementById("meeting_pwd").value,
+        role: parseInt(document.getElementById("meeting_role").value, 10),
+        email: testTool.b64EncodeUnicode(
+            document.getElementById("meeting_email").value
+        ),
+        lang: document.getElementById("meeting_lang").value,
+        signature: "",
+        china: document.getElementById("meeting_china").value,
+        isGuest: document.getElementById("is_guest").value
     };
   },
   createZoomNode: function (id, url, container) {

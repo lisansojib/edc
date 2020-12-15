@@ -128,7 +128,7 @@ namespace Infrastructure.Services
 	                Select E.Id
 	                From Events E
 	                Left Join Events E2 On E.SessionId = E2.SessionId
-	                Where E.Id = 10 Or E.SessionId = E2.SessionId
+	                Where E.Id = {eventId} Or E.SessionId = E2.SessionId
 	                Group By E.CohortId, E.Id
                 )
 
@@ -176,6 +176,65 @@ namespace Infrastructure.Services
             Where T.Name = '{teamName}'
             Group By P.UUId, P.FirstName, P.LastName, P.Email";
             return await _repository.RawSqlQueryAsync<TeamMemberDTO>(query);
+        }
+
+        public async Task<SessionEventDTO> GetEventDetailsAsync(int eventId)
+        {
+            var query = $@" 
+                ;With 
+                EVT As (
+	                Select *
+	                From Events E
+	                Where E.Id = {eventId}
+                )
+
+                Select EVT.Id, EVT.Title, ISNULL(EVT.Description, '') Description, EVT.EventDate, EVT.ImagePath
+	                , C.Name CohortName, VT.Name EventType, ISNULL(CTO.FirstName + ' ' + CTO.LastName, '') CTO
+	                , ISNULL(PS.FirstName + ' ' + PS.LastName, '') Speakers, ISNULL(PS.FirstName + ' ' + PS.LastName, '') Sponsors 
+                From EVT EVT
+                Inner Join Cohorts C On EVT.CohortId = C.Id
+                Inner Join ValueFields VT On EVT.EventTypeId = VT.Id
+                Left Join Participants CTO On EVT.CTOId = CTO.Id
+                Left Join Participants PS On EVT.CTOId = PS.Id
+                Left Join Participants P On EVT.CTOId = P.Id 
+                Left Join EventSpeakers ES On EVT.Id = ES.EventId
+                Left Join EventSponsors ESP On EVT.Id = ESP.EventId
+                Order By VT.SeqNo
+
+                ;With 
+                E As (
+	                Select E.Id
+	                From Events E
+	                Left Join Events E2 On E.SessionId = E2.SessionId
+	                Where E.Id = {eventId} Or E.SessionId = E2.SessionId
+	                Group By E.CohortId, E.Id
+                )
+
+                Select R.Id, R.Title, R.Description, R.FilePath, ISNULL(R.PreviewType, 'image') PreviewType, R.EventId 
+                From E
+                Inner Join EventResources R On E.Id = R.EventId";
+
+            var connection = _dbContext.Database.GetDbConnection();
+            try
+            {
+                await connection.OpenAsync();
+                var records = await connection.QueryMultipleAsync(query);
+
+
+                var data = new SessionEventDTO();
+                data = await records.ReadFirstAsync<SessionEventDTO>();
+                data.Resources = await records.ReadAsync<EventResourceDTO>();
+
+                return data;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                connection.Close();
+            }
         }
     }    
 }

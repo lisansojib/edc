@@ -196,7 +196,7 @@ namespace Presentation.Participant.Controllers
         [HttpPost("change-password")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordBindingModel model)
         {
-            var user = await _userRepository.FindAsync(User.Claims.GetUserId());
+            var user = await _userRepository.FindAsync(User.Claims.UserId());
             if (user == null) return BadRequest(new BadRequestResponseModel(ErrorMessages.AuthenticatinError, "Sorry! You don't have an account."));
 
             var (Verified, _) = _passwordHasher.Check(user.Password, model.CurrentPassword);
@@ -221,7 +221,7 @@ namespace Presentation.Participant.Controllers
         [HttpGet("me")]
         public async Task<IActionResult> GetAdmin()
         {
-            var entity = await _userRepository.FindAsync(User.Claims.GetUserId());
+            var entity = await _userRepository.FindAsync(User.Claims.UserId());
 
             if (entity == null)
             {

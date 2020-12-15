@@ -12,5 +12,6 @@ namespace ApplicationCore.Interfaces.Services
 
         Task<IEnumerable<TeamMemberDTO>> GetTeamMembersAsync(string teamName);
 
+        Task<SessionEventDTO> GetEventDetailsAsync(int eventId);
     }
 }

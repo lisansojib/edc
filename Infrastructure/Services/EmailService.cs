@@ -50,7 +50,7 @@ namespace Infrastructure.Services
 
                 using (var client = new SmtpClient())
                 {
-                    client.Connect(_smtpSettings.Host, _smtpSettings.Port, _smtpSettings.EnableSsl);
+                    client.Connect(_smtpSettings.Host, _smtpSettings.Port, MailKit.Security.SecureSocketOptions.Auto);
 
                     // Note: only needed if the SMTP server requires authentication
                     client.Authenticate(_smtpSettings.Username, _smtpSettings.Password);

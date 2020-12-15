@@ -1,6 +1,7 @@
 (function () {
-  var testTool = window.testTool;
-  // get meeting args from url
+    var testTool = window.testTool;
+    // get meeting args from url
+    debugger;
   var tmpArgs = testTool.parseQuery();
   var meetingConfig = {
     apiKey: tmpArgs.apiKey,
@@ -23,7 +24,6 @@
       );
     })(),
     passWord: tmpArgs.pwd,
-    leaveUrl: "/portal/session",
     role: parseInt(tmpArgs.role, 10),
     userEmail: (function () {
       try {
@@ -49,41 +49,79 @@
     ZoomMtg.setZoomJSLib("https://jssdk.zoomus.cn/1.7.10/lib", "/av"); // china cdn option
   ZoomMtg.preLoadWasm();
   ZoomMtg.prepareJssdk();
-  function beginJoin(signature) {
-    ZoomMtg.init({
-      leaveUrl: meetingConfig.leaveUrl,
-      webEndpoint: meetingConfig.webEndpoint,
-      success: function () {
-        console.log(meetingConfig);
-        console.log("signature", signature);
-        $.i18n.reload(meetingConfig.lang);
-        ZoomMtg.join({
-          meetingNumber: meetingConfig.meetingNumber,
-          userName: meetingConfig.userName,
-          signature: signature,
-          apiKey: meetingConfig.apiKey,
-          userEmail: meetingConfig.userEmail,
-          passWord: meetingConfig.passWord,
-          success: function (res) {
-            console.log("join meeting success");
-            console.log("get attendeelist");
-            ZoomMtg.getAttendeeslist({});
-            ZoomMtg.getCurrentUser({
-              success: function (res) {
-                console.log("success getCurrentUser", res.result.currentUser);
-              },
-            });
-          },
-          error: function (res) {
-            console.log(res);
-          },
-        });
-      },
-      error: function (res) {
-        console.log(res);
-      },
-    });
-  }
+    function beginJoin(signature) {
+        var initObj = {
+            webEndpoint: meetingConfig.webEndpoint,
+            success: function () {
+                console.log(meetingConfig);
+                console.log("signature", signature);
+                $.i18n.reload(meetingConfig.lang);
+                ZoomMtg.join({
+                    meetingNumber: meetingConfig.meetingNumber,
+                    userName: meetingConfig.userName,
+                    signature: signature,
+                    apiKey: meetingConfig.apiKey,
+                    userEmail: meetingConfig.userEmail,
+                    passWord: meetingConfig.passWord,
+                    success: function (res) {
+                        console.log("join meeting success");
+                        console.log("get attendeelist");
+                        ZoomMtg.getAttendeeslist({});
+                        ZoomMtg.getCurrentUser({
+                            success: function (res) {
+                                console.log("success getCurrentUser", res.result.currentUser);
+                            },
+                        });
+                    },
+                    error: function (res) {
+                        console.log(res);
+                    },
+                });
+            },
+            error: function (res) {
+                console.log(res);
+            },
+        };
 
-  beginJoin(meetingConfig.signature);
+        debugger;
+        if (tmpArgs.isGuest == 1) {
+            initObj.leaveUrl = "/home/index";
+            initObj.showMeetingHeader = false; //option
+            initObj.disableInvite = false; //optional
+            initObj.disableCallOut = false; //optional
+            initObj.disableRecord = false; //optional
+            initObj.disableJoinAudio = false; //optional
+            initObj.audioPanelAlwaysOpen = true; //optional
+            initObj.showPureSharingContent = false; //optional
+            initObj.isSupportAV = false; //optional
+            initObj.isSupportChat = false; //optional
+            initObj.isSupportQA = true; //optional
+            initObj.isSupportCC = true; //optional
+            initObj.screenShare = true; //optional
+            initObj.rwcBackup = ''; //optional
+            initObj.videoDrag = true; //optional
+            initObj.sharingMode = 'both'; //optional
+            initObj.videoHeader = true; //optional
+            initObj.isLockBottom = true; // optional
+            initObj.isSupportNonverbal = true; // optional
+            initObj.isShowJoiningErrorDialog = true; // optional
+            initObj.inviteUrlFormat = ''; // optional
+            initObj.meetingInfo = [ // optional
+                'topic',
+                'host',
+                'mn',
+                'pwd'
+            ];
+            initObj.disableVoIP = false; // optional
+            initObj.disableReport = false; // optional
+        }
+        else {
+
+            initObj.leaveUrl = "/portal/session",
+        }
+
+        ZoomMtg.init(initObj);
+    }
+
+    beginJoin(meetingConfig.signature);
 })();
