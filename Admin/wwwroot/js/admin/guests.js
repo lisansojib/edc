@@ -102,8 +102,7 @@
                     width: 125,
                     formatter: function (value, row, index, field) {
                         var template =
-                            `
-                            <a class="btn btn-secondary btn-sm make-member" title="Convert to Member">
+                            `<a class="btn btn-secondary btn-sm make-member" title="Convert to Member">
                               <i class="fa fa-user" aria-hidden="true"></i> 
                             </a>
                             <a class="btn btn-primary btn-sm ml-2 edit" title="Edit Guest">
@@ -166,6 +165,13 @@
                     searchable: true,
                     field: "title",
                     title: "Title",
+                    width: 100
+                },
+                {
+                    sortable: true,
+                    searchable: true,
+                    field: "emailCorp",
+                    title: "Email Personal",
                     width: 100
                 },
                 {
@@ -275,17 +281,9 @@
         }
         else resetValidationState($formEl);
 
-        var data = getFormData($formEl);
-
-        data = formDataToJson2(data);
-
         debugger;
-        //data.guestTypeId = parseInt(data.guestTypeId);
-        // Default
-        data.guestTypeId = 2001;
-
+        var data = formDataToJson($formEl);
         data.id = parseInt(data.id);
-        debugger;
 
         if (isNaN(data.id) || data.id <= 0) {
             axios.post('/api/guests', data)

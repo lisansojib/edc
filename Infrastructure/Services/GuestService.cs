@@ -36,17 +36,16 @@ namespace Infrastructure.Services.Home
                 ;WITH 
                 G AS (
 	                SELECT G.Id, G.FirstName, G.LastName, G.EmailPersonal, G.EmailCorp, G.PhonePersonal, G.PhoneCorp, G.LinkedinUrl
-		                , G.CompanyName, G.Title, GT.Name GuestType
+		                , G.CompanyName, G.Title
 	                From Guests G
-	                Left Join ValueFields GT On G.GuestTypeId = GT.Id
                 )
 
                 SELECT Id, FirstName, LastName, EmailPersonal, EmailCorp, PhonePersonal, PhoneCorp, LinkedinUrl
-	                , CompanyName, Title, GuestType, COUNT(*) OVER () as Total 
+	                , CompanyName, Title, COUNT(*) OVER () as Total 
                 FROM G
                 {filterBy} 
                 GROUP By Id, FirstName, LastName, EmailPersonal, EmailCorp, PhonePersonal, PhoneCorp, LinkedinUrl
-	                , CompanyName, Title, GuestType 
+	                , CompanyName, Title 
                 {orderBy}
                 {pageBy}";
 

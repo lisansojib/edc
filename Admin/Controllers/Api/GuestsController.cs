@@ -59,6 +59,7 @@ namespace Presentation.Admin.Controllers.Api
         {
             var entity = _mapper.Map<Guest>(model);            
             entity.CreatedBy = UserId;
+            entity.Email = model.EmailPersonal;
 
             await _repository.AddAsync(entity);
             return Ok();
@@ -77,6 +78,7 @@ namespace Presentation.Admin.Controllers.Api
             entity.PhonePersonal = model.PhonePersonal;
             entity.EmailCorp = model.EmailCorp;
             entity.EmailPersonal = model.EmailPersonal;
+            entity.Email = model.EmailPersonal;
             entity.UpdatedAt = DateTime.Now;
             entity.UpdatedBy = UserId;
 
