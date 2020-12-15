@@ -2,40 +2,40 @@
     var testTool = window.testTool;
     // get meeting args from url
     debugger;
-  var tmpArgs = testTool.parseQuery();
-  var meetingConfig = {
-    apiKey: tmpArgs.apiKey,
-    meetingNumber: tmpArgs.mn,
-    userName: (function () {
-      if (tmpArgs.name) {
-        try {
-          return testTool.b64DecodeUnicode(tmpArgs.name);
-        } catch (e) {
-          return tmpArgs.name;
-        }
-      }
-      return (
-        "CDN#" +
-        tmpArgs.version +
-        "#" +
-        testTool.detectOS() +
-        "#" +
-        testTool.getBrowserInfo()
-      );
-    })(),
-    passWord: tmpArgs.pwd,
-    role: parseInt(tmpArgs.role, 10),
-    userEmail: (function () {
-      try {
-        return testTool.b64DecodeUnicode(tmpArgs.email);
-      } catch (e) {
-        return tmpArgs.email;
-      }
-    })(),
-    lang: tmpArgs.lang,
-    signature: tmpArgs.signature || "",
-    china: tmpArgs.china === "1",
-  };
+    var tmpArgs = testTool.parseQuery();
+    var meetingConfig = {
+        apiKey: tmpArgs.apiKey,
+        meetingNumber: tmpArgs.mn,
+        userName: (function () {
+          if (tmpArgs.name) {
+            try {
+              return testTool.b64DecodeUnicode(tmpArgs.name);
+            } catch (e) {
+              return tmpArgs.name;
+            }
+          }
+          return (
+            "CDN#" +
+            tmpArgs.version +
+            "#" +
+            testTool.detectOS() +
+            "#" +
+            testTool.getBrowserInfo()
+          );
+        })(),
+        passWord: tmpArgs.pwd,
+        role: parseInt(tmpArgs.role, 10),
+        userEmail: (function () {
+          try {
+            return testTool.b64DecodeUnicode(tmpArgs.email);
+          } catch (e) {
+            return tmpArgs.email;
+          }
+        })(),
+        lang: tmpArgs.lang,
+        signature: tmpArgs.signature || "",
+        china: tmpArgs.china === "1",
+    };
 
   // a tool use debug mobile device
   if (testTool.isMobileDevice()) {
@@ -84,16 +84,17 @@
         };
 
         debugger;
-        if (tmpArgs.isGuest == 1) {
+        var isGuest = localStorage.getItem("is_guest");
+        if (isGuest == 1) {
             initObj.leaveUrl = "/home/index";
             initObj.showMeetingHeader = false; //option
-            initObj.disableInvite = false; //optional
+            initObj.disableInvite = true; //optional
             initObj.disableCallOut = false; //optional
             initObj.disableRecord = false; //optional
-            initObj.disableJoinAudio = false; //optional
+            initObj.disableJoinAudio = true; //optional
             initObj.audioPanelAlwaysOpen = true; //optional
             initObj.showPureSharingContent = false; //optional
-            initObj.isSupportAV = false; //optional
+            initObj.isSupportAV = true; //optional
             initObj.isSupportChat = false; //optional
             initObj.isSupportQA = true; //optional
             initObj.isSupportCC = true; //optional
@@ -112,12 +113,11 @@
                 'mn',
                 'pwd'
             ];
-            initObj.disableVoIP = false; // optional
-            initObj.disableReport = false; // optional
+            initObj.disableVoIP = true; // optional
+            initObj.disableReport = true; // optional
         }
         else {
-
-            initObj.leaveUrl = "/portal/session",
+            initObj.leaveUrl = "/portal/session";
         }
 
         ZoomMtg.init(initObj);

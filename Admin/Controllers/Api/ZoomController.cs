@@ -12,6 +12,8 @@ using Presentation.Admin.Models;
 using System.Threading.Tasks;
 using System;
 using ApplicationCore.Models;
+using System.Linq;
+using System.Net;
 
 namespace Presentation.Admin.Controllers.Api
 {
@@ -23,17 +25,20 @@ namespace Presentation.Admin.Controllers.Api
         private readonly IZoomApiService _zoomApiService;
         private readonly IEfRepository<Participant> _participantRepsitory;
         private readonly IEfRepository<ZoomMeeting> _zoomMeetingRepository;
+        private readonly IEfRepository<Event> _eventRepository;
         private readonly IMapper _mapper;
 
         public ZoomController(IZoomApiService zoomApiService
             , IEfRepository<Participant> participantRepsitory
             , IMapper mapper
-            , IEfRepository<ZoomMeeting> zoomMeetingRepository)
+            , IEfRepository<ZoomMeeting> zoomMeetingRepository
+            , IEfRepository<Event> eventRepository)
         {
             _participantRepsitory = participantRepsitory;
             _zoomApiService = zoomApiService;
             _mapper = mapper;
             _zoomMeetingRepository = zoomMeetingRepository;
+            _eventRepository = eventRepository;
         }
 
         [ProducesResponseType(typeof(ErrorResponseModel), 400)]
@@ -45,7 +50,7 @@ namespace Presentation.Admin.Controllers.Api
             var pageNumber = offset.ToPageNumber(limit);
             var response = await _zoomApiService.GetUserListAsync(pageNumber, limit);
 
-            if (response.StatusCode != System.Net.HttpStatusCode.OK) return BadRequest(response.ErrorMessage);
+            if (response.StatusCode != HttpStatusCode.OK) return BadRequest(response.ErrorMessage);
 
             var records = JsonConvert.DeserializeObject<ListZoomUser>(response.Content);
 
@@ -63,7 +68,7 @@ namespace Presentation.Admin.Controllers.Api
             var zoomUserInfo = _mapper.Map<ZoomUserInfo>(participant);
             var response = await _zoomApiService.CreateUserAsync(zoomUserInfo);
 
-            if (response.StatusCode != System.Net.HttpStatusCode.Created) return BadRequest(new BadRequestResponseModel(ErrorTypes.BadRequest, response.ErrorMessage));
+            if (response.StatusCode != HttpStatusCode.Created) return BadRequest(new BadRequestResponseModel(ErrorTypes.BadRequest, response.ErrorMessage));
 
             var zoomUser = JsonConvert.DeserializeObject<ZoomUserInfo>(response.Content);
 
@@ -76,13 +81,30 @@ namespace Presentation.Admin.Controllers.Api
         #region Zoom Meetings
         [ProducesResponseType(typeof(ErrorResponseModel), 400)]
         [ProducesResponseType(typeof(ErrorResponseModel), 500)]
+        [ProducesResponseType(typeof(PagedListViewModel<ZoomMeetingDTO>), 200)]
+        [HttpGet("meetings")]
+        public async Task<IActionResult> GetZoomMeetings(int offset = 0, int limit = 30)
+        {
+            var pageNumber = offset.ToPageNumber(limit);
+            var response = await _zoomApiService.GetListMeetingsAsync(ZoomUserId, pageNumber, limit);
+
+            if (response.StatusCode != HttpStatusCode.OK) return BadRequest(response.ErrorMessage);
+
+            var record = JsonConvert.DeserializeObject<ListZoomMeeting>(response.Content);
+            record.Meetings = record.Meetings.OrderBy(x => x.StartTime).ToList();
+
+            return Ok(new PagedListViewModel<ZoomMeetingDTO>(record.Meetings, (int)record.TotalRecords));
+        }
+
+        [ProducesResponseType(typeof(ErrorResponseModel), 400)]
+        [ProducesResponseType(typeof(ErrorResponseModel), 500)]
         [ProducesResponseType(typeof(ZoomMeetingDTO), 200)]
         [HttpGet("meetings/{meetingId}")]
         public async Task<IActionResult> GetZoomMeetings(long meetingId)
         {
             var response = await _zoomApiService.GetMeetingAsync(meetingId);
 
-            if (response.StatusCode != System.Net.HttpStatusCode.OK) return BadRequest(response.ErrorMessage);
+            if (response.StatusCode != HttpStatusCode.OK) return BadRequest(response.ErrorMessage);
 
             var meeting = JsonConvert.DeserializeObject<ZoomMeetingDTO>(response.Content);
 
@@ -91,34 +113,41 @@ namespace Presentation.Admin.Controllers.Api
 
         [ProducesResponseType(typeof(ErrorResponseModel), 400)]
         [ProducesResponseType(typeof(ErrorResponseModel), 500)]
-        [ProducesResponseType(typeof(PagedListViewModel<ZoomMeetingDTO>), 200)]
-        [HttpGet("meetings")]
-        public async Task<IActionResult> GetZoomMeetings(int offset = 0, int limit = 30)
+        [ProducesResponseType(typeof(ZoomMeetingDTO), 200)]
+        [HttpPost("meetings")]
+        public async Task<IActionResult> CreateZoomMeeting(CreateingZoomMeetingDTO model)
         {
-            var pageNumber = offset.ToPageNumber(limit);
-            var response = await _zoomApiService.GetListMeetingsAsync(ZoomUserId, pageNumber, limit);
+            model.Settings = new ZoomMeetingSettings
+            {
+                ParticipantVideo = false,
+                //AlternativeHosts = Username
+            };
+            var response = await _zoomApiService.CreateMeetingAsync(ZoomUserId, model);
 
-            if (response.StatusCode != System.Net.HttpStatusCode.OK) return BadRequest(response.ErrorMessage);
+            if (response.StatusCode != HttpStatusCode.Created) return BadRequest(response.ErrorMessage);
 
-            var records = JsonConvert.DeserializeObject<ListZoomMeeting>(response.Content);
+            var zoomMeetingInfo = JsonConvert.DeserializeObject<ZoomMeetingDTO>(response.Content);
+            var zoomMeeting = _mapper.Map<ZoomMeeting>(zoomMeetingInfo);
+            zoomMeeting.CreatedBy = UserId;
+            await _zoomMeetingRepository.AddAsync(zoomMeeting);
 
-            return Ok(new PagedListViewModel<ZoomMeetingDTO>(records.Meetings, (int)records.TotalRecords));
+            return Ok(zoomMeeting);
         }
 
         [ProducesResponseType(typeof(ErrorResponseModel), 400)]
         [ProducesResponseType(typeof(ErrorResponseModel), 500)]
         [ProducesResponseType(typeof(ZoomMeetingDTO), 200)]
-        [HttpPost("meetings")]
-        public async Task<IActionResult> CreateZoomMeeting(CreateingZoomMeetingDTO model)
+        [HttpDelete("meetings/{meetingId}")]
+        public async Task<IActionResult> DeleteZoomMeeting(long meetingId)
         {
-            var response = await _zoomApiService.CreateMeetingAsync(ZoomUserId, model);
-            if (response.StatusCode != System.Net.HttpStatusCode.Created) return BadRequest(response.ErrorMessage);
+            var meeting = await _eventRepository.FindAsync(x => x.MeetingId == meetingId);
 
-            var zoomMeeting = JsonConvert.DeserializeObject<ZoomMeeting>(response.Content);
-            zoomMeeting.CreatedBy = UserId;
-            await _zoomMeetingRepository.AddAsync(zoomMeeting);
+            if (meeting != null) return BadRequest($"Can not delete meeting. This meeting is used in an event named \"{meeting.Title}\"");
 
-            return Ok(zoomMeeting);
+            var response = await _zoomApiService.DeleteMeetingAsync(meetingId);
+            if (response.StatusCode != HttpStatusCode.NoContent) return BadRequest(new BadRequestResponseModel(ErrorTypes.BadRequest, response.ErrorMessage));
+
+            return Ok();
         }
         #endregion
     }

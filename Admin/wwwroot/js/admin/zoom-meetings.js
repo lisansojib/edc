@@ -65,15 +65,30 @@
                         var template =
                             `<a class="btn btn-primary btn-sm view"  title="View Meeting Details">
                               <i class="fa fa-eye" aria-hidden="true"></i> 
+                            </a>
+                            <a class="btn btn-danger btn-sm ml-2 remove" href="javascript:" title="Delete Guest">
+                              <i class="fa fa-trash" aria-hidden="true"></i>
                             </a>`;
                         return template;
                     },
                     events: {
                         'click .view': function (e, value, row, index) {
                             e.preventDefault();
-                            debugger;
                             getDetails(row.id);
-                        }
+                        },
+                        'click .remove': function (e, value, row, index) {
+                            e.preventDefault();
+                            showBootboxConfirm("Delete Meeting", "Are you sure you want to delete this?", function (yes) {
+                                if (yes) {
+                                    axios.delete(`/api/zoom/meetings/${row.id}`)
+                                        .then(function () {
+                                            toastr.success(appConstants.ITEM_DELETED_SUCCESSFULLY);
+                                            $table.bootstrapTable('refresh');
+                                        })
+                                        .catch(showResponseError)
+                                }
+                            })
+                        },
                     }
                 },
                 {

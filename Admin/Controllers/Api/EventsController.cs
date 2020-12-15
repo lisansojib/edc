@@ -108,10 +108,18 @@ namespace Presentation.Admin.Controllers.Api
                     Duration = Constants.DEFAULT_ZOOM_MEETING_DURATION,
                     StartTime = model.EventDate
                 };
+
+                createZoomMeetingModel.Settings = new ZoomMeetingSettings
+                {
+                    ParticipantVideo = false,
+                    //AlternativeHosts = Username
+                };
+
                 var response = await _zoomApiService.CreateMeetingAsync(ZoomUserId, createZoomMeetingModel);
                 if (response.StatusCode != System.Net.HttpStatusCode.Created) return BadRequest(response.ErrorMessage);
 
-                zoomMeeting = JsonConvert.DeserializeObject<ZoomMeeting>(response.Content);
+                var zoomMeetingInfo = JsonConvert.DeserializeObject<ZoomMeetingDTO>(response.Content);
+                zoomMeeting = _mapper.Map<ZoomMeeting>(zoomMeetingInfo);
                 zoomMeeting.CreatedBy = UserId;
                 await _zoomMeetingRepository.AddAsync(zoomMeeting);
             }
@@ -151,7 +159,7 @@ namespace Presentation.Admin.Controllers.Api
 
             if(zoomMeeting != null)
             {
-                entity.MeetingId = zoomMeeting.Id.ToString();
+                entity.MeetingId = zoomMeeting.Id;
                 entity.MeetingPassword = zoomMeeting.Password;
             }
 
@@ -231,9 +239,10 @@ namespace Presentation.Admin.Controllers.Api
                 Please <a href='{sessionLink}'>follow this link</a> to directly connect to the event.
                 <br><br>
                 Best Regards,
+                <br>
                 {Username}";
 
-            await _emailService.SendEmailAsync(Username, model.GuestEmail, $"Connect to {model.EventTitle}", messageBody, false);
+            await _emailService.SendEmailAsync(Username, model.GuestEmail, $"Invitation to join \"{model.EventTitle}\"", messageBody, false);
             return Ok();
         }
     }

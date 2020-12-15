@@ -92,6 +92,8 @@ namespace Presentation.Admin.Automapping
             CreateMap<Participant, ZoomUserInfo>();
 
             CreateMap<ApplicationCore.Entities.Admin, ZoomUserInfo>();
+
+            CreateMap<ZoomMeetingDTO, ZoomMeeting>();
         }
     }
 }

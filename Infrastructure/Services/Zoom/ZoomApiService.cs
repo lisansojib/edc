@@ -76,6 +76,8 @@ namespace Infrastructure.Services
                 Agenda = model.Agenda
             };
 
+            zoomMeeting.Settings = model.Settings;
+
             var requestBody = JsonConvert.SerializeObject(zoomMeeting);
 
             var client = new RestClient($"{ZoomSettings.ZOOM_API_ENDPOINT}/users/{zoomUserId}/meetings");
@@ -83,6 +85,17 @@ namespace Infrastructure.Services
             request.AddHeader("content-type", "application/json");
             request.AddHeader("authorization", $"Bearer {token}");
             request.AddParameter("application/json", requestBody, ParameterType.RequestBody);
+            IRestResponse response = await client.ExecuteAsync(request);
+            return response;
+        }
+
+        public async Task<IRestResponse> DeleteMeetingAsync(long meetingId)
+        {
+            var token = GetJwtToken();
+
+            var client = new RestClient($"{ZoomSettings.ZOOM_API_ENDPOINT}/meetings/{meetingId}");
+            var request = new RestRequest(Method.DELETE);
+            request.AddHeader("authorization", $"Bearer {token}");
             IRestResponse response = await client.ExecuteAsync(request);
             return response;
         }

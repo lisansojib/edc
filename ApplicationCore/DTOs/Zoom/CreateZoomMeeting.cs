@@ -9,6 +9,7 @@ namespace ApplicationCore.DTOs
         public DateTime StartTime { get; set; }
         public int Duration { get; set; }
         public string Agenda { get; set; }
+        public ZoomMeetingSettings Settings { get; set; }
     }
 
     public class CreateZoomMeeting 
@@ -16,7 +17,7 @@ namespace ApplicationCore.DTOs
         public CreateZoomMeeting()
         {
             Type = ZoomMeetingType.Scheduled;
-            Password = ExtensionMethods.GeneratePassword(8, 2);
+            Password = ExtensionMethods.GeneratePassword(6, 2);
             Timezone = "America/New_York";
         }
 
@@ -102,37 +103,37 @@ namespace ApplicationCore.DTOs
         }
 
         [JsonProperty("host_video")]
-        public string HostVideo { get; set; }
+        public bool HostVideo { get; set; }
 
         [JsonProperty("participant_video")]
-        public string ParticipantVideo { get; set; }
+        public bool ParticipantVideo { get; set; }
 
         /// <summary>
         /// Host meeting in china
         /// </summary>
         [JsonProperty("cn_meeting")]
-        public string CnMeeting { get; set; }
+        public bool CnMeeting { get; set; }
 
         /// <summary>
         /// Host meeting in India
         /// </summary>
         [JsonProperty("in_meeting")]
-        public string InMeeting { get; set; }
+        public bool InMeeting { get; set; }
 
         /// <summary>
         /// Allow participants to join the meeting before the host starts the meeting. This field can only used for scheduled or recurring meetings. If waiting room is enabled, the join before host setting will be disabled.
         /// </summary>
         [JsonProperty("join_before_host")]
-        public string JoinBeforeHost { get; set; }
+        public bool JoinBeforeHost { get; set; }
 
         [JsonProperty("mute_upon_entry")]
-        public string MuteUponEntry { get; set; }
+        public bool MuteUponEntry { get; set; }
 
         [JsonProperty("watermark")]
-        public string Watermark { get; set; }
+        public bool Watermark { get; set; }
 
         [JsonProperty("use_pmi")]
-        public string UsePmi { get; set; }
+        public bool UsePmi { get; set; }
 
         [JsonProperty("approval_type")]
         public ZoomMeetingApproval ApprovalType { get; set; }

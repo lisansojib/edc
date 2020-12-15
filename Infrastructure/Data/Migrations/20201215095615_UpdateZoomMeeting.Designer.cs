@@ -4,14 +4,16 @@ using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201215095615_UpdateZoomMeeting")]
+    partial class UpdateZoomMeeting
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -259,8 +261,8 @@ namespace Infrastructure.Data.Migrations
                         .HasMaxLength(250)
                         .HasDefaultValue("");
 
-                    b.Property<long?>("MeetingId")
-                        .HasColumnType("bigint");
+                    b.Property<string>("MeetingId")
+                        .HasColumnType("varchar(20)");
 
                     b.Property<string>("MeetingPassword")
                         .HasColumnType("varchar(20)");

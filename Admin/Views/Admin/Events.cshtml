@@ -52,35 +52,25 @@
                             <input type="hidden" name="id" id="id" value="0" />
                             <div class="col">
                                 <div class="form-group">
+                                    <label for="title">Title <sup>&#x2605;</sup></label>
+                                    <input type="text" class="form-control" id="title" name="title">
+                                </div>
+                                <div class="form-group">
                                     <label for="eventTypeId">Event Type <sup>&#x2605;</sup></label>
                                     <select id="eventTypeId" name="eventTypeId" class="form-control" style="width: 100%"></select>
                                 </div>
-
-                                <div class="form-group">
-                                    <label for="cohortId">Cohort <sup>&#x2605;</sup></label>
-                                    <select id="cohortId" name="cohortId" class="form-control" style="width: 100%"></select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="eventDate">Event Date <sup>&#x2605;</sup></label>
-                                    <input type="datetime-local" class="form-control" id="eventDate" name="eventDate">
-                                </div>
-
-                                <div class="form-group d-none" id="fg-session">
+                                @*<div class="form-group d-none" id="fg-session">
                                     <label for="sessionId">Session</label>
                                     <select id="sessionId" name="sessionId" class="form-control" style="width: 100%"></select>
-                                </div>
-
+                                </div>*@
                                 <div class="form-group d-none" id="fg-speaker">
                                     <label for="speakerIds">Speakers</label>
                                     <select id="speakerIds" name="speakerIds" class="form-control" style="width: 100%" multiple></select>
                                 </div>
-
                                 <div class="form-group d-none" id="fg-sponsor">
                                     <label for="sponsorIds">Sponsor</label>
                                     <select id="sponsorIds" name="sponsorIds" class="form-control" style="width: 100%" multiple></select>
                                 </div>
-
                                 <div class="form-group d-none" id="fg-presenter">
                                     <label for="presenterId">Presenter</label>
                                     <select id="presenterId" name="presenterId" class="form-control" style="width: 100%"></select>
@@ -89,20 +79,21 @@
 
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="title">Title <sup>&#x2605;</sup></label>
-                                    <input type="text" class="form-control" id="title" name="title">
+                                    <label for="eventDate">Event Date <sup>&#x2605;</sup></label>
+                                    <input type="datetime-local" class="form-control" id="eventDate" name="eventDate">
                                 </div>
-
+                                <div class="form-group">
+                                    <label for="cohortId">Cohort <sup>&#x2605;</sup></label>
+                                    <select id="cohortId" name="cohortId" class="form-control" style="width: 100%"></select>
+                                </div>
                                 <div class="form-group">
                                     <label for="description">Description</label>
-                                    <textarea class="form-control" rows="5" id="description" name="description"></textarea>
+                                    <textarea class="form-control" rows="3" id="description" name="description"></textarea>
                                 </div>
-
                                 <div class="form-group d-none" id="fg-cto">
                                     <label for="ctoId">CTO</label>
                                     <select id="ctoId" name="ctoId" class="form-control" style="width: 100%"></select>
                                 </div>
-
                                 <div class="form-check form-check-flat form-check-primary" id="fg-createZoomMeeting">
                                     <label class="form-check-label">
                                         <input type="checkbox" class="form-check-input" id="createZoomMeeting" name="createZoomMeeting" checked>

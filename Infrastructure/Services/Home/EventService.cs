@@ -35,7 +35,7 @@ namespace Infrastructure.Services
             var query = $@"
                 ;With
                 Evts As (
-	                Select E.Id, C.Name CohortName, E.Title, E.Description
+	                Select E.Id, C.Name CohortName, E.Title, E.Description, E.MeetingId, E.MeetingPassword
 						, E.EventDate, STRING_AGG(SV.FirstName + ' ' + SV.LastName + ' (' + SV.Title + ')', ', ') [Speakers], STRING_AGG(SPV.CompanyName, ', ') [Sponsors]
                     From Events E
 					Inner Join Cohorts C On E.CohortId = C.Id
@@ -43,10 +43,10 @@ namespace Infrastructure.Services
                     Left Join EventSponsors SP On E.Id = SP.EventId
                     Left Join Speakers SV On S.SpeakerId = SV.Id
                     Left Join Sponsors SPV On SP.SponsorId = SPV.Id
-                    Group By E.Id, E.Title, E.EventDate, E.Description, C.Name
+                    Group By E.Id, E.Title, E.EventDate, E.Description, E.MeetingId, E.MeetingPassword, C.Name
                 )
 
-                Select Evts.Id, Evts.Title, Evts.Description, Evts.EventDate, Evts.Speakers, Evts.Sponsors, COUNT(*) OVER () as Total 
+                Select Id, Title, Description, EventDate, Speakers, Sponsors, MeetingId, MeetingPassword, COUNT(*) OVER () as Total 
                 From Evts
                 {filterBy}
                 {orderBy}

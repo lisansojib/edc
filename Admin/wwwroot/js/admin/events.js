@@ -119,6 +119,20 @@
                 {
                     sortable: true,
                     searchable: true,
+                    field: "meetingId",
+                    title: "Meeting Id",
+                    width: 100
+                },
+                {
+                    sortable: true,
+                    searchable: true,
+                    field: "meetingPassword",
+                    title: "Meeting Pwd",
+                    width: 100
+                },
+                {
+                    sortable: true,
+                    searchable: true,
                     field: "description",
                     title: "Description",
                     width: 100
@@ -171,7 +185,7 @@
         tableParams.offset = 0;
         tableParams.limit = 10;
         tableParams.filter = '';
-        tableParams.sort = 'name';
+        tableParams.sort = 'title';
         tableParams.order = '';
     }
 

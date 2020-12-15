@@ -11,6 +11,7 @@ namespace ApplicationCore.Interfaces.Services
         Task<IRestResponse> GetListMeetingsAsync(string zoomUserId, int pageNumber = 1, int pageSize = 30);
         Task<IRestResponse> GetMeetingAsync(long meetingId);
         Task<IRestResponse> CreateMeetingAsync(string zoomUserId, CreateingZoomMeetingDTO model);
+        Task<IRestResponse> DeleteMeetingAsync(long meetingId);
         string GetJwtToken();
     }
 }

@@ -24,6 +24,8 @@ namespace ApplicationCore.DTOs
         public string Sponsors { get; set; }
         public string Attendees { get; set; }
         public string CohortName { get; set; }
+        public long MeetingId { get; set; }
+        public string MeetingPassword { get; set; }
         public IEnumerable<Select2Option> SpeakerList { get; set; }
         public IEnumerable<Select2Option> SponsorList { get; set; }
         public IEnumerable<Select2Option> EventTypeList { get; set; }

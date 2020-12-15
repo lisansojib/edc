@@ -30,8 +30,6 @@ namespace Infrastructure.Data.Configurations
 
             builder.Property(t => t.UpdatedAt).HasColumnType("datetime");
 
-            builder.Property(t => t.MeetingId).HasColumnType("varchar(20)");
-
             builder.Property(t => t.MeetingPassword).HasColumnType("varchar(20)");
 
             builder

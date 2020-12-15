@@ -4,11 +4,6 @@
 }
 
 @section styles{
-    
-    <!-- import #zmmtg-root css -->
-    @*<link type="text/css" rel="stylesheet" href="https://source.zoom.us/1.7.10/css/bootstrap.css" />
-    <link type="text/css" rel="stylesheet" href="https://source.zoom.us/1.7.10/css/react-select.css" />*@
-
     <link href="~/css/common.css" rel="stylesheet" />
 }
 
@@ -22,83 +17,80 @@
 <input type="hidden" name="eventId" id="eventId" value="@ViewBag.EventId" />
 
 <div class="row">
-
-    @*Contains the Zoom player*@
     <div class="col-md-7 col-sm-12 grid-margin stretch-card">
 
         <div class="card iframe-card">
             <div class="card-body embed-responsive embed-responsive-16by9">
-                <iframe scrolling="no" class="embed-responsive-item" src='@Url.Action("Zoom", "Portal")' frameBorder="0"></iframe>
+                <iframe scrolling="no" class="embed-responsive-item" src='@Url.Action("Zoom", "Guest", new { eventId = @ViewBag.EventId})' frameBorder="0"></iframe>
             </div>
         </div>
 
     </div>
 
-@*Contains the chat box*@
+    <div class="col-md-5 col-sm-12 grid-margin">
+        <div class="card h-100">
+            <div class="card-body chat-card-body">
+                <div class="row position-relative">
+                    <div class="col chat-content">
 
-<div class="col-md-5 col-sm-12 grid-margin">
-    <div class="card h-100">
-        <div class="card-body chat-card-body">
-            <div class="row position-relative">
-                <div class="col chat-content">
-
-                    <div class="chat-header border-bottom pb-2">
-                        <div class="d-flex justify-content-between">
-                            <div class="d-flex align-items-center">
-                                <figure class="mb-0 mr-2">
-                                    <img src="https://via.placeholder.com/43x43" class="img-sm rounded-circle" alt="image">
-                                    <div class="status online"></div>
-                                    <div class="status online"></div>
-                                </figure>
-                                <div>
-                                    <p id="d-name">@User.Claims.FullName()</p>
-                                    <p id="d-channel" class="text-muted tx-13 font-weight-bold"></p>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center mr-n1">
-                                <a role="button" id="swith-user">
-                                    <i data-feather="refresh-ccw" class="icon-lg text-muted" data-toggle="tooltip" title="Switch User"></i> <span class="text-muted">Switch User</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="chat-body">
-                        <ul class="messages">
-                            <li class="message-item friend">
-                                <img src="https://via.placeholder.com/43x43" class="img-xs rounded-circle" alt="avatar">
-                                <div class="content">
-                                    <div class="message">
-                                        <div class="bubble">
-                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                        </div>
-                                        <span>8:12 PM</span>
+                        <div class="chat-header border-bottom pb-2">
+                            <div class="d-flex justify-content-between">
+                                <div class="d-flex align-items-center">
+                                    <figure class="mb-0 mr-2">
+                                        <img src="https://via.placeholder.com/43x43" class="img-sm rounded-circle" alt="image">
+                                        <div class="status online"></div>
+                                        <div class="status online"></div>
+                                    </figure>
+                                    <div>
+                                        <p id="d-name">@User.Claims.FullName()</p>
+                                        <p id="d-channel" class="text-muted tx-13 font-weight-bold"></p>
                                     </div>
                                 </div>
-                            </li>
-                        </ul>
-                    </div>
+                                <div class="d-flex align-items-center mr-n1">
+                                    <a role="button" id="swith-user">
+                                        <i data-feather="refresh-ccw" class="icon-lg text-muted" data-toggle="tooltip" title="Switch User"></i> <span class="text-muted">Switch User</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
 
-                    <div class="chat-footer d-flex">
-                        <div class="dropup">
-                            <button class="btn p-0 border btn-icon rounded-circle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal"></i>
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="smile" class="icon-sm mr-2"></i> <span class="">Emoji</span></a>
-                                <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="paperclip" class="icon-sm mr-2"></i> <span class="">Attatch files</span></a>
-                                <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="mic" class="icon-sm mr-2"></i> <span class="">Record you voice</span></a>
-                            </div>
+                        <div class="chat-body">
+                            <ul class="messages">
+                                <li class="message-item friend">
+                                    <img src="https://via.placeholder.com/43x43" class="img-xs rounded-circle" alt="avatar">
+                                    <div class="content">
+                                        <div class="message">
+                                            <div class="bubble">
+                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                                            </div>
+                                            <span>8:12 PM</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
-                        <div class="search-form flex-grow mr-2">
-                            <div class="input-group">
-                                <input type="text" class="form-control rounded-pill" id="txt-message" placeholder="Type a message">
+
+                        <div class="chat-footer d-flex">
+                            <div class="dropup">
+                                <button class="btn p-0 border btn-icon rounded-circle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal"></i>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="smile" class="icon-sm mr-2"></i> <span class="">Emoji</span></a>
+                                    <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="paperclip" class="icon-sm mr-2"></i> <span class="">Attatch files</span></a>
+                                    <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="mic" class="icon-sm mr-2"></i> <span class="">Record you voice</span></a>
+                                </div>
                             </div>
-                        </div>
-                        <div>
-                            <button type="button" id="btn-send" class="btn btn-primary btn-icon rounded-circle">
-                                <i data-feather="send"></i>
-                            </button>
+                            <div class="search-form flex-grow mr-2">
+                                <div class="input-group">
+                                    <input type="text" class="form-control rounded-pill" id="txt-message" placeholder="Type a message">
+                                </div>
+                            </div>
+                            <div>
+                                <button type="button" id="btn-send" class="btn btn-primary btn-icon rounded-circle">
+                                    <i data-feather="send"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -106,9 +98,6 @@
         </div>
     </div>
 </div>
-</div>
-
-@*Contains the event information*@
 
 <div class="row">
     <div class="col col-xl-12 stretch-card">
@@ -118,7 +107,6 @@
 </div>
 
 @section scripts{
-
     <script src="~/js/session-bundle.min.js" asp-append-version="true"></script>
     <script src="~/js/portal/session.js" asp-append-version="true"></script>
 }

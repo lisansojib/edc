@@ -220,7 +220,6 @@ namespace Infrastructure.Services
                 await connection.OpenAsync();
                 var records = await connection.QueryMultipleAsync(query);
 
-
                 var data = new SessionEventDTO();
                 data = await records.ReadFirstAsync<SessionEventDTO>();
                 data.Resources = await records.ReadAsync<EventResourceDTO>();

@@ -37,13 +37,13 @@ namespace ApplicationCore.DTOs
         public string Topic { get; set; }
 
         [JsonProperty("type")]
-        public long Type { get; set; }
+        public int Type { get; set; }
 
         [JsonProperty("start_time")]
         public DateTime StartTime { get; set; }
 
         [JsonProperty("duration")]
-        public long Duration { get; set; }
+        public int Duration { get; set; }
 
         [JsonProperty("timezone")]
         public string Timezone { get; set; }
@@ -56,5 +56,8 @@ namespace ApplicationCore.DTOs
 
         [JsonProperty("password")]
         public string Password { get; set; }
+
+        [JsonProperty("agenda")]
+        public string Agenda { get; set; }
     }
 }

@@ -49,12 +49,12 @@
 
     testTool.setCookie("meeting_pwd", document.getElementById("meeting_pwd").value);
     testTool.setCookie("meeting_number", document.getElementById("meeting_number").value);
-    testTool.setCookie("is_guest", document.getElementById("is_guest").value);
       
   // click join iframe buttong
   document.getElementById("join_meeting")
       .addEventListener("click", function (e) {
           e.preventDefault();
+          localStorage.setItem("is_guest", document.getElementById("is_guest").value);
           var meetingConfig = testTool.getMeetingConfig();
           if (!meetingConfig.mn || !meetingConfig.name) {
             alert("Meeting number or username is empty");
@@ -66,7 +66,9 @@
             apiSecret: API_SECRET,
             role: meetingConfig.role,
               success: function (res) {
+                  debugger;
                   console.log(res.result);
+                  $("#join_meeting").hide();
                   meetingConfig.signature = res.result;
                   meetingConfig.apiKey = API_KEY;
                   var joinUrl = testTool.getCurrentDomain() + "/guest/meeting?" + testTool.serialize(meetingConfig);
