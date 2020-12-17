@@ -135,11 +135,7 @@ namespace Presentation.Admin.Controllers.Api
 
             if (model.SessionId.NullOrEmpty()) entity.SessionId = Guid.NewGuid().ToString();
 
-            if(model.EventTypeId != 12 && model.Files == null)
-            {
-                return BadRequest(new BadRequestResponseModel(ErrorTypes.BadRequest, ErrorMessages.MissingRequiredItem));
-            }
-            else if(model.EventTypeId != 12)
+            if(model.Files != null && model.Files.Count() > 0)
             {
                 entity.EventFolder = DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString();
                 var folderPath = Path.Combine(_hostEnvironment.WebRootPath, UploadFolders.UPLOAD_PATH, UploadFolders.EVENTS, entity.EventFolder);

@@ -38,9 +38,6 @@
             length: {
                 maximum: 20
             }
-        },
-        companyId: {
-            presence: true
         }
     };
 
@@ -182,20 +179,15 @@
     }
 
     function loadTableData() {
-        debugger;
         //$table.bootstrapTable('showLoading');
         var queryParams = $.param(tableParams);
         var url = `/api/speakers?${queryParams}`;
         axios.get(url)
             .then(function (response) {
-                debugger;
                 $table.bootstrapTable('load', response.data);
-                //$table.bootstrapTable('hideLoading');
+                $table.bootstrapTable('hideLoading');
             })
-            .catch(function (err) {
-                debugger;
-                var v = err;
-            })
+            .catch(showResponseError)
     }
 
     function resetTableParams() {
@@ -235,7 +227,6 @@
 
         var data = formDataToJson($formEl);
         data.id = parseInt(data.id);
-        data.companyId = parseInt(data.companyId);
 
         if (isNaN(data.id) || data.id <= 0) {
             axios.post('/api/speakers', data)

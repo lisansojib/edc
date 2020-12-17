@@ -208,7 +208,7 @@
                         showButtons: false,
                         tpl: '<input type="number" class="form-control input-sm" min="0" style="padding-right: 24px;">',
                         validate: function (value) {
-                            if (!value || !value.trim() || isNaN(parseInt(value)) || parseInt(value) <= 0) {
+                            if (!value || !value.trim() || isNaN(parseInt(value)) || parseInt(value) < 0) {
                                 return 'Must be a positive integer.';
                             }
                         }
@@ -244,9 +244,9 @@
     function getDetails(id) {
         axios.get(`/api/polls/${id}`)
             .then(function (response) {
-                var data = response.data;
-                setFormData($formEl, data);
-
+                poll = response.data;
+                setFormData($formEl, poll);
+                initPollDataPointTbl(poll.dataPoints);
                 $("#poll-modal-label").text("Edit Poll");
                 $("#poll-modal").modal("show");
             })
@@ -261,7 +261,6 @@
                 poll = response.data;
                 setFormData($formEl, poll);
                 initPollDataPointTbl(poll.dataPoints);
-                $tblPollDataPoint.bootstrapTable('hideLoading')
                 $("#poll-modal").modal("show");
             })
             .catch(function (err) {

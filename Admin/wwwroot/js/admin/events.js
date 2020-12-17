@@ -391,43 +391,26 @@
         if (sponsors) data.sponsors = sponsors.map(function (el) { return { id: el.id, text: el.text } });
 
         // Check for networking event
-        if ($("#eventTypeId").val !== "12") {
-
+        var eventType = $("#eventTypeId").select2("data")[0].text;
+        if (eventType != eventTypeConstants.EDC_NETWORKING) {
             data.resources = [];
-            var errors = '';
-            var isValid = true;
 
             for (var i = 1; i <= resourceCount; i++) {
                 var title = $(`#resourceTitle-${i}`).val();
-                if (!title || !title.trim()) {
-                    errors += `\nResource ${i} - Title can't be empty`;
-                    isValid = false;
-                }
-
                 var description = $(`#resourceDescription-${i}`).val();
-
                 var file = $(`#resourceFile-${i}`)[0].files[0];
-                if (!file) {
-                    errors += `\nResource ${i} - File can't be empty`;
-                    isValid = false;
+
+                if (file) {
+                    var newResource = {
+                        title: title,
+                        description: description,
+                        file: file
+                    }
+
+                    data.resources.push(newResource);
                 }
-
-                var newResource = {
-                    title: title,
-                    description: description,
-                    file: file
-                }
-
-                data.resources.push(newResource);
-            }
-
-            if (!isValid) {
-                toastr.error(errors);
-                resetLoadingButton(thisBtn, originalText);
-                return;
             }
         }
-
 
         var formData = new FormData();
         buildFormData(formData, data);

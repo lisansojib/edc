@@ -61,7 +61,7 @@
       "wwwroot/lib/bootstrap-fileinput/js/fileinput.min.js",
       "wwwroot/lib/bootstrap-fileinput/themes/fa/theme.min.js",
       "wwwroot/nobleui/assets/js/template.js",
-      "wwwroot/js/utilities.js",
+      //"wwwroot/js/utilities.js",
       "wwwroot/js/site.js"
     ]
   },

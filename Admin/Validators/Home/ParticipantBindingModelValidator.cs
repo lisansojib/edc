@@ -13,7 +13,6 @@ namespace Presentation.Admin.Validators
             RuleFor(x => x.Email).NotEmpty().EmailAddress();
             RuleFor(x => x.EmailCorp).NotEmpty().EmailAddress();
             RuleFor(x => x.EmailPersonal).NotEmpty().EmailAddress();
-            RuleFor(x => x.Password).MaximumLength(20);
             RuleFor(x => x.Phone).MaximumLength(20);
             RuleFor(x => x.PhoneCorp).MaximumLength(20);
             RuleFor(x => x.LinkedinUrl).MaximumLength(250);

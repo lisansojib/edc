@@ -74,15 +74,13 @@ namespace Presentation.Admin.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] ParticipantBindingModel model)
+        public async Task<IActionResult> Create([FromForm] ParticipantBindingModel model)
         {
-            if (model.Password.IsNullOrEmpty()) return BadRequest(new BadRequestResponseModel(ErrorTypes.BadRequest, "Password is required."));
-
             var entity = _mapper.Map<Participant>(model);
+            entity.PlainPassword = ExtensionMethods.GeneratePassword(6, 2);
+            entity.Password = _passwordHasher.Hash(entity.PlainPassword);
             entity.Username = model.Email;
             entity.CreatedBy = UserId;
-
-            if (entity.Password.NotNullOrEmpty()) entity.Password = _passwordHasher.Hash(model.Password);
 
             if (model.Photo != null && model.Photo.Length > 0)
             {
@@ -106,7 +104,7 @@ namespace Presentation.Admin.Controllers.Api
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] ParticipantBindingModel model)
+        public async Task<IActionResult> Update([FromForm] ParticipantBindingModel model)
         {
             var entity = await _repository.FindAsync(model.Id);
 

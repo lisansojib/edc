@@ -38,16 +38,16 @@ namespace Infrastructure.Services
             var query = $@"
                 ;With 
                 P As (
-	                Select P.Id, P.Username, P.FirstName, P.LastName, P.Email, P.Verified, P.Phone, P.Mobile
+	                Select P.Id, P.Username, P.FirstName, P.LastName, P.Email, P.Verified, P.Phone, P.Mobile, P.PlainPassword Password
 	                , P.Title, P.Active, P.PhotoUrl, P.DateSuspended, P.EmailCorp, P.PhoneCorp, P.LinkedinUrl, P.CompanyName
 	                From Participants P
                 )
 
-                Select Id, Username, FirstName,	LastName, Email, Verified, Phone, Mobile, Title, Active, PhotoUrl
+                Select Id, Username, FirstName,	LastName, Email, Verified, Phone, Mobile, Title, Active, PhotoUrl, Password
 	                ,DateSuspended,	EmailCorp, PhoneCorp, LinkedinUrl, CompanyName, COUNT(*) OVER () as Total 
                 From P
                 {filterBy}
-                Group By Id, Username, FirstName,	LastName, Email, Verified, Phone, Mobile, Title, Active, PhotoUrl
+                Group By Id, Username, FirstName,	LastName, Email, Verified, Phone, Mobile, Title, Active, PhotoUrl, Password
 	                ,DateSuspended,	EmailCorp, PhoneCorp, LinkedinUrl, CompanyName 
                 {orderBy}
                 {pageBy}";

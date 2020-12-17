@@ -47,12 +47,6 @@
             length: {
                 maximum: 250
             }
-        },
-        companyName: {
-            presence: true,
-            length: {
-                maximum: 100
-            }
         }
     };
 
@@ -73,7 +67,6 @@
         $formEl = $("#participant-form");
 
         $("#add-new-participant").click(function () {
-            $("#fg-password").show();
             $("#participant-modal-label").text("Add new Participant");
             $formEl.trigger("reset");
             initNewFileInput($("#photo"));
@@ -140,6 +133,11 @@
                     searchable: true,
                     field: "username",
                     title: "Username",
+                    width: 100
+                },
+                {
+                    field: "password",
+                    title: "Password",
                     width: 100
                 },
                 {
@@ -260,14 +258,13 @@
         tableParams.offset = 0;
         tableParams.limit = 10;
         tableParams.filter = '';
-        tableParams.sort = 'name';
+        tableParams.sort = 'username';
         tableParams.order = '';
     }
 
     function getDetails(id) {
         axios.get(`/api/participants/${id}`)
             .then(function (response) {
-                $("#fg-password").hide();
                 setFormData($formEl, response.data);
                 previewFileInput(response.data.id, response.data.photoUrl, $("#photo"));
                 $("#participant-modal-label").text("Edit Participant");
@@ -294,18 +291,24 @@
         else resetValidationState($formEl);
 
         debugger;
-        var data = getFormData($formEl);
-        data.id = parseInt(data.id);
-        data.active = convertToBoolean(data.active);
-        data.verified = convertToBoolean(data.verified);
+        var formData = getFormData($formEl);
+        var id = parseInt($formEl.find("#Id").val());
   
         var files = $("#photo")[0].files;
-        if (files.length > 0) data.append("photo", files[0]);
+        if (files.length > 0) formData.append("photo", files[0]);
 
-        data.email = $("input[name='primaryEmail']:checked").val() === 'work' ? data.emailCorp : data.emailPersonal;
+        var email = $("input[name='primaryEmail']:checked").val() === 'work' ? $formEl.find("#emailCorp") : $formEl.find("#emailPersonal");
+        formData.append("email", email);
 
-        if (isNaN(data.id) || data.id <= 0) {
-            axios.post('/api/participants', data)
+        var config = {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': "Bearer " + localStorage.getItem("token")
+            }
+        }
+
+        if (isNaN(id) || id <= 0) {
+            axios.post('/api/participants', formData, config)
                 .then(function () {
                     toastr.success("Participant added successfully!");
                     resetLoadingButton(thisBtn, originalText);
@@ -318,7 +321,7 @@
                 });
         }
         else {
-            axios.put('/api/participants', data)
+            axios.put('/api/participants', formData, config)
                 .then(function () {
                     toastr.success("Participant updated successfully!");
                     resetLoadingButton(thisBtn, originalText);

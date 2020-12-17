@@ -19,6 +19,7 @@ namespace Infrastructure.Data.Config
             builder.Property(t => t.LastName).HasColumnType("varchar(100)");
             builder.Property(t => t.Email).IsRequired().HasColumnType("varchar(500)");
             builder.Property(t => t.Password).HasMaxLength(100);
+            builder.Property(t => t.PlainPassword).HasMaxLength(20);
             builder.Property(t => t.Phone).HasColumnType("varchar(20)");
             builder.Property(t => t.Mobile).HasColumnType("varchar(20)");
             builder.Property(t => t.Title).HasColumnType("varchar(100)");

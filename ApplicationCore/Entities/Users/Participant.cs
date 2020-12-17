@@ -16,6 +16,7 @@ namespace ApplicationCore.Entities
         public string PhoneCorp { get; set; }
         public string LinkedinUrl { get; set; }
         public string CompanyName { get; set; }
+        public string PlainPassword { get; set; }
         public int CreatedBy { get; set; }
         public int UpdatedBy { get; set; }
 
