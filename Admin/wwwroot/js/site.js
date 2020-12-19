@@ -26,6 +26,10 @@ var loginProviders = Object.freeze({
     GOOGLE: "Google"
 });
 
+var graphTypes = Object.freeze({
+    PIE_CHART: "Pie Chart"
+});
+
 var pKeys = Object.freeze({
     PUBLISH_KEY: "pub-c-96e4cfae-dc9f-4a2f-97fd-08794a7a7d48",
     SUBSCRIBE_KEY: "sub-c-3974af1a-858f-11ea-a961-f6bfeb2ef611"

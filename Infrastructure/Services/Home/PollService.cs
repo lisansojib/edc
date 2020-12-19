@@ -28,7 +28,7 @@ namespace Infrastructure.Services
                 ;SELECT Cast(VF.Id As varchar) Id, VF.Name [Text], VT.Name [Desc]
                 FROM ValueFields VF
                 INNER JOIN ValueFieldTypes VT On VF.TypeId = VT.Id
-                WHERE VT.Name In('{ValueFieldTypeNames.GraphTypeName}');
+                WHERE VF.Active = 1 And VT.Name In('{ValueFieldTypeNames.GraphTypeName}');
 
                 ;SELECT Cast(E.Id As varchar) Id, E.Title [text]
                 FROM Events E";

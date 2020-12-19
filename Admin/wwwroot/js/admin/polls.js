@@ -37,7 +37,9 @@
 
         $("#btn-save-poll").click(save);
 
-        $("#add-new-data-point").click(addNewDataPoint);
+        $("#add-data-point").click(addNewDataPoint);
+
+        $("#generate-graph").click(generateGraph);
     });
 
     function initTbl() {
@@ -211,7 +213,6 @@
         axios.get(url)
             .then(function (response) {
                 $table.bootstrapTable('load', response.data);
-                console.log(response.data);
                 $table.bootstrapTable('hideLoading');
             })
             .catch(function (err) {
@@ -259,6 +260,38 @@
         var maxId = getMaxIdForArray(poll.dataPoints, "id");
         poll.dataPoints.push({ "id": maxId, "pollId": poll.id, "name": "", "value": 0 });
         $tblPollDataPoint.bootstrapTable("load", poll.dataPoints);
+    }
+
+    function generateGraph(e) {
+        e.preventDefault();
+
+        try {
+            var graphType = $("#graphTypeId").select2("data")[0].text;
+
+            debugger;
+            if (graphType == graphTypes.PIE_CHART) {
+                var series = poll.dataPoints.map(function (el) { return el.value });
+                var labels = poll.dataPoints.map(function (el) { return el.name });
+                var options = {
+                    series: series,
+                    chart: {
+                        height: 300,
+                        type: 'pie',
+                    },
+                    labels: labels,
+                    legend: {
+                        position: 'top',
+                        horizontalAlign: 'center'
+                    }
+                };
+
+                var chart = new ApexCharts(document.querySelector("#chart"), options);
+                chart.render();
+            }
+        } catch (e) {
+            toastr.error("Can not generate graph.");
+        }
+        
     }
 
     function save(e) {

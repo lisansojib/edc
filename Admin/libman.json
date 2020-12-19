@@ -182,6 +182,16 @@
         "bootstrap3-editable/js/bootstrap-editable.js",
         "bootstrap3-editable/js/bootstrap-editable.min.js"
       ]
+    },
+    {
+      "library": "apexcharts@3.23.0",
+      "destination": "wwwroot/lib/apexcharts/",
+      "files": [
+        "apexcharts.min.css",
+        "apexcharts.min.js",
+        "apexcharts.js",
+        "apexcharts.css"
+      ]
     }
   ]
 }

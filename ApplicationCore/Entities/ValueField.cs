@@ -30,6 +30,7 @@ namespace ApplicationCore.Entities
         public int TypeId { get; set; }
 
         public int SeqNo { get; set; }
+        public bool Active { get; set; }
 
         public virtual ValueFieldType ValueFieldType { get; set; }
 
