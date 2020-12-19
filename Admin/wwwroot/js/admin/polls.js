@@ -11,13 +11,7 @@
         graphTypeId: {
             presence: true,
         },
-        panelId: {
-            presence: true,
-        },
-        originId: {
-            presence: true,
-        },
-        pollDate: {
+        eventId: {
             presence: true,
         }
     };
@@ -117,25 +111,15 @@
                 {
                     sortable: true,
                     searchable: true,
-                    field: "panelName",
-                    title: "Panel",
+                    field: "event",
+                    title: "Event",
                     width: 100
                 },
                 {
                     sortable: true,
                     searchable: true,
-                    field: "originName",
-                    title: "Origin",
-                    width: 100
-                },
-                {
-                    sortable: true,
-                    searchable: true,
-                    field: "pollDate",
-                    title: "PollDate",
-                    formatter: function (value, row, index, field) {
-                        return formatDateToDDMMYYYY(value);
-                    },
+                    field: "cohort",
+                    title: "Cohort",
                     width: 100
                 }],
             onPageChange: function (number, size) {
@@ -170,12 +154,13 @@
     function initPollDataPointTbl(data) {
         $tblPollDataPoint.bootstrapTable('destroy');
         $tblPollDataPoint.bootstrapTable({
-            toolbar: "#tblPollDataPoints", 
+            toolbar: "#tblToolbarPollDataPoints", 
             uniqueId: "id",
             columns: [
                 {
                     title: 'Actions',
                     align: 'center',
+                    width: 50,
                     formatter: function (value, row, index, field) {
                         var template =
                             `<a class="btn btn-danger btn-sm ml-2 remove" href="javascript:" title="Delete Poll Data">
@@ -216,6 +201,7 @@
                 }],
             data: data
         });
+        $tblPollDataPoint.bootstrapTable("hideLoading")
     }
 
     function loadTableData() {
@@ -295,8 +281,7 @@
         var data = formDataToJson($formEl);
         data.id = parseInt(data.id);
         data.graphTypeId = parseInt(data.graphTypeId);
-        data.originId = parseInt(data.originId);
-        data.panelId = parseInt(data.panelId);
+        data.eventId = parseInt(data.eventId);
         data.dataPoints = poll.dataPoints;
         data.dataPoints.forEach(function (item) {
             item.value = parseFloat(item.value);

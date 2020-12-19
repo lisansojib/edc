@@ -9,9 +9,7 @@ namespace Presentation.Admin.Validators
         {
             RuleFor(x => x.GraphTypeId).NotEmpty();
             RuleFor(x => x.Name).MaximumLength(100);
-            RuleFor(x => x.PanelId).NotEmpty();
-            RuleFor(x => x.OriginId).NotEmpty();
-            RuleFor(x => x.PollDate).NotEmpty();
+            RuleFor(x => x.EventId).NotEmpty();
         }
     }
 }

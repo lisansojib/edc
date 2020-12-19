@@ -38,17 +38,6 @@ namespace Presentation.Admin.Controllers.Api
             _dbContext = dbContext;
         }
 
-        /// <summary>
-        /// Get data for creating a new poll
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        [Route("new")]
-        public async Task<IActionResult> GetPollData()
-        {
-            return Ok(await _service.GetNewAsync());
-        }
-
         [HttpGet]
         public async Task<IActionResult> Get(int offset = 0, int limit = 10, string filter = null, string sort = null, string order = null)
         {
@@ -58,6 +47,13 @@ namespace Presentation.Admin.Controllers.Api
             var response = new PagedListViewModel<PollDTO>(records, records.FirstOrDefault()?.Total);
 
             return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("new")]
+        public async Task<IActionResult> GetNew()
+        {
+            return Ok(await _service.GetNewAsync());
         }
 
         [HttpGet("{id}")]
@@ -70,9 +66,9 @@ namespace Presentation.Admin.Controllers.Api
             var model = _mapper.Map<PollDTO>(entity);
 
             var evtData = await _service.GetNewAsync();
-            model.OriginList = evtData.OriginList;
+            model.CohortList = evtData.CohortList;
             model.GraphTypeList = evtData.GraphTypeList;
-            model.PanelList = evtData.PanelList;
+            model.EventList = evtData.EventList;
 
             return Ok(model);
         }
@@ -91,15 +87,13 @@ namespace Presentation.Admin.Controllers.Api
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] PollBindingModel model)
         {
-            var entity = await _repository.FindAsync(model.Id);
+            var entity = await _repository.FindAsyncWithInclude(model.Id, x => x.DataPoints);
 
             if (entity == null) return BadRequest(new BadRequestResponseModel(ErrorTypes.BadRequest, ErrorMessages.ItemNotFound));
 
             entity.GraphTypeId = model.GraphTypeId;
             entity.Name = model.Name;
-            entity.PollDate = model.PollDate;
-            entity.PanelId = model.PanelId;
-            entity.OriginId = model.OriginId;
+            entity.EventId = model.EventId;
             entity.UpdatedAt = DateTime.Now;
             entity.UpdatedBy = UserId;
 

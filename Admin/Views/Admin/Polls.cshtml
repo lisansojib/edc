@@ -55,35 +55,39 @@
                                 <input type="text" class="form-control" id="name" name="name">
                             </div>
                             <div class="form-group">
-                                <label for="pollDate">Poll Date<sup>&#x2605;</sup></label>
-                                <input type="date" class="form-control" id="pollDate" name="pollDate">
-                            </div>
-                            <div class="form-group">
                                 <label for="graphTypeId">Graph Type<sup>&#x2605;</sup></label>
                                 <select type="text" class="form-control" id="graphTypeId" name="graphTypeId"></select>
                             </div>
                         </div>
                         <div class="col-6">
+                            @*<div class="form-group">
+                                <label for="cohortId">Cohort <sup>&#x2605;</sup></label>
+                                <select id="cohortId" name="cohortId" class="form-control" style="width: 100%"></select>
+                            </div>*@
                             <div class="form-group">
-                                <label for="originId">Origin <sup>&#x2605;</sup></label>
-                                <select id="originId" name="originId" class="form-control" style="width: 100%"></select>
-                            </div>
-                            <div class="form-group">
-                                <label for="panelId">Panel <sup>&#x2605;</sup></label>
-                                <select id="panelId" name="panelId" class="form-control" style="width: 100%"></select>
+                                <label for="eventId">Event <sup>&#x2605;</sup></label>
+                                <select id="eventId" name="eventId" class="form-control" style="width: 100%"></select>
                             </div>
                         </div>
                     </div>
                 </form>
 
-                <div class="table-responsive">
-                    <div id="tblToolbarPollDataPoints" class="mb-1">
-                        <button class="btn btn-primary" id="add-new-data-point">
-                            <i class="fa fa-plus"></i>&nbsp;Add New Data Point
-                        </button>
+                <div class="row">
+                    <div class="col">
+                        <div class="table-responsive">
+                            <div id="tblToolbarPollDataPoints" class="mb-1">
+                                <button class="btn btn-outline-primary" id="add-new-data-point">
+                                    <i class="fa fa-plus"></i>&nbsp;Add New Data Point
+                                </button>
+                            </div>
+                            <table id="tblPollDataPoints"></table>
+                        </div>
                     </div>
-                    <table id="tblPollDataPoints"></table>
+                    <div class="col">
+
+                    </div>
                 </div>
+                
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

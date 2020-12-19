@@ -79,6 +79,92 @@ function showBootboxSelectPrompt(title, optionsArray, size, value, callback) {
 }
 
 /**
+ * Show Bootbox Select2 Dialog
+ * @param {any} label - Label for Select element
+ * @param {any} elId - HTML element id
+ * @param {any} title - Bootbox title
+ * @param {any} data - Select2 options
+ * @param {any} callback - callback function
+ */
+function showBootboxSelect2Dialog(label, elId, title, data, callback) {
+    var dialog = bootbox.dialog({
+        message: '<div class="form-group">'
+            + '<label class= "control-label col-md-3">' + label + '</label>'
+            + '<div class="col-md-9">'
+            + '<select id="' + elId + '" class="form-control" style="width:100%"></select>'
+            + '</div>'
+            + '</div>'
+            + '<div class="clearfix"></div><br>',
+        title: title,
+        animate: true,
+        buttons: {
+            cancel: {
+                label: "Cancel",
+                className: 'btn-danger m-w-100',
+                callback: function () {
+                    return callback(null);
+                }
+            },
+            ok: {
+                label: "Ok",
+                className: 'btn-primary m-w-100',
+                callback: function () {
+                    var selectedData = $('#' + elId).select2('data')[0];
+                    return callback(selectedData);
+                }
+            }
+        }
+    });
+
+    dialog.on('shown.bs.modal', function () {
+        dialog.removeAttr("tabindex");
+        initSelect2($('#' + elId), data);
+    });
+}
+
+/**
+ * Show Bootbox Select2 Dialog
+ * @param {any} label - Label for Select element
+ * @param {any} elId - HTML element id
+ * @param {any} title - Bootbox title
+ * @param {any} data - Select2 options
+ * @param {any} callback - callback function
+ */
+function showBootboxSelect2MultipleDialog(label, elId, title, data, callback) {
+    var dialog = bootbox.dialog({
+        message:
+            `<div class="form-group">
+                <label for="${elId}">${label}</label>
+                <select id="${elId}" name="${elId}" class="form-control" style="width: 100%"></select>
+            </div>`,
+        title: title,
+        animate: true,
+        buttons: {
+            cancel: {
+                label: "Cancel",
+                className: 'btn-danger m-w-100',
+                callback: function () {
+                    return callback(null);
+                }
+            },
+            ok: {
+                label: "Ok",
+                className: 'btn-primary m-w-100',
+                callback: function () {
+                    var selectedData = $('#' + elId).select2('data');
+                    return callback(selectedData);
+                }
+            }
+        }
+    });
+
+    dialog.on('shown.bs.modal', function () {
+        dialog.removeAttr("tabindex");
+        initSelect2($('#' + elId), data);
+    });
+}
+
+/**
  * Preview on image load
  * @param {Event} event - onchange evnet
  * @param {HTMLElement} - Preview Element
@@ -499,17 +585,27 @@ function showValidationToast(errorObj) {
 }
 
 function showResponseError(error) {
-    var messages = error.response.data.title || error.response.data.Title;
-    var errors = error.response.data.errors || error.response.data.Errors;
-    if (typeof errors === 'object' && errors !== null) {
+    console.log(error);
+    if (error.response && error.response.data) {
+        var messages = error.response.data.title || error.response.data.Title;
+        var errors = error.response.data.errors || error.response.data.Errors;
+        if (typeof errors === 'object' && errors !== null) {
 
-        for (var property in errors) {
-            messages += errors[property].join('<br>');
+            for (var property in errors) {
+                try {
+                    messages += errors[property].join('<br>');
+                } catch (e) {
+                    continue;
+                }
+            }
+
+            toastr.error(messages);
         }
-
-        toastr.error(messages);
+        else toastr.error(errors);
     }
-    else toastr.error(errors);
+    else {
+        toastr.error(error);
+    }
 }
 
 function previewFileInput(id, url, $el) {
@@ -556,7 +652,7 @@ function initNewFileInput($el) {
  * @param {Array} constraints - Array of Constraints
  */
 function initializeValidation(container, constraints) {
-    extendValidation();    
+    extendValidation();
     var inputs = container.find("input[name], select[name], textarea[name]");
     for (var i = 0; i < inputs.length; ++i) {
         inputs[i].addEventListener("change", function (ev) {

@@ -585,18 +585,27 @@ function showValidationToast(errorObj) {
 }
 
 function showResponseError(error) {
-    debugger;
-    var messages = error.response.data.title || error.response.data.Title;
-    var errors = error.response.data.errors || error.response.data.Errors;
-    if (typeof errors === 'object' && errors !== null) {
+    console.log(error);
+    if (error.response && error.response.data) {
+        var messages = error.response.data.title || error.response.data.Title;
+        var errors = error.response.data.errors || error.response.data.Errors;
+        if (typeof errors === 'object' && errors !== null) {
 
-        for (var property in errors) {
-            messages += errors[property].join('<br>');
+            for (var property in errors) {
+                try {
+                    messages += errors[property].join('<br>');
+                } catch (e) {
+                    continue;
+                }
+            }
+
+            toastr.error(messages);
         }
-
-        toastr.error(messages);
+        else toastr.error(errors);
     }
-    else toastr.error(errors);
+    else {
+        toastr.error(error);
+    }
 }
 
 function previewFileInput(id, url, $el) {

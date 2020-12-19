@@ -12,10 +12,8 @@ namespace ApplicationCore.Entities
         }
         
         public string Name { get; set; }
-        public DateTime PollDate { get; set; }
         public int GraphTypeId { get; set; }
-        public int PanelId { get; set; }
-        public int OriginId { get; set; }
+        public int EventId { get; set; }
         public int CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
         public int? UpdatedBy { get; set; }

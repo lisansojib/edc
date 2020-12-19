@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace ApplicationCore.DTOs
 {
@@ -7,23 +6,20 @@ namespace ApplicationCore.DTOs
     {
         public PollDTO()
         {
-            Name = "";
-            PollDate = DateTime.Now;
             DataPoints = new List<PollDataPointDTO>();
         }
 
         public string Name { get; set; }
-        public DateTime PollDate { get; set; }
         public int GraphTypeId { get; set; }
-        public int PanelId { get; set; }
-        public int OriginId { get; set; }
+        public int EventId { get; set; }
+        public int CohortId { get; set; }
         public string GraphType { get; set; }
-        public string PanelName { get; set; }
-        public string OriginName { get; set; }
+        public string Event { get; set; }
+        public string Cohort { get; set; }
         public List<PollDataPointDTO> DataPoints { get; set; }
-        public IEnumerable<Select2Option> OriginList { get; set; }
+        public IEnumerable<Select2Option> CohortList { get; set; }
         public IEnumerable<Select2Option> GraphTypeList { get; set; }
-        public IEnumerable<Select2Option> PanelList { get; set; }
+        public IEnumerable<Select2Option> EventList { get; set; }
     }
 
     public class PollDataPointDTO : BaseDTO

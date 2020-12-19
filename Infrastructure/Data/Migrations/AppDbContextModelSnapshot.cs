@@ -704,6 +704,9 @@ namespace Infrastructure.Data.Migrations
                     b.Property<int>("CreatedBy")
                         .HasColumnType("int");
 
+                    b.Property<int>("EventId")
+                        .HasColumnType("int");
+
                     b.Property<int>("GraphTypeId")
                         .HasColumnType("int");
 
@@ -711,15 +714,6 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
-
-                    b.Property<int>("OriginId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PanelId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("PollDate")
-                        .HasColumnType("datetime");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime");
