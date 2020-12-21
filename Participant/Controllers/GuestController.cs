@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace Presentation.Participant.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class GuestController : Controller
     {
         private readonly IEfRepository<Event> _eventRepository;

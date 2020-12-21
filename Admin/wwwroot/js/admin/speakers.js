@@ -1,6 +1,5 @@
 ﻿(function () {
     var $table, $formEl;
-    var companies = [];
 
     var validationConstraints = {
         firstName: {
@@ -28,9 +27,9 @@
             }
         },
         linkedInUrl: {
-            presence: true,
+            //url: true,
             length: {
-                maximum: 100,
+                maximum: 500,
             }
         },
         phone: {
@@ -44,7 +43,7 @@
     var tableParams = {
         offset: 0,
         limit: 10,
-        sort: 'firstName',
+        sort: '',
         order: '',
         filter: ''
     };
@@ -57,13 +56,11 @@
 
         $formEl = $("#speaker-form");
 
-        getCompanies();
-
-        $("#add-new-speaker").click(function () {
+        $("#add-new").click(function () {
             $("#speaker-modal-label").text("Add new Speaker");
             $formEl.trigger("reset");
             $("#speaker-modal").modal("show");
-        });
+        })
 
         $("#btn-save-speaker").click(save);
     });
@@ -92,7 +89,7 @@
                     width: 125,
                     formatter: function (value, row, index, field) {
                         var template =
-                            `<a class="btn btn-primary btn-sm edit" title="Edit Speaker">
+                            `<a class="btn btn-primary btn-sm edit"  title="Edit Speaker">
                               <i class="fa fa-edit" aria-hidden="true"></i> 
                             </a>
                             <a class="btn btn-danger btn-sm ml-2 remove" href="javascript:" title="Delete Speaker">
@@ -124,15 +121,15 @@
                     sortable: true,
                     searchable: true,
                     field: "firstName",
-                    title: "FirstName",
+                    title: "First Name",
                     width: 100
                 },
                 {
                     sortable: true,
                     searchable: true,
                     field: "lastName",
-                    title: "LastName",
-                    width: 100
+                    title: "Last Name",
+                    width: 300
                 },
                 {
                     sortable: true,
@@ -147,8 +144,7 @@
                     field: "companyName",
                     title: "Company Name",
                     width: 100
-                }
-            ],
+                }],
             onPageChange: function (number, size) {
                 var newOffset = (number - 1) * size;
                 var newLimit = size;
@@ -179,7 +175,7 @@
     }
 
     function loadTableData() {
-        //$table.bootstrapTable('showLoading');
+        $table.bootstrapTable('showLoading');
         var queryParams = $.param(tableParams);
         var url = `/api/speakers?${queryParams}`;
         axios.get(url)
@@ -194,7 +190,7 @@
         tableParams.offset = 0;
         tableParams.limit = 10;
         tableParams.filter = '';
-        tableParams.sort = 'firstName';
+        tableParams.sort = '';
         tableParams.order = '';
     }
 
@@ -254,14 +250,6 @@
                     showResponseError(err);
                 });
         }
-    }
-
-    function getCompanies() {
-        axios.get("/api/select-options/companies")
-            .then(function (response) {
-                companies = response.data;
-            })
-            .catch(showResponseError);
     }
 })();
 

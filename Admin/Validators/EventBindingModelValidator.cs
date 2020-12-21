@@ -7,9 +7,9 @@ namespace Presentation.Admin.Validators
     {
         public EventBindingModelValidator()
         {
-            //RuleFor(x => x.Title).NotEmpty().MaximumLength(100);
-            //RuleFor(x => x.Description).MaximumLength(1000);
-            //RuleFor(x => x.EventDate).NotEmpty();
+            RuleFor(x => x.Title).NotEmpty().MaximumLength(100);
+            RuleFor(x => x.Description).MaximumLength(1000);
+            RuleFor(x => x.EventDate).NotEmpty();
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Infrastructure.Data.Configurations
 
             builder.Property(t => t.Phone).IsRequired().HasColumnType("varchar(20)");
 
-            builder.Property(t => t.LinkedInUrl).IsRequired().HasColumnType("varchar(500)");
+            builder.Property(t => t.LinkedInUrl).HasColumnType("varchar(500)");
 
             builder.Property(t => t.CompanyName).HasColumnType("varchar(100)");
 

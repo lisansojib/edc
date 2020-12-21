@@ -71,17 +71,17 @@
                             `<a class="btn btn-primary btn-sm edit" title="Edit Event">
                               <i class="fa fa-edit" aria-hidden="true"></i> 
                             </a>
-                            <a class="btn btn-primary btn-sm edit" title="Share Event with Guest">
+                            <a class="btn btn-primary btn-sm share" title="Share Event with Guest">
                               <i class="fa fa-share" aria-hidden="true"></i> 
                             </a>
-                            <a class="btn btn-danger btn-sm ml-2 remove" href="javascript:" title="Delete Event">
+                            <a class="btn btn-danger btn-sm remove" href="javascript:" title="Delete Event">
                               <i class="fa fa-trash" aria-hidden="true"></i>
                             </a>`;
                         return template;
                     },
                     events: {
                         'click .edit': getDetails,
-                        'click .edit': shareEventLink,
+                        'click .share': shareEventLink,
                         'click .remove': removeEvent
                     }
                 },
@@ -176,9 +176,7 @@
                 $table.bootstrapTable('load', response.data);
                 $table.bootstrapTable('hideLoading');
             })
-            .catch(function (err) {
-                toastr.error(err.response.data.Message);
-            })
+            .catch(showResponseError)
     }
 
     function resetTableParams() {
@@ -203,9 +201,7 @@
                 removeResources();
                 $("#event-modal").modal("show");
             })
-            .catch(function (err) {
-                toastr.error(err.response.data);
-            });
+            .catch(showResponseError);
     }
 
     function getDetails(e, value, row, index) {
@@ -218,9 +214,7 @@
                 $("#event-modal-label").text("Edit Event");
                 $("#event-modal").modal("show");
             })
-            .catch(function (err) {
-                toastr.error(err.response.data);
-            });
+            .catch(showResponseError);
     }
 
     function removeEvent(e, value, row, index) {
@@ -232,9 +226,7 @@
                         toastr.success(appConstants.ITEM_DELETED_SUCCESSFULLY);
                         $table.bootstrapTable('refresh');
                     })
-                    .catch(function (err) {
-                        toastr.error(err.response.data.message);
-                    })
+                    .catch(showResponseError)
             }
         })
     }
@@ -248,9 +240,11 @@
                 "Select one or many guest.", "GuestIds",
                 "Share event link to one or more guest.",
                 response.data,
+                true,
                 function (data) {
-                    debugger;
-                    var toEmail = data.map(function (el) { return el.text }).join(';');
+                    if (!data) return;
+
+                    var toEmail = data.map(function (el) { return el.text });
                     var model = {
                         "guestEmail": toEmail,
                         "eventId": eventId,
@@ -432,7 +426,7 @@
                 })
                 .catch(function (err) {
                     resetLoadingButton(thisBtn, originalText);
-                    toastr.error(JSON.stringify(err.response.data.errors));
+                    showResponseError(err);
                 });
         }
         else {
@@ -445,7 +439,7 @@
                 })
                 .catch(function (err) {
                     resetLoadingButton(thisBtn, originalText);
-                    toastr.error(JSON.stringify(err.response.data.errors));
+                    showResponseError(err);
                 });
         }
     }

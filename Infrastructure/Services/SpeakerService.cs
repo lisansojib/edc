@@ -28,15 +28,8 @@ namespace Infrastructure.Services
             var pageBy = $@"Offset {offset} Rows Fetch Next {limit} Rows Only";
 
             var query = $@"
-                With
-                S As (
-	                Select S.Id, S.FirstName, S.LastName, S.Title, C.Name CompanyName 
-	                From Speakers S
-	                Inner Join Companies C On S.CompanyId = C.Id
-                )
-
                 Select Id, FirstName, LastName, Title, CompanyName, COUNT(*) OVER () as Total
-                From S
+                From Speakers
                 {filterBy}
                 Group By Id, FirstName, LastName, Title, CompanyName
                 {orderBy}

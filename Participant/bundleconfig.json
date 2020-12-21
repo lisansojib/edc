@@ -99,5 +99,55 @@
       "wwwroot/lib/bootstrap-fileinput/js/fileinput.min.js",
       "wwwroot/lib/bootstrap-fileinput/themes/fa/theme.min.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/guest/session.min.js",
+    "inputFiles": [
+      "wwwroot/js/guest/session.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/portal/schedule.min.js",
+    "inputFiles": [
+      "wwwroot/js/portal/schedule.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/portal/session.min.js",
+    "inputFiles": [
+      "wwwroot/js/portal/session.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/zoom/zoom-meeting.bundle.js",
+    "inputFiles": [
+      "wwwroot/js/zoom/zoom-meeting-1.7.9.1.min.js",
+      "wwwroot/js/zoom/tool.js",
+      "wwwroot/js/zoom/vconsole.min.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/zoom/index.min.js",
+    "inputFiles": [
+      "wwwroot/js/zoom/index.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/zoom/meeting.min.js",
+    "inputFiles": [
+      "wwwroot/js/zoom/meeting.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/account/profile.min.js",
+    "inputFiles": [
+      "wwwroot/js/account/profile.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/portal/team-members.min.js",
+    "inputFiles": [
+      "wwwroot/js/portal/team-members.js"
+    ]
   }
 ]

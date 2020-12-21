@@ -30,6 +30,7 @@
             email: true
         },
         website: {
+            //url: true,
             length: {
                 maximum: 250
             }

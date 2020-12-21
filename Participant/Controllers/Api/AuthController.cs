@@ -67,6 +67,8 @@ namespace Presentation.Participant.Controllers
 
             if (!Verified) return BadRequest(new BadRequestResponseModel(ErrorMessages.AuthenticatinError, "Password does not match."));
 
+            if (!user.Active || !user.Verified) return BadRequest(new BadRequestResponseModel(ErrorMessages.AuthenticatinError, "You are not active user."));
+
             return Ok(GetTokenResponse(user, model.RememberMe));
         }
 
@@ -104,6 +106,8 @@ namespace Presentation.Participant.Controllers
                 }
             }
 
+            if (!user.Active || !user.Verified) return BadRequest(new BadRequestResponseModel(ErrorMessages.AuthenticatinError, "You are not active user."));
+
             var loginUser = _mapper.Map<ApplicationCore.Entities.Participant, UserViewModel>(user);
 
             return Ok(GetTokenResponse(loginUser, false));
@@ -125,8 +129,8 @@ namespace Presentation.Participant.Controllers
             user.Username = model.Email;
 
             // Later this fields will be enabled disabled by apis as required.
-            user.Verified = true;
-            user.Active = true;
+            user.Verified = false;
+            user.Active = false;
 
             await _userRepository.AddAsync(user);
 
@@ -142,9 +146,7 @@ namespace Presentation.Participant.Controllers
             user.ZoomUserId = zoomUser.Id;
             await _userRepository.UpdateAsync(user);
 
-            var loginUser = _mapper.Map<ApplicationCore.Entities.Participant, UserViewModel>(user);
-
-            return Ok(GetTokenResponse(loginUser, false));
+            return Ok();
         }
 
         [ProducesResponseType(typeof(ErrorResponseModel), 400)]
@@ -259,13 +261,13 @@ namespace Presentation.Participant.Controllers
         {
             UserViewModel user = _mapper.Map<ApplicationCore.Entities.Participant, UserViewModel>(await _userRepository.FindAsync(x => x.Email == email));
 
-            if (user == null)
-            {
-                var guest = await _guestRepository.FindAsync(x => x.Email == email);
-                user = _mapper.Map<Guest, UserViewModel>(guest);
-                user.IsGuest = true;
-                user.Role = guest.Role;
-            }
+            //if (user == null)
+            //{
+            //    var guest = await _guestRepository.FindAsync(x => x.Email == email);
+            //    user = _mapper.Map<Guest, UserViewModel>(guest);
+            //    user.IsGuest = true;
+            //    user.Role = guest.Role;
+            //}
 
             return user;
         }

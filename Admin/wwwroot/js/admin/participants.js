@@ -15,14 +15,12 @@
             }
         },
         emailCorp: {
-            presence: true,
             email: true,
             length: {
                 maximum: 500
             }
         },
         emailPersonal: {
-            presence: true,
             email: true,
             length: {
                 maximum: 500
@@ -44,6 +42,7 @@
             }
         },
         linkedinUrl: {
+            //url: true,
             length: {
                 maximum: 250
             }

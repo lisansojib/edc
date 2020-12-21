@@ -7,8 +7,8 @@ namespace Presentation.Admin.Validators
     {
         public ShareEventLinkBindingModelValidator()
         {
-            //RuleFor(x => x.GuestName).NotEmpty();
-            RuleFor(x => x.GuestEmail).NotEmpty().EmailAddress();
+            RuleFor(x => x.GuestEmails).NotEmpty();
+            RuleForEach(x => x.GuestEmails).NotEmpty().EmailAddress();
             RuleFor(x => x.EventId).NotEmpty();
             RuleFor(x => x.EventTitle).NotEmpty();
         }

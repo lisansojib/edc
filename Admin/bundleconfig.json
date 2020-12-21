@@ -61,7 +61,7 @@
       "wwwroot/lib/bootstrap-fileinput/js/fileinput.min.js",
       "wwwroot/lib/bootstrap-fileinput/themes/fa/theme.min.js",
       "wwwroot/nobleui/assets/js/template.js",
-      //"wwwroot/js/utilities.js",
+      "wwwroot/js/utilities.js",
       "wwwroot/js/site.js"
     ]
   },
@@ -81,6 +81,84 @@
     "outputFileName": "wwwroot/js/dashboard.min.js",
     "inputFiles": [
       "wwwroot/js/account/dashboard.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/admin/zoom-users.min.js",
+    "inputFiles": [
+      "wwwroot/js/admin/zoom-users.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/admin/zoom-meetings.min.js",
+    "inputFiles": [
+      "wwwroot/js/admin/zoom-meetings.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/admin/teams.min.js",
+    "inputFiles": [
+      "wwwroot/js/admin/teams.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/admin/sponsor.min.js",
+    "inputFiles": [
+      "wwwroot/js/admin/sponsor.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/admin/speakers.min.js",
+    "inputFiles": [
+      "wwwroot/js/admin/speakers.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/admin/polls.min.js",
+    "inputFiles": [
+      "wwwroot/js/admin/polls.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/admin/pendingSpeakers.min.js",
+    "inputFiles": [
+      "wwwroot/js/admin/pendingSpeakers.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/admin/participants.min.js",
+    "inputFiles": [
+      "wwwroot/js/admin/participants.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/admin/guests.min.js",
+    "inputFiles": [
+      "wwwroot/js/admin/guests.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/admin/events.min.js",
+    "inputFiles": [
+      "wwwroot/js/admin/events.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/admin/companies.min.js",
+    "inputFiles": [
+      "wwwroot/js/admin/companies.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/admin/announcements.min.js",
+    "inputFiles": [
+      "wwwroot/js/admin/announcements.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/account/profile.min.js",
+    "inputFiles": [
+      "wwwroot/js/account/profile.js"
     ]
   }
 ]

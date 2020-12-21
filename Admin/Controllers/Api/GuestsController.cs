@@ -59,7 +59,9 @@ namespace Presentation.Admin.Controllers.Api
         {
             var entity = _mapper.Map<Guest>(model);            
             entity.CreatedBy = UserId;
-            entity.Email = model.EmailPersonal;
+            entity.Email = model.EmailPersonal.NotNullOrEmpty() ? model.EmailPersonal : model.EmailCorp;
+
+            if (await _repository.ExistsAsync(x => x.Email == entity.Email)) return BadRequest(new BadRequestResponseModel(ErrorTypes.BadRequest, "There is already one guest with this email"));
 
             await _repository.AddAsync(entity);
             return Ok();
@@ -78,7 +80,7 @@ namespace Presentation.Admin.Controllers.Api
             entity.PhonePersonal = model.PhonePersonal;
             entity.EmailCorp = model.EmailCorp;
             entity.EmailPersonal = model.EmailPersonal;
-            entity.Email = model.EmailPersonal;
+            entity.Email = model.EmailPersonal.NotNullOrEmpty() ? model.EmailPersonal : model.EmailCorp;
             entity.UpdatedAt = DateTime.Now;
             entity.UpdatedBy = UserId;
 

@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Zoom Meetings";
 }
 
@@ -51,7 +50,7 @@
                                 <small id="durationHelp" class="form-text text-muted">Meeting duration in minutes. Default 30 minutes.</small>
                             </div>
                             <div class="form-group">
-                                <label for="startTime">Meeting Agenda<sup>&#x2605;</sup></label>
+                                <label for="agenda">Meeting Agenda<sup>&#x2605;</sup></label>
                                 <textarea class="form-control" rows="3" placeholder="Write details about your meeting" id="agenda" name="agenda"></textarea>
                             </div>
                         </div>
@@ -104,5 +103,5 @@
 </div>
 
 @section scripts{
-    <script src="~/js/admin/zoom-meetings.js" asp-append-version="true"></script>
+    <script src="~/js/admin/zoom-meetings.min.js" asp-append-version="true"></script>
 }

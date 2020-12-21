@@ -91,6 +91,11 @@ namespace System
             return value.HasValue ? value.Value.ToString("yyyy-MM-dd") : "";
         }
 
+        public static string ToHtmlDateTimeLocalFormat(this DateTime value)
+        {
+            return value.ToString("yyyy-MM-ddTHH:mm");
+        }
+
         public static string NullableObjectToString(this object value)
         {
             return value == null ? "" : value.ToString();

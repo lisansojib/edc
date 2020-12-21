@@ -8,7 +8,6 @@
     function getCompanies() {
         axios.get("/api/select-options/companies")
             .then(function (response) {
-                debugger;
                 initSelect2($("#companyId"), response.data);
             })
             .catch(function (err) {
@@ -33,15 +32,15 @@
             return;
         }
 
-        debugger;
         var data = formDataToJson($formEl);
         data.companyId = parseInt(data.companyId);
 
         axios.post('/api/auth/register', data)
-            .then(function (response) {
+            .then(function () {
                 resetLoadingButton(thisBtn, originalText);
-                localStorage.setItem("token", response.data.accessToken);
-                loginToApp(response.data);
+                window.location.href = appConstants.LOGIN_PATH;
+                //localStorage.setItem("token", response.data.accessToken);
+                //loginToApp(response.data);
             })
             .catch(function (err) {
                 resetLoadingButton(thisBtn, originalText);

@@ -24,7 +24,7 @@ namespace Infrastructure.Services.Home
         {
             if (filterBy.NotNullOrEmpty())
                 filterBy = $@"WHERE FirstName LIKE '%{filterBy}%' OR LastName LIKE '%{filterBy}%' OR Title LIKE '%{filterBy}%' 
-                            OR EmailPersonal LIKE '%{filterBy}%'
+                            OR Email LIKE '%{filterBy}%' OR EmailPersonal LIKE '%{filterBy}%'
                             OR EmailCorp LIKE '%{filterBy}%' OR PhoneCorp LIKE '%{filterBy}%'
                             OR CompanyName  LIKE '%{filterBy}%'";
             else filterBy = "";
@@ -36,16 +36,16 @@ namespace Infrastructure.Services.Home
                 ;WITH 
                 G AS (
 	                SELECT G.Id, G.FirstName, G.LastName, G.EmailPersonal, G.EmailCorp, G.PhonePersonal, G.PhoneCorp, G.LinkedinUrl
-		                , G.CompanyName, G.Title
+		                , G.CompanyName, G.Title, G.Email
 	                From Guests G
                 )
 
                 SELECT Id, FirstName, LastName, EmailPersonal, EmailCorp, PhonePersonal, PhoneCorp, LinkedinUrl
-	                , CompanyName, Title, COUNT(*) OVER () as Total 
+	                , CompanyName, Title, Email, COUNT(*) OVER () as Total 
                 FROM G
                 {filterBy} 
                 GROUP By Id, FirstName, LastName, EmailPersonal, EmailCorp, PhonePersonal, PhoneCorp, LinkedinUrl
-	                , CompanyName, Title 
+	                , CompanyName, Title, Email 
                 {orderBy}
                 {pageBy}";
 

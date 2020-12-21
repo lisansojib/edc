@@ -6,8 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@ViewData["Title"] | EDC Admin</title>
 
-    <link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="~/css/admin.min.css" />
+    <link rel="stylesheet" href="~/css/admin.min.css" asp-append-version="true" />
     @RenderSection("styles", false)
 </head>
 <body>
@@ -29,11 +28,11 @@
                 <ul class="nav">
                     <li class="nav-item nav-category">Main</li>
                     @*<li class="nav-item">
-            <a href="#." class="nav-link">
-                <i class="link-icon" data-feather="box"></i>
-                <span class="link-title">Dashboard</span>
-            </a>
-        </li>*@
+                            <a href="#." class="nav-link">
+                                <i class="link-icon" data-feather="box"></i>
+                                <span class="link-title">Dashboard</span>
+                            </a>
+                        </li>*@
                     <li class="nav-item">
                         <a href="/admin/events" class="nav-link">
                             <i class="link-icon" data-feather="calendar"></i>
@@ -406,13 +405,9 @@
         </div>
     </div>
 
-
-
-    <script src="~/nobleui/assets/vendors/core/core.js"></script>
-    <script src="~/js/admin.min.js"></script>
-    <script src="~/js/utilities.js"></script>
-
-    <script src="~/js/dashboard.min.js"></script>
+    <script src="~/nobleui/assets/vendors/core/core.js" asp-append-version="true"></script>
+    <script src="~/js/admin.min.js" asp-append-version="true"></script>
+    <script src="~/js/dashboard.min.js" asp-append-version="true"></script>
 
     @RenderSection("scripts", false);
 </body>

@@ -148,6 +148,7 @@ namespace Presentation.Admin.Controllers.Api
                     var savePath = Path.Combine(_hostEnvironment.WebRootPath, UploadFolders.UPLOAD_PATH, UploadFolders.EVENTS, entity.EventFolder, filename);
                     await item.CopyToAsync(new FileStream(savePath, FileMode.Create));
 
+                    entity.EventResources[i].Title = entity.EventResources[i].Title.NullOrEmpty() ? "" : entity.EventResources[i].Title;
                     entity.EventResources[i].FilePath = new string[] { UploadFolders.UPLOAD_PATH, UploadFolders.EVENTS, entity.EventFolder, filename }.ToWebFilePath();
                     entity.EventResources[i].PreviewType = filename.Contains(".pdf") ? "pdf" : "image";
                 }
@@ -238,7 +239,7 @@ namespace Presentation.Admin.Controllers.Api
                 <br>
                 {Username}";
 
-            await _emailService.SendEmailAsync(Username, model.GuestEmail, $"Invitation to join \"{model.EventTitle}\"", messageBody, false);
+            await _emailService.SendEmailAsync(Username, string.Join(',', model.GuestEmails), $"Invitation to join \"{model.EventTitle}\"", messageBody, false);
             return Ok();
         }
     }

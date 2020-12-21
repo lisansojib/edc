@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Admin.Controllers
 {
+    [Authorize]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class AdminController : Controller
     {
         public IActionResult Events()

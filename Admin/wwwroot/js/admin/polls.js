@@ -1,5 +1,5 @@
 ﻿(function () {
-    var $table, $tblPollDataPoint, $formEl, poll;
+    var $table, $tblPollDataPoint, $formEl, poll, chart;
 
     var validationConstraints = {
         name: {
@@ -264,14 +264,15 @@
 
     function generateGraph(e) {
         e.preventDefault();
+        if (chart) chart.destroy();
 
         try {
             var graphType = $("#graphTypeId").select2("data")[0].text;
 
-            debugger;
+            var series = poll.dataPoints.map(function (el) { return parseInt(el.value) });
+            var labels = poll.dataPoints.map(function (el) { return el.name });
+
             if (graphType == graphTypes.PIE_CHART) {
-                var series = poll.dataPoints.map(function (el) { return el.value });
-                var labels = poll.dataPoints.map(function (el) { return el.name });
                 var options = {
                     series: series,
                     chart: {
@@ -285,10 +286,36 @@
                     }
                 };
 
-                var chart = new ApexCharts(document.querySelector("#chart"), options);
+                chart = new ApexCharts(document.querySelector("#chart"), options);
+                chart.render();
+            }
+            else if (graphType == graphTypes.BAR_CHART) {
+                var options = {
+                    series: [{
+                        data: series
+                    }],
+                    chart: {
+                        type: 'bar',
+                        height: 350
+                    },
+                    plotOptions: {
+                        bar: {
+                            horizontal: true,
+                        }
+                    },
+                    dataLabels: {
+                        enabled: false
+                    },
+                    xaxis: {
+                        categories: labels,
+                    }
+                };
+
+                chart = new ApexCharts(document.querySelector("#chart"), options);
                 chart.render();
             }
         } catch (e) {
+            console.error(e);
             toastr.error("Can not generate graph.");
         }
         

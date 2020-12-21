@@ -31,7 +31,6 @@
 
         $("#add-new").click(function (e) {
             e.preventDefault();
-            debugger;
             $formEl.trigger("reset");
             $("#zoom-meeting-modal").modal("show");
         });
@@ -180,7 +179,6 @@
             .then(function (response) {
                 var data = response.data;
                 setFormData($("#view-zoom-meeting-form"), data);
-
                 $("#view-zoom-meeting-modal").modal("show");
             })
             .catch(function (err) {
@@ -206,6 +204,7 @@
         else resetValidationState($formEl);
 
         var data = formDataToJson($formEl);
+        data.duration = parseInt(data.duration);
 
         axios.post('/api/zoom/meetings', data)
             .then(function () {

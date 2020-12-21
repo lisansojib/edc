@@ -1,14 +1,10 @@
-﻿using ApplicationCore.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ApplicationCore.DTOs
+﻿namespace ApplicationCore.DTOs
 {
     public class GuestDTO: BaseDTO
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string Email { get; set; }
         public string EmailPersonal { get; set; }
         public string EmailCorp { get; set; }
         public string PhonePersonal { get; set; }

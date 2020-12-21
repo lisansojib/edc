@@ -15,6 +15,7 @@ namespace Infrastructure.Data.Configurations
             builder.Property(t => t.Id).UseIdentityColumn();
             builder.Property(t => t.FirstName).HasColumnType("varchar(100)");
             builder.Property(t => t.LastName).HasColumnType("varchar(100)");
+            builder.Property(t => t.Email).HasMaxLength(500).IsRequired();
             builder.Property(t => t.EmailPersonal).HasMaxLength(500);
             builder.Property(t => t.EmailCorp).HasMaxLength(500);
             builder.Property(t => t.PhonePersonal).HasMaxLength(20);

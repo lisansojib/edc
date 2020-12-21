@@ -16,12 +16,21 @@
         callAction: {
             presence: true,
             length: {
-                maximum: 500
+                maximum: 100
             }
         },
         expiration: {
             presence: true,
-        }
+        },
+        linkUrl: {
+            //url: true,
+            length: {
+                maximum: 100
+            }
+        },
+        //imageUrl: {
+        //    //url: true
+        //}
     };
 
     var tableParams = {
@@ -95,9 +104,7 @@
                                             toastr.success(appConstants.ITEM_DELETED_SUCCESSFULLY);
                                             $table.bootstrapTable('refresh');
                                         })
-                                        .catch(function (err) {
-                                            toastr.error(err.response.data.message);
-                                        })
+                                        .catch(showResponseError)
                                 }
                             })
                         }
@@ -179,9 +186,7 @@
                 $table.bootstrapTable('load', response.data);
                 $table.bootstrapTable('hideLoading');
             })
-            .catch(function (err) {
-                toastr.error(err.response.data.Message);
-            })
+            .catch(showResponseError)
     }
 
     function resetTableParams() {
@@ -195,13 +200,12 @@
     function getDetails(id) {
         axios.get(`/api/announcements/${id}`)
             .then(function (response) {
+                response.data.expiration = formatDateToDefaultHtmlDate(response.data.expiration);
                 setFormData($formEl, response.data);
                 $("#announcement-modal-label").text("Edit Announcement");
                 $("#announcement-modal").modal("show");
             })
-            .catch(function (err) {
-                toastr.error(err.response.data);
-            });
+            .catch(showResponseError);
     }
 
     function save(e) {
@@ -227,29 +231,27 @@
         if (data.id <= 0) {
             axios.post('/api/announcements', data)
                 .then(function () {
-                    toastr.success("Announcement created successfully!");
-                })
-                .catch(function (err) {
-                    toastr.error(err.response.data);
-                })
-                .then(function () {
                     resetLoadingButton(thisBtn, originalText);
+                    toastr.success("Announcement created successfully!");
                     $("#announcement-modal").modal("hide");
                     loadTableData();
+                })
+                .catch(function (err) {
+                    resetLoadingButton(thisBtn, originalText);
+                    showResponseError(err);
                 });
         }
         else {
             axios.put('/api/announcements', data)
                 .then(function () {
                     toastr.success("Announcement updated successfully!");
-                })
-                .catch(function (err) {
-                    toastr.error(err.response.data);
-                })
-                .then(function () {
                     resetLoadingButton(thisBtn, originalText);
                     $("#announcement-modal").modal("hide");
                     loadTableData();
+                })
+                .catch(function (err) {
+                    resetLoadingButton(thisBtn, originalText);
+                    showResponseError(err);
                 });
         }
     }

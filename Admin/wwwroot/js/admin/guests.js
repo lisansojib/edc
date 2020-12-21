@@ -3,26 +3,22 @@
 
     var validationConstraints = {
         firstName: {
-            presence: true,
             length: {
                 maximum: 100
             }
         },
         lastName: {
-            presence: true,
             length: {
                 maximum: 100
             }
         },
         emailCorp: {
-            presence: true,
             email: true,
             length: {
                 maximum: 500
             }
         },
         emailPersonal: {
-            presence: true,
             email: true,
             length: {
                 maximum: 500
@@ -39,19 +35,17 @@
             }
         },
         linkedinUrl: {
+            //url: true,
             length: {
                 maximum: 250
             }
-        },
-        guestTypeId: {
-            presence: true
         }
     };
 
     var tableParams = {
         offset: 0,
         limit: 10,
-        sort: 'firstName',
+        sort: 'email',
         order: '',
         filter: ''
     };
@@ -145,6 +139,13 @@
                             })
                         }
                     }
+                },
+                {
+                    sortable: true,
+                    searchable: true,
+                    field: "email",
+                    title: "Email",
+                    width: 100
                 },
                 {
                     sortable: true,
@@ -248,7 +249,7 @@
         tableParams.offset = 0;
         tableParams.limit = 10;
         tableParams.filter = '';
-        tableParams.sort = 'firstName';
+        tableParams.sort = 'email';
         tableParams.order = '';
     }
 
@@ -281,7 +282,6 @@
         }
         else resetValidationState($formEl);
 
-        debugger;
         var data = formDataToJson($formEl);
         data.id = parseInt(data.id);
 
@@ -312,7 +312,7 @@
                 });
         }
 
-        $formEl.trigger("reset");
+        //$formEl.trigger("reset");
     }
 })();
 

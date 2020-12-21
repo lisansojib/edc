@@ -1,6 +1,7 @@
 ﻿'use strict'
 
 var appConstants = Object.freeze({
+    LOGIN_PATH: "/account/login",
     LOGIN_REDIRECT_PATH: "/home/index",
     REGISTER_REDIRECT_PATH: "/account/login",
     RECOVER_REDIRECT_PATH: "/account/recovery-successful",
@@ -27,7 +28,8 @@ var loginProviders = Object.freeze({
 });
 
 var graphTypes = Object.freeze({
-    PIE_CHART: "Pie Chart"
+    PIE_CHART: "Pie Chart",
+    BAR_CHART: "Bar Chart"
 });
 
 var pKeys = Object.freeze({
@@ -81,9 +83,7 @@ function createPassword(e) {
                     toastr.success("Password changed successfully. You can now login with your password.");
                     window.location.reload();
                 })
-                .catch(function (err) {
-                    toastr.error(err.response.data.Message);
-                });
+                .catch(showResponseError);
         }
     })
 }

@@ -409,7 +409,9 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
 
                     b.Property<string>("EmailCorp")
                         .HasColumnType("nvarchar(500)")
@@ -789,7 +791,6 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("varchar(100)");
 
                     b.Property<string>("LinkedInUrl")
-                        .IsRequired()
                         .HasColumnType("varchar(500)");
 
                     b.Property<string>("Phone")

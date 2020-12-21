@@ -1,0 +1,78 @@
+﻿@{
+    ViewData["Title"] = "Speakers";
+}
+
+<div class="row">
+    <div class="col stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                    <h6 class="card-title mb-0">Speakers</h6>
+                </div>
+                <div class="table-responsive">
+                    <div id="tblToolbar" class="mb-1">
+                        <button class="btn btn-primary" id="add-new-speaker">
+                            <i class="fa fa-plus"></i>&nbsp;Add New
+                        </button>
+                    </div>
+                    <table id="tblList" class="table table-hover mb-0"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" data-backdrop="static" data-keyboard="false" id="speaker-modal" tabindex="-1" aria-labelledby="speaker-modal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="speaker-modal-label">Add new speaker</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="speaker-form">
+                    <input type="hidden" name="id" id="id" value="0" />
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" class="form-control" id="firstName" name="firstName">
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" name="lastName">
+                    </div>
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" class="form-control" id="title" name="title">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="linkedInUrl">Linked In URL</label>
+                        <input type="text" class="form-control" id="nprogress" name="linkedInUrl">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="text" class="form-control" id="phone" name="phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="companyName">Company</label>
+                        <input type="text" class="form-control" id="companyName" name="companyName">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btn-save-speaker">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/js/admin/speakers.js" asp-append-version="true"></script>
+}

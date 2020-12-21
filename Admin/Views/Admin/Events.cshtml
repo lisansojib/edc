@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Events";
 }
 
@@ -80,7 +79,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="eventDate">Event Date <sup>&#x2605;</sup></label>
-                                    <input type="datetime-local" class="form-control" id="eventDate" name="eventDate">
+                                    <input type="text" class="form-control datetimepicker" id="eventDate" name="eventDate">
                                 </div>
                                 <div class="form-group">
                                     <label for="cohortId">Cohort <sup>&#x2605;</sup></label>
@@ -125,5 +124,5 @@
 </div>
 
 @section scripts{
-    <script src="~/js/admin/events.js" asp-append-version="true"></script>
+    <script src="~/js/admin/events.min.js" asp-append-version="true"></script>
 }

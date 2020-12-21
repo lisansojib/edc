@@ -130,12 +130,12 @@ function showBootboxSelect2Dialog(label, elId, title, data, callback) {
  * @param {any} data - Select2 options
  * @param {any} callback - callback function
  */
-function showBootboxSelect2MultipleDialog(label, elId, title, data, callback) {
+function showBootboxSelect2MultipleDialog(label, elId, title, data, allowTagging, callback) {
     var dialog = bootbox.dialog({
-        message: 
+        message:
             `<div class="form-group">
                 <label for="${elId}">${label}</label>
-                <select id="${elId}" name="${elId}" class="form-control" style="width: 100%"></select>
+                <select id="${elId}" name="${elId}" class="form-control" style="width: 100%" multiple></select>
             </div>`,
         title: title,
         animate: true,
@@ -160,7 +160,7 @@ function showBootboxSelect2MultipleDialog(label, elId, title, data, callback) {
 
     dialog.on('shown.bs.modal', function () {
         dialog.removeAttr("tabindex");
-        initSelect2($('#' + elId), data);
+        initSelect2($('#' + elId), data, true, title, true, true);
     });
 }
 
@@ -281,7 +281,7 @@ function setFormData($formEl, data, allowTagging = false) {
                             break;
                         case "date":
                             debugger;
-                            $input.val(formatDateToYYYYDDMM(value));
+                            $input.val(formatDateToDefaultHtmlDate(value));
                             break;
                         case "file":
                             break;
@@ -518,9 +518,9 @@ function formatDateToMMDDYYYY(date) {
     return moment(date).format("MM/DD/YYYY");
 }
 
-function formatDateToYYYYDDMM(date) {
+function formatDateToDefaultHtmlDate(date) {
     if (!date) return "";
-    return moment(date).format("YYYY-DD-MM");
+    return moment(date).format("YYYY-MM-DD");
 }
 
 /**
@@ -585,6 +585,7 @@ function showValidationToast(errorObj) {
 }
 
 function showResponseError(error) {
+    debugger;
     console.log(error);
     if (error.response && error.response.data) {
         var messages = error.response.data.title || error.response.data.Title;

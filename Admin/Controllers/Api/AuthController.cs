@@ -62,6 +62,8 @@ namespace Presentation.Admin.Controllers
 
             if (!Verified) return BadRequest(new BadRequestResponseModel(ErrorMessages.AuthenticatinError, "Password does not match."));
 
+            if(!user.Active || !user.Verified) return BadRequest(new BadRequestResponseModel(ErrorMessages.AuthenticatinError, "You are not active user."));
+
             return Ok(GetTokenResponse(user, model.RememberMe));
         }
 
@@ -100,6 +102,8 @@ namespace Presentation.Admin.Controllers
                 }
             }
 
+            if (!user.Active || !user.Verified) return BadRequest(new BadRequestResponseModel(ErrorMessages.AuthenticatinError, "You are not active user."));
+
             return Ok(GetTokenResponse(user, false));
         }
 
@@ -120,14 +124,14 @@ namespace Presentation.Admin.Controllers
             user.AdminLevelId = 3; // Manager
 
             // Later this fields will be enabled disabled by apis as required.
-            user.Verified = true;
-            user.Active = true;
+            user.Verified = false;
+            user.Active = false;
 
             await _userRepository.AddAsync(user);
 
             _logger.Info($"{user.Username} account created.");
 
-            return Ok(GetTokenResponse(user, false));
+            return Ok();
         }
 
         [ProducesResponseType(typeof(ErrorResponseModel), 400)]

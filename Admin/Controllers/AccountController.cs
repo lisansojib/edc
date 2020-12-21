@@ -1,7 +1,4 @@
-﻿using System;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using ApplicationCore;
+﻿using ApplicationCore;
 using MelaMandiUI.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -9,6 +6,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Admin.Models;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace Presentation.Admin.Controllers
 {

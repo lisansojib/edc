@@ -281,7 +281,7 @@ function setFormData($formEl, data, allowTagging = false) {
                             break;
                         case "date":
                             debugger;
-                            $input.val(formatDateToYYYYDDMM(value));
+                            $input.val(formatDateToDefaultHtmlDate(value));
                             break;
                         case "file":
                             break;
@@ -518,9 +518,9 @@ function formatDateToMMDDYYYY(date) {
     return moment(date).format("MM/DD/YYYY");
 }
 
-function formatDateToYYYYDDMM(date) {
+function formatDateToDefaultHtmlDate(date) {
     if (!date) return "";
-    return moment(date).format("YYYY-DD-MM");
+    return moment(date).format("YYYY-MM-DD");
 }
 
 /**
