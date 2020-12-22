@@ -1,5 +1,6 @@
 ﻿(function () {
     var $table, $formEl;
+    var initialEventForm;
     var resourceCount = 0;
 
     var validationConstraints = {
@@ -42,6 +43,17 @@
         $("#addMoreResource").click(addMoreResource);
 
         $("#btn-save-event").click(save);
+
+        // Clear form on close
+        // On modal close set the event form to its initial state
+        // Trigger click event on selectto after setting form data for editing, this will display correct inputs
+        // 
+        //initialEventForm = $("#event-form").html();
+
+        //$("#btn-close-event-modal").click(function () {
+        //    //$("#event-form").trigger("reset");
+        //    $("#event-form-container").html(initialEventForm);
+        //})
     });
 
     function initTbl() {
@@ -210,6 +222,7 @@
 
         axios.get(`/api/events/${row.id}`)
             .then(function (response) {
+                console.log(response.data);
                 setFormData($formEl, response.data, true);
                 $("#event-modal-label").text("Edit Event");
                 $("#event-modal").modal("show");
@@ -262,41 +275,42 @@
 
     function handleEventTypeSelection(e) {
         if (e.params.name === "unselect") return;
-        
+        resourceCount = 0;
+
+        if (e.params.data.text == eventTypeConstants.EDC_NETWORKING) {
+            $("#resourceDiv").addClass("d-none");
+            removeResources();   
+        } else {
+            $("#resourceDiv").removeClass("d-none");
+        }
+
         if (e.params.data.text == eventTypeConstants.EDC_PANEL) {
             $("#fg-speaker").removeClass("d-none");
             $("#fg-sponsor").addClass("d-none");
             $("#fg-presenter").addClass("d-none");
             $("#fg-cto").addClass("d-none");
-            resourceCount = 0;
-            addResource();
-            $("#resourceDiv").removeClass("d-none");
+    
+            
         }
         else if (e.params.data.text == eventTypeConstants.EDC_TEAM_SESSION) {
             $("#fg-speaker").addClass("d-none");
             $("#fg-sponsor").addClass("d-none");
             $("#fg-presenter").removeClass("d-none");
             $("#fg-cto").removeClass("d-none");
-            resourceCount = 0;
-            addResource();
-            $("#resourceDiv").removeClass("d-none");
+  
+            
         }
         else if (e.params.data.text == eventTypeConstants.EDC_NETWORKING) {
             $("#fg-speaker").addClass("d-none");
             $("#fg-sponsor").addClass("d-none");
             $("#fg-presenter").addClass("d-none");
-            $("#fg-cto").addClass("d-none");
-            resourceCount = 0;
-            removeResources();           
+            $("#fg-cto").addClass("d-none");        
         }
         else { // EDC Post-Panel
             $("#fg-speaker").addClass("d-none");
             $("#fg-sponsor").removeClass("d-none");
             $("#fg-presenter").addClass("d-none");
             $("#fg-cto").addClass("d-none");
-            resourceCount = 0;
-            addResource();
-            $("#resourceDiv").removeClass("d-none");
         }
     }
 

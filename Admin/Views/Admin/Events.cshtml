@@ -45,7 +45,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="container-fluid">
+                <div class="container-fluid" id="event-form-container">
                     <form id="event-form">
                         <div class="row">
                             <input type="hidden" name="id" id="id" value="0" />
@@ -59,9 +59,9 @@
                                     <select id="eventTypeId" name="eventTypeId" class="form-control" style="width: 100%"></select>
                                 </div>
                                 @*<div class="form-group d-none" id="fg-session">
-                                    <label for="sessionId">Session</label>
-                                    <select id="sessionId" name="sessionId" class="form-control" style="width: 100%"></select>
-                                </div>*@
+                    <label for="sessionId">Session</label>
+                    <select id="sessionId" name="sessionId" class="form-control" style="width: 100%"></select>
+                </div>*@
                                 <div class="form-group d-none" id="fg-speaker">
                                     <label for="speakerIds">Speakers</label>
                                     <select id="speakerIds" name="speakerIds" class="form-control" style="width: 100%" multiple></select>
@@ -79,7 +79,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="eventDate">Event Date <sup>&#x2605;</sup></label>
-                                    <input type="text" class="form-control datetimepicker" id="eventDate" name="eventDate">
+                                    <input type="date" class="form-control datetimepicker" id="eventDate" name="eventDate">
                                 </div>
                                 <div class="form-group">
                                     <label for="cohortId">Cohort <sup>&#x2605;</sup></label>
@@ -102,21 +102,22 @@
                                 </div>
                             </div>
                         </div>
-                    </form>                    
 
-                    <div class="row">
-                        <div class="col-md-12 d-none" id="resourceDiv">
-                            <h5>Resources (maximum 10 files)</h5>
-                            <div id="resource-container">
+                        <div class="row">
+                            <div class="col-md-12 d-none" id="resourceDiv">
+                                <h5>Resources (maximum 10 files)</h5>
+                                <div id="resource-container">
+                                </div>
+
+                                <button class="btn btn-outline-primary mt-1" id="addMoreResource"><i class="fa fa-plus"></i>Add</button>
                             </div>
-
-                            <button class="btn btn-outline-primary mt-1" id="addMoreResource"><i class="fa fa-plus"></i>Add More</button>
                         </div>
-                    </div>
+                    </form>                    
+                    
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" id="btn-close-event-modal" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" id="btn-save-event">Save changes</button>
             </div>
         </div>
