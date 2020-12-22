@@ -289,14 +289,13 @@
         }
         else resetValidationState($formEl);
 
-        debugger;
         var formData = getFormData($formEl);
-        var id = parseInt($formEl.find("#Id").val());
+        var id = parseInt($formEl.find("#id").val());
   
         var files = $("#photo")[0].files;
         if (files.length > 0) formData.append("photo", files[0]);
 
-        var email = $("input[name='primaryEmail']:checked").val() === 'work' ? $formEl.find("#emailCorp") : $formEl.find("#emailPersonal");
+        var email = $("input[name='primaryEmail']:checked").val() === 'work' ? $formEl.find("#emailCorp").val() : $formEl.find("#emailPersonal").val();
         formData.append("email", email);
 
         var config = {

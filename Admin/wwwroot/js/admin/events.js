@@ -259,9 +259,9 @@
 
                     var toEmail = data.map(function (el) { return el.text });
                     var model = {
-                        "guestEmail": toEmail,
-                        "eventId": eventId,
-                        "eventTitle": eventTitle
+                        guestEmails: toEmail,
+                        eventId: eventId,
+                        eventTitle: eventTitle
                     };
 
                     axios.post("/api/events/share-link", model)
@@ -378,7 +378,6 @@
         }
         else resetValidationState($formEl);
 
-        debugger;
         var data = formDataToJson($formEl);
         data.id = parseInt(data.id);
         if (isNaN(data.id)) data.id = 0;
@@ -392,10 +391,10 @@
         var ctoId = parseInt(data.ctoId);
         if (isNaN(ctoId)) data.ctoId = 0;
 
-        var speakers = $("#speakers").select2("data");
+        var speakers = $("#speakerIds").select2("data");
         if (speakers) data.speakers = speakers.map(function (el) { return { id: el.id, text: el.text } });
 
-        var sponsors = $("#sponsors").select2("data");
+        var sponsors = $("#sponsorIds").select2("data");
         if (sponsors) data.sponsors = sponsors.map(function (el) { return { id: el.id, text: el.text } });
 
         // Check for networking event
@@ -433,10 +432,10 @@
         if (data.id <= 0) {
             axios.post('/api/events', formData, config)
                 .then(function () {
+                    toastr.success("Event created successfully!");
                     resetLoadingButton(thisBtn, originalText);
                     $("#event-modal").modal("hide");
                     loadTableData();
-                    toastr.success("Event created successfully!");
                 })
                 .catch(function (err) {
                     resetLoadingButton(thisBtn, originalText);
@@ -446,10 +445,10 @@
         else {
             axios.put('/api/events', formData, config)
                 .then(function () {
+                    toastr.success("Event updated successfully!");
                     resetLoadingButton(thisBtn, originalText);
                     $("#event-modal").modal("hide");
                     loadTableData();
-                    toastr.success("Event updated successfully!");
                 })
                 .catch(function (err) {
                     resetLoadingButton(thisBtn, originalText);

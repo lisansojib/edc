@@ -351,28 +351,26 @@
             axios.post('/api/polls', data)
                 .then(function () {
                     toastr.success("Poll created successfully!");
-                })
-                .catch(function (err) {
-                    showResponseError(err);
-                })
-                .finally(function () {
                     resetLoadingButton(thisBtn, originalText);
                     $("#poll-modal").modal("hide");
                     loadTableData();
+                })
+                .catch(function (err) {
+                    resetLoadingButton(thisBtn, originalText);
+                    showResponseError(err);
                 });
         }
         else {
             axios.put('/api/polls', data)
                 .then(function () {
                     toastr.success("Poll updated successfully!");
-                })
-                .catch(function (err) {
-                    showResponseError(err);
-                })
-                .finally(function () {
                     resetLoadingButton(thisBtn, originalText);
                     $("#poll-modal").modal("hide");
                     loadTableData();
+                })
+                .catch(function (err) {
+                    resetLoadingButton(thisBtn, originalText);
+                    showResponseError(err);
                 });
         }
     }
