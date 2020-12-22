@@ -202,7 +202,6 @@
         }
         else resetValidationState($formEl);
 
-        debugger;
         var data = formDataToJson($formEl);
         data.id = parseInt(data.id);
         if (isNaN(data.id)) data.id = 0; 
@@ -221,29 +220,27 @@
         if (data.id <= 0) {
             axios.post('/api/teams', data)
                 .then(function () {
+                    toastr.success("Team created successfully!");
                     resetLoadingButton(thisBtn, originalText);
                     $("#team-modal").modal("hide");
                     loadTableData();
-                    toastr.success("Team created successfully!");
                 })
                 .catch(function (err) {
                     resetLoadingButton(thisBtn, originalText);
-                    $("#team-modal").modal("hide");
-                    toastr.error(JSON.stringify(err.response.data.errors));
+                    showResponseError(err);
                 });
         }
         else {
             axios.put('/api/teams', data)
                 .then(function () {
+                    toastr.success("Team updated successfully!");
                     resetLoadingButton(thisBtn, originalText);
                     $("#team-modal").modal("hide");
                     loadTableData();
-                    toastr.success("Team updated successfully!");
                 })
                 .catch(function (err) {
                     resetLoadingButton(thisBtn, originalText);
-                    $("#team-modal").modal("hide");
-                    toastr.error(JSON.stringify(err.response.data.errors));
+                    showResponseError(err);
                 });
         }
     }

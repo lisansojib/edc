@@ -209,14 +209,13 @@
         axios.post('/api/zoom/meetings', data)
             .then(function () {
                 toastr.success("Meeting created successfully!");
-            })
-            .catch(function (err) {
-                showResponseError(err);
-            })
-            .finally(function () {
                 resetLoadingButton(thisBtn, originalText);
                 $("#zoom-meeting-modal").modal("hide");
                 loadTableData();
+            })
+            .catch(function (err) {
+                resetLoadingButton(thisBtn, originalText);
+                showResponseError(err);
             });
     }
 })();

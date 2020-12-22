@@ -41,14 +41,14 @@
 
         $formEl = $("#company-form");
 
-        $("#add-new-company").click(function () {
+        $("#add-new").click(function () {
             $("#company-modal-label").text("Add new Company");
             $formEl.trigger("reset");
             initNewFileInput($("#logo"));
             $("#company-modal").modal("show");
         });
 
-        $("#btn-save-company").click(save);
+        $("#btn-save").click(save);
     });
 
     function initTbl() {
@@ -212,7 +212,7 @@
         var files = $("#logo")[0].files;
         if (files.length > 0) data.append("logo", files[0]);
 
-        var id = parseInt($formEl.find("#id"));
+        var id = parseInt($formEl.find("#id").val());
         if (isNaN(id) || id <= 0) {
             axios.post('/api/companies', data)
                 .then(function () {
@@ -223,7 +223,6 @@
                 })
                 .catch(function (err) {
                     resetLoadingButton(thisBtn, originalText);
-                    resetLoadingButton(thisBtn, originalText);
                     showResponseError(err);
                 });
         }
@@ -232,6 +231,7 @@
                 .then(function () {
                     toastr.success("Company updated successfully!");
                     $("#company-modal").modal("hide");
+                    resetLoadingButton(thisBtn, originalText);
                     loadTableData();
                 })
                 .catch(function (err) {

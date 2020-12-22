@@ -231,7 +231,7 @@
         var files = $("#logo")[0].files;
         if (files.length > 0) data.append("logo", files[0]);
 
-        var id = parseInt($formEl.find("#id"));
+        var id = parseInt($formEl.find("#id").val());
         if (isNaN(id) || id <= 0) {
             axios.post('/api/sponsors', data)
                 .then(function () {
@@ -242,7 +242,6 @@
                 })
                 .catch(function (err) {
                     resetLoadingButton(thisBtn, originalText);
-                    resetLoadingButton(thisBtn, originalText);
                     showResponseError(err);
                 });
         }
@@ -250,6 +249,7 @@
             axios.put('/api/sponsors', data)
                 .then(function () {
                     toastr.success("Sponsor updated successfully!");
+                    resetLoadingButton(thisBtn, originalText);
                     $("#sponsor-modal").modal("hide");
                     loadTableData();
                 })
