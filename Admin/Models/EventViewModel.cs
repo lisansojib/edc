@@ -8,6 +8,9 @@ namespace Presentation.Admin.Models.Home
     {
         public string Title { get; set; }
         public string Description { get; set; }
+        public int EventTypeId { get; set; }
+        public int CohortId { get; set; }
+        public int CTOId { get; set; }
         public DateTime EventDate { get; set; }
         public IEnumerable<string> SpeakerIds { get; set; }
         public IEnumerable<string> SponsorIds { get; set; }
