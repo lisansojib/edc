@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using ApplicationCore;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Participant.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = UserRoles.PARTICIPANT)]
     [ApiExplorerSettings(IgnoreApi = true)]
     public class PortalController : Controller
     {

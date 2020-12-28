@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using ApplicationCore;
 using ApplicationCore.DTOs;
 using ApplicationCore.Interfaces.Repositories;
 using ApplicationCore.Interfaces.Services;
@@ -12,7 +13,7 @@ using Presentation.Participant.Models;
 
 namespace Presentation.Participant.Controllers.Api
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = UserRoles.PARTICIPANT)]
     [Route("api/[controller]")]
     [ApiController]
     public class SessionsController : ApiBaseController

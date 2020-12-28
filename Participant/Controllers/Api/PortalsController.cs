@@ -84,7 +84,7 @@ namespace Presentation.Participant.Controllers.Api
             return Ok(response);
         }
 
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = UserRoles.PARTICIPANT)]
         [HttpGet("my-teams")]
         public async Task<IActionResult> GetMyTeams()
         {
@@ -107,7 +107,7 @@ namespace Presentation.Participant.Controllers.Api
             return Ok(response);
         }
 
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = UserRoles.PARTICIPANT)]
         [HttpGet("my-team-members")]
         public async Task<IActionResult> GetMyTeamMembers()
         {
@@ -116,7 +116,7 @@ namespace Presentation.Participant.Controllers.Api
             return Ok(records);
         }
 
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = UserRoles.PARTICIPANT)]
         [HttpGet("participant/{id}")]
         public async Task<IActionResult> GetParticipantDetails(int id)
         {

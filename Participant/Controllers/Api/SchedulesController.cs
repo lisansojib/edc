@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Presentation.Participant.Controllers.Api
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = UserRoles.PARTICIPANT)]
     [Route("api/[controller]")]
     [ApiController]
     public class SchedulesController : ApiBaseController
