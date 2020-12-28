@@ -77,7 +77,7 @@ namespace Presentation.Admin.Controllers.Api
         public async Task<IActionResult> Create([FromForm] ParticipantBindingModel model)
         {
             var entity = _mapper.Map<Participant>(model);
-            entity.PlainPassword = ExtensionMethods.GeneratePassword(6, 2);
+            entity.PlainPassword = ExtensionMethods.GeneratePassword(6, 1);
             entity.Password = _passwordHasher.Hash(entity.PlainPassword);
             entity.Username = model.Email;
             entity.CreatedBy = UserId;

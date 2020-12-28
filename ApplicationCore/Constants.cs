@@ -10,8 +10,9 @@
 
     public static class UserRoles
     {
-        public const string User = "User";
-        public const string Admin = "Admin";
+        public const string PARTICIPANT = "Participant";
+        public const string ADMIN = "Admin";
+        public const string GUEST = "Guest";
     }
 
     public static class GuestRoles

@@ -127,9 +127,11 @@
     function loginToApp(data) {
         axios.post(`/account/login`, data)
             .then(function () {
-                debugger;
                 toastr.success("Successfully logged in to App!");
-                window.location.href = appConstants.LOGIN_REDIRECT_PATH;
+                var returnUrl = $("#returnUrl").val();
+                console.log(returnUrl);
+                if (returnUrl && returnUrl.trim()) window.location.href = returnUrl;
+                else window.location.href = appConstants.LOGIN_REDIRECT_PATH;
             })
             .catch(showResponseError);
     }

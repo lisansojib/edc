@@ -24,6 +24,7 @@ namespace Presentation.Participant.Controllers
     public class AuthController : ApiBaseController
     {
         private readonly IEfRepository<ApplicationCore.Entities.Participant> _userRepository;
+        private readonly IEfRepository<Guest> _guestRepository;
         private readonly IEfRepository<ExternalLogin> _externalLoginRepository;
         private readonly IEmailService _emailService;
         private readonly ITokenBuilder _tokenBuilder;
@@ -33,6 +34,7 @@ namespace Presentation.Participant.Controllers
         private readonly Logger _logger;
 
         public AuthController(IEfRepository<ApplicationCore.Entities.Participant> userRepository
+            , IEfRepository<Guest> guestRepository
             , IEfRepository<ExternalLogin> externalLoginRepository
             , IEmailService emailService
             , ITokenBuilder tokenBuilder
@@ -41,6 +43,7 @@ namespace Presentation.Participant.Controllers
             , IMapper mapper)
         {
             _userRepository = userRepository;
+            _guestRepository = guestRepository;
             _externalLoginRepository = externalLoginRepository;
             _emailService = emailService;
             _passwordHasher = passwordHasher;
@@ -258,13 +261,17 @@ namespace Presentation.Participant.Controllers
         {
             UserViewModel user = _mapper.Map<ApplicationCore.Entities.Participant, UserViewModel>(await _userRepository.FindAsync(x => x.Email == email));
 
-            //if (user == null)
-            //{
-            //    var guest = await _guestRepository.FindAsync(x => x.Email == email);
-            //    user = _mapper.Map<Guest, UserViewModel>(guest);
-            //    user.IsGuest = true;
-            //    user.Role = guest.Role;
-            //}
+            if (user == null)
+            {
+                var guest = await _guestRepository.FindAsync(x => x.Email == email);
+                user = _mapper.Map<Guest, UserViewModel>(guest);
+
+                if (user == null) return user;
+
+                user.IsGuest = true;
+                user.Role = UserRoles.GUEST;
+            }
+            else user.Role = UserRoles.PARTICIPANT;
 
             return user;
         }

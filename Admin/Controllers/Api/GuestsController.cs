@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Admin.Models;
 using Presentation.Admin.Models.Home;
+using Presentation.Interfaces;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,15 +24,18 @@ namespace Presentation.Admin.Controllers.Api
     {
         private readonly IEfRepository<Guest> _repository;
         private readonly IGuestService _service;
+        private readonly IPasswordHasher _passwordHasher;
         private readonly IMapper _mapper;
 
         public GuestsController(IEfRepository<Guest> repository
             , IGuestService service
-            , IMapper mapper)
+            , IMapper mapper
+            , IPasswordHasher passwordHasher)
         {
             _repository = repository;
             _service = service;
             _mapper = mapper;
+            _passwordHasher = passwordHasher;
         }
 
         [HttpGet]
@@ -60,6 +64,8 @@ namespace Presentation.Admin.Controllers.Api
             var entity = _mapper.Map<Guest>(model);            
             entity.CreatedBy = UserId;
             entity.Email = model.EmailPersonal.NotNullOrEmpty() ? model.EmailPersonal : model.EmailCorp;
+            entity.PlainPassword = ExtensionMethods.GeneratePassword(6, 1);
+            entity.Password = _passwordHasher.Hash(entity.PlainPassword);
 
             if (await _repository.ExistsAsync(x => x.Email == entity.Email)) return BadRequest(new BadRequestResponseModel(ErrorTypes.BadRequest, "There is already one guest with this email"));
 

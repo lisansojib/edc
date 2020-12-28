@@ -13,6 +13,8 @@ namespace Infrastructure.Data.Configurations
             builder.HasKey(t => t.Id);
 
             builder.Property(t => t.Id).UseIdentityColumn();
+            builder.Property(t => t.Password).HasMaxLength(100);
+            builder.Property(t => t.PlainPassword).HasMaxLength(20);
             builder.Property(t => t.FirstName).HasColumnType("varchar(100)");
             builder.Property(t => t.LastName).HasColumnType("varchar(100)");
             builder.Property(t => t.Email).HasMaxLength(500).IsRequired();

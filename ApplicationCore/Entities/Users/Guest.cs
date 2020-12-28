@@ -21,6 +21,8 @@ namespace ApplicationCore.Entities
         public string CompanyName { get; set; }
         public string Title { get; set; }
         public string Role { get; set; }
+        public string Password { get; set; }
+        public string PlainPassword { get; set; }
         public int CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
         public int? UpdatedBy { get; set; }

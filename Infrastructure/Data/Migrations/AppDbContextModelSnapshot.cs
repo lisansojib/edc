@@ -431,11 +431,19 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(250)")
                         .HasMaxLength(250);
 
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
                     b.Property<string>("PhoneCorp")
                         .HasColumnType("nvarchar(20)")
                         .HasMaxLength(20);
 
                     b.Property<string>("PhonePersonal")
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
+
+                    b.Property<string>("PlainPassword")
                         .HasColumnType("nvarchar(20)")
                         .HasMaxLength(20);
 
