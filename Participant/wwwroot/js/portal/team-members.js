@@ -10,7 +10,6 @@
     function getMyTeams() {
         axios.get(`/api/portals/my-team-members`)
             .then(function (response) {
-                debugger;
                 initTable(response.data);
             })
             .catch(showResponseError);
@@ -39,12 +38,12 @@
                         'click .view': function (e, value, row, index) {
                             e.preventDefault();
                             if (row.disabled) return;
-                            getParticipantDetails(row.teamMemberId);
+                            getParticipantDetails(row.id);
                         },
                         'click .send': function (e, value, row, index) {
                             e.preventDefault();
                             if (row.disabled) return;
-                            sendMessage(row.teamMemberId);
+                            sendMessage(row.id);
                         }
                     }
                 },
