@@ -1,19 +1,8 @@
 ﻿(function () {
     $(function () {
-        getCompanies();
         $("#btn-register").on('click', register);
         $("#login-google").on("click", loginGoogle);
     });   
-
-    function getCompanies() {
-        axios.get("/api/select-options/companies")
-            .then(function (response) {
-                initSelect2($("#companyId"), response.data);
-            })
-            .catch(function (err) {
-                toastr.error(err.response.data);
-            });
-    }
 
     function register(e) {
         e.preventDefault();
@@ -33,12 +22,11 @@
         }
 
         var data = formDataToJson($formEl);
-        data.companyId = parseInt(data.companyId);
 
         axios.post('/api/auth/register', data)
             .then(function () {
                 resetLoadingButton(thisBtn, originalText);
-                window.location.href = appConstants.LOGIN_PATH;
+                window.location.href = appConstants.REGISTER_REDIRECT_PATH;
                 //localStorage.setItem("token", response.data.accessToken);
                 //loginToApp(response.data);
             })
@@ -135,9 +123,6 @@
                 minimum: 6,
                 maximum: 20
             }
-        },
-        companyId: {
-            presence: true
         }
     };
 })();
