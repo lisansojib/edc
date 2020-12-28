@@ -24,7 +24,6 @@ namespace Presentation.Participant.Controllers
     public class AuthController : ApiBaseController
     {
         private readonly IEfRepository<ApplicationCore.Entities.Participant> _userRepository;
-        private readonly IEfRepository<Guest> _guestRepository;
         private readonly IEfRepository<ExternalLogin> _externalLoginRepository;
         private readonly IEmailService _emailService;
         private readonly ITokenBuilder _tokenBuilder;
@@ -34,7 +33,6 @@ namespace Presentation.Participant.Controllers
         private readonly Logger _logger;
 
         public AuthController(IEfRepository<ApplicationCore.Entities.Participant> userRepository
-            , IEfRepository<Guest> guestRepository
             , IEfRepository<ExternalLogin> externalLoginRepository
             , IEmailService emailService
             , ITokenBuilder tokenBuilder
@@ -43,7 +41,6 @@ namespace Presentation.Participant.Controllers
             , IMapper mapper)
         {
             _userRepository = userRepository;
-            _guestRepository = guestRepository;
             _externalLoginRepository = externalLoginRepository;
             _emailService = emailService;
             _passwordHasher = passwordHasher;

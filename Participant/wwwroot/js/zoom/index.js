@@ -1,8 +1,8 @@
 (function () {
   var testTool = window.testTool;
-  if (testTool.isMobileDevice()) {
-    vConsole = new VConsole();
-  }
+  //if (testTool.isMobileDevice()) {
+  //  vConsole = new VConsole();
+  //}
   console.log("checkSystemRequirements");
   console.log(JSON.stringify(ZoomMtg.checkSystemRequirements()));
 
@@ -66,7 +66,6 @@
             apiSecret: API_SECRET,
             role: meetingConfig.role,
               success: function (res) {
-                  debugger;
                   console.log(res.result);
                   $("#join_meeting").hide();
                   meetingConfig.signature = res.result;

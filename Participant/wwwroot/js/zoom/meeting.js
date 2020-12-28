@@ -1,7 +1,6 @@
 (function () {
     var testTool = window.testTool;
     // get meeting args from url
-    debugger;
     var tmpArgs = testTool.parseQuery();
     var meetingConfig = {
         apiKey: tmpArgs.apiKey,
@@ -83,10 +82,9 @@
             },
         };
 
-        debugger;
         var isGuest = localStorage.getItem("is_guest");
         if (isGuest == 1) {
-            initObj.leaveUrl = "/home/index";
+            initObj.leaveUrl = testTool.getCurrentDomain() + "/home/index";
             initObj.showMeetingHeader = false; //option
             initObj.disableInvite = true; //optional
             initObj.disableCallOut = false; //optional
@@ -117,7 +115,7 @@
             initObj.disableReport = true; // optional
         }
         else {
-            initObj.leaveUrl = "/portal/session";
+            initObj.leaveUrl = testTool.getCurrentDomain() + "/portal/session";
         }
 
         ZoomMtg.init(initObj);

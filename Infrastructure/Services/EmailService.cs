@@ -26,10 +26,10 @@ namespace Infrastructure.Services
                 message.From.Add(new MailboxAddress(_smtpSettings.Name, _smtpSettings.Email));
                 message.Subject = subject;
 
-                var toMailList = toEmail.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-                foreach (var item in toMailList)
+                var toMailList = toEmail.Split(new char[] { ';', ',' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var to in toMailList)
                 {
-                    message.To.Add(new MailboxAddress(username, toEmail));
+                    message.To.Add(new MailboxAddress(username, to));
                 }
 
                 BodyBuilder bodyBuilder;

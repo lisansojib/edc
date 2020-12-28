@@ -1,6 +1,7 @@
 ﻿using ApplicationCore.Entities;
 using ApplicationCore.Interfaces.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using NLog;
 using System.Threading.Tasks;
 
 namespace Presentation.Participant.Controllers
@@ -9,10 +10,12 @@ namespace Presentation.Participant.Controllers
     public class GuestController : Controller
     {
         private readonly IEfRepository<Event> _eventRepository;
+        private readonly Logger _logger;
 
         public GuestController(IEfRepository<Event> eventRepository)
         {
             _eventRepository = eventRepository;
+            _logger = LogManager.GetLogger("participantLogger");
         }
 
         [HttpGet]
@@ -25,10 +28,17 @@ namespace Presentation.Participant.Controllers
         [HttpGet]
         public async Task<IActionResult> Zoom(int eventId)
         {
-            var record = await _eventRepository.FindAsync(eventId);
-            ViewBag.MeetingId = record.MeetingId;
-            ViewBag.MeetingPassword = record.MeetingPassword;
-            ViewBag.IsGuest = 1;
+            try
+            {
+                var record = await _eventRepository.FindAsync(eventId);
+                ViewBag.MeetingId = record.MeetingId;
+                ViewBag.MeetingPassword = record.MeetingPassword;
+                ViewBag.IsGuest = 1;
+            }
+            catch (System.Exception ex)
+            {
+                _logger.Error(ex);
+            }
 
             return View();
         }
