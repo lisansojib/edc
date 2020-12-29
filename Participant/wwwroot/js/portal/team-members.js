@@ -1,13 +1,11 @@
 ﻿(function () {
-    var teams = [];
-
     $(function () {
-        getMyTeams();
+        getAllTeamMembers();
 
         $("#btn-send-message").on("click", sendMessage);
     })
 
-    function getMyTeams() {
+    function getAllTeamMembers() {
         axios.get(`/api/portals/my-team-members`)
             .then(function (response) {
                 initTable(response.data);
@@ -37,12 +35,10 @@
                     events: {
                         'click .view': function (e, value, row, index) {
                             e.preventDefault();
-                            if (row.disabled) return;
                             getParticipantDetails(row.id);
                         },
                         'click .send': function (e, value, row, index) {
                             e.preventDefault();
-                            if (row.disabled) return;
                             sendMessage(row.id);
                         }
                     }
@@ -77,7 +73,6 @@
             ],
             data: data,
             onDblClickRow: function (row, $element, field) {
-                if (row.disabled) return;
                 getParticipantDetails(row.teamMemberId);
             }
         });
