@@ -151,9 +151,9 @@
     function initTeamsTbl() {
         $tblTeams.bootstrapTable('destroy');
         $tblTeams.bootstrapTable({
-            search: true,
-            searchOnEnterKey: true,
-            showSearchClearButton: true,
+            //search: true,
+            //searchOnEnterKey: true,
+            //showSearchClearButton: true,
             pagination: true,
             sidePagination: "server",
             pageList: "[10, 20, 50, 100, 200]",
