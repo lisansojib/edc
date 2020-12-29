@@ -182,8 +182,7 @@
                     title: "Name",
                     width: 100,
                     editable: {
-                        type: "text",
-                        showButtons: false,
+                        type: "text"
                     }
                 },
                 {
@@ -192,7 +191,6 @@
                     width: 100,
                     editable: {
                         type: "text",
-                        showButtons: false,
                         tpl: '<input type="number" class="form-control input-sm" min="0" style="padding-right: 24px;">',
                         validate: function (value) {
                             if (!value || !value.trim() || isNaN(parseInt(value)) || parseInt(value) < 0) {
