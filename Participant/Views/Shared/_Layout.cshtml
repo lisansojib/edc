@@ -7,7 +7,6 @@
     <title>@ViewBag.Title | EDC Portal</title>
 
     <link href="~/css/portal.min.css" rel="stylesheet" />
-    <link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
 
     @RenderSection("styles", false)
 </head>
@@ -98,8 +97,8 @@
     </div>
 
     <script src="~/nobleui/assets/vendors/core/core.js"></script>
-    <script src="~/js/portal.min.js"></script>
-    <script src="~/js/account/dashboard.min.js"></script>
+    <script src="~/js/portal.min.js" asp-append-version="true"></script>
+    <script src="~/js/account/dashboard.min.js" asp-append-version="true"></script>
     @RenderSection("scripts", false)
 </body>
 </html>

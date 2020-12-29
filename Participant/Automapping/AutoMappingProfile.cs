@@ -23,6 +23,8 @@ namespace Presentation.Participant.Automapping
             CreateMap<Guest, UserViewModel>();
 
             CreateMap<ApplicationCore.Entities.Participant, ZoomUserInfo>();
+
+            CreateMap<PollDataPoint, PollDataPointDTO>();
         }
     }
 }

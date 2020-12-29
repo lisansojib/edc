@@ -1,5 +1,6 @@
 ﻿using ApplicationCore;
 using ApplicationCore.DTOs;
+using ApplicationCore.Entities;
 using ApplicationCore.Interfaces.Repositories;
 using ApplicationCore.Interfaces.Services;
 using AutoMapper;
@@ -8,11 +9,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Participant.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Presentation.Participant.Controllers.Api
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = UserRoles.PARTICIPANT)]
     [Route("api/[controller]")]
     [ApiController]
     public class PortalsController : ApiBaseController
@@ -22,6 +25,7 @@ namespace Presentation.Participant.Controllers.Api
         private readonly IPollService _pollService;
         private readonly IAnnouncementService _announcementsService;
         private readonly IEfRepository<ApplicationCore.Entities.Participant> _participantRepository;
+        private readonly IEfRepository<PollDataPoint> _pollDataPointRepository;
         private readonly IMapper _mapper;
 
         public PortalsController(
@@ -30,6 +34,7 @@ namespace Presentation.Participant.Controllers.Api
             , IPollService pollService
             , IAnnouncementService announcementsService
             , IEfRepository<ApplicationCore.Entities.Participant> participantRepository
+            , IEfRepository<PollDataPoint> pollDataPointRepository
             , IMapper mapper)
         {
             _eventService = eventService;
@@ -37,6 +42,7 @@ namespace Presentation.Participant.Controllers.Api
             _pollService = pollService;
             _announcementsService = announcementsService;
             _participantRepository = participantRepository;
+            _pollDataPointRepository = pollDataPointRepository;
             _mapper = mapper;
         }
 
@@ -83,8 +89,7 @@ namespace Presentation.Participant.Controllers.Api
 
             return Ok(response);
         }
-
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = UserRoles.PARTICIPANT)]
+                
         [HttpGet("my-teams")]
         public async Task<IActionResult> GetMyTeams()
         {
@@ -107,7 +112,6 @@ namespace Presentation.Participant.Controllers.Api
             return Ok(response);
         }
 
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = UserRoles.PARTICIPANT)]
         [HttpGet("my-team-members")]
         public async Task<IActionResult> GetMyTeamMembers()
         {
@@ -116,7 +120,6 @@ namespace Presentation.Participant.Controllers.Api
             return Ok(records);
         }
 
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = UserRoles.PARTICIPANT)]
         [HttpGet("participant/{id}")]
         public async Task<IActionResult> GetParticipantDetails(int id)
         {
@@ -125,6 +128,14 @@ namespace Presentation.Participant.Controllers.Api
             
             var response = _mapper.Map<ParticipantDTO>(participant);
             return Ok(response);
+        }
+
+        [HttpGet("poll-datapoints/{portalId}")]
+        public async Task<IActionResult> GetPollDataPoints(int portalId)
+        {
+            var records = await _pollDataPointRepository.ListAllAsync(x => x.PollId == portalId);
+            var dataPoints = _mapper.Map<List<PollDataPointDTO>>(records);
+            return Ok(dataPoints);
         }
     }
 }

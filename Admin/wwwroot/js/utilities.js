@@ -585,7 +585,6 @@ function showValidationToast(errorObj) {
 }
 
 function showResponseError(error) {
-    debugger;
     console.log(error);
     if (error.response && error.response.data) {
         var messages = error.response.data.title || error.response.data.Title;

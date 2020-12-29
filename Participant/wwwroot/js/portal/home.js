@@ -235,6 +235,7 @@
     // #endregion
 
     // #region Polls
+    var chart;
     var pollsParams = {
         offset: 0,
         limit: 10,
@@ -256,17 +257,29 @@
             sortable: true,
             columns: [
                 {
-                    sortable: true,
-                    searchable: true,
-                    field: "name",
-                    title: "Name",
-                    width: 100
+                    sortable: false,
+                    searchable: false,
+                    title: 'Actions',
+                    align: 'center',
+                    width: 100,
+                    formatter: function (value, row, index, field) {
+                        var template =
+                            `<a class="btn btn-primary btn-sm view" title="View Graph">
+                              <i class="fa fa-edit" aria-hidden="true"></i> View Graph
+                            </a>`;
+                        return template;
+                    },
+                    events: {
+                        'click .view': function (e, value, row, index) {
+                            showPollGraph(row);
+                        }
+                    }
                 },
                 {
                     sortable: true,
                     searchable: true,
-                    field: "graphType",
-                    title: "Graph Type",
+                    field: "name",
+                    title: "Name",
                     width: 100
                 },
                 {
@@ -318,7 +331,8 @@
             onSearch: function (text) {
                 pollsParams.filter = text;
                 loadPollsData();
-            }
+            },
+            onDblClickRow: showPollGraph
         });
     }
 
@@ -342,6 +356,71 @@
         tableParams.filter = '';
         tableParams.sort = 'name';
         tableParams.order = '';
+    }
+
+    function showPollGraph(row) {
+        toastr.info("Please wait while we process your request.");
+        axios.get(`/api/portals/poll-datapoints/${row.id}`)
+            .then(function (response) {
+                var dataPoints = response.data;
+                if (chart) chart.destroy();
+
+                try {
+                    var series = dataPoints.map(function (el) { return parseInt(el.value) });
+                    var labels = dataPoints.map(function (el) { return el.name });
+
+                    if (row.graphType == graphTypes.PIE_CHART) {
+                        var options = {
+                            series: series,
+                            chart: {
+                                height: 300,
+                                type: 'pie',
+                            },
+                            labels: labels,
+                            legend: {
+                                position: 'top',
+                                horizontalAlign: 'center'
+                            }
+                        };
+
+                        chart = new ApexCharts(document.querySelector("#chart"), options);
+                        chart.render();
+                    }
+                    else if (row.graphType == graphTypes.BAR_CHART) {
+                        var options = {
+                            series: [{
+                                data: series
+                            }],
+                            chart: {
+                                type: 'bar',
+                                height: 350
+                            },
+                            plotOptions: {
+                                bar: {
+                                    horizontal: true,
+                                }
+                            },
+                            dataLabels: {
+                                enabled: false
+                            },
+                            xaxis: {
+                                categories: labels,
+                            }
+                        };
+
+                        chart = new ApexCharts(document.querySelector("#chart"), options);
+                        chart.render();
+                    }
+
+
+                    $("#poll-modal").modal('show');
+                }
+                catch (e) {
+                    console.error(e);
+                    toastr.error("Can not generate graph.");
+                }
+            })
+            .catch(showResponseError)
     }
     // #endregion
 

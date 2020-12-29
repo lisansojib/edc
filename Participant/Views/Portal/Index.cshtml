@@ -2,6 +2,10 @@
     ViewData["Title"] = "Home Page";
 }
 
+@section styles{ 
+    <link href="~/lib/apexcharts/apexcharts.min.css" rel="stylesheet" />
+}
+
 <div class="row">
     <div class="col-6 grid-margin stretch-card">
         <div class="card">
@@ -56,6 +60,26 @@
     </div>
 </div>
 
+<div class="modal fade" data-backdrop="static" data-keyboard="false" id="poll-modal" tabindex="-1" aria-labelledby="poll-modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="poll-modal-label">Poll Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="chart" style="width: 500px; height: 300px;"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section scripts{
-    <script src="~/js/portal/home.min.js" asp-append-version="true"></script>
+    <script src="~/lib/apexcharts/apexcharts.min.js"></script>
+    <script src="~/js/portal/home.js" asp-append-version="true"></script>
 }

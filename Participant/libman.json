@@ -159,6 +159,16 @@
         "js/plugins/sortable.js",
         "js/plugins/sortable.min.js"
       ]
+    },
+    {
+      "library": "apexcharts@3.23.0",
+      "destination": "wwwroot/lib/apexcharts/",
+      "files": [
+        "apexcharts.min.js",
+        "apexcharts.css",
+        "apexcharts.js",
+        "apexcharts.min.css"
+      ]
     }
   ]
 }

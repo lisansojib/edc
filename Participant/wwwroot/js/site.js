@@ -14,6 +14,11 @@ var loginProviders = Object.freeze({
     GOOGLE: "Google"
 });
 
+var graphTypes = Object.freeze({
+    PIE_CHART: "Pie Chart",
+    BAR_CHART: "Bar Chart"
+});
+
 var pKeys;
 
 $(function () {
