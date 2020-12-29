@@ -1,81 +1,79 @@
 ﻿(function () {
-    var profile;
+    var profile, $formEl;
 
     var validationConstraints = {
-        Title: {
+        firstName: {
             presence: true,
             length: {
                 maximum: 100
             }
         },
-        PhoneNumber: {
+        lastName: {
             presence: true,
-            length: {
-                maximum: 20
-            }
-        },
-        Company: {
             length: {
                 maximum: 100
             }
         },
-        Bio: {
+        emailCorp: {
+            email: true,
             length: {
                 maximum: 500
             }
         },
-        BringsToGroup: {
+        emailPersonal: {
+            email: true,
+            length: {
+                maximum: 500
+            }
+        },
+        phone: {
+            length: {
+                maximum: 20
+            }
+        },
+        PhoneCorp: {
+            length: {
+                maximum: 20
+            }
+        },
+        title: {
             length: {
                 maximum: 100
             }
         },
-        GoalsForProgram: {
+        linkedinUrl: {
+            //url: true,
             length: {
-                maximum: 100
+                maximum: 250
             }
-        },
+        }
     };
 
     $(function () {
-        $("#btn-edit-profile").click(function () {
-            if (profile) {
-                $("#Title").val(profile.Title);
-                $("#PhoneNumber").val(profile.PhoneNumber);
-                $("#Company").val(profile.Company);
-                $("#Bio").val(profile.Bio);
-                $("#BringsToGroup").val(profile.BringsToGroup);
-                $("#GoalsForProgram").val(profile.GoalsForProgram);
-            }
-
-            $("#view-profile").hide();
-            $("#edit-profile").show();
+        $(".btn-edit-profile").click(function () {
+            $("#edit-profile-modal").modal("show");
         })
 
-        $("#btn-cancel").click(function () {
-            $("#edit-profile").hide();
-            $("#view-profile").show();
-        })
+        $formEl = $("#edit-profile-form");
 
         $("#btn-save-profile").click(saveProfile);
-
-        $("input,textarea").on("input", function () {
-            if (this.value.length > this.maxLength) return false;
-
-            var charRemaining = this.maxLength - this.value.length;
-            $(`#${this.id}Help`).html(charRemaining + " characters remaining.");
-        })
-
+       
         getProfileInfo();
+
+        //$("input,textarea").on("input", function () {
+        //    if (this.value.length > this.maxLength) return false;
+
+        //    var charRemaining = this.maxLength - this.value.length;
+        //    $(`#${this.id}Help`).html(charRemaining + " characters remaining.");
+        //})
     })
 
-    function saveProfile(evt) {
-        evt.preventDefault();
+    function saveProfile(e) {
+        e.preventDefault();
 
         var thisBtn = $(this);
         var originalText = thisBtn.html();
         setLoadingButton(thisBtn);
-
-        var $formEl = $("#profile-form");
 
         initializeValidation($formEl, validationConstraints);
 
@@ -85,52 +83,54 @@
             resetLoadingButton(thisBtn, originalText);
             return;
         }
+        else resetValidationState($formEl);
 
-        var formData = new FormData();
-        formData.append("Title", $("#Title").val());
-        formData.append("PhoneNumber", $("#PhoneNumber").val());
-        formData.append("Company", $("#Company").val());
-        formData.append("Bio", $("#Bio").val());
-        formData.append("BringsToGroup", $("#BringsToGroup").val());
-        formData.append("GoalsForProgram", $("#GoalsForProgram").val());
+        var formData = getFormData($formEl);
+  
+        var files = $("#photo")[0].files;
+        if (files.length > 0) formData.append("photo", files[0]);
 
-        var profilePic = $("#ProfilePic")[0].files[0];
-        if (profilePic) formData.append("ProfilePic", profilePic);
-
-        var logoImage = $("#LogoImage")[0].files[0];
-        if (logoImage) formData.append("LogoImage", logoImage);
+        var email = $("input[name='primaryEmail']:checked").val() === 'work' ? $formEl.find("#emailCorp").val() : $formEl.find("#emailPersonal").val();
+        formData.append("email", email);
 
         var config = {
             headers: {
-                'content-type': 'multipart/form-data',
+                'Content-Type': 'multipart/form-data',
                 'Authorization': "Bearer " + localStorage.getItem("token")
             }
         }
 
-        axios.post("/api/user/profile", formData, config)
+        axios.put('/api/profile', formData, config)
             .then(function () {
-                toastr.success("Profile picture uploaded successfully!");
-                disableElement(thisBtn);
-
-                window.location.reload();
+                toastr.success("Profile updated successfully!");
+                resetLoadingButton(thisBtn, originalText);
+                $("#edit-profile-modal").modal("hide");
+                getProfileInfo();
             })
             .catch(function (err) {
-                toastr.error(err.response.data);
-            })
-            .then(function () {
-                resetLoadingButton(thisBtn, btnContent);
+                resetLoadingButton(thisBtn, originalText);
+                showResponseError(err);
             });
+        
     }
 
     function getProfileInfo() {
-        axios.get("/api/auth/me")
+        axios.get("/api/profile")
             .then(function (response) {
                 profile = response.data;
+                console.log(profile);
                 setProfileInfo();
+                setEditFormData(profile);
             })
             .catch(function (err) {
                 console.error(err);
             })
+    }
+
+
+    function setEditFormData(formData) {
+        setFormData($formEl, formData);
+        previewFileInput(profile.id, formData.photoUrl, $("#photo"));
     }
 
     function setProfileInfo() {
@@ -141,15 +141,19 @@
             return;
         }
 
-        var fullName = `${profile.firstName} ${profile.lastName}`;
+        var fullName = `${profile.title? profile.title: ""}${profile.firstName} ${profile.lastName}`;
 
         $("#d-profile-name").text(fullName);
+        $("#d-profile-email").text(profile.email)
+
+        if (!profile.phone) profile.phone = "N/A";
+        if (!profile.mobile) profile.mobile = "N/A";
+
+        $("#d-profile-phone").text(profile.phone);
+        $("#d-profile-mobile").text(profile.mobile);
 
 
-        if (!profile.photoUrl) profile.photoUrl = "https://via.placeholder.com/400"
-        $("#photo").attr("src", profile.photoUrl);
-
-        if (!profile.logoUrl) profile.LogoUrl = "https://via.placeholder.com/100"
-        $("#logo").attr("src", profile.LogoUrl);
+        if (!profile.photoUrl) profile.photoUrl = "https://dummyimage.com/100"
+        $("#d-profile-photo").attr("src", profile.photoUrl);
     }
 })();

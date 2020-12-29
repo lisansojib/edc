@@ -42,7 +42,7 @@ namespace Presentation.Participant.Controllers.Api
 
             if (entity == null) return BadRequest(new BadRequestResponseModel(ErrorTypes.BadRequest, ErrorMessages.ItemNotFound));
 
-            var record = _mapper.Map<ParticipantDTO>(entity);
+            var record = _mapper.Map<ProfileDTO>(entity);
 
             return Ok(record);
         }
@@ -61,7 +61,7 @@ namespace Presentation.Participant.Controllers.Api
             entity.EmailPersonal = model.EmailPersonal;
             entity.Phone = model.Phone;
             entity.PhoneCorp = model.PhoneCorp;
-            entity.Active = model.Active;
+            //entity.Active = model.Active;
             entity.LinkedinUrl = model.LinkedinUrl;
             entity.CompanyName = model.CompanyName;
 
