@@ -468,7 +468,7 @@
                             }],
                             chart: {
                                 type: 'bar',
-                                height: 350
+                                height: 300
                             },
                             plotOptions: {
                                 bar: {
@@ -488,7 +488,7 @@
                     }
 
 
-                    $("#poll-modal").modal('show');
+                    //$("#poll-modal").modal('show');
                 }
                 catch (e) {
                     console.error(e);

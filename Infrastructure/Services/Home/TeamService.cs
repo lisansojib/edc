@@ -80,7 +80,7 @@ namespace Infrastructure.Services
 	                Select TeamMemberId 
 	                From ParticipantTeams PT
 	                Inner Join T On PT.TeamId = T.TeamId
-	                Where TeamMemberId != 2
+	                Where TeamMemberId != {userId}
 	                Group By TeamMemberId
                 )
 
