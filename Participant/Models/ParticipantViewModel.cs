@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Presentation.Participant.Models
+﻿namespace Presentation.Participant.Models
 {
     public class ParticipantViewModel: BaseViewModel
     {

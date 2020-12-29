@@ -26,7 +26,6 @@ namespace Presentation.Admin.Controllers.Api
     {
         private readonly IParticipantService _service;
         private readonly IEfRepository<Participant> _repository;
-        private readonly ISelectOptionService _selectOptionService;
         private readonly IPasswordHasher _passwordHasher;
         private readonly IWebHostEnvironment _hostEnvironment;
         private readonly IImageHelper _imageHelper;
@@ -34,7 +33,6 @@ namespace Presentation.Admin.Controllers.Api
 
         public ParticipantsController(IParticipantService service
             , IEfRepository<Participant> repository
-            , ISelectOptionService selectOptionService
             , IPasswordHasher passwordHasher
             , IWebHostEnvironment hostEnvironment
             , IImageHelper imageHelper
@@ -42,7 +40,6 @@ namespace Presentation.Admin.Controllers.Api
         {
             _service = service;
             _repository = repository;
-            _selectOptionService = selectOptionService;
             _passwordHasher = passwordHasher;
             _hostEnvironment = hostEnvironment;
             _imageHelper = imageHelper;
@@ -68,7 +65,6 @@ namespace Presentation.Admin.Controllers.Api
             if (entity == null) return BadRequest(new BadRequestResponseModel(ErrorTypes.BadRequest, ErrorMessages.ItemNotFound));
 
             var record = _mapper.Map<ParticipantDTO>(entity);
-            record.CompanyList = await _selectOptionService.GetCompaniesAsync();
 
             return Ok(record);
         }

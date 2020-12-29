@@ -93,6 +93,7 @@ namespace Presentation.Participant
             services.AddTransient<IParticipantService, ParticipantService>();
             services.AddTransient<IZoomApiService, ZoomApiService>();
             services.AddTransient<IScheduleService, ScheduleService>();
+            services.AddTransient<IImageHelper, ImageHelper>();
 
             services.AddRouting(options =>
             {
