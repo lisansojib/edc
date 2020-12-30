@@ -84,7 +84,7 @@ namespace Infrastructure.Services
 	                Group By TeamMemberId
                 )
 
-                Select P.Id, P.Email, Trim(ISNULL(P.Title, '') + ' ' + P.FirstName + ' ' + P.LastName) Name, P.PhotoUrl, P.Phone, P.Mobile, P.LinkedinUrl
+                Select P.Id, P.FirstName + ' ' + P.LastName Name, P.Title, P.CompanyName, P.PhotoUrl
                 From TM
                 Inner Join Participants P On TM.TeamMemberId = P.Id";
 

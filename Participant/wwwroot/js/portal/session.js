@@ -23,7 +23,7 @@
 
         eventId = $("#eventId").val();
 
-        initPubnubUser();
+        getSiteSettings();
 
         var connection = new signalR.HubConnectionBuilder().withUrl('/channelHub').build();
 
@@ -90,6 +90,14 @@
 
         $("#swith-user").on("click", showSwithUserPrompt);
     });
+
+    function getSiteSettings() {
+        axios.get("/site-settings")
+            .then(function (response) {
+                pKeys = response.data;
+                initPubnubUser();
+            });
+    }
 
     function showSwithUserPrompt() {
         var channels = pubnubUser.channels.map(function (item) { return { value: item.name, text: item.name } })

@@ -1,6 +1,7 @@
 ﻿using ApplicationCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Presentation.Participant.Controllers
 {
@@ -30,6 +31,7 @@ namespace Presentation.Participant.Controllers
         [HttpGet]
         public IActionResult TeamMembers()
         {
+            ViewBag.UUId = User.Claims.UUId();
             return View();
         }
 

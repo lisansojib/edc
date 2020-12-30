@@ -43,5 +43,10 @@ namespace System.Security.Claims
             bool.TryParse(claims.FirstOrDefault(x => x.Type == AdditionalClaimTypes.IsGuest).Value, out bool isGuest);
             return isGuest;
         }
+
+        public static string UUId(this IEnumerable<Claim> claims)
+        {
+            return claims.FirstOrDefault(x => x.Type == AdditionalClaimTypes.UUId).Value;
+        }
     }
 }

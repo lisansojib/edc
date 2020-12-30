@@ -22,7 +22,8 @@ namespace Presentation.Participant.Services
                 new Claim(AdditionalClaimTypes.FirstName, user.FirstName),
                 new Claim(AdditionalClaimTypes.FullName, $"{user.FirstName} {user.LastName}"),
                 new Claim(AdditionalClaimTypes.IsGuest, user.IsGuest.ToString()),
-                new Claim(AdditionalClaimTypes.ZoomUserId, $"{user.ZoomUserId}")
+                new Claim(AdditionalClaimTypes.ZoomUserId, $"{user.ZoomUserId}"),
+                new Claim(AdditionalClaimTypes.UUId, $"{user.UUId}")
             };
 
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Constants.SYMMETRIC_SECURITY_KEY));

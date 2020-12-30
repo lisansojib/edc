@@ -34,18 +34,12 @@ $(function () {
         $.extend($.fn.bootstrapTable.defaults.icons, { clearSearch: 'fa-refresh' });
     }
 
-    getSiteSettings();
-
     loadProgressBar();
 
     $("#btnLogout").click(logout);
 
     $("#btn-create-password").click(createPassword);
 });
-
-function getSiteSettings() {
-    axios.get("/site-settings").then(function (response) { pKeys = response.data });
-}
 
 function logout(e) {
     e.preventDefault();

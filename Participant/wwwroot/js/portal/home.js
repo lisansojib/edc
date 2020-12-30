@@ -278,18 +278,13 @@
                 },
                 {
                     sortable: true,
-                    field: "email",
-                    title: "Email"
+                    field: "title",
+                    title: "Title"
                 },
                 {
                     sortable: true,
-                    field: "phone",
-                    title: "Phone"
-                },
-                {
-                    sortable: true,
-                    field: "mobile",
-                    title: "Mobile"
+                    field: "companyName",
+                    title: "Company"
                 }
             ],
             onDblClickRow: function (row, $element, field) {

@@ -6,6 +6,7 @@
     <div class="col grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
+                <input type="hidden" id="uuid" value="@ViewBag.UUId" />
                 <div class="d-flex justify-content-between align-items-baseline mb-2">
                     <h6 class="card-title mb-0">All Members</h6>
                 </div>
@@ -123,6 +124,7 @@
 </div>
 
 @section scripts{
+    <script src="~/lib/pubnub/pubnub.min.js"></script>
     <script src="~/js/portal/team-members.min.js" asp-append-version="true"></script>
 }
 

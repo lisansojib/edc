@@ -47,6 +47,7 @@
         public const string FullName = "FullName";
         public const string IsGuest = "IsGuest";
         public const string ZoomUserId = "ZoomUserId";
+        public const string UUId = "UUId";
     }
 
     public static class ValueFieldTypes
