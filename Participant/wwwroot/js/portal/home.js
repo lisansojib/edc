@@ -238,70 +238,70 @@
     // #endregion
 
     // #region All Team Members
-    function loadTeamMembers() {
-        $tblTeamMembers.bootstrapTable('showLoading');
-        axios.get(`/api/portals/my-team-members`)
-            .then(function (response) {
-                $tblTeamMembers.bootstrapTable('load', response.data);
-                $tblTeamMembers.bootstrapTable('hideLoading');
-            })
-            .catch(showResponseError)
-    }
+    //function loadTeamMembers() {
+    //    $tblTeamMembers.bootstrapTable('showLoading');
+    //    axios.get(`/api/portals/my-team-members`)
+    //        .then(function (response) {
+    //            $tblTeamMembers.bootstrapTable('load', response.data);
+    //            $tblTeamMembers.bootstrapTable('hideLoading');
+    //        })
+    //        .catch(showResponseError)
+    //}
 
-    function initTeamMembersTable() {
-        $tblTeamMembers.bootstrapTable('destroy');
-        $tblTeamMembers.bootstrapTable({
-            cache: false,
-            sortable: true,
-            columns: [
-                {
-                    title: 'Actions',
-                    align: 'center',
-                    formatter: function (value, row, index, field) {
-                        var template =
-                            `<a class="btn btn-primary btn-sm view"  title="View Details">
-                              <i class="fa fa-eye" aria-hidden="true"></i> 
-                            </a>`;
-                        return template;
-                    },
-                    events: {
-                        'click .view': function (e, value, row, index) {
-                            e.preventDefault();
-                            getParticipantDetails(row.id);
-                        }
-                    }
-                },
-                {
-                    sortable: true,
-                    field: "name",
-                    title: "Name"
-                },
-                {
-                    sortable: true,
-                    field: "title",
-                    title: "Title"
-                },
-                {
-                    sortable: true,
-                    field: "companyName",
-                    title: "Company"
-                }
-            ],
-            onDblClickRow: function (row, $element, field) {
-                getParticipantDetails(row.teamMemberId);
-            }
-        });
-    }
+    //function initTeamMembersTable() {
+    //    $tblTeamMembers.bootstrapTable('destroy');
+    //    $tblTeamMembers.bootstrapTable({
+    //        cache: false,
+    //        sortable: true,
+    //        columns: [
+    //            {
+    //                title: 'Actions',
+    //                align: 'center',
+    //                formatter: function (value, row, index, field) {
+    //                    var template =
+    //                        `<a class="btn btn-primary btn-sm view"  title="View Details">
+    //                          <i class="fa fa-eye" aria-hidden="true"></i> 
+    //                        </a>`;
+    //                    return template;
+    //                },
+    //                events: {
+    //                    'click .view': function (e, value, row, index) {
+    //                        e.preventDefault();
+    //                        getParticipantDetails(row.id);
+    //                    }
+    //                }
+    //            },
+    //            {
+    //                sortable: true,
+    //                field: "name",
+    //                title: "Name"
+    //            },
+    //            {
+    //                sortable: true,
+    //                field: "title",
+    //                title: "Title"
+    //            },
+    //            {
+    //                sortable: true,
+    //                field: "companyName",
+    //                title: "Company"
+    //            }
+    //        ],
+    //        onDblClickRow: function (row, $element, field) {
+    //            getParticipantDetails(row.teamMemberId);
+    //        }
+    //    });
+    //}
 
-    function getParticipantDetails(id) {
-        axios.get(`/api/portals/participant/${id}`)
-            .then(function (response) {
-                setFormData($("#participant-form"), response.data);
-                $("#photoUrl").attr("src", "https://via.placeholder.com/150");
-                $("#participant-modal").modal("show");
-            })
-            .catch(showResponseError);
-    }
+    //function getParticipantDetails(id) {
+    //    axios.get(`/api/portals/participant/${id}`)
+    //        .then(function (response) {
+    //            setFormData($("#participant-form"), response.data);
+    //            $("#photoUrl").attr("src", "https://via.placeholder.com/150");
+    //            $("#participant-modal").modal("show");
+    //        })
+    //        .catch(showResponseError);
+    //}
     // #endregion
 
     // #region Polls
@@ -429,11 +429,12 @@
     }
 
     function showPollGraph(row) {
-        toastr.info("Please wait while we process your request.");
         axios.get(`/api/portals/poll-datapoints/${row.id}`)
             .then(function (response) {
                 var dataPoints = response.data;
                 if (chart) chart.destroy();
+
+                $("#poll-name").val(row.name);
 
                 try {
                     var series = dataPoints.map(function (el) { return parseInt(el.value) });
