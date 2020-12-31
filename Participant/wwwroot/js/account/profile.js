@@ -87,8 +87,8 @@
 
         var formData = getFormData($formEl);
   
-        var files = $("#photo")[0].files;
-        if (files.length > 0) formData.append("photo", files[0]);
+        //var files = $("#photo")[0].files;
+        //if (files.length > 0) formData.append("photo", files[0]);
 
         var email = $("input[name='primaryEmail']:checked").val() === 'work' ? $formEl.find("#emailCorp").val() : $formEl.find("#emailPersonal").val();
         formData.append("email", email);

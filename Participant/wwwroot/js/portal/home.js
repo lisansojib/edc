@@ -297,7 +297,7 @@
         axios.get(`/api/portals/participant/${id}`)
             .then(function (response) {
                 setFormData($("#participant-form"), response.data);
-                $("#photoUrl").attr("src", response.data.photoUrl);
+                $("#photoUrl").attr("src", "https://via.placeholder.com/150");
                 $("#participant-modal").modal("show");
             })
             .catch(showResponseError);

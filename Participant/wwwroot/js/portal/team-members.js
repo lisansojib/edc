@@ -6,6 +6,7 @@
 
         uniqueUserId = $("#uuid").val();
         getSiteSettings();
+        $("#btn-send-message").click(sendMessage);
     })
 
     function getSiteSettings() {
@@ -81,7 +82,8 @@
         axios.get(`/api/portals/participant/${id}`)
             .then(function (response) {
                 setFormData($("#participant-form"), response.data);
-                $("#photoUrl").attr("src", response.data.photoUrl);
+                var photoUrl = response.data.photoUrl ? response.data.photoUrl : "https://via.placeholder.com/150"
+                $("#photoUrl").attr("src", "https://via.placeholder.com/150");
                 $("#participant-modal").modal("show");
             })
             .catch(showResponseError);
@@ -170,8 +172,8 @@
             message: msg
         }
         pubnub.publish(publishConfig, function (status, response) {
-            debugger;
             console.log(status, response);
+            toastr.success("Message sent.");
         })
     }
 
